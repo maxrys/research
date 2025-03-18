@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>id</key>
+		<string>strings</string>
+		<key>title</key>
+		<string>Strings</string>
+		<key>banks</key>
+		<array>
+			<string>pianoClassic8x4</string>
+		</array>
+	</dict>
+	<dict>
+		<key>id</key>
+		<string>hithat</string>
+		<key>title</key>
+		<string>Hihat</string>
+		<key>banks</key>
+		<array>
+			<string>hihat4x4</string>
+		</array>
+	</dict>
+	<dict>
+		<key>id</key>
+		<string>test</string>
+		<key>title</key>
+		<string>Test</string>
+		<key>banks</key>
+		<array>
+			<string>testLooping</string>
+		</array>
+	</dict>
+</array>
+</plist>
