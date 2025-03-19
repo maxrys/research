@@ -48,6 +48,10 @@ final class PlayerFile {
         )
     }
 
+    func getDuration() -> Double {
+        return Double(self.avBuffer.frameLength) / Double(self.avBuffer.format.sampleRate)
+    }
+
     func isPlaying() -> Bool {
         return self.avPlayerNode.isPlaying
     }

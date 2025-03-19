@@ -10,13 +10,14 @@ struct ViewControl: View {
 
     @Observable final class State {
         var playMode: PlayMode = .pause
-        var timerOffset: Tertia = 0
+        var time: Tertia = 0
         @ObservationIgnored var timer: RealTimer!
         @ObservationIgnored var player: PlayerFile!
     }
 
     private var state: State
     private let avEngine: AVAudioEngine
+    private var duration: Double!
 
     init(avEngine: AVAudioEngine) {
         self.avEngine = avEngine
@@ -29,6 +30,7 @@ struct ViewControl: View {
         self.state.timer = RealTimer(
             onTick: self.onTickTimer
         )
+        self.duration = self.state.player.getDuration()
      // NotificationCenter.default.addObserver(
      //     self.avPlayerNode,
      //     selector: #selector(self.onStop),
@@ -44,12 +46,22 @@ struct ViewControl: View {
     }
 
     func onTickTimer(time: Tertia) {
-        self.state.timerOffset = time
+        self.state.time = time
     }
 
     func onEndPlaying() {
         self.state.playMode = .pause
         self.state.timer.stopAndDestroy()
+    }
+
+    @ViewBuilder func progress(value: Double = 0.5) -> some View {
+        ZStack(alignment: .leading) {
+            GeometryReader { reader in
+                let widthByValue = reader.size.width * (value).fixBounds(max: 1)
+                Color(.gray).frame(width: reader.size.width, height: reader.size.height)
+                Color(.blue).frame(width: widthByValue     , height: reader.size.height)
+            }
+        }
     }
 
     var body: some View {
@@ -65,8 +77,7 @@ struct ViewControl: View {
                     self.state.timer.start(tickInterval: 1.0 / 24)
                     self.state.player.play()
                 } label: {
-                    Text("play")
-                        .frame(width: 50)
+                    Image(systemName: "play.fill")
                 }
                 .disabled(
                     self.state.playMode == .play
@@ -77,14 +88,17 @@ struct ViewControl: View {
                     self.state.player.stop()
                     self.state.timer.stopAndDestroy()
                 } label: {
-                    Text("stop")
-                        .frame(width: 50)
+                    Image(systemName: "pause.fill")
                 }
                 .disabled(
                     self.state.playMode == .pause
                 )
 
-                Text("\(self.state.timerOffset.toString())")
+                Text("\(self.state.time.toString())")
+
+                progress(
+                    value: Double(self.state.time) / Double(TERTIA_PER_SECOND) / self.duration
+                ).frame(width: 75, height: 10)
 
             }
         }
