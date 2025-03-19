@@ -31,18 +31,6 @@ struct ViewControl: View {
             onTick: self.onTickTimer
         )
         self.duration = self.state.player.getDuration()
-     // NotificationCenter.default.addObserver(
-     //     self.avPlayerNode,
-     //     selector: #selector(self.onStop),
-     //     name: AVCaptureSession.didStopRunningNotification,
-     //     object: nil
-     // )
-     // NotificationCenter.default.addObserver(
-     //     self.avPlayerNode,
-     //     selector: #selector(self.onStop),
-     //     name: .AVPlayerItemDidPlayToEndTime,
-     //     object: nil
-     // )
     }
 
     func onTickTimer(time: Tertia) {
@@ -70,7 +58,7 @@ struct ViewControl: View {
 
                 Button {
                     self.state.playMode = .play
-                    self.state.timer.start(tickInterval: 1.0 / 24)
+                    self.state.timer.start()
                     self.state.player.play()
                 } label: {
                     Image(systemName: "play.fill")
