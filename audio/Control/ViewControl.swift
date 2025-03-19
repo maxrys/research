@@ -54,14 +54,10 @@ struct ViewControl: View {
         self.state.timer.stopAndDestroy()
     }
 
-    @ViewBuilder func progress(value: Double = 0.5) -> some View {
-        ZStack(alignment: .leading) {
-            GeometryReader { reader in
-                let widthByValue = reader.size.width * (value).fixBounds(max: 1)
-                Color(.gray).frame(width: reader.size.width, height: reader.size.height)
-                Color(.blue).frame(width: widthByValue     , height: reader.size.height)
-            }
-        }
+    func onChangeProgress(value: Double) {
+        self.state.time = Tertia(
+            self.duration * Double(TERTIA_PER_SECOND) * value
+        )
     }
 
     var body: some View {
@@ -78,10 +74,7 @@ struct ViewControl: View {
                     self.state.player.play()
                 } label: {
                     Image(systemName: "play.fill")
-                }
-                .disabled(
-                    self.state.playMode == .play
-                )
+                }.disabled(self.state.playMode == .play)
 
                 Button {
                     self.state.playMode = .pause
@@ -89,15 +82,13 @@ struct ViewControl: View {
                     self.state.timer.stopAndDestroy()
                 } label: {
                     Image(systemName: "pause.fill")
-                }
-                .disabled(
-                    self.state.playMode == .pause
-                )
+                }.disabled(self.state.playMode == .pause)
 
                 Text("\(self.state.time.toString())")
 
-                progress(
-                    value: Double(self.state.time) / Double(TERTIA_PER_SECOND) / self.duration
+                Progress(
+                    value: Double(self.state.time) / Double(TERTIA_PER_SECOND) / self.duration,
+                    onChange: self.onChangeProgress
                 ).frame(width: 75, height: 10)
 
             }
