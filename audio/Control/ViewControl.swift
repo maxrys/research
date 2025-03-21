@@ -40,10 +40,11 @@ struct ViewControl: View {
         self.state.playMode = .pause
         self.state.timer.stopAndDestroy()
         self.state.from = 0
+        self.state.time = 0
     }
 
     func onChangeProgress(value: Double) {
-        self.state.from = Int64(Double(self.state.player.length) * value)
+        self.state.from =  Int64(Double(self.state.player.length  ) * value)
         self.state.time = Tertia(Double(self.state.player.duration) * value * Double(TERTIA_PER_SECOND))
     }
 
@@ -57,10 +58,8 @@ struct ViewControl: View {
 
                 Button {
                     self.state.playMode = .play
-                    self.state.timer.start()
-                    self.state.player.play(
-                        from: self.state.from
-                    )
+                    self.state.timer.start(from: self.state.time)
+                    self.state.player.play(from: self.state.from)
                 } label: {
                     Image(systemName: "play.fill")
                 }.disabled(self.state.playMode == .play)
