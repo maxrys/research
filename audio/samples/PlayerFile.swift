@@ -19,16 +19,20 @@ final class PlayerFile {
     }
 
     var duration: Double {
-        Double(self.frameCount) / Double(self.avFile.fileFormat.sampleRate)
+        Double(self.length) / Double(self.rate)
+    }
+
+    var rate: Double {
+        Double(self.avFile.fileFormat.sampleRate)
     }
 
     init?(_ fileURL: URL, engine: AVAudioEngine, onStop: @escaping () -> Void = {}) {
         do {
             self.avEngine = engine
             self.startingFrame = 0
-            self.frameCount = 0
             self.onStop = onStop
             self.avFile = try AVAudioFile(forReading: fileURL)
+            self.frameCount = AVAudioFrameCount(avFile.length)
             self.avPlayerNode = AVAudioPlayerNode()
             self.avEngine.attach(self.avPlayerNode)
             self.avEngine.connect(

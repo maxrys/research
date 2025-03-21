@@ -10,8 +10,8 @@ struct ViewControl: View {
 
     @Observable final class State {
         var playMode: PlayMode = .pause
-        var time: Tertia = 0
         var from: AVAudioFramePosition = 0
+        var time: Tertia = 0
         @ObservationIgnored var timer: RealTimer!
         @ObservationIgnored var player: PlayerFile!
     }
@@ -39,11 +39,12 @@ struct ViewControl: View {
     func onEndPlaying() {
         self.state.playMode = .pause
         self.state.timer.stopAndDestroy()
+        self.state.from = 0
     }
 
     func onChangeProgress(value: Double) {
         self.state.from = Int64(Double(self.state.player.length) * value)
-        self.state.time = Tertia(self.state.player.duration * Double(TERTIA_PER_SECOND) * value)
+        self.state.time = Tertia(Double(self.state.player.duration) * value * Double(TERTIA_PER_SECOND))
     }
 
     var body: some View {
@@ -75,7 +76,7 @@ struct ViewControl: View {
                 Text("\(self.state.time.toString())")
 
                 Progress(
-                    value: Double(self.state.time) / Double(TERTIA_PER_SECOND) / self.state.player.duration,
+                    value: Double(self.state.time) / (Double(self.state.player.duration) * Double(TERTIA_PER_SECOND)),
                     onChange: self.onChangeProgress
                 ).frame(width: 75, height: 10)
 
