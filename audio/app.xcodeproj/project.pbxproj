@@ -43,7 +43,7 @@
 		501FF4A62D7F2038003C846C /* TrackOscRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501FF4A52D7F2037003C846C /* TrackOscRenderer.swift */; };
 		501FF4A82D7F4FEF003C846C /* oscillator.wav in Resources */ = {isa = PBXBuildFile; fileRef = 501FF4A72D7F4FEF003C846C /* oscillator.wav */; };
 		501FF4AC2D8099E5003C846C /* FXUnits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501FF4AB2D8099E5003C846C /* FXUnits.swift */; };
-		50827AAD2D3531AA00421CE7 /* PlayerFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50827AAC2D3531A000421CE7 /* PlayerFile.swift */; };
+		50827AAD2D3531AA00421CE7 /* FilePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50827AAC2D3531A000421CE7 /* FilePlayer.swift */; };
 		50827AB22D35B44400421CE7 /* categories.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50827AB12D35B44400421CE7 /* categories.plist */; };
 		50827AB72D36705D00421CE7 /* ModelCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50827AB62D36705D00421CE7 /* ModelCategories.swift */; };
 		50827B7D2D41622B00421CE7 /* piano-stereo.wav in Resources */ = {isa = PBXBuildFile; fileRef = 50827B7C2D41622B00421CE7 /* piano-stereo.wav */; };
@@ -51,7 +51,7 @@
 		50A1C2CA2D145B6200D62D30 /* piano.wav in Resources */ = {isa = PBXBuildFile; fileRef = 50A1C2C72D145B6200D62D30 /* piano.wav */; };
 		50A1C2CF2D157AD500D62D30 /* VewPadPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1C2CE2D157AD000D62D30 /* VewPadPage.swift */; };
 		50A1C2D52D15A85300D62D30 /* RealTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1C2D42D15A84C00D62D30 /* RealTimer.swift */; };
-		50A1C2D72D15B5FF00D62D30 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1C2D62D15B5FD00D62D30 /* Player.swift */; };
+		50A1C2D72D15B5FF00D62D30 /* MatrixPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1C2D62D15B5FD00D62D30 /* MatrixPlayer.swift */; };
 		50BEA2B72D28349B00DE6E74 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BEA2B62D28349B00DE6E74 /* test.swift */; };
 		50BEA2B92D28364700DE6E74 /* AVAudioPCMBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501A25F42D117A2400137CC2 /* AVAudioPCMBuffer.swift */; };
 		50BEA2BB2D28368A00DE6E74 /* etalone.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5011DB192D207E1F00779C13 /* etalone.wav */; };
@@ -113,7 +113,7 @@
 		501FF4A52D7F2037003C846C /* TrackOscRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackOscRenderer.swift; sourceTree = "<group>"; };
 		501FF4A72D7F4FEF003C846C /* oscillator.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = oscillator.wav; sourceTree = "<group>"; };
 		501FF4AB2D8099E5003C846C /* FXUnits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FXUnits.swift; sourceTree = "<group>"; };
-		50827AAC2D3531A000421CE7 /* PlayerFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerFile.swift; sourceTree = "<group>"; };
+		50827AAC2D3531A000421CE7 /* FilePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePlayer.swift; sourceTree = "<group>"; };
 		50827AB12D35B44400421CE7 /* categories.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = categories.plist; sourceTree = "<group>"; };
 		50827AB62D36705D00421CE7 /* ModelCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelCategories.swift; sourceTree = "<group>"; };
 		50827B7C2D41622B00421CE7 /* piano-stereo.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "piano-stereo.wav"; sourceTree = "<group>"; };
@@ -121,7 +121,7 @@
 		50A1C2C72D145B6200D62D30 /* piano.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = piano.wav; sourceTree = "<group>"; };
 		50A1C2CE2D157AD000D62D30 /* VewPadPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewPadPage.swift; sourceTree = "<group>"; };
 		50A1C2D42D15A84C00D62D30 /* RealTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealTimer.swift; sourceTree = "<group>"; };
-		50A1C2D62D15B5FD00D62D30 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		50A1C2D62D15B5FD00D62D30 /* MatrixPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixPlayer.swift; sourceTree = "<group>"; };
 		50BEA2AD2D28342C00DE6E74 /* test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50BEA2B62D28349B00DE6E74 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		50BEA3002D2AFD8400DE6E74 /* hihat-16x22050.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "hihat-16x22050.wav"; sourceTree = "<group>"; };
@@ -232,8 +232,8 @@
 		50A1C2C82D145B6200D62D30 /* samples */ = {
 			isa = PBXGroup;
 			children = (
-				50A1C2D62D15B5FD00D62D30 /* Player.swift */,
-				50827AAC2D3531A000421CE7 /* PlayerFile.swift */,
+				50A1C2D62D15B5FD00D62D30 /* MatrixPlayer.swift */,
+				50827AAC2D3531A000421CE7 /* FilePlayer.swift */,
 				50827AB62D36705D00421CE7 /* ModelCategories.swift */,
 				50E504272D26D05100F6FCDC /* ModelBanks.swift */,
 				50E504292D26DF7C00F6FCDC /* ModelSamples.swift */,
@@ -425,7 +425,7 @@
 				501A25F72D117E3A00137CC2 /* AVAudioPCMBuffer.swift in Sources */,
 				501A25E32D1173B900137CC2 /* app.swift in Sources */,
 				501FF4A12D7F1E6B003C846C /* StateFX.swift in Sources */,
-				50A1C2D72D15B5FF00D62D30 /* Player.swift in Sources */,
+				50A1C2D72D15B5FF00D62D30 /* MatrixPlayer.swift in Sources */,
 				5011DB052D1F08BB00779C13 /* ViewControl.swift in Sources */,
 				5011DB072D1F0A4E00779C13 /* ViewPlayPage.swift in Sources */,
 				500FE84E2D8758820019B7EB /* AVAudioEngine.swift in Sources */,
@@ -446,7 +446,7 @@
 				501FF49C2D7F1DF7003C846C /* TrackOsc.swift in Sources */,
 				501FF4812D7744FC003C846C /* Numeric.swift in Sources */,
 				501A25E62D1173C500137CC2 /* audio.swift in Sources */,
-				50827AAD2D3531AA00421CE7 /* PlayerFile.swift in Sources */,
+				50827AAD2D3531AA00421CE7 /* FilePlayer.swift in Sources */,
 				50A1C2CF2D157AD500D62D30 /* VewPadPage.swift in Sources */,
 				5011DB092D1F0ADC00779C13 /* ViewGenerate.swift in Sources */,
 				501FF49F2D7F1E31003C846C /* Note.swift in Sources */,

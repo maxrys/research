@@ -11,14 +11,14 @@ struct ViewPad: View {
     private let avEngine: AVAudioEngine
     private var cols: Level = 1
     private var rows: Level = 1
-    private var playersMatrix: Matrix = Matrix<Player>()
+    private var playersMatrix: Matrix = Matrix<MatrixPlayer>()
 
     init(avEngine: AVAudioEngine, cols: Level, rows: Level, samples: [String: ModelBanks.SampleInfo]) {
         self.avEngine = avEngine
         self.cols     = cols
         self.rows     = rows
         for sample in samples.values {
-            self.playersMatrix[sample.levelX, sample.levelY] = Player(
+            self.playersMatrix[sample.levelX, sample.levelY] = MatrixPlayer(
                 buffer  : sample.buffer,
                 engine  : self.avEngine,
                 loopMode: sample.loopMode

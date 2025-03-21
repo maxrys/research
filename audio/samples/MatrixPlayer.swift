@@ -5,7 +5,7 @@
 
 import AVFoundation
 
-final class Player {
+final class MatrixPlayer {
 
     private let avBuffer: AVAudioPCMBuffer
     private let avEngine: AVAudioEngine

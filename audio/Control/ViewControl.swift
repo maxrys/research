@@ -13,7 +13,7 @@ struct ViewControl: View {
         var from: AVAudioFramePosition = 0
         var time: Tertia = 0
         @ObservationIgnored var timer: RealTimer!
-        @ObservationIgnored var player: PlayerFile!
+        @ObservationIgnored var player: FilePlayer!
     }
 
     private let avEngine: AVAudioEngine
@@ -22,7 +22,7 @@ struct ViewControl: View {
     init(avEngine: AVAudioEngine) {
         self.avEngine = avEngine
         self.state = State()
-        self.state.player = PlayerFile(
+        self.state.player = FilePlayer(
             FILE_URL_PIANO,
             engine: self.avEngine,
             onStop: self.onEndPlaying
