@@ -53,7 +53,7 @@ let FILE_PATH_RESULT      = "/Users/max/Desktop/result.wav"
                     ViewRenderPage(avEngine: AV_ENGINE)
                 }
 
-                VStack(spacing: 49) {
+                VStack(spacing: 31) {
                     ViewControl (avEngine: AV_ENGINE)
                     ViewCleaning(avEngine: AV_ENGINE)
                 }

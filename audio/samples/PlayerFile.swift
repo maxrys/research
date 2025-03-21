@@ -7,26 +7,34 @@ import AVFoundation
 
 final class PlayerFile {
 
-    private let avFile: AVAudioFile?
+    private let avFile: AVAudioFile
     private let avEngine: AVAudioEngine
-    private let avBuffer: AVAudioPCMBuffer
     private let avPlayerNode: AVAudioPlayerNode
-    private let loopMode: LoopMode
+    private var startingFrame: AVAudioFramePosition
+    private var frameCount: AVAudioFrameCount
     private let onStop: () -> Void
 
-    init?(_ fileURL: URL, engine: AVAudioEngine, loopMode: LoopMode = .once, onStop: @escaping () -> Void = {}) {
+    var length: Int64 {
+        self.avFile.length
+    }
+
+    var duration: Double {
+        Double(self.frameCount) / Double(self.avFile.fileFormat.sampleRate)
+    }
+
+    init?(_ fileURL: URL, engine: AVAudioEngine, onStop: @escaping () -> Void = {}) {
         do {
             self.avEngine = engine
-            self.loopMode = loopMode
+            self.startingFrame = 0
+            self.frameCount = 0
             self.onStop = onStop
             self.avFile = try AVAudioFile(forReading: fileURL)
-            self.avBuffer = try AVAudioPCMBuffer(file: avFile!)!
             self.avPlayerNode = AVAudioPlayerNode()
             self.avEngine.attach(self.avPlayerNode)
             self.avEngine.connect(
                         self.avPlayerNode,
                     to: self.avEngine.mainMixerNode,
-                format: self.avBuffer.format
+                format: self.avFile.processingFormat
             )
             if self.avEngine.isRunning == false {
                 try! self.avEngine.start()
@@ -37,36 +45,32 @@ final class PlayerFile {
     }
 
     private func prepareToPlay() {
-        self.avPlayerNode.scheduleBuffer(
-            self.avBuffer,
+        self.avPlayerNode.scheduleSegment(
+            self.avFile,
+            startingFrame: self.startingFrame,
+            frameCount: self.frameCount,
             at: nil,
-            options: self.loopMode == .loop ? .loops : [],
-            completionCallbackType: .dataConsumed,
+            completionCallbackType: .dataPlayedBack,
             completionHandler: { _ in
                 self.onStop()
             }
         )
     }
 
-    func getDuration() -> Double {
-        return Double(self.avBuffer.frameLength) / Double(self.avBuffer.format.sampleRate)
-    }
-
     func isPlaying() -> Bool {
         return self.avPlayerNode.isPlaying
     }
 
-    func play() {
+    func play(from startingFrame: AVAudioFramePosition) {
+        self.startingFrame = startingFrame
+        self.frameCount = AVAudioFrameCount(self.length - self.startingFrame)
         if (self.isPlaying()) { self.avPlayerNode.stop() }
         self.prepareToPlay()
         self.avPlayerNode.play()
     }
 
     func stop() {
-        if (self.loopMode == .once) { /* wait until finished */ }
-        if (self.loopMode == .loop) {
-            self.avPlayerNode.stop()
-        }
+        self.avPlayerNode.stop()
     }
 
 }

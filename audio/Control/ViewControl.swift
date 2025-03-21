@@ -11,13 +11,13 @@ struct ViewControl: View {
     @Observable final class State {
         var playMode: PlayMode = .pause
         var time: Tertia = 0
+        var from: AVAudioFramePosition = 0
         @ObservationIgnored var timer: RealTimer!
         @ObservationIgnored var player: PlayerFile!
     }
 
-    private var state: State
     private let avEngine: AVAudioEngine
-    private var duration: Double!
+    private var state: State
 
     init(avEngine: AVAudioEngine) {
         self.avEngine = avEngine
@@ -30,7 +30,6 @@ struct ViewControl: View {
         self.state.timer = RealTimer(
             onTick: self.onTickTimer
         )
-        self.duration = self.state.player.getDuration()
     }
 
     func onTickTimer(time: Tertia) {
@@ -43,9 +42,8 @@ struct ViewControl: View {
     }
 
     func onChangeProgress(value: Double) {
-        self.state.time = Tertia(
-            self.duration * Double(TERTIA_PER_SECOND) * value
-        )
+        self.state.from = Int64(Double(self.state.player.length) * value)
+        self.state.time = Tertia(self.state.player.duration * Double(TERTIA_PER_SECOND) * value)
     }
 
     var body: some View {
@@ -59,7 +57,9 @@ struct ViewControl: View {
                 Button {
                     self.state.playMode = .play
                     self.state.timer.start()
-                    self.state.player.play()
+                    self.state.player.play(
+                        from: self.state.from
+                    )
                 } label: {
                     Image(systemName: "play.fill")
                 }.disabled(self.state.playMode == .play)
@@ -75,7 +75,7 @@ struct ViewControl: View {
                 Text("\(self.state.time.toString())")
 
                 Progress(
-                    value: Double(self.state.time) / Double(TERTIA_PER_SECOND) / self.duration,
+                    value: Double(self.state.time) / Double(TERTIA_PER_SECOND) / self.state.player.duration,
                     onChange: self.onChangeProgress
                 ).frame(width: 75, height: 10)
 
