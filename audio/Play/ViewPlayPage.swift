@@ -118,7 +118,12 @@ struct ViewPlayPage: View {
             avFile,
             startingFrame: AVAudioFramePosition(0),
             frameCount: AVAudioFrameCount(5000),
-            at: nil)
+            at: nil,
+            completionCallbackType: .dataPlayedBack,
+            completionHandler: { _ in
+            }
+        )
+
         avPlayerNode.play()
     }
 
@@ -142,7 +147,9 @@ struct ViewPlayPage: View {
             from: 0,
             size: 5000,
             at: nil,
-            options: []) // .loops
+            options: [] // .loops
+        )
+
         avPlayerNode.play()
     }
 
