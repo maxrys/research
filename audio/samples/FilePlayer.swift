@@ -12,6 +12,7 @@ final class FilePlayer {
     private let avEngine: AVAudioEngine
     private let avPlayerNode: AVAudioPlayerNode
     private var startingFrame: AVAudioFramePosition
+    private var isPlaying: Bool
     private let onStop: () -> Void
 
     var length: Int64 {
@@ -26,11 +27,28 @@ final class FilePlayer {
         Double(self.avBuffer.format.sampleRate)
     }
 
+    var currentFrame: AVAudioFramePosition {
+        if (self.isPlaying) {
+            if let lastRenderTime = self.avPlayerNode.lastRenderTime {
+                if let playerTime = self.avPlayerNode.playerTime(forNodeTime: lastRenderTime) {
+                    return self.startingFrame + playerTime.sampleTime
+                }
+            }
+        }
+        return self.startingFrame
+    }
+
+    func setStartingFrame(_ startingFrame: AVAudioFramePosition) {
+        self.startingFrame = startingFrame.fixBounds(
+            max: self.length)
+    }
+
     init?(_ fileURL: URL, engine: AVAudioEngine, onStop: @escaping () -> Void = {}) {
         do {
             self.avEngine = engine
-            self.startingFrame = 0
             self.onStop = onStop
+            self.startingFrame = 0
+            self.isPlaying = false
             self.avFile = try AVAudioFile(forReading: fileURL)
             self.avBuffer = try AVAudioPCMBuffer(file: avFile)!
             self.avPlayerNode = AVAudioPlayerNode()
@@ -59,19 +77,17 @@ final class FilePlayer {
             options: [],
             completionCallbackType: .dataPlayedBack,
             completionHandler: { _ in
+                self.isPlaying = false
                 self.onStop()
+                self.setStartingFrame(0)
             }
         )
     }
 
-    func isPlaying() -> Bool {
-        return self.avPlayerNode.isPlaying
-    }
-
-    func play(from startingFrame: AVAudioFramePosition) {
-        self.startingFrame = startingFrame
-        if (self.isPlaying()) { self.avPlayerNode.stop() }
+    func play() {
+        self.avPlayerNode.stop()
         self.prepareToPlay()
+        self.isPlaying = true
         self.avPlayerNode.play()
     }
 
