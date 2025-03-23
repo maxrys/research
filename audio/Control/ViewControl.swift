@@ -10,7 +10,7 @@ struct ViewControl: View {
 
     @Observable final class ControlState {
         var playMode: PlayMode = .pause
-        var from: AVAudioFramePosition = 0
+        var fromFrame: AVAudioFramePosition = 0
         var time: Tertia = 0
         @ObservationIgnored var timer: RealTimer!
     }
@@ -39,12 +39,12 @@ struct ViewControl: View {
     func onEndPlaying() {
         self.state.playMode = .pause
         self.state.timer.stopAndDestroy()
-        self.state.from = 0
+        self.state.fromFrame = 0
         self.state.time = 0
     }
 
     func onChangeProgress(value: Double) {
-        self.state.from =  Int64(Double(self.player.length  ) * value)
+        self.state.fromFrame = Int64(Double(self.player.length) * value)
         self.state.time = Tertia(Double(self.player.duration) * value * Double(TERTIA_PER_SECOND))
     }
 
@@ -59,7 +59,7 @@ struct ViewControl: View {
                 Button {
                     self.state.playMode = .play
                     self.state.timer.start(from: self.state.time)
-                    self.player.play(from: self.state.from)
+                    self.player.play(from: self.state.fromFrame)
                 } label: {
                     Image(systemName: "play.fill")
                 }.disabled(self.state.playMode == .play)
