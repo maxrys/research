@@ -43,7 +43,7 @@
 		501FF4A62D7F2038003C846C /* TrackOscRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501FF4A52D7F2037003C846C /* TrackOscRenderer.swift */; };
 		501FF4A82D7F4FEF003C846C /* oscillator.wav in Resources */ = {isa = PBXBuildFile; fileRef = 501FF4A72D7F4FEF003C846C /* oscillator.wav */; };
 		501FF4AC2D8099E5003C846C /* FXUnits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501FF4AB2D8099E5003C846C /* FXUnits.swift */; };
-		50827AAD2D3531AA00421CE7 /* FilePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50827AAC2D3531A000421CE7 /* FilePlayer.swift */; };
+		50827AAD2D3531AA00421CE7 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50827AAC2D3531A000421CE7 /* Player.swift */; };
 		50827AB22D35B44400421CE7 /* categories.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50827AB12D35B44400421CE7 /* categories.plist */; };
 		50827AB72D36705D00421CE7 /* ModelCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50827AB62D36705D00421CE7 /* ModelCategories.swift */; };
 		50827B7D2D41622B00421CE7 /* piano-stereo.wav in Resources */ = {isa = PBXBuildFile; fileRef = 50827B7C2D41622B00421CE7 /* piano-stereo.wav */; };
@@ -113,7 +113,7 @@
 		501FF4A52D7F2037003C846C /* TrackOscRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackOscRenderer.swift; sourceTree = "<group>"; };
 		501FF4A72D7F4FEF003C846C /* oscillator.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = oscillator.wav; sourceTree = "<group>"; };
 		501FF4AB2D8099E5003C846C /* FXUnits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FXUnits.swift; sourceTree = "<group>"; };
-		50827AAC2D3531A000421CE7 /* FilePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePlayer.swift; sourceTree = "<group>"; };
+		50827AAC2D3531A000421CE7 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		50827AB12D35B44400421CE7 /* categories.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = categories.plist; sourceTree = "<group>"; };
 		50827AB62D36705D00421CE7 /* ModelCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelCategories.swift; sourceTree = "<group>"; };
 		50827B7C2D41622B00421CE7 /* piano-stereo.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "piano-stereo.wav"; sourceTree = "<group>"; };
@@ -232,8 +232,8 @@
 		50A1C2C82D145B6200D62D30 /* samples */ = {
 			isa = PBXGroup;
 			children = (
+				50827AAC2D3531A000421CE7 /* Player.swift */,
 				50A1C2D62D15B5FD00D62D30 /* MatrixPlayer.swift */,
-				50827AAC2D3531A000421CE7 /* FilePlayer.swift */,
 				50827AB62D36705D00421CE7 /* ModelCategories.swift */,
 				50E504272D26D05100F6FCDC /* ModelBanks.swift */,
 				50E504292D26DF7C00F6FCDC /* ModelSamples.swift */,
@@ -446,7 +446,7 @@
 				501FF49C2D7F1DF7003C846C /* TrackOsc.swift in Sources */,
 				501FF4812D7744FC003C846C /* Numeric.swift in Sources */,
 				501A25E62D1173C500137CC2 /* audio.swift in Sources */,
-				50827AAD2D3531AA00421CE7 /* FilePlayer.swift in Sources */,
+				50827AAD2D3531AA00421CE7 /* Player.swift in Sources */,
 				50A1C2CF2D157AD500D62D30 /* VewPadPage.swift in Sources */,
 				5011DB092D1F0ADC00779C13 /* ViewGenerate.swift in Sources */,
 				501FF49F2D7F1E31003C846C /* Note.swift in Sources */,

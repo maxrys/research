@@ -14,14 +14,14 @@ struct ViewControl: View {
         @ObservationIgnored var timer: RealTimer!
     }
 
-    private var player: FilePlayer!
+    private var player: Player!
     private let avEngine: AVAudioEngine
     private var state: ControlState
 
     init(avEngine: AVAudioEngine) {
         self.avEngine = avEngine
         self.state = ControlState()
-        self.player = FilePlayer(
+        self.player = Player(
             FILE_URL_PIANO,
             engine: self.avEngine,
             onStop: self.onEndPlaying

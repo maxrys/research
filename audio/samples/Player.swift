@@ -5,7 +5,7 @@
 
 import AVFoundation
 
-final class FilePlayer {
+final class Player {
 
     private let avBuffer: AVAudioPCMBuffer
     private let avEngine: AVAudioEngine
