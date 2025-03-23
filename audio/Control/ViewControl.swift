@@ -73,7 +73,7 @@ struct ViewControl: View {
                 Text("\(self.state.time.toString())")
 
                 Progress(
-                    value: Double(self.player.currentFrame) / Double(self.player.length),
+                    value: Double(self.player.getLastRenderFrame) / Double(self.player.length),
                     onChange: self.onChangeProgress
                 ).frame(width: 75, height: 10)
 

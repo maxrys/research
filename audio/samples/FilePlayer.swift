@@ -7,7 +7,6 @@ import AVFoundation
 
 final class FilePlayer {
 
-    private let avFile: AVAudioFile
     private let avBuffer: AVAudioPCMBuffer
     private let avEngine: AVAudioEngine
     private let avPlayerNode: AVAudioPlayerNode
@@ -27,11 +26,13 @@ final class FilePlayer {
         Double(self.avBuffer.format.sampleRate)
     }
 
-    var currentFrame: AVAudioFramePosition {
+    var getLastRenderFrame: AVAudioFramePosition {
         if (self.isPlaying) {
             if let lastRenderTime = self.avPlayerNode.lastRenderTime {
                 if let playerTime = self.avPlayerNode.playerTime(forNodeTime: lastRenderTime) {
-                    return self.startingFrame + playerTime.sampleTime
+                    return (self.startingFrame + playerTime.sampleTime).fixBounds(
+                        max: self.length
+                    )
                 }
             }
         }
@@ -40,29 +41,37 @@ final class FilePlayer {
 
     func setStartingFrame(_ startingFrame: AVAudioFramePosition) {
         self.startingFrame = startingFrame.fixBounds(
-            max: self.length)
+            max: self.length
+        )
     }
 
-    init?(_ fileURL: URL, engine: AVAudioEngine, onStop: @escaping () -> Void = {}) {
+    convenience init?(_ fileURL: URL, engine: AVAudioEngine, onStop: @escaping () -> Void = {}) {
         do {
-            self.avEngine = engine
-            self.onStop = onStop
-            self.startingFrame = 0
-            self.isPlaying = false
-            self.avFile = try AVAudioFile(forReading: fileURL)
-            self.avBuffer = try AVAudioPCMBuffer(file: avFile)!
-            self.avPlayerNode = AVAudioPlayerNode()
-            self.avEngine.attach(self.avPlayerNode)
-            self.avEngine.connect(
-                        self.avPlayerNode,
-                    to: self.avEngine.mainMixerNode,
-                format: self.avBuffer.format
+            self.init(
+                try AVAudioPCMBuffer(file: try AVAudioFile(forReading: fileURL))!,
+                engine: engine,
+                onStop: onStop
             )
-            if self.avEngine.isRunning == false {
-                try! self.avEngine.start()
-            }
         } catch {
             return nil
+        }
+    }
+
+    init(_ buffer: AVAudioPCMBuffer, engine: AVAudioEngine, onStop: @escaping () -> Void = {}) {
+        self.avBuffer = buffer
+        self.avEngine = engine
+        self.onStop = onStop
+        self.startingFrame = 0
+        self.isPlaying = false
+        self.avPlayerNode = AVAudioPlayerNode()
+        self.avEngine.attach(self.avPlayerNode)
+        self.avEngine.connect(
+                    self.avPlayerNode,
+                to: self.avEngine.mainMixerNode,
+            format: self.avBuffer.format
+        )
+        if self.avEngine.isRunning == false {
+            try! self.avEngine.start()
         }
     }
 
