@@ -78,7 +78,7 @@ final class Player {
     private func prepareToPlay() {
         let startTime = AVAudioTime(
             sampleTime: -self.startingFrame,
-            atRate: self.rate
+            atRate    :  self.rate
         )
         self.avPlayerNode.scheduleBuffer(
             self.avBuffer,
