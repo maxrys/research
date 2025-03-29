@@ -13,7 +13,4 @@ import SwiftUI
         }
     }
 
-    init() {
-    }
-
 }
