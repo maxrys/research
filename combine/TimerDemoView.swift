@@ -5,13 +5,13 @@
 
 import SwiftUI
 
-@Observable final class TimerPublisherState {
+@Observable final class TimerDemoViewState {
     var offset: Double = 0
 }
 
-struct TimerPublisher: View {
+struct TimerDemoView: View {
 
-    var state: TimerPublisherState
+    var state: TimerDemoViewState
     var timer: RealTimer!
 
     var body: some View {
@@ -21,7 +21,7 @@ struct TimerPublisher: View {
     }
 
     init() {
-        self.state = TimerPublisherState()
+        self.state = TimerDemoViewState()
         self.timer = RealTimer(
             onTick: self.onTimerTick
         )

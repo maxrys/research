@@ -9,7 +9,7 @@ import SwiftUI
 
     var body: some Scene {
         WindowGroup {
-            TimerPublisher()
+            TimerDemoView()
         }
     }
 

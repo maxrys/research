@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
 		50CE42A82D9827F000758517 /* RealTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE42A72D9827F000758517 /* RealTimer.swift */; };
-		50F569302D97FA3700847267 /* timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5692F2D97FA3500847267 /* timer.swift */; };
+		50F569302D97FA3700847267 /* TimerDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5692F2D97FA3500847267 /* TimerDemoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,7 +17,7 @@
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
 		50CE42A72D9827F000758517 /* RealTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealTimer.swift; sourceTree = "<group>"; };
-		50F5692F2D97FA3500847267 /* timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = timer.swift; sourceTree = "<group>"; };
+		50F5692F2D97FA3500847267 /* TimerDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDemoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,7 +36,7 @@
 			children = (
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				50993B6B2D33C4C900195667 /* app.swift */,
-				50F5692F2D97FA3500847267 /* timer.swift */,
+				50F5692F2D97FA3500847267 /* TimerDemoView.swift */,
 				50CE42A72D9827F000758517 /* RealTimer.swift */,
 				50993B692D33C4C900195667 /* Products */,
 			);
@@ -125,7 +125,7 @@
 			files = (
 				50CE42A82D9827F000758517 /* RealTimer.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
-				50F569302D97FA3700847267 /* timer.swift in Sources */,
+				50F569302D97FA3700847267 /* TimerDemoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
