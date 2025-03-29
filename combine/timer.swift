@@ -22,6 +22,12 @@ struct TimerPublisher: View {
 
         VStack {
             Button {
+                self.timer.connect()
+            } label: {
+                Text("start")
+            }
+
+            Button {
                 self.timerCanceller?.cancel()
             } label: {
                 Text("stop")
@@ -39,12 +45,9 @@ struct TimerPublisher: View {
             options: nil
         )
 
-        let _ = self.timer.sink { secondsLeft in
+        self.timerCanceller = self.timer.sink { secondsLeft in
             print(secondsLeft)
         }
-
-        self.timerCanceller = self.timer.connect()
     }
-
 
 }
