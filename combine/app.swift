@@ -4,21 +4,17 @@
 /* ################################################################## */
 
 import SwiftUI
+import Combine
 
 @main struct app: App {
 
-    @State var time: String = "00:00:00"
-
     var body: some Scene {
         WindowGroup {
-            VStack {
-                Text("\(time)")
-            }
+            TimerPublisher()
         }
     }
 
     init() {
-        test_timer()
     }
 
 }

@@ -3,29 +3,48 @@
 /* ### Copyright © 2024—2025 Maxim Rysevets. All rights reserved. ### */
 /* ################################################################## */
 
-import Foundation
+import SwiftUI
 import Combine
 
-func test_timer() {
+struct TimerPublisher: View {
 
-    var timersCollection: [AnyCancellable] = []
+    @State var currentTime: Date = Date()
 
-    let timer = Timer.publish(
-        every: 1,
-        tolerance: 0.0,
-        on: RunLoop.main,
-        in: RunLoop.Mode.common,
-        options: nil
-    )
+    var timer: Timer.TimerPublisher
+    var timerCanceller: Cancellable?
 
-    timer
-        .sink { secondsLeft in
-            print(secondsLeft)
+    var body: some View {
+
+        Text("\(currentTime)")
+            .onReceive(self.timer) { newCurrentTime in
+                self.currentTime = newCurrentTime
+            }
+
+        VStack {
+            Button {
+                self.timerCanceller?.cancel()
+            } label: {
+                Text("stop")
+            }
         }
-        .store(
-            in: &timersCollection
+
+    }
+
+    init() {
+        self.timer = Timer.publish(
+            every: 1,
+            tolerance: 0.0,
+            on: RunLoop.main,
+            in: RunLoop.Mode.common,
+            options: nil
         )
 
-    let result = timer.connect()
+        let _ = self.timer.sink { secondsLeft in
+            print(secondsLeft)
+        }
+
+        self.timerCanceller = self.timer.connect()
+    }
+
 
 }
