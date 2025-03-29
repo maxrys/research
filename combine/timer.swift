@@ -4,50 +4,31 @@
 /* ################################################################## */
 
 import SwiftUI
-import Combine
+
+@Observable final class TimerPublisherState {
+    var offset: Double = 0
+}
 
 struct TimerPublisher: View {
 
-    @State var currentTime: Date = Date()
-
-    var timer: Timer.TimerPublisher
-    var timerCanceller: Cancellable?
+    var state: TimerPublisherState
+    var timer: RealTimer!
 
     var body: some View {
-
-        Text("\(currentTime)")
-            .onReceive(self.timer) { newCurrentTime in
-                self.currentTime = newCurrentTime
-            }
-
-        VStack {
-            Button {
-                self.timer.connect()
-            } label: {
-                Text("start")
-            }
-
-            Button {
-                self.timerCanceller?.cancel()
-            } label: {
-                Text("stop")
-            }
-        }
-
+        Text("current offset: \(self.state.offset)")
+        Button { self.timer.start() } label: { Text("start") }
+        Button { self.timer.stop()  } label: { Text("stop") }
     }
 
     init() {
-        self.timer = Timer.publish(
-            every: 1,
-            tolerance: 0.0,
-            on: RunLoop.main,
-            in: RunLoop.Mode.common,
-            options: nil
+        self.state = TimerPublisherState()
+        self.timer = RealTimer(
+            onTick: self.onTimerTick
         )
+    }
 
-        self.timerCanceller = self.timer.sink { secondsLeft in
-            print(secondsLeft)
-        }
+    func onTimerTick(offset: Double) {
+        self.state.offset = offset
     }
 
 }
