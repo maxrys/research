@@ -1,4 +1,8 @@
 
+/* ################################################################## */
+/* ### Copyright © 2024—2025 Maxim Rysevets. All rights reserved. ### */
+/* ################################################################## */
+
 extension Dictionary where Key: Comparable {
 
     @inlinable public var last: Element? {

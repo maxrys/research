@@ -1,4 +1,8 @@
 
+/* ################################################################## */
+/* ### Copyright © 2024—2025 Maxim Rysevets. All rights reserved. ### */
+/* ################################################################## */
+
 import SwiftUI
 
 typealias Size = CGFloat
@@ -62,7 +66,7 @@ extension Numeric {
     func onTimerTick(_ : Timer) {
         for index in 0 ..< self.eqState.levels.count {
             self.eqState.levels[index] = Size.random(
-                in: 0...1
+                in: 0 ... 1
             )
         }
     }

@@ -6,15 +6,19 @@
 import SwiftUI
 
 @main struct app: App {
+
+    @State var time: String = "00:00:00"
+
     var body: some Scene {
         WindowGroup {
-
-            Text("Data")
-
+            VStack {
+                Text("\(time)")
+            }
         }
     }
 
     init() {
+        test_timer()
     }
 
 }
