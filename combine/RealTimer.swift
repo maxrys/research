@@ -8,7 +8,7 @@ import Combine
 
 final class RealTimer {
 
-    private var canceller: Cancellable?
+    private var timer: Cancellable?
     private var startedAt: Double = 0
     private var onTick: (Double) -> Void
 
@@ -17,9 +17,9 @@ final class RealTimer {
     }
 
     func start(tickInterval: Double = 1.0 / 24) {
-        self.canceller?.cancel()
+        self.timer?.cancel()
         self.startedAt = CACurrentMediaTime()
-        self.canceller = Timer.publish(
+        self.timer = Timer.publish(
             every: tickInterval,
             tolerance: 0.0,
             on: RunLoop.main,
@@ -31,7 +31,7 @@ final class RealTimer {
     }
 
     func stop() {
-        self.canceller?.cancel()
+        self.timer?.cancel()
     }
 
 }
