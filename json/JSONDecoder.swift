@@ -5,33 +5,38 @@
 
 import Foundation
 
-class JSONNull: Codable, Hashable {
-    public static func == (lhs: JSONNull, rhs: JSONNull) -> Bool { return true }
-    public func hash(into hasher: inout Hasher) { hasher.combine(0) }
-}
-
 struct TestNestedObject: Codable {
     let property: String
 }
 
 struct TestObject: Codable {
 
-    let keyInt: Int
-    let keyDouble: Double
-    let keyString: String
-    let keyBool: Bool
-    let keyNull: JSONNull?
-    let keyArray: [Int]
-    let keyObject: TestNestedObject
+    let keyInt      : Int
+    let keyIntOpt   : Int?
+    let keyDouble   : Double
+    let keyDoubleOpt: Double?
+    let keyString   : String
+    let keyStringOpt: String?
+    let keyBool     : Bool
+    let keyBoolOpt  : Bool?
+    let keyArray    : [Int]
+    let keyArrayOpt : [Int]?
+    let keyObject   : TestNestedObject
+    let keyObjectOpt: TestNestedObject?
 
     enum CodingKeys: String, CodingKey {
-        case keyInt    = "key_int"
-        case keyDouble = "key_double"
-        case keyString = "key_string"
-        case keyBool   = "key_bool"
-        case keyNull   = "key_null"
-        case keyArray  = "key_array"
-        case keyObject = "key_object"
+        case keyInt       = "key_int"
+        case keyIntOpt    = "key_int_opt"
+        case keyDouble    = "key_double"
+        case keyDoubleOpt = "key_double_opt"
+        case keyString    = "key_string"
+        case keyStringOpt = "key_string_opt"
+        case keyBool      = "key_bool"
+        case keyBoolOpt   = "key_bool_opt"
+        case keyArray     = "key_array"
+        case keyArrayOpt  = "key_array_opt"
+        case keyObject    = "key_object"
+        case keyObjectOpt = "key_object_opt"
     }
 
 }
@@ -40,14 +45,17 @@ func test_JSONDecoder() {
     let JSONString = """
     {
         "key_int": 1,
+        "key_int_opt": null,
         "key_double": 2.345,
+        "key_double_opt": null,
         "key_string": "string value",
+        "key_string_opt": null,
         "key_bool": true,
-        "key_null": null,
+        "key_bool_opt": null,
         "key_array": [7, 8, 9],
-        "key_object": {
-            "property": "nested value"
-        }
+        "key_array_opt": null,
+        "key_object": { "property": "nested value" },
+        "key_object_opt": null
     }
     """
     let JSONObject: TestObject = try! JSONDecoder().decode(
