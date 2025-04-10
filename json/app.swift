@@ -1,0 +1,21 @@
+
+/* ################################################################## */
+/* ### Copyright © 2024—2025 Maxim Rysevets. All rights reserved. ### */
+/* ################################################################## */
+
+import SwiftUI
+
+@main struct app: App {
+
+    var body: some Scene {
+        WindowGroup {
+            Text("JSON")
+        }
+    }
+
+    init() {
+        test_JSONSerialization()
+        test_JSONDecoder()
+    }
+
+}
