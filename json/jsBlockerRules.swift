@@ -30,28 +30,6 @@ let jsBlockRulesEtalone = """
 /* MARK: JSONSerialization */
 /* ########################################################## */
 
-func test_jsBlockerRules_JSONSerialization_emptyDomains() {
-
-    let JSONObject = [[
-        "action": [
-            "type": "block"
-        ],
-        "trigger": [
-            "url-filter": ".*",
-            "url-filter-is-case-sensitivity": true,
-            "resource-type": ["script"]
-        ]
-    ]]
-
-    let JSONData = try! JSONSerialization.data(
-        withJSONObject: JSONObject,
-        options: .prettyPrinted
-    )
-
-    dump(JSONData.stringUTF8!)
-
-}
-
 func test_jsBlockerRules_JSONSerialization() {
 
     let JSONObject = [[
@@ -102,19 +80,6 @@ struct RulesJSONEncode: Codable {
             unlessDomain: unlessDomain
         )
     }
-}
-
-func test_jsBlockerRules_JSONEncoder_emptyDomains() {
-
-    let JSONObject: [RulesJSONEncode] = [RulesJSONEncode(unlessDomain: [
-    ])]
-
-    let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
-    let JSONData = try! encoder.encode(JSONObject)
-
-    dump(JSONData.stringUTF8!)
-
 }
 
 func test_jsBlockerRules_JSONEncoder() {

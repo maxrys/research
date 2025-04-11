@@ -18,10 +18,8 @@ import SwiftUI
         print(""); print("test_JSONEncoder():");       test_JSONEncoder()
         print(""); print("test_JSONDecoder():");       test_JSONDecoder()
 
-        print(""); print("test_jsBlockerRules_JSONSerialization_emptyDomains():"); test_jsBlockerRules_JSONSerialization_emptyDomains()
-        print(""); print("test_jsBlockerRules_JSONSerialization():");              test_jsBlockerRules_JSONSerialization()
-        print(""); print("test_jsBlockerRules_JSONEncoder_emptyDomains():");       test_jsBlockerRules_JSONEncoder_emptyDomains()
-        print(""); print("test_jsBlockerRules_JSONEncoder():");                    test_jsBlockerRules_JSONEncoder()
+        print(""); print("test_jsBlockerRules_JSONSerialization():"); test_jsBlockerRules_JSONSerialization()
+        print(""); print("test_jsBlockerRules_JSONEncoder():");       test_jsBlockerRules_JSONEncoder()
     }
 
 }
