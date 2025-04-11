@@ -5,30 +5,56 @@
 
 import Foundation
 
-func test_JSONEncoder() {
+let jsBlockRulesEtalone = """
+[
+  {
+    "action" : {
+      "type" : "block"
+    },
+    "trigger" : {
+      "url-filter" : ".*",
+      "url-filter-is-case-sensitivity" : true,
+      "resource-type" : [
+        "script"
+      ],
+      "unless-domain" : [
+        "example.com",
+        "example.net",
+        "example.org"
+      ]
+    }
+  }
+]
+"""
 
-    let JSONObject = TestObject(
-        keyInt      : 1,
-        keyIntOpt   : nil,
-        keyDouble   : 2.345,
-        keyDoubleOpt: nil,
-        keyString   : "string value",
-        keyStringOpt: nil,
-        keyBool     : true,
-        keyBoolOpt  : nil,
-        keyArray    : [7, 8, 9],
-        keyArrayOpt : nil,
-        keyObject   : TestObject.TestNestedObject(property: "nested value"),
-        keyObjectOpt: nil
+func test_jsBlockerRules_JSONSerialization() {
+
+    let JSONObject = [[
+        "action": [
+            "type": "block"
+        ],
+        "trigger": [
+            "url-filter": ".*",
+            "url-filter-is-case-sensitivity": true,
+            "resource-type": ["script"],
+            "unless-domain": [
+                "example.com",
+                "example.net",
+                "example.org",
+            ]
+        ]
+    ]]
+
+    let JSONData = try! JSONSerialization.data(
+        withJSONObject: JSONObject,
+        options: .prettyPrinted
     )
 
-    let JSONData = try! JSONEncoder().encode(JSONObject)
-
-    dump(JSONData.stringUTF8)
+    dump(JSONData.stringUTF8!)
 
 }
 
-func test_JSONEncoder_AnyObject() {
+func test_jsBlockerRules_JSONEncoder() {
 
     struct Rules: Codable {
         struct Trigger: Codable {

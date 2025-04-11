@@ -8,22 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
-		50E150A72DA81208005768C1 /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E150A62DA81207005768C1 /* JSONDecoder.swift */; };
 		50E150A92DA812D2005768C1 /* JSONSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E150A82DA812D1005768C1 /* JSONSerialization.swift */; };
 		50E150AB2DA81315005768C1 /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E150AA2DA81313005768C1 /* extension.swift */; };
-		50E150AD2DA90422005768C1 /* JSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E150AC2DA90422005768C1 /* JSONEncoder.swift */; };
-		50E150AF2DA9045E005768C1 /* TestObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E150AE2DA9045C005768C1 /* TestObject.swift */; };
+		50E150AD2DA90422005768C1 /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E150AC2DA90422005768C1 /* JSONDecoder.swift */; };
+		50E150B12DA90C9E005768C1 /* jsBlockerRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E150B02DA90C97005768C1 /* jsBlockerRules.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		50993B682D33C4C900195667 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
-		50E150A62DA81207005768C1 /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
 		50E150A82DA812D1005768C1 /* JSONSerialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONSerialization.swift; sourceTree = "<group>"; };
 		50E150AA2DA81313005768C1 /* extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
-		50E150AC2DA90422005768C1 /* JSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncoder.swift; sourceTree = "<group>"; };
-		50E150AE2DA9045C005768C1 /* TestObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObject.swift; sourceTree = "<group>"; };
+		50E150AC2DA90422005768C1 /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
+		50E150B02DA90C97005768C1 /* jsBlockerRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = jsBlockerRules.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,10 +41,9 @@
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				50993B6B2D33C4C900195667 /* app.swift */,
 				50E150AA2DA81313005768C1 /* extension.swift */,
-				50E150AE2DA9045C005768C1 /* TestObject.swift */,
 				50E150A82DA812D1005768C1 /* JSONSerialization.swift */,
-				50E150AC2DA90422005768C1 /* JSONEncoder.swift */,
-				50E150A62DA81207005768C1 /* JSONDecoder.swift */,
+				50E150AC2DA90422005768C1 /* JSONDecoder.swift */,
+				50E150B02DA90C97005768C1 /* jsBlockerRules.swift */,
 				50993B692D33C4C900195667 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -132,12 +129,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50E150AF2DA9045E005768C1 /* TestObject.swift in Sources */,
-				50E150A72DA81208005768C1 /* JSONDecoder.swift in Sources */,
+				50E150B12DA90C9E005768C1 /* jsBlockerRules.swift in Sources */,
 				50E150A92DA812D2005768C1 /* JSONSerialization.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				50E150AB2DA81315005768C1 /* extension.swift in Sources */,
-				50E150AD2DA90422005768C1 /* JSONEncoder.swift in Sources */,
+				50E150AD2DA90422005768C1 /* JSONDecoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

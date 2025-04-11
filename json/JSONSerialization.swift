@@ -7,43 +7,18 @@ import Foundation
 
 func test_JSONSerialization() {
 
-    let JSONObject = [[
-        "action": [
-            "type": "block"
-        ],
-        "trigger": [
-            "url-filter": ".*",
-            "url-filter-is-case-sensitivity": true,
-            "resource-type": ["script"],
-            "unless-domain": [
-                "example.com",
-                "example.net",
-                "example.org",
-            ]
-        ]
-    ]]
-
-    let JSONString = """
-    [
-      {
-        "action" : {
-          "type" : "block"
-        },
-        "trigger" : {
-          "url-filter" : ".*",
-          "url-filter-is-case-sensitivity" : true,
-          "resource-type" : [
-            "script"
-          ],
-          "unless-domain" : [
-            "example.com",
-            "example.net",
-            "example.org"
-          ]
-        }
-      }
+    let JSONObject: [String : Any?] = [
+        "keyInt"      : 1,
+        "keyIntOpt"   : nil,
+        "keyDouble"   : 2.345,
+        "keyDoubleOpt": nil,
+        "keyString"   : "string value",
+        "keyStringOpt": nil,
+        "keyBool"     : true,
+        "keyBoolOpt"  : nil,
+        "keyArray"    : [7, 8, 9],
+        "keyArrayOpt" : nil
     ]
-    """
 
     let JSONData = try! JSONSerialization.data(
         withJSONObject: JSONObject,
