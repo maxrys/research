@@ -58,6 +58,12 @@ func test_jsBlockerRules_JSONEncoder() {
 
     struct Rules: Codable {
         struct Trigger: Codable {
+            enum CodingKeys: String, CodingKey {
+                case urlFilter = "url-filter"
+                case urlFilterIsCaseSensitivity = "url-filter-is-case-sensitivity"
+                case resourceType = "resource-type"
+                case unlessDomain = "unless-domain"
+            }
             var urlFilter = ".*"
             var urlFilterIsCaseSensitivity = true
             var resourceType = ["script"]
@@ -72,16 +78,16 @@ func test_jsBlockerRules_JSONEncoder() {
         }
     }
 
-    let JSONObject = Rules(unlessDomain: [
+    let JSONObject: [Rules] = [Rules(unlessDomain: [
         "example.com",
         "example.net",
         "example.org",
-    ])
+    ])]
 
     let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
     let JSONData = try! encoder.encode(JSONObject)
 
-    dump(JSONData.stringUTF8)
+    dump(JSONData.stringUTF8!)
 
 }
