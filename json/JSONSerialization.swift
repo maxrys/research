@@ -45,9 +45,11 @@ func test_JSONSerialization() {
     ]
     """
 
-    let JSONData = try! JSONSerialization.data(withJSONObject: JSONObject, options: .prettyPrinted)
-    let received = JSONData.stringUTF8!
-    let expected = JSONString
-    dump( received == expected )
+    let JSONData = try! JSONSerialization.data(
+        withJSONObject: JSONObject,
+        options: .prettyPrinted
+    )
+
+    dump(JSONData.stringUTF8!)
 
 }

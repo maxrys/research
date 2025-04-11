@@ -27,3 +27,35 @@ func test_JSONEncoder() {
     dump(JSONData.stringUTF8)
 
 }
+
+func test_JSONEncoder_AnyObject() {
+
+    struct Rules: Codable {
+        struct Trigger: Codable {
+            var urlFilter = ".*"
+            var urlFilterIsCaseSensitivity = true
+            var resourceType = ["script"]
+            var unlessDomain: [String]
+        }
+        var action = ["type": "block"]
+        var trigger: Trigger
+        init(unlessDomain: [String] = []) {
+            self.trigger = Trigger(
+                unlessDomain: unlessDomain
+            )
+        }
+    }
+
+    let JSONObject = Rules(unlessDomain: [
+        "example.com",
+        "example.net",
+        "example.org",
+    ])
+
+    let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+    let JSONData = try! encoder.encode(JSONObject)
+
+    dump(JSONData.stringUTF8)
+
+}
