@@ -15,6 +15,7 @@ import SwiftUI
 
     init() {
         test_JSONSerialization()
+        test_JSONEncoder()
         test_JSONDecoder()
     }
 

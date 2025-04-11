@@ -7,7 +7,7 @@ import Foundation
 
 func test_JSONSerialization() {
 
-    let jsBlockerRules = [[
+    let JSONObject = [[
         "action": [
             "type": "block"
         ],
@@ -23,7 +23,7 @@ func test_JSONSerialization() {
         ]
     ]]
 
-    let jsBlockerRulesJSON = """
+    let JSONString = """
     [
       {
         "action" : {
@@ -45,9 +45,9 @@ func test_JSONSerialization() {
     ]
     """
 
-    let JSONData = try! JSONSerialization.data(withJSONObject: jsBlockerRules, options: .prettyPrinted)
+    let JSONData = try! JSONSerialization.data(withJSONObject: JSONObject, options: .prettyPrinted)
     let received = JSONData.stringUTF8!
-    let expected = jsBlockerRulesJSON
+    let expected = JSONString
     dump( received == expected )
 
 }

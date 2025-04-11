@@ -11,6 +11,8 @@
 		50E150A72DA81208005768C1 /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E150A62DA81207005768C1 /* JSONDecoder.swift */; };
 		50E150A92DA812D2005768C1 /* JSONSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E150A82DA812D1005768C1 /* JSONSerialization.swift */; };
 		50E150AB2DA81315005768C1 /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E150AA2DA81313005768C1 /* extension.swift */; };
+		50E150AD2DA90422005768C1 /* JSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E150AC2DA90422005768C1 /* JSONEncoder.swift */; };
+		50E150AF2DA9045E005768C1 /* TestObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E150AE2DA9045C005768C1 /* TestObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,8 @@
 		50E150A62DA81207005768C1 /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
 		50E150A82DA812D1005768C1 /* JSONSerialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONSerialization.swift; sourceTree = "<group>"; };
 		50E150AA2DA81313005768C1 /* extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
+		50E150AC2DA90422005768C1 /* JSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncoder.swift; sourceTree = "<group>"; };
+		50E150AE2DA9045C005768C1 /* TestObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,7 +43,9 @@
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				50993B6B2D33C4C900195667 /* app.swift */,
 				50E150AA2DA81313005768C1 /* extension.swift */,
+				50E150AE2DA9045C005768C1 /* TestObject.swift */,
 				50E150A82DA812D1005768C1 /* JSONSerialization.swift */,
+				50E150AC2DA90422005768C1 /* JSONEncoder.swift */,
 				50E150A62DA81207005768C1 /* JSONDecoder.swift */,
 				50993B692D33C4C900195667 /* Products */,
 			);
@@ -126,10 +132,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50E150AF2DA9045E005768C1 /* TestObject.swift in Sources */,
 				50E150A72DA81208005768C1 /* JSONDecoder.swift in Sources */,
 				50E150A92DA812D2005768C1 /* JSONSerialization.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				50E150AB2DA81315005768C1 /* extension.swift in Sources */,
+				50E150AD2DA90422005768C1 /* JSONEncoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

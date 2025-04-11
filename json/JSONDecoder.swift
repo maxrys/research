@@ -5,43 +5,8 @@
 
 import Foundation
 
-struct TestNestedObject: Codable {
-    let property: String
-}
-
-struct TestObject: Codable {
-
-    let keyInt      : Int
-    let keyIntOpt   : Int?
-    let keyDouble   : Double
-    let keyDoubleOpt: Double?
-    let keyString   : String
-    let keyStringOpt: String?
-    let keyBool     : Bool
-    let keyBoolOpt  : Bool?
-    let keyArray    : [Int]
-    let keyArrayOpt : [Int]?
-    let keyObject   : TestNestedObject
-    let keyObjectOpt: TestNestedObject?
-
-    enum CodingKeys: String, CodingKey {
-        case keyInt       = "key_int"
-        case keyIntOpt    = "key_int_opt"
-        case keyDouble    = "key_double"
-        case keyDoubleOpt = "key_double_opt"
-        case keyString    = "key_string"
-        case keyStringOpt = "key_string_opt"
-        case keyBool      = "key_bool"
-        case keyBoolOpt   = "key_bool_opt"
-        case keyArray     = "key_array"
-        case keyArrayOpt  = "key_array_opt"
-        case keyObject    = "key_object"
-        case keyObjectOpt = "key_object_opt"
-    }
-
-}
-
 func test_JSONDecoder() {
+
     let JSONString = """
     {
         "key_int": 1,
@@ -55,12 +20,16 @@ func test_JSONDecoder() {
         "key_array": [7, 8, 9],
         "key_array_opt": null,
         "key_object": { "property": "nested value" },
-        "key_object_opt": null
+        "key_object_opt": null,
+        "key_unknown": null
     }
     """
+
     let JSONObject: TestObject = try! JSONDecoder().decode(
         TestObject.self,
         from: JSONString.data(using: .utf8)!
     )
+
     dump(JSONObject)
+
 }
