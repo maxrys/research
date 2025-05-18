@@ -11,11 +11,15 @@ import SwiftUI
         case dark, light, auto
     }
 
-    @State var username: String = ""
+    @State var username: String = "Max"
     @State var isPrivate: Bool = true
-    @State private var profileImageSize = false
     @State private var fontSize: CGFloat = 5
     @State private var appearance: AppearanceStyle = .auto
+    @State private var goods = [
+        "item 1",
+        "item 2",
+        "item 3",
+    ]
 
     var body: some Scene {
         WindowGroup {
@@ -43,11 +47,18 @@ import SwiftUI
 
                     Section {
                         HStack {
-                            Text("Version")
+                            Text("Key")
                             Spacer()
-                            Text("2.2.1")
+                            Text("Value")
                         }
-                    } header: { Text("ABOUT") }
+                    } header: { Text("About") }
+
+                    Section {
+                        ForEach(self.goods.sorted(), id: \.self) { value in
+                            Text(value)
+                        }
+                    } header: { Text("ForEach") }
+
                 }
 
             }
