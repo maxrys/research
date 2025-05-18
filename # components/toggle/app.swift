@@ -12,31 +12,32 @@ import SwiftUI
 
     var body: some Scene {
         WindowGroup {
-            VStack {
+            VStack(alignment: .leading) {
+
+                let isFlexible = true
 
                 /* MARK: isOn = nil */
-                CustomToggle(text: "Custom Toggle (isOn = nil)") { isOn in
+                CustomToggle(text: "Custom Toggle (isOn = nil)", isFlexible: isFlexible) { isOn in
                 }
 
                 /* MARK: isOn = Bool */
-                CustomToggle(text: "Custom Toggle (isOn = Bool.true)", isOn: true) { isOn in
+                CustomToggle(text: "Custom Toggle (isOn = Bool.true)", isOn: true, isFlexible: isFlexible) { isOn in
                 }
 
                 /* MARK: isOn = Binding.constant */
-                CustomToggle(text: "Custom Toggle (isOn = Binding.constant)", isOn: Binding.constant(true)) { isOn in
+                CustomToggle(text: "Custom Toggle (isOn = Binding.constant)", isOn: Binding.constant(true), isFlexible: isFlexible) { isOn in
                 }
 
                 /* MARK: isOn = Binding */
-                CustomToggle(text: "Custom Toggle (isOn = Binding)", isOn: self.$isOn1) { isOn in
-                    self.isOn1 = isOn
+                CustomToggle(text: "Custom Toggle (isOn = Binding)", isOn: self.$isOn1, isFlexible: isFlexible) { isOn in
                 }
 
                 /* MARK: isOn = State */
-                CustomToggle(text: "Custom Toggle (isOn = State)", isOn: self.isOn2) { isOn in
+                CustomToggle(text: "Custom Toggle (isOn = State)", isOn: self.isOn2, isFlexible: isFlexible) { isOn in
                     self.isOn2 = isOn
                 }
 
-            }
+            }.frame(width: 400)
         }
     }
 

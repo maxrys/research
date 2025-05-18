@@ -15,21 +15,30 @@ struct CustomToggle: View {
     var extIsOn: Binding<Bool>?
 
     var text: String
+    var isFlexible: Bool = false
     var onChange: (Bool) -> Void = { isOn in }
 
-    init(text: String = "", isOn: Bool, onChange: @escaping (Bool) -> Void = { isOn in }) {
+    init(text: String = "", isOn: Bool, isFlexible: Bool = false, onChange: @escaping (Bool) -> Void = { isOn in }) {
         self.text = text
         self.intIsOn.wrappedValue = isOn
+        self.isFlexible = isFlexible
         self.onChange = onChange
     }
 
-    init(text: String = "", isOn: Binding<Bool>? = nil, onChange: @escaping (Bool) -> Void = { isOn in }) {
+    init(text: String = "", isOn: Binding<Bool>? = nil, isFlexible: Bool = false, onChange: @escaping (Bool) -> Void = { isOn in }) {
         self.text = text
         self.extIsOn = isOn
+        self.isFlexible = isFlexible
         self.onChange = onChange
     }
 
     var body: some View {
+        if (self.isFlexible)
+             { self.component.frame(maxWidth: .infinity) }
+        else { self.component }
+    }
+
+    @ViewBuilder var component: some View {
         var isOn: Bool {
             get { if (self.extIsOn != nil) { self.extIsOn!.wrappedValue            } else { self.intIsOn.wrappedValue } }
             set { if (self.extIsOn != nil) { self.extIsOn!.wrappedValue = newValue } else { self.intIsOn.wrappedValue = newValue } }
@@ -37,6 +46,9 @@ struct CustomToggle: View {
         HStack {
             Text(self.text)
                 .font(.system(size: 16))
+            if (self.isFlexible) {
+                Spacer()
+            }
             Button {
                 self.onChange(!isOn)
                 withAnimation(.easeInOut(duration: 0.1)) {
