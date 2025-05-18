@@ -6,14 +6,6 @@
 import Foundation
 import CryptoKit
 
-extension UInt64 {
-
-    func hexEncodedString() -> String {
-        String(self, radix: 16)
-    }
-
-}
-
 extension Data {
 
     var UInt64: UInt64? {
@@ -103,6 +95,10 @@ extension Data {
     func sha256() -> Data {
         let hash = SHA256.hash(data: self)
         return Data(hash)
+    }
+
+    var stringUTF8: String? {
+        return String(data: self, encoding: .utf8)
     }
 
 }
