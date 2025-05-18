@@ -26,8 +26,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		500895402DD9DD4A00414588 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		500895412DD9DD4A00414588 /* test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		500895402DD9DD4A00414588 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = app.app; path = "/Volumes/dev/xcode/# research/data/build/Debug/app.app"; sourceTree = "<absolute>"; };
+		500895412DD9DD4A00414588 /* test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = test.xctest; path = "/Volumes/dev/xcode/# research/data/build/Debug/app.app/Contents/PlugIns/test.xctest"; sourceTree = "<absolute>"; };
 		500895422DD9DD6000414588 /* UInt64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt64.swift; sourceTree = "<group>"; };
 		502554E72D5268AA005F475E /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		502555352D526A29005F475E /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
@@ -61,8 +61,6 @@
 				500895422DD9DD6000414588 /* UInt64.swift */,
 				502554E72D5268AA005F475E /* Data.swift */,
 				502555352D526A29005F475E /* test.swift */,
-				500895402DD9DD4A00414588 /* app.app */,
-				500895412DD9DD4A00414588 /* test.xctest */,
 			);
 			sourceTree = "<group>";
 		};

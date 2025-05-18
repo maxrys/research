@@ -14,7 +14,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		500FE8432D874E120019B7EB /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = app.app; path = "/Users/max/Desktop/audio-mix/build/Debug/app.app"; sourceTree = "<absolute>"; };
+		500895462DD9E52C00414588 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = app.app; path = "/Volumes/dev/xcode/# research/audio-mix/build/Debug/app.app"; sourceTree = "<absolute>"; };
 		500FE8452D874E760019B7EB /* AVAudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAudioEngine.swift; sourceTree = "<group>"; };
 		500FE8472D874E7E0019B7EB /* AVAudioPCMBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAudioPCMBuffer.swift; sourceTree = "<group>"; };
 		500FE8492D874EC30019B7EB /* Numeric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numeric.swift; sourceTree = "<group>"; };
@@ -63,7 +63,7 @@
 			packageProductDependencies = (
 			);
 			productName = research;
-			productReference = 500FE8432D874E120019B7EB /* app.app */;
+			productReference = 500895462DD9E52C00414588 /* app.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
