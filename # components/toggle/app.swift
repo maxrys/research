@@ -1,0 +1,47 @@
+
+/* ################################################################## */
+/* ### Copyright © 2024—2025 Maxim Rysevets. All rights reserved. ### */
+/* ################################################################## */
+
+import SwiftUI
+
+@main struct app: App {
+
+    @State private var isOn1: Bool = false
+    @State private var isOn2: Bool = false
+
+    var body: some Scene {
+        WindowGroup {
+            VStack {
+
+                /* MARK: isOn = nil */
+                CustomToggle(text: "Custom Toggle (isOn = nil)") { isOn in
+                }
+
+                /* MARK: isOn = Bool */
+                CustomToggle(text: "Custom Toggle (isOn = Bool.true)", isOn: true) { isOn in
+                }
+
+                /* MARK: isOn = Binding.constant */
+                CustomToggle(text: "Custom Toggle (isOn = Binding.constant)", isOn: Binding.constant(true)) { isOn in
+                }
+
+                /* MARK: isOn = Binding */
+                CustomToggle(text: "Custom Toggle (isOn = Binding)", isOn: self.$isOn1) { isOn in
+                    self.isOn1 = isOn
+                }
+
+                /* MARK: isOn = State */
+                CustomToggle(text: "Custom Toggle (isOn = State)", isOn: self.isOn2) { isOn in
+                    self.isOn2 = isOn
+                }
+
+            }
+        }
+    }
+
+    init() {
+
+    }
+
+}
