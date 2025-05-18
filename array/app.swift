@@ -25,22 +25,6 @@ let arrayTuples = [
     (key: 1, value: ComplexStruct(a: "value 2.1", b: "value 2.2")),
 ]
 
-extension Array {
-
-    @inlinable public var tuples: [(key: Int, value: Element)] {
-        get {
-            var result: [(key: Int, value: Element)] = []
-            for i in 0 ..< self.count {
-                result.insert(
-                    (key: i, value: self[i]), at: i
-                )
-            }
-            return result
-        }
-    }
-
-}
-
 @main struct app: App {
     var body: some Scene {
         WindowGroup {
