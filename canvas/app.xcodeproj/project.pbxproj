@@ -68,7 +68,7 @@
 			name = app;
 			packageProductDependencies = (
 			);
-			productName = forEach;
+			productName = research;
 			productReference = 50993B682D33C4C900195667 /* app.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -271,7 +271,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = maxrys.forEach;
+				PRODUCT_BUNDLE_IDENTIFIER = maxrys.research;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -299,7 +299,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = maxrys.forEach;
+				PRODUCT_BUNDLE_IDENTIFIER = maxrys.research;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
