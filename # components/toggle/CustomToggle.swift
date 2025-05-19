@@ -11,7 +11,7 @@ struct CustomToggle: View {
         var wrappedValue: Bool = false
     }
 
-    var intIsOn: BoolState = BoolState()
+    var intIsOn: BoolState = Self.BoolState()
     var extIsOn: Binding<Bool>?
 
     var w: CGFloat = 50
