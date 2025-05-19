@@ -21,23 +21,23 @@ import SwiftUI
                 }
 
                 /* MARK: isOn = Bool */
-                CustomToggle(text: "Custom Toggle (isOn = Bool.true)", isOn: true, isFlexible: isFlexible) { isOn in
+                CustomToggle(text: "Custom Toggle (isOn = Bool.true)", isFlexible: isFlexible, isOn: true) { isOn in
                 }
 
                 /* MARK: isOn = Binding.constant */
-                CustomToggle(text: "Custom Toggle (isOn = Binding.constant)", isOn: Binding.constant(true), isFlexible: isFlexible) { isOn in
+                CustomToggle(text: "Custom Toggle (isOn = Binding.constant)", isFlexible: isFlexible, isOn: Binding.constant(true)) { isOn in
                 }
 
                 /* MARK: isOn = Binding */
-                CustomToggle(text: "Custom Toggle (isOn = Binding)", isOn: self.$isOn1, isFlexible: isFlexible) { isOn in
+                CustomToggle(text: "Custom Toggle (isOn = Binding)", isFlexible: isFlexible, isOn: self.$isOn1) { isOn in
                 }
 
                 /* MARK: isOn = State */
-                CustomToggle(text: "Custom Toggle (isOn = State)", isOn: self.isOn2, isFlexible: isFlexible) { isOn in
+                CustomToggle(text: "Custom Toggle (isOn = State)", isFlexible: isFlexible, isOn: self.isOn2) { isOn in
                     self.isOn2 = isOn
                 }
 
-            }.frame(width: 400)
+            }.frame(maxWidth: 400)
         }
     }
 
