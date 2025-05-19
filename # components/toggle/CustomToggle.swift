@@ -22,12 +22,12 @@ struct CustomToggle: View {
     var isFlexible: Bool = false
     var onChange: (Bool) -> Void = { isOn in }
 
-    init(text: String = "", isFlexible: Bool = false, isOn: Bool, onChange: @escaping (Bool) -> Void = { isOn in }) {
-        self.text = text
-        self.intIsOn.wrappedValue = isOn
-        self.isFlexible = isFlexible
-        self.onChange = onChange
-    }
+//    init(text: String = "", isFlexible: Bool = false, isOn: Bool, onChange: @escaping (Bool) -> Void = { isOn in }) {
+//        self.text = text
+//        self.intIsOn.wrappedValue = isOn
+//        self.isFlexible = isFlexible
+//        self.onChange = onChange
+//    }
 
     init(text: String = "", isFlexible: Bool = false, isOn: Binding<Bool>? = nil, onChange: @escaping (Bool) -> Void = { isOn in }) {
         self.text = text
