@@ -20,6 +20,23 @@ extension Binding {
 
 }
 
+// final class BindingProxy<T> {
+//     var wrappedValue: T
+//     init(_ value: T) {
+//         self.wrappedValue = value
+//     }
+//     func binding(_ onChange: @escaping (_: T, _: T) -> Void = { _,_ in }) -> Binding<T> {
+//         return Binding<T>(
+//             get: { self.wrappedValue },
+//             set: { newValue in
+//                 let oldValue = self.wrappedValue
+//                 self.wrappedValue = newValue
+//                 onChange(oldValue, newValue)
+//             }
+//         )
+//     }
+// }
+
 // class BindingToStateProxy<T> {
 // 
 //     lazy var value: Binding<T> = Binding<T>(
