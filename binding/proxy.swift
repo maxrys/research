@@ -12,16 +12,15 @@ struct ProxyDemoView: View {
     var body: some View {
 
         /* MARK: Binding Proxy */
-        let bindingProxy: Binding<Bool> = Binding(
-            get: {                                    self.isOn         },
-            set: { value in self.onChangeIsOn(value); self.isOn = value }
-        )
-        CustomToggle(
-            isOn: bindingProxy
+        DemoToggle(
+            isOn: Binding(
+                get: {                                    self.isOn         },
+                set: { value in self.onChangeIsOn(value); self.isOn = value }
+            )
         )
 
         /* MARK: Binding.proxy */
-        CustomToggle(
+        DemoToggle(
             isOn: self.$isOn.proxy(onChangeIsOn)
         )
 
@@ -29,18 +28,6 @@ struct ProxyDemoView: View {
 
     func onChangeIsOn(_ value: Bool) {
         print("change: \(value)")
-    }
-
-}
-
-struct CustomToggle: View {
-
-    var isOn: Binding<Bool>
-
-    var body: some View {
-        Button("State: \(self.isOn.wrappedValue)") {
-            self.isOn.wrappedValue.toggle()
-        }
     }
 
 }
