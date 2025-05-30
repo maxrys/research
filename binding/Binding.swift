@@ -7,49 +7,12 @@ import SwiftUI
 
 extension Binding {
 
-    func proxy(_ onChange: @escaping (_: Value, _: Value) -> Void = { _,_ in }) -> Binding<Value> {
+    func proxy(_ onChange: @escaping (_: Value) -> Void = { _ in }) -> Binding<Value> {
         return Self(
-            get: { self.wrappedValue },
-            set: { newValue in
-                let oldValue = self.wrappedValue
-                self.wrappedValue = newValue
-                onChange(oldValue, newValue)
-            }
+            get: {          self.wrappedValue                          },
+            set: { value in self.wrappedValue = value; onChange(value) }
         )
     }
 
 }
 
-// final class BindingProxy<T> {
-//     var wrappedValue: T
-//     init(_ value: T) {
-//         self.wrappedValue = value
-//     }
-//     func binding(_ onChange: @escaping (_: T, _: T) -> Void = { _,_ in }) -> Binding<T> {
-//         return Binding<T>(
-//             get: { self.wrappedValue },
-//             set: { newValue in
-//                 let oldValue = self.wrappedValue
-//                 self.wrappedValue = newValue
-//                 onChange(oldValue, newValue)
-//             }
-//         )
-//     }
-// }
-
-// class BindingToStateProxy<T> {
-// 
-//     lazy var value: Binding<T> = Binding<T>(
-//         get: { self.value.wrappedValue },
-//         set: { newValue in
-//             self.value.wrappedValue = newValue
-//         }
-//     )
-// 
-//     var onChange: (T, T) -> Void
-// 
-//     init(value: Binding<T>, onChange: @escaping (T, T) -> Void = { _,_ in }) {
-//         self.onChange = onChange
-//     }
-// 
-// }
