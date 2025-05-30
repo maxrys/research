@@ -5,18 +5,9 @@
 
 import SwiftUI
 
-@main struct app: App {
-
-    var body: some Scene {
-        WindowGroup {
-            VStack(spacing: 10) {
-                DemoProxyView()
-                DemoOptionalView()
-            }
-        }
+@Observable final class ValueState<T> {
+    var wrappedValue: T
+    init(_ value: T) {
+        self.wrappedValue = value
     }
-
-    init() {
-    }
-
 }

@@ -7,8 +7,7 @@ import SwiftUI
 
 struct CustomToggle: View {
 
-    private var intIsOn = ValueState<Bool>(false)
-    private var extIsOn: Binding<Bool>?
+    private var isOn: Binding<Bool>
 
     var w: CGFloat = 50
     var h: CGFloat = 30
@@ -18,9 +17,9 @@ struct CustomToggle: View {
     var isFlexible: Bool = false
     var onChange: (Bool) -> Void = { isOn in }
 
-    init(text: String = "", isFlexible: Bool = false, isOn: Binding<Bool>? = nil, onChange: @escaping (Bool) -> Void = { isOn in }) {
+    init(text: String = "", isFlexible: Bool = false, isOn: Binding<Bool>, onChange: @escaping (Bool) -> Void = { isOn in }) {
         self.text = text
-        self.extIsOn = isOn
+        self.isOn = isOn
         self.isFlexible = isFlexible
         self.onChange = onChange
     }
@@ -43,20 +42,16 @@ struct CustomToggle: View {
     }
 
     @ViewBuilder var switcher: some View {
-        var isOn: Bool {
-            get { if (self.extIsOn != nil) { self.extIsOn!.wrappedValue            } else { self.intIsOn.wrappedValue } }
-            set { if (self.extIsOn != nil) { self.extIsOn!.wrappedValue = newValue } else { self.intIsOn.wrappedValue = newValue } }
-        }
         Button {
-            self.onChange(!isOn)
+            self.onChange(!self.isOn.wrappedValue)
             withAnimation(.easeInOut(duration: 0.1)) {
-                isOn.toggle()
+                self.isOn.wrappedValue.toggle()
             }
         } label: {
             Capsule()
-                .fill(isOn ? .green : .black.opacity(0.3))
+                .fill(self.isOn.wrappedValue ? .green : .black.opacity(0.3))
                 .frame(width: self.w, height: self.h)
-                .overlay(alignment: isOn ? .trailing : .leading) {
+                .overlay(alignment: self.isOn.wrappedValue ? .trailing : .leading) {
                     Circle()
                         .fill(.white)
                         .frame(width: self.h - (self.p * 2), height: self.h - (self.p * 2))
@@ -71,8 +66,13 @@ struct CustomToggle: View {
 
 }
 
-#Preview {
-    CustomToggle(
-        text: "Test"
-    ).frame(width: 100, height: 50)
+@available(macOS 14.0, *) #Preview {
+    @Previewable @State var isOn: Bool = false
+    HStack {
+        CustomToggle(
+            text: "Test",
+            isOn: $isOn
+        ).frame(width: 100, height: 50)
+    }
+    .padding(20)
 }

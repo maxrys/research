@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-struct ProxyDemoView: View {
+struct DemoProxyView: View {
 
     @State var isOn: Bool = false
 
