@@ -7,10 +7,16 @@ import SwiftUI
 
 struct DemoToggle: View {
 
-    var isOn: Binding<Bool>
+    private var isOn: Binding<Bool>
+    private var text: String
+
+    init(_ text: String = "", isOn: Binding<Bool>) {
+        self.text = text
+        self.isOn = isOn
+    }
 
     var body: some View {
-        Button("State: \(self.isOn.wrappedValue)") {
+        Button(self.text) {
             self.isOn.wrappedValue.toggle()
         }
     }

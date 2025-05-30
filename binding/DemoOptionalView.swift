@@ -16,24 +16,16 @@ struct DemoOptionalView: View {
             DemoToggleOptional("Binding = nil", isOn: nil) { isOn in }
 
             /* MARK: Binding.constant */
-            DemoToggleOptional("Binding.constant",
+            DemoToggleOptional("Binding.constant: \(isOn)",
                 isOn: Binding.constant(self.isOn)) { isOn in
                     self.isOn = !isOn
                     self.onChangeIsOn(self.isOn)
                 }
 
             /* MARK: Binding Classic */
-            DemoToggleOptional("Binding Classic",
-                isOn: self.$isOn,
+            DemoToggleOptional("Binding Classic: \(isOn)",
+                isOn    : self.$isOn,
                 onChange: self.onChangeIsOn
-            )
-
-            /* MARK: Binding Proxy */
-            DemoToggleOptional("Binding Proxy",
-                isOn: Binding<Bool>(
-                    get: {          self.isOn                                   },
-                    set: { value in self.isOn = value; self.onChangeIsOn(value) }
-                )
             )
 
             Text("Value: \(self.isOn)")
