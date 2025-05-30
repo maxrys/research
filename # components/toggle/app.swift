@@ -5,14 +5,9 @@
 
 import SwiftUI
 
-@Observable final class AppState {
-    var isOn: Bool = false
-}
-
 @main struct app: App {
 
     @State private var isOn: Bool = false
-    private var appState = AppState()
 
     var body: some Scene {
         WindowGroup {
@@ -28,26 +23,13 @@ import SwiftUI
                     self.isOn = isOn
                 }
 
+                /* MARK: isOn = Binding */
+                CustomToggle(text: "Custom Toggle (Binding)", isFlexible: isFlexible, isOn: self.$isOn) { isOn in }
+
                 /* MARK: isOn = Binding Proxy */
-
-                CustomToggle(text: "Custom Toggle (Binding Proxy)", isFlexible: isFlexible, isOn: self.$isOn) { isOn in }
-
-                CustomToggle(text: "Custom Toggle (Binding Proxy)", isFlexible: isFlexible, isOn: self.$isOn.proxy({ oldValue, newValue in }))
-
                 CustomToggle(text: "Custom Toggle (Binding Proxy)", isFlexible: isFlexible, isOn: Binding<Bool>(
-                    get: {             self.appState.isOn            },
-                    set: { newValue in self.appState.isOn = newValue }
-                ))
-
-                /* MARK: Original Toggle */
-
-                Toggle("Original Toggle", isOn: self.$isOn)
-
-                Toggle("Original Toggle", isOn: self.$isOn.proxy({ oldValue, newValue in }))
-
-                Toggle("Original Toggle", isOn: Binding<Bool>(
-                    get: {             self.appState.isOn            },
-                    set: { newValue in self.appState.isOn = newValue }
+                    get: {             self.isOn            },
+                    set: { newValue in self.isOn = newValue }
                 ))
 
             }.frame(maxWidth: 400)
