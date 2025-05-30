@@ -7,15 +7,14 @@ import SwiftUI
 
 struct CustomToggle: View {
 
-    private var isOn: Binding<Bool>
-
     var w: CGFloat = 50
     var h: CGFloat = 30
     var p: CGFloat = 3
 
-    var text: String
-    var isFlexible: Bool = false
-    var onChange: (Bool) -> Void = { isOn in }
+    private var text: String
+    private var isOn: Binding<Bool>
+    private var isFlexible: Bool
+    private var onChange: (Bool) -> Void
 
     init(text: String = "", isFlexible: Bool = false, isOn: Binding<Bool>, onChange: @escaping (Bool) -> Void = { isOn in }) {
         self.text = text
