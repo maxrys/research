@@ -7,11 +7,13 @@ import SwiftUI
 
 struct DemoToggleOptional: View {
 
+    private var text: String
     private var intIsOn = ValueState<Bool>(false)
     private var extIsOn: Binding<Bool>?
     private var onChange: (Bool) -> Void
 
-    init(isOn: Binding<Bool>? = nil, onChange: @escaping (Bool) -> Void = { isOn in }) {
+    init(_ text: String = "", isOn: Binding<Bool>? = nil, onChange: @escaping (Bool) -> Void = { isOn in }) {
+        self.text     = text
         self.extIsOn  = isOn
         self.onChange = onChange
     }
@@ -21,7 +23,7 @@ struct DemoToggleOptional: View {
             get { if (self.extIsOn != nil) { self.extIsOn!.wrappedValue            } else { self.intIsOn.wrappedValue            } }
             set { if (self.extIsOn != nil) { self.extIsOn!.wrappedValue = newValue } else { self.intIsOn.wrappedValue = newValue } }
         }
-        Button("State: \(isOn)") {
+        Button(self.text) {
             isOn.toggle()
             self.onChange(isOn)
         }
