@@ -7,12 +7,8 @@ import SwiftUI
 
 struct CustomToggle: View {
 
-    @Observable final class BoolState {
-        var wrappedValue: Bool = false
-    }
-
-    var intIsOn: BoolState = Self.BoolState()
-    var extIsOn: Binding<Bool>?
+    private var intIsOn = ValueState<Bool>(false)
+    private var extIsOn: Binding<Bool>?
 
     var w: CGFloat = 50
     var h: CGFloat = 30
