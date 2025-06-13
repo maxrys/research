@@ -37,7 +37,7 @@ class EventsDispatcher {
 
     static let shared = EventsDispatcher()
 
-    private var cancellableBag = Set<AnyCancellable>()
+    private var canlellableBag: [String: AnyCancellable] = [:]
 
     var handlers: [
         String: (_ message: Event) -> Void
@@ -55,9 +55,12 @@ class EventsDispatcher {
 
     func on(_ type: String, handler: @escaping (Event) -> Void) {
         self.handlers[type] = handler
-        NotificationCenter.default.publisher(
-            for: Notification.Name(type)
-        ).sink(receiveValue: { notification in
+        self.cancellableBag[type, default []].append(
+            NotificationCenter.default.publisher(
+                for: Notification.Name(type)
+            )
+        )
+        self.cancellableBag[type]!.last!.sink(receiveValue: { notification in
             guard let messageString = notification.object as? String      else { return }
             guard let message = Event.decode(messageString)               else { return }
             guard let handler = self.handlers[notification.name.rawValue] else { return }
@@ -66,7 +69,7 @@ class EventsDispatcher {
                 print("onRecieve")
                 dump(self.handlers)
             #endif
-        }).store(in: &self.cancellableBag)
+        }
     }
 
 }
