@@ -21,7 +21,10 @@ struct Event: Codable {
 
 }
 
-// .onReceive(EventsDispatcher
+// .onReceive(
+// EventsDispatcher.shared.publisher(
+// "onMessageReceive"
+// )
 
 
 class EventsDispatcher {
