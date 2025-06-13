@@ -36,7 +36,7 @@ class EventsDispatcher {
     ] = [:]
 
     func publisher( _ type: String) -> Any Cancellable {
-        return self.cancellableBag[type]!
+        self.cancellableBag[type]!
     }
 
     func send(_ type: String, message: Event) {
@@ -51,21 +51,23 @@ class EventsDispatcher {
 
     func on(_ type: String, handler: @escaping (Event) -> Void) {
         self.handlers[type, default []].append(handler)
-        self.cancellableBag[type] =
-            NotificationCenter.default.publisher(
-                for: Notification.Name(type)
-            )
-        self.cancellableBag[type]!.sink(receiveValue: { notification in
-            guard let messageString = notification.object as? String      else { return }
-            guard let message = Event.decode(messageString)               else { return }
-            guard let handler = self.handlers[notification.name.rawValue] else { return }
-            self.handlers[type].map { hanler in
-                handler(message)
+        if (self.cancellableBag[type]) {
+            self.cancellableBag[type] =
+                NotificationCenter.default.publisher(
+                    for: Notification.Name(type)
+                )
+            self.cancellableBag[type]!.sink(receiveValue: { notification in
+                guard let messageString = notification.object as? String      else { return }
+                guard let message = Event.decode(messageString)               else { return }
+                guard let handler = self.handlers[notification.name.rawValue] else { return }
+                self.handlers[type].map { hanler in
+                    handler(message)
+                }
+                #if DEBUG
+                    print("onRecieve")
+                    dump(self.handlers)
+                #endif
             }
-            #if DEBUG
-                print("onRecieve")
-                dump(self.handlers)
-            #endif
         }
     }
 
