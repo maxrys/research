@@ -54,7 +54,7 @@ class EventsDispatcher {
 
     func on(_ type: String, handler: @escaping (Event) -> Void) {
         self.handlers[type, default []].append(handler)
-        if (self.cancellableBag[type]) {
+        if (self.cancellableBag[type] == nil) {
             self.cancellableBag[type] =
                 NotificationCenter.default.publisher(
                     for: Notification.Name(type)
