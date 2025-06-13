@@ -1,5 +1,6 @@
 
 import Foundation
+import Combine
 
 struct Event: Codable {
 
@@ -20,22 +21,32 @@ struct Event: Codable {
 
 }
 
+//        .onReceive(
+//            NotificationCenter.default.publisher(
+//                for: Notification.Name("settingsSheet.show")
+//            )
+//            .filter({ notification in
+//                guard let tag = notification.object as? Int else { return false }
+//                guard (self.tag == tag) else { return false }
+//                return true
+//            })) { notification in
+//                self.show()
+//            }
+
 class EventsDispatcher {
 
     static let shared = EventsDispatcher()
 
-    let center: DistributedNotificationCenter = .default()
+    private var cancellableBag = Set<AnyCancellable>()
 
     var handlers: [
         String: (_ message: Event) -> Void
     ] = [:]
 
     func send(_ type: String, message: Event) {
-        self.center.postNotificationName(
-            NSNotification.Name(type),
-            object: message.encode(),
-            userInfo: nil,
-            deliverImmediately: true
+        NotificationCenter.default.post(
+            name: Notification.Name(type),
+            object: message.encode()
         )
         #if DEBUG
             print("send")
@@ -44,25 +55,18 @@ class EventsDispatcher {
 
     func on(_ type: String, handler: @escaping (Event) -> Void) {
         self.handlers[type] = handler
-        self.center.addObserver(
-            self,
-            selector: #selector(onRecieve(_:)),
-            name: NSNotification.Name(type),
-            object: nil
-        )
-        #if DEBUG
-            dump(self.handlers)
-        #endif
-    }
-
-    @objc private func onRecieve(_ notification: NSNotification) {
-        guard let messageString = notification.object as? String      else { return }
-        guard let message = Event.decode(messageString)               else { return }
-        guard let handler = self.handlers[notification.name.rawValue] else { return }
-        handler(message)
-        #if DEBUG
-            print("onRecieve")
-        #endif
+        NotificationCenter.default.publisher(
+            for: Notification.Name(type)
+        ).sink(receiveValue: { notification in
+            guard let messageString = notification.object as? String      else { return }
+            guard let message = Event.decode(messageString)               else { return }
+            guard let handler = self.handlers[notification.name.rawValue] else { return }
+            handler(message)
+            #if DEBUG
+                print("onRecieve")
+                dump(self.handlers)
+            #endif
+        }).store(in: &self.cancellableBag)
     }
 
 }
