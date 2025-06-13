@@ -39,9 +39,13 @@ class EventsDispatcher {
 
     private var canlellableBag: [String: AnyCancellable] = [:]
 
-    var handlers: [
+    private var handlers: [
         String: (_ message: Event) -> Void
     ] = [:]
+
+    func publisher( _ type: String) -> Any Cancellable {
+        return self.cancellableBag[type]
+    }
 
     func send(_ type: String, message: Event) {
         NotificationCenter.default.post(
@@ -60,7 +64,7 @@ class EventsDispatcher {
                 for: Notification.Name(type)
             )
         )
-        self.cancellableBag[type]!.last!.sink(receiveValue: { notification in
+        self.cancellableBag[type]!.sink(receiveValue: { notification in
             guard let messageString = notification.object as? String      else { return }
             guard let message = Event.decode(messageString)               else { return }
             guard let handler = self.handlers[notification.name.rawValue] else { return }
