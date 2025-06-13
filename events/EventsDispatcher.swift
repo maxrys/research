@@ -21,24 +21,16 @@ struct Event: Codable {
 
 }
 
-//        .onReceive(
-//            NotificationCenter.default.publisher(
-//                for: Notification.Name("settingsSheet.show")
-//            )
-//            .filter({ notification in
-//                guard let tag = notification.object as? Int else { return false }
-//                guard (self.tag == tag) else { return false }
-//                return true
-//            })) { notification in
-//                self.show()
-//            }
+// .onReceive(EventsDispatcher
+
 
 class EventsDispatcher {
 
     static let shared = EventsDispatcher()
 
-    private var canlellableBag: [String: AnyCancellable] = [:]
-
+    private var canlellableBag: [
+        String: AnyCancellable
+    ] = [:]
     private var handlers: [
         String: (Event) -> Void
     ] = [:]
@@ -58,7 +50,7 @@ class EventsDispatcher {
     }
 
     func on(_ type: String, handler: @escaping (Event) -> Void) {
-        self.handlers[type] = handler
+        self.handlers[type, default []].append(handler)
         self.cancellableBag[type] =
             NotificationCenter.default.publisher(
                 for: Notification.Name(type)
