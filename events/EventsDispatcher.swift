@@ -40,7 +40,7 @@ class EventsDispatcher {
     private var canlellableBag: [String: AnyCancellable] = [:]
 
     private var handlers: [
-        String: (_ message: Event) -> Void
+        String: (Event) -> Void
     ] = [:]
 
     func publisher( _ type: String) -> Any Cancellable {
@@ -67,7 +67,9 @@ class EventsDispatcher {
             guard let messageString = notification.object as? String      else { return }
             guard let message = Event.decode(messageString)               else { return }
             guard let handler = self.handlers[notification.name.rawValue] else { return }
-            handler(message)
+            self.handlers[type].map { hanler in
+                handler(message)
+            }
             #if DEBUG
                 print("onRecieve")
                 dump(self.handlers)
