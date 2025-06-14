@@ -24,6 +24,10 @@ struct MessageBox: View {
             ForEach(self.messages, id: \.self) { message in
                 Text(message)
             }
+        }.onReceive(EventsDispatcher.shared.publisher("onShowMessage")) { publisher in
+            if let message = publisher.object as? String {
+                self.messages.append(message)
+            }
         }
     }
 

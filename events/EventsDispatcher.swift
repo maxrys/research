@@ -31,15 +31,16 @@ class EventsDispatcher {
 
     static let shared = EventsDispatcher()
 
-    private var canlellableBag: [
-        String: AnyCancellable
+    private var cancellableBag = Set<AnyCancellable>()
+    private var publisherBag: [
+        String: NotificationCenter.Publisher
     ] = [:]
     private var handlers: [
-        String: (Event) -> Void
+        String: [(Event) -> Void]
     ] = [:]
 
-    func publisher( _ type: String) -> Any Cancellable {
-        self.cancellableBag[type]!
+    func publisher( _ type: String) -> NotificationCenter.Publisher {
+        self.publisherBag[type]!
     }
 
     func send(_ type: String, message: Event) {
@@ -53,24 +54,25 @@ class EventsDispatcher {
     }
 
     func on(_ type: String, handler: @escaping (Event) -> Void) {
-        self.handlers[type, default []].append(handler)
-        if (self.cancellableBag[type] == nil) {
-            self.cancellableBag[type] =
+        if (self.handlers[type] == nil) { self.handlers[type] = [] }
+            self.handlers[type]!.append(handler)
+        if (self.publisherBag[type] == nil) {
+            self.publisherBag[type] =
                 NotificationCenter.default.publisher(
                     for: Notification.Name(type)
                 )
-            self.cancellableBag[type]!.sink(receiveValue: { notification in
-                guard let messageString = notification.object as? String      else { return }
-                guard let message = Event.decode(messageString)               else { return }
-                guard let handler = self.handlers[notification.name.rawValue] else { return }
-                self.handlers[type].map { hanler in
+            self.publisherBag[type]!.sink(receiveValue: { notification in
+                guard let messageString = notification.object as? String else { return }
+                guard let message = Event.decode(messageString)          else { return }
+                guard self.handlers[notification.name.rawValue] != nil   else { return }
+                for handler in self.handlers[type]! {
                     handler(message)
                 }
                 #if DEBUG
                     print("onRecieve")
                     dump(self.handlers)
                 #endif
-            }
+            }).store(in: &self.cancellableBag)
         }
     }
 
