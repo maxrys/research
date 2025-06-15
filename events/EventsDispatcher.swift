@@ -2,25 +2,6 @@
 import Foundation
 import Combine
 
-struct Event: Codable {
-
-    var name: String = ""
-    var data: String = ""
-
-    func encode() -> String {
-        return "\(name)\n\(data)"
-    }
-
-    static func decode(_ from: String) -> Self? {
-        let result = from.split(separator: "\n")
-        return Self(
-            name: String(result[0]),
-            data: String(result[1])
-        )
-    }
-
-}
-
 class EventsDispatcher {
 
     static let shared = EventsDispatcher()
@@ -30,7 +11,7 @@ class EventsDispatcher {
         String: NotificationCenter.Publisher
     ] = [:]
     private var handlers: [
-        String: [(Event) -> Void]
+        String: [(Any) -> Void]
     ] = [:]
 
     func publisher( _ type: String) -> NotificationCenter.Publisher? {
@@ -39,32 +20,22 @@ class EventsDispatcher {
                 for: Notification.Name(type)
             )
             self.publisherBag[type]!.sink(receiveValue: { notification in
-                guard let messageString = notification.object as? String else { return }
-                guard let message = Event.decode(messageString)          else { return }
-                guard self.handlers[notification.name.rawValue] != nil   else { return }
-                for handler in self.handlers[type]! {
-                    handler(message)
+                for handler in self.handlers[type] ?? [] {
+                    handler(notification.object!)
                 }
-                #if DEBUG
-                    print("onRecieve")
-                    dump(self.handlers)
-                #endif
             }).store(in: &self.cancellableBag)
         }
         return self.publisherBag[type]!
     }
 
-    func send(_ type: String, message: Event) {
+    func send(_ type: String, object: Any) {
         NotificationCenter.default.post(
             name: Notification.Name(type),
-            object: message.encode()
+            object: object
         )
-        #if DEBUG
-            print("send")
-        #endif
     }
 
-    func on(_ type: String, handler: @escaping (Event) -> Void) {
+    func on(_ type: String, handler: @escaping (Any) -> Void) {
         if (self.handlers[type] == nil) { self.handlers[type] = [] }
         self.handlers[type]!.append(handler)
     }

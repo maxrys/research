@@ -16,20 +16,17 @@ import SwiftUI
     }
 
     init() {
-        Self.dispatcher.on("onShowMessage") { event in
-            #if DEBUG
-                print(event.data)
-            #endif
-        }
+        Self.dispatcher.on("messageInsert") { _ in print("messageInsert") }
+        Self.dispatcher.on("messageDelete") { _ in print("messageDelete") }
     }
 
-    @ViewBuilder func button(title: String, type: String, message: String) -> some View {
+    @ViewBuilder func buttonInsert(title: String, type: MessageType, text: String) -> some View {
         Button {
             Self.dispatcher.send(
-                "onShowMessage",
-                message: Event(
-                    name: type,
-                    data: message
+                "messageInsert",
+                object: Message(
+                    type: type,
+                    text: text
                 )
             )
         } label: {
@@ -38,15 +35,24 @@ import SwiftUI
         }
     }
 
+    @ViewBuilder func buttonDelete() -> some View {
+        Button {
+            Self.dispatcher.send("messageDelete", object: [])
+        } label: {
+            Text("delete all")
+        }
+    }
+
     @ViewBuilder var mainScene: some View {
         HStack(spacing: 0) {
 
             /* MARK: buttons */
             VStack(spacing: 10) {
-                self.button(title: "Send Info Message"   , type: "info"   , message: "This is an Info message.")
-                self.button(title: "Send Ok Message"     , type: "ok"     , message: "This is an Ok message.")
-                self.button(title: "Send Warning Message", type: "warning", message: "This is an Warning message.")
-                self.button(title: "Send Error Message"  , type: "error"  , message: "This is an Error message.")
+                self.buttonInsert(title: "Send Info Message"   , type: .info   , text: "Info message.")
+                self.buttonInsert(title: "Send Ok Message"     , type: .ok     , text: "Ok message.")
+                self.buttonInsert(title: "Send Warning Message", type: .warning, text: "Warning message!")
+                self.buttonInsert(title: "Send Error Message"  , type: .error  , text: "Error message!")
+                self.buttonDelete()
             }
             .padding(10)
             .frame(maxWidth: 200, maxHeight: .infinity)
