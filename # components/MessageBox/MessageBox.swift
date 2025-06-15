@@ -42,9 +42,9 @@ enum MessageType {
 
 struct Message: Hashable {
 
+    let type: MessageType
     let title: String
     let description: String
-    let type: MessageType
 
     init(type: MessageType, title: String, description: String = "") {
         self.title = title
@@ -64,14 +64,17 @@ class ValueState<T>: ObservableObject {
 struct MessageBox: View {
 
     static var MESSAGE_LIFE_TIME: Double = 1.0
+    static var counter: UInt = 0
 
     private var timerState: ValueState<RealTimer>!
-    @State var messages: [UUID: Message]
+    @State var messages: [
+        UInt: Message
+    ]
 
     private let publisherInsert = EventsDispatcher.shared.publisher("messageInsert")!
     private let publisherDelete = EventsDispatcher.shared.publisher("messageDelete")!
 
-    init(messages: [UUID: Message] = [:]) {
+    init(messages: [UInt: Message] = [:]) {
         self.messages = messages
         self.timerState = ValueState<RealTimer>(
             RealTimer(
@@ -87,9 +90,7 @@ struct MessageBox: View {
 
     var body: some View {
         VStack (spacing: 0) {
-            ForEach(self.messages.sorted(by: { (lhs, rhs) in
-                lhs.key.uuidString < rhs.key.uuidString
-            }), id: \.key) { uuid, message in
+            ForEach(self.messages.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }), id: \.key) { id, message in
                 VStack(spacing: 0) {
                     Text(NSLocalizedString(message.title, comment: ""))
                         .font(.system(size: 14, weight: .bold))
@@ -113,7 +114,8 @@ struct MessageBox: View {
             }
         }.onReceive(self.publisherInsert) { publisher in
             if let message = publisher.object as? Message {
-                self.messages[UUID()] = message
+                Self.counter += 1
+                self.messages[Self.counter] = message
                 self.timerState?.wrappedValue.start(
                     tickInterval: Self.MESSAGE_LIFE_TIME
                 )
@@ -146,14 +148,14 @@ struct Message_Previews2: PreviewProvider {
     static var previews: some View {
         ScrollView {
             MessageBox(messages: [
-                UUID(): Message(type: .info   , title: "Info"),
-                UUID(): Message(type: .ok     , title: "Ok"),
-                UUID(): Message(type: .warning, title: "Warning"),
-                UUID(): Message(type: .error  , title: "Error"),
-                UUID(): Message(type: .info   , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-                UUID(): Message(type: .ok     , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-                UUID(): Message(type: .warning, title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-                UUID(): Message(type: .error  , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+                0: Message(type: .info   , title: "Info"),
+                1: Message(type: .ok     , title: "Ok"),
+                2: Message(type: .warning, title: "Warning"),
+                3: Message(type: .error  , title: "Error"),
+                4: Message(type: .info   , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+                5: Message(type: .ok     , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+                6: Message(type: .warning, title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+                7: Message(type: .error  , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
             ])
         }
         .frame(maxWidth: 300)
