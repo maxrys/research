@@ -34,7 +34,24 @@ class EventsDispatcher {
     ] = [:]
 
     func publisher( _ type: String) -> NotificationCenter.Publisher? {
-        self.publisherBag[type]
+        if (self.publisherBag[type] == nil) {
+            self.publisherBag[type] = NotificationCenter.default.publisher(
+                for: Notification.Name(type)
+            )
+            self.publisherBag[type]!.sink(receiveValue: { notification in
+                guard let messageString = notification.object as? String else { return }
+                guard let message = Event.decode(messageString)          else { return }
+                guard self.handlers[notification.name.rawValue] != nil   else { return }
+                for handler in self.handlers[type]! {
+                    handler(message)
+                }
+                #if DEBUG
+                    print("onRecieve")
+                    dump(self.handlers)
+                #endif
+            }).store(in: &self.cancellableBag)
+        }
+        return self.publisherBag[type]!
     }
 
     func send(_ type: String, message: Event) {
@@ -49,25 +66,7 @@ class EventsDispatcher {
 
     func on(_ type: String, handler: @escaping (Event) -> Void) {
         if (self.handlers[type] == nil) { self.handlers[type] = [] }
-            self.handlers[type]!.append(handler)
-        if (self.publisherBag[type] == nil) {
-            self.publisherBag[type] =
-                NotificationCenter.default.publisher(
-                    for: Notification.Name(type)
-                )
-            self.publisherBag[type]!.sink(receiveValue: { notification in
-                guard let messageString = notification.object as? String else { return }
-                guard let message = Event.decode(messageString)          else { return }
-                guard self.handlers[notification.name.rawValue] != nil   else { return }
-                for handler in self.handlers[type]! {
-                    handler(message)
-                }
-                #if DEBUG
-                    print("onRecieve")
-                    dump(self.handlers)
-                #endif
-            }).store(in: &self.cancellableBag)
-        }
+        self.handlers[type]!.append(handler)
     }
 
 }
