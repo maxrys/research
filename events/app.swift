@@ -8,9 +8,12 @@ import SwiftUI
 @main struct app: App {
 
     var body: some Scene {
-        WindowGroup {
+        let window = WindowGroup {
             self.mainScene
-        }.windowResizability(.contentSize)
+                .environment(\.layoutDirection, .leftToRight)
+        }
+        if #available(macOS 13.0, *) { return window.windowResizability(.contentSize) }
+        else                         { return window }
     }
 
     init() {
@@ -53,7 +56,7 @@ import SwiftUI
             }
             .padding(10)
             .frame(maxWidth: 240, maxHeight: .infinity)
-            .background(.gray)
+            .background(Color.gray)
 
             /* MARK: message box */
             HStack(spacing: 10) {
