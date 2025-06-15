@@ -56,12 +56,36 @@ struct Message: Hashable, Identifiable {
 
 }
 
+class ValueState<T>: ObservableObject {
+    @Published var wrappedValue: T
+    init(value: T) {
+        self.wrappedValue = value
+    }
+}
+
 struct MessageBox: View {
 
-    @State var messages: [Message] = []
+    static var MESSAGE_LIFE_TIME: Double = 1.0
+
+    var timerState: ValueState<RealTimer>!
+    @State var messages: [Message]
 
     private let publisherInsert = EventsDispatcher.shared.publisher("messageInsert")!
     private let publisherDelete = EventsDispatcher.shared.publisher("messageDelete")!
+
+    init(messages: [Message] = []) {
+        self.messages = messages
+        self.timerState = ValueState<RealTimer>(
+            value: RealTimer(
+                onTick: self.onTimerTick
+            )
+        )
+    }
+
+    func onTimerTick(offset: Double) {
+        self.timerState?.wrappedValue.stopAndReset()
+        print("tick: \(offset)")
+    }
 
     static func send(type: MessageType, title: String, description: String = "") {
         EventsDispatcher.shared.send(
@@ -107,6 +131,9 @@ struct MessageBox: View {
         }.onReceive(self.publisherInsert) { publisher in
             if let message = publisher.object as? Message {
                 self.messages.append(message)
+                self.timerState?.wrappedValue.start(
+                    tickInterval: Self.MESSAGE_LIFE_TIME
+                )
             }
         }.onReceive(self.publisherDelete) { _ in
             self.messages = []
@@ -115,19 +142,21 @@ struct MessageBox: View {
 
 }
 
-#Preview {
-    ScrollView {
-        MessageBox(messages: [
-            Message(type: .info   , title: "Info"),
-            Message(type: .ok     , title: "Ok"),
-            Message(type: .warning, title: "Warning"),
-            Message(type: .error  , title: "Error"),
-            Message(type: .info   , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-            Message(type: .ok     , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-            Message(type: .warning, title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-            Message(type: .error  , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-        ])
+struct Message_Previews2: PreviewProvider {
+    static var previews: some View {
+        ScrollView {
+            MessageBox(messages: [
+                Message(type: .info   , title: "Info"),
+                Message(type: .ok     , title: "Ok"),
+                Message(type: .warning, title: "Warning"),
+                Message(type: .error  , title: "Error"),
+                Message(type: .info   , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+                Message(type: .ok     , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+                Message(type: .warning, title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+                Message(type: .error  , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+            ])
+        }
+        .frame(maxWidth: 300)
+        .padding(10)
     }
-    .frame(maxWidth: 300)
-    .padding(10)
 }

@@ -41,37 +41,27 @@ import SwiftUI
 
             /* MARK: buttons */
             VStack(spacing: 10) {
-                self.buttonInsert(text: "Send Info Message"            , type: .info   , title: "Info message")
-                self.buttonInsert(text: "Send Ok Message"              , type: .ok     , title: "Ok message")
+                self.buttonInsert(text: "Send Info Message"            , type: .info   , title:    "Info message")
+                self.buttonInsert(text: "Send Ok Message"              , type: .ok     , title:      "Ok message")
                 self.buttonInsert(text: "Send Warning Message"         , type: .warning, title: "Warning message")
-                self.buttonInsert(text: "Send Error Message"           , type: .error  , title: "Error message")
-                self.buttonInsert(text: "Send Info Message + Descr."   , type: .info   , title: "Info message"   , description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
-                self.buttonInsert(text: "Send Ok Message + Descr."     , type: .ok     , title: "Ok message"     , description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+                self.buttonInsert(text: "Send Error Message"           , type: .error  , title:   "Error message")
+                self.buttonInsert(text: "Send Info Message + Descr."   , type: .info   , title:    "Info message", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+                self.buttonInsert(text: "Send Ok Message + Descr."     , type: .ok     , title:      "Ok message", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
                 self.buttonInsert(text: "Send Warning Message + Descr.", type: .warning, title: "Warning message", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
-                self.buttonInsert(text: "Send Error Message + Descr."  , type: .error  , title: "Error message"  , description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+                self.buttonInsert(text: "Send Error Message + Descr."  , type: .error  , title:   "Error message", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
                 self.buttonDelete(text: "delete all")
             }
             .padding(10)
             .frame(maxWidth: 240, maxHeight: .infinity)
             .background(.gray)
 
-            /* MARK: message box 1 */
-            VStack(spacing: 10) {
-                ScrollView {
-                    MessageBox()
-                }
+            /* MARK: message box */
+            HStack(spacing: 10) {
+                ScrollView(.vertical) { MessageBox() }
+                ScrollView(.vertical) { MessageBox() }
             }
             .padding(10)
-            .frame(maxWidth: 200, maxHeight: .infinity, alignment: .top)
-
-            /* MARK: message box 2 */
-            VStack(spacing: 10) {
-                ScrollView {
-                    MessageBox()
-                }
-            }
-            .padding(10)
-            .frame(maxWidth: 200, maxHeight: .infinity, alignment: .top)
+            .frame(maxWidth: 300, maxHeight: .infinity, alignment: .top)
 
         }
     }
