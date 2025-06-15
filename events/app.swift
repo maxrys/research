@@ -22,25 +22,22 @@ import SwiftUI
         Self.dispatcher.on("messageDelete") { _ in print("messageDelete 2") }
     }
 
-    @ViewBuilder func buttonInsert(title: String, type: MessageType, text: String) -> some View {
+    @ViewBuilder func buttonInsert(text: String, type: MessageType, title: String, description: String = "") -> some View {
         Button {
             Self.dispatcher.send(
                 "messageInsert",
-                object: Message(
-                    type: type,
-                    text: text
-                )
+                object: Message(type: type, title: title, description: description)
             )
         } label: {
-            Text(title).frame(maxWidth: .infinity)
+            Text(text).frame(maxWidth: .infinity)
         }
     }
 
-    @ViewBuilder func buttonDelete(title: String) -> some View {
+    @ViewBuilder func buttonDelete(text: String) -> some View {
         Button {
             Self.dispatcher.send("messageDelete", object: [])
         } label: {
-            Text(title)
+            Text(text)
         }
     }
 
@@ -49,14 +46,18 @@ import SwiftUI
 
             /* MARK: buttons */
             VStack(spacing: 10) {
-                self.buttonInsert(title: "Send Info Message"   , type: .info   , text: "Info message.")
-                self.buttonInsert(title: "Send Ok Message"     , type: .ok     , text: "Ok message.")
-                self.buttonInsert(title: "Send Warning Message", type: .warning, text: "Warning message!")
-                self.buttonInsert(title: "Send Error Message"  , type: .error  , text: "Error message!")
-                self.buttonDelete(title: "delete all")
+                self.buttonInsert(text: "Send Info Message"            , type: .info   , title: "Info message")
+                self.buttonInsert(text: "Send Ok Message"              , type: .ok     , title: "Ok message")
+                self.buttonInsert(text: "Send Warning Message"         , type: .warning, title: "Warning message")
+                self.buttonInsert(text: "Send Error Message"           , type: .error  , title: "Error message")
+                self.buttonInsert(text: "Send Info Message + Descr."   , type: .info   , title: "Info message"   , description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+                self.buttonInsert(text: "Send Ok Message + Descr."     , type: .ok     , title: "Ok message"     , description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+                self.buttonInsert(text: "Send Warning Message + Descr.", type: .warning, title: "Warning message", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+                self.buttonInsert(text: "Send Error Message + Descr."  , type: .error  , title: "Error message"  , description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+                self.buttonDelete(text: "delete all")
             }
             .padding(10)
-            .frame(maxWidth: 200, maxHeight: .infinity)
+            .frame(maxWidth: 240, maxHeight: .infinity)
             .background(.gray)
 
             /* MARK: message box */
