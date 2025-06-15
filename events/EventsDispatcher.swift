@@ -21,12 +21,6 @@ struct Event: Codable {
 
 }
 
-// .onReceive(
-// EventsDispatcher.shared.publisher(
-// "onMessageReceive"
-// )
-
-
 class EventsDispatcher {
 
     static let shared = EventsDispatcher()
@@ -39,8 +33,8 @@ class EventsDispatcher {
         String: [(Event) -> Void]
     ] = [:]
 
-    func publisher( _ type: String) -> NotificationCenter.Publisher {
-        self.publisherBag[type]!
+    func publisher( _ type: String) -> NotificationCenter.Publisher? {
+        self.publisherBag[type]
     }
 
     func send(_ type: String, message: Event) {

@@ -18,60 +18,49 @@ import SwiftUI
     init() {
     }
 
+    @ViewBuilder func button(title: String, type: String, message: String) -> some View {
+        Button {
+            Self.dispatcher.send(
+                "onShowMessage",
+                message: Event(
+                    name: type,
+                    data: message
+                )
+            )
+        } label: {
+            Text(title)
+                .frame(maxWidth: .infinity)
+        }
+    }
+
     @ViewBuilder var mainScene: some View {
+        HStack(spacing: 0) {
 
-        /* MARK: message box */
-        MessageBox()
-
-        VStack(spacing: 10) {
-            /* MARK: message:ok */
-            Button {
-                Self.dispatcher.send(
-                    "onShowMessage",
-                    message: Event(
-                        name: "ok",
-                        data: "This is an Ok message."
-                    )
-                )
-            } label: {
-                Text("Send Ok Message")
-                    .frame(maxWidth: .infinity)
+            /* MARK: buttons */
+            VStack(spacing: 10) {
+                self.button(title: "Send Info Message"   , type: "info"   , message: "This is an Info message.")
+                self.button(title: "Send Ok Message"     , type: "ok"     , message: "This is an Ok message.")
+                self.button(title: "Send Warning Message", type: "warning", message: "This is an Warning message.")
+                self.button(title: "Send Error Message"  , type: "error"  , message: "This is an Error message.")
             }
+            .padding(10)
+            .frame(maxWidth: 200, maxHeight: .infinity)
+            .background(.gray)
 
-            /* MARK: message:warning */
-            Button {
-                Self.dispatcher.send(
-                    "onShowMessage",
-                    message: Event(
-                        name: "warning",
-                        data: "This is a Warning message!"
-                    )
-                )
-            } label: {
-                Text("Send Warning Message")
-                    .frame(maxWidth: .infinity)
+            /* MARK: message box */
+            VStack(spacing: 10) {
+                ScrollView {
+                    MessageBox()
+                }
             }
+            .padding(10)
+            .frame(maxWidth: 200, maxHeight: .infinity, alignment: .top)
 
-            /* MARK: message:alert */
-            Button {
-                Self.dispatcher.send(
-                    "onShowMessage",
-                    message: Event(
-                        name: "alert",
-                        data: "This is an Alert message!"
-                    )
-                )
-            } label: {
-                Text("Send Alert Message")
-                    .frame(maxWidth: .infinity)
-            }
-        }.frame(width: 200)
-
+        }
     }
 
 }
 
 #Preview {
     app().mainScene
-        .padding(10)
 }
