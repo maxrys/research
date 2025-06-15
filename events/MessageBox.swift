@@ -64,21 +64,27 @@ struct MessageBox: View {
     private let publisherDelete = EventsDispatcher.shared.publisher("messageDelete")!
 
     var body: some View {
-        VStack (spacing: 1) {
+        VStack (spacing: 0) {
             ForEach(self.messages, id: \.self) { message in
                 VStack(spacing: 0) {
-                    Text(message.title)
+                    Text(NSLocalizedString(message.title, comment: ""))
+                        .font(.system(size: 14, weight: .bold))
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(13)
                         .frame(maxWidth: .infinity)
-                        .padding(10)
                         .background(message.type.colorTitleBackground)
                     if (!message.description.isEmpty) {
-                        Text(message.description)
+                        Text(NSLocalizedString(message.description, comment: ""))
+                            .font(.system(size: 13))
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(13)
                             .frame(maxWidth: .infinity)
-                            .padding(10)
                             .background(message.type.colorDescriptionBackground)
                     }
                 }
-                .foregroundStyle(Color.white)
+                .color(Color(MessageType.ColorNames.text.rawValue))
                 .frame(maxWidth: .infinity)
             }
         }.onReceive(self.publisherInsert) { publisher in
@@ -99,12 +105,12 @@ struct MessageBox: View {
             Message(type: .ok     , title: "Ok"),
             Message(type: .warning, title: "Warning"),
             Message(type: .error  , title: "Error"),
-            Message(type: .info   , title: "Info"   , description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-            Message(type: .ok     , title: "Ok"     , description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-            Message(type: .warning, title: "Warning", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-            Message(type: .error  , title: "Error"  , description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+            Message(type: .info   , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+            Message(type: .ok     , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+            Message(type: .warning, title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+            Message(type: .error  , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
         ])
     }
-    .frame(maxWidth: 200)
+    .frame(maxWidth: 300)
     .padding(10)
 }
