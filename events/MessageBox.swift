@@ -3,17 +3,13 @@ import SwiftUI
 
 struct MessageBox: View {
 
-    static let dispatcher = EventsDispatcher.shared
+    @State private var messages: [String] = []
 
-    @State var messages: [String] = [
-    ]
+    private let publisher = EventsDispatcher.shared.publisher(
+        "onShowMessage"
+    )!
 
     init() {
-         Self.dispatcher.on("onShowMessage") { [self] event in
-             // self.messages.append(
-             //     event.data
-             // )
-         }
     }
 
     var body: some View {
@@ -25,7 +21,7 @@ struct MessageBox: View {
                     .background(Color.gray)
                     .foregroundStyle(Color.white)
             }
-        }.onReceive(EventsDispatcher.shared.publisher("onShowMessage")!) { publisher in
+        }.onReceive(self.publisher) { publisher in
             if let message = publisher.object as? String {
                 self.messages.append(message)
             }

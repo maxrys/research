@@ -12,10 +12,15 @@ import SwiftUI
     var body: some Scene {
         WindowGroup {
             self.mainScene
-        }
+        }.windowResizability(.contentSize)
     }
 
     init() {
+        Self.dispatcher.on("onShowMessage") { event in
+            #if DEBUG
+                print(event.data)
+            #endif
+        }
     }
 
     @ViewBuilder func button(title: String, type: String, message: String) -> some View {
