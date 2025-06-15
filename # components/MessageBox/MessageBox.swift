@@ -54,59 +54,52 @@ struct Message: Hashable {
 
 }
 
-class ValueState<T>: ObservableObject {
-    @Published var wrappedValue: T
-    init(_ value: T) {
-        self.wrappedValue = value
-    }
-}
-
 struct MessageBox: View {
 
-    static var MESSAGE_LIFE_TIME: Double = 1.0
-    static var counter: UInt = 0
-
-    private var timerState: ValueState<RealTimer>!
-    @State var messages: [
-        UInt: Message
+    typealias MessagesCollection = [
+        UInt: (
+            message: Message,
+            expirationTimer: RealTimer?
+        )
     ]
+
+    private static var MESSAGE_LIFE_TIME: Double = 2.0
+    private static var counter: UInt = 0
+
+    @State var messages: MessagesCollection
 
     private let publisherInsert = EventsDispatcher.shared.publisher("messageInsert")!
     private let publisherDelete = EventsDispatcher.shared.publisher("messageDelete")!
 
-    init(messages: [UInt: Message] = [:]) {
+    init(messages: MessagesCollection = [:]) {
         self.messages = messages
-        self.timerState = ValueState<RealTimer>(
-            RealTimer(
-                onTick: self.onTimerTick
-            )
-        )
     }
 
-    func onTimerTick(offset: Double) {
-        self.timerState?.wrappedValue.stopAndReset()
-        print("tick: \(offset)")
+    func onTimerTick(offset: Double, timer: RealTimer) {
+        timer.stopAndReset()
+        self.messages[timer.tag] = nil
+        print("onTimerTick: \(offset) | \(timer.tag)")
     }
 
     var body: some View {
         VStack (spacing: 0) {
-            ForEach(self.messages.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }), id: \.key) { id, message in
+            ForEach(self.messages.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }), id: \.key) { id, item in
                 VStack(spacing: 0) {
-                    Text(NSLocalizedString(message.title, comment: ""))
+                    Text(NSLocalizedString(item.message.title, comment: ""))
                         .font(.system(size: 14, weight: .bold))
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
                         .padding(13)
                         .frame(maxWidth: .infinity)
-                        .background(message.type.colorTitleBackground)
-                    if (!message.description.isEmpty) {
-                        Text(NSLocalizedString(message.description, comment: ""))
+                        .background(item.message.type.colorTitleBackground)
+                    if (!item.message.description.isEmpty) {
+                        Text(NSLocalizedString(item.message.description, comment: ""))
                             .font(.system(size: 13))
                             .multilineTextAlignment(.center)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(13)
                             .frame(maxWidth: .infinity)
-                            .background(message.type.colorDescriptionBackground)
+                            .background(item.message.type.colorDescriptionBackground)
                     }
                 }
                 .color(Color(MessageType.ColorNames.text.rawValue))
@@ -115,8 +108,16 @@ struct MessageBox: View {
         }.onReceive(self.publisherInsert) { publisher in
             if let message = publisher.object as? Message {
                 Self.counter += 1
-                self.messages[Self.counter] = message
-                self.timerState?.wrappedValue.start(
+                let id = Self.counter
+                let expirationTimer = RealTimer(
+                    tag: id,
+                    onTick: self.onTimerTick
+                )
+                self.messages[id] = (
+                    message: message,
+                    expirationTimer: expirationTimer
+                )
+                expirationTimer.start(
                     tickInterval: Self.MESSAGE_LIFE_TIME
                 )
             }
@@ -148,14 +149,14 @@ struct Message_Previews2: PreviewProvider {
     static var previews: some View {
         ScrollView {
             MessageBox(messages: [
-                0: Message(type: .info   , title: "Info"),
-                1: Message(type: .ok     , title: "Ok"),
-                2: Message(type: .warning, title: "Warning"),
-                3: Message(type: .error  , title: "Error"),
-                4: Message(type: .info   , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-                5: Message(type: .ok     , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-                6: Message(type: .warning, title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-                7: Message(type: .error  , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+                0: (message: Message(type: .info   , title: "Info"   ), expirationTimer: nil),
+                1: (message: Message(type: .ok     , title: "Ok"     ), expirationTimer: nil),
+                2: (message: Message(type: .warning, title: "Warning"), expirationTimer: nil),
+                3: (message: Message(type: .error  , title: "Error"  ), expirationTimer: nil),
+                4: (message: Message(type: .info   , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."), expirationTimer: nil),
+                5: (message: Message(type: .ok     , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."), expirationTimer: nil),
+                6: (message: Message(type: .warning, title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."), expirationTimer: nil),
+                7: (message: Message(type: .error  , title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."), expirationTimer: nil),
             ])
         }
         .frame(maxWidth: 300)
