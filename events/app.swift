@@ -16,8 +16,10 @@ import SwiftUI
     }
 
     init() {
-        Self.dispatcher.on("messageInsert") { _ in print("messageInsert") }
-        Self.dispatcher.on("messageDelete") { _ in print("messageDelete") }
+        Self.dispatcher.on("messageInsert") { _ in print("messageInsert 1") }
+        Self.dispatcher.on("messageInsert") { _ in print("messageInsert 2") }
+        Self.dispatcher.on("messageDelete") { _ in print("messageDelete 1") }
+        Self.dispatcher.on("messageDelete") { _ in print("messageDelete 2") }
     }
 
     @ViewBuilder func buttonInsert(title: String, type: MessageType, text: String) -> some View {
@@ -30,16 +32,15 @@ import SwiftUI
                 )
             )
         } label: {
-            Text(title)
-                .frame(maxWidth: .infinity)
+            Text(title).frame(maxWidth: .infinity)
         }
     }
 
-    @ViewBuilder func buttonDelete() -> some View {
+    @ViewBuilder func buttonDelete(title: String) -> some View {
         Button {
             Self.dispatcher.send("messageDelete", object: [])
         } label: {
-            Text("delete all")
+            Text(title)
         }
     }
 
@@ -52,7 +53,7 @@ import SwiftUI
                 self.buttonInsert(title: "Send Ok Message"     , type: .ok     , text: "Ok message.")
                 self.buttonInsert(title: "Send Warning Message", type: .warning, text: "Warning message!")
                 self.buttonInsert(title: "Send Error Message"  , type: .error  , text: "Error message!")
-                self.buttonDelete()
+                self.buttonDelete(title: "delete all")
             }
             .padding(10)
             .frame(maxWidth: 200, maxHeight: .infinity)

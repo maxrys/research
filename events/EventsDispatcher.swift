@@ -16,9 +16,7 @@ class EventsDispatcher {
 
     func publisher( _ type: String) -> NotificationCenter.Publisher? {
         if (self.publisherBag[type] == nil) {
-            self.publisherBag[type] = NotificationCenter.default.publisher(
-                for: Notification.Name(type)
-            )
+            self.publisherBag[type] = NotificationCenter.default.publisher(for: Notification.Name(type))
             self.publisherBag[type]!.sink(receiveValue: { notification in
                 for handler in self.handlers[type] ?? [] {
                     handler(notification.object!)

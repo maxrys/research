@@ -19,8 +19,9 @@ enum MessageType {
 
 }
 
-struct Message: Hashable {
+struct Message: Hashable, Identifiable {
 
+    internal var id = UUID()
     var type: MessageType
     var text: String
 
