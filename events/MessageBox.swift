@@ -63,6 +63,23 @@ struct MessageBox: View {
     private let publisherInsert = EventsDispatcher.shared.publisher("messageInsert")!
     private let publisherDelete = EventsDispatcher.shared.publisher("messageDelete")!
 
+    static func send(type: MessageType, title: String, description: String = "") {
+        EventsDispatcher.shared.send(
+            "messageInsert",
+            object: Message(
+                type       : type,
+                title      : title,
+                description: description
+            )
+        )
+    }
+
+    static func deleteAll() {
+        EventsDispatcher.shared.send(
+            "messageDelete", object: []
+        )
+    }
+
     var body: some View {
         VStack (spacing: 0) {
             ForEach(self.messages, id: \.self) { message in

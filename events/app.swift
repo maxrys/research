@@ -7,8 +7,6 @@ import SwiftUI
 
 @main struct app: App {
 
-    static let dispatcher = EventsDispatcher.shared
-
     var body: some Scene {
         WindowGroup {
             self.mainScene
@@ -16,18 +14,15 @@ import SwiftUI
     }
 
     init() {
-        Self.dispatcher.on("messageInsert") { _ in print("messageInsert 1") }
-        Self.dispatcher.on("messageInsert") { _ in print("messageInsert 2") }
-        Self.dispatcher.on("messageDelete") { _ in print("messageDelete 1") }
-        Self.dispatcher.on("messageDelete") { _ in print("messageDelete 2") }
+        EventsDispatcher.shared.on("messageInsert") { _ in print("messageInsert 1") }
+        EventsDispatcher.shared.on("messageInsert") { _ in print("messageInsert 2") }
+        EventsDispatcher.shared.on("messageDelete") { _ in print("messageDelete 1") }
+        EventsDispatcher.shared.on("messageDelete") { _ in print("messageDelete 2") }
     }
 
     @ViewBuilder func buttonInsert(text: String, type: MessageType, title: String, description: String = "") -> some View {
         Button {
-            Self.dispatcher.send(
-                "messageInsert",
-                object: Message(type: type, title: title, description: description)
-            )
+            MessageBox.send(type: type, title: title, description: description)
         } label: {
             Text(text).frame(maxWidth: .infinity)
         }
@@ -35,7 +30,7 @@ import SwiftUI
 
     @ViewBuilder func buttonDelete(text: String) -> some View {
         Button {
-            Self.dispatcher.send("messageDelete", object: [])
+            MessageBox.deleteAll()
         } label: {
             Text(text)
         }
@@ -60,7 +55,16 @@ import SwiftUI
             .frame(maxWidth: 240, maxHeight: .infinity)
             .background(.gray)
 
-            /* MARK: message box */
+            /* MARK: message box 1 */
+            VStack(spacing: 10) {
+                ScrollView {
+                    MessageBox()
+                }
+            }
+            .padding(10)
+            .frame(maxWidth: 200, maxHeight: .infinity, alignment: .top)
+
+            /* MARK: message box 2 */
             VStack(spacing: 10) {
                 ScrollView {
                     MessageBox()
