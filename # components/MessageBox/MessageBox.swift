@@ -63,13 +63,15 @@ struct MessageBox: View {
         )
     ]
 
-    private static var MESSAGE_LIFE_TIME: Double = 2.0
-    private static var counter: UInt = 0
+    static let PUBLISHER_NAME_FOR_MESSAGE_INSERT = "messageInsert"
+    static let PUBLISHER_NAME_FOR_MESSAGE_DELETE = "messageDelete"
+    static var MESSAGE_LIFE_TIME: Double = 1.0
+    static var counter: UInt = 0
 
-    @State var messages: MessagesCollection
+    @State private var messages: MessagesCollection
 
-    private let publisherInsert = EventsDispatcher.shared.publisher("messageInsert")!
-    private let publisherDelete = EventsDispatcher.shared.publisher("messageDelete")!
+    private let publisherInsert = EventsDispatcher.shared.publisher(Self.PUBLISHER_NAME_FOR_MESSAGE_INSERT)!
+    private let publisherDelete = EventsDispatcher.shared.publisher(Self.PUBLISHER_NAME_FOR_MESSAGE_DELETE)!
 
     init(messages: MessagesCollection = [:]) {
         self.messages = messages
@@ -78,7 +80,9 @@ struct MessageBox: View {
     func onTimerTick(offset: Double, timer: RealTimer) {
         timer.stopAndReset()
         self.messages[timer.tag] = nil
-        print("onTimerTick: \(offset) | \(timer.tag)")
+        #if DEBUG
+            print("onTimerTick: \(offset) | \(timer.tag)")
+        #endif
     }
 
     var body: some View {
@@ -122,13 +126,15 @@ struct MessageBox: View {
                 )
             }
         }.onReceive(self.publisherDelete) { _ in
+            for item in self.messages {
+                item.value.expirationTimer?.stopAndReset() }
             self.messages = [:]
         }
     }
 
     static func send(type: MessageType, title: String, description: String = "") {
         EventsDispatcher.shared.send(
-            "messageInsert",
+            MessageBox.PUBLISHER_NAME_FOR_MESSAGE_INSERT,
             object: Message(
                 type       : type,
                 title      : title,
@@ -139,7 +145,8 @@ struct MessageBox: View {
 
     static func deleteAll() {
         EventsDispatcher.shared.send(
-            "messageDelete", object: []
+            MessageBox.PUBLISHER_NAME_FOR_MESSAGE_DELETE,
+            object: []
         )
     }
 

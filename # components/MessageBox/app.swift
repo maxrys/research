@@ -17,10 +17,10 @@ import SwiftUI
     }
 
     init() {
-        EventsDispatcher.shared.on("messageInsert") { _ in print("messageInsert 1") }
-        EventsDispatcher.shared.on("messageInsert") { _ in print("messageInsert 2") }
-        EventsDispatcher.shared.on("messageDelete") { _ in print("messageDelete 1") }
-        EventsDispatcher.shared.on("messageDelete") { _ in print("messageDelete 2") }
+        EventsDispatcher.shared.on(MessageBox.PUBLISHER_NAME_FOR_MESSAGE_INSERT) { _ in print("messageInsert 1") }
+        EventsDispatcher.shared.on(MessageBox.PUBLISHER_NAME_FOR_MESSAGE_INSERT) { _ in print("messageInsert 2") }
+        EventsDispatcher.shared.on(MessageBox.PUBLISHER_NAME_FOR_MESSAGE_DELETE) { _ in print("messageDelete 1") }
+        EventsDispatcher.shared.on(MessageBox.PUBLISHER_NAME_FOR_MESSAGE_DELETE) { _ in print("messageDelete 2") }
     }
 
     @ViewBuilder func buttonInsert(text: String, type: MessageType, title: String, description: String = "") -> some View {
