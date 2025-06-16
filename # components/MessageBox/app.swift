@@ -23,7 +23,11 @@ import SwiftUI
 
     @ViewBuilder func buttonInsert(text: String, type: MessageType, title: String, description: String = "") -> some View {
         Button {
-            MessageBox.send(type: type, title: title, description: description)
+            MessageBox.insert(
+                type: type,
+                title: title,
+                description: description
+            )
         } label: {
             Text(text).frame(maxWidth: .infinity)
         }

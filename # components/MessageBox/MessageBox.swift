@@ -133,7 +133,7 @@ struct MessageBox: View {
         }
     }
 
-    static func send(type: MessageType, title: String, description: String = "") {
+    static func insert(type: MessageType, title: String, description: String = "") {
         EventsDispatcher.shared.send(
             MessageBox.PUBLISHER_NAME_FOR_MESSAGE_INSERT,
             object: Message(
