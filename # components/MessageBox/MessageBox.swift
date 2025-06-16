@@ -67,15 +67,15 @@ struct MessageBox: View {
         )
     ]
 
-    static let PUBLISHER_NAME_FOR_MESSAGE_INSERT = "messageInsert"
-    static let PUBLISHER_NAME_FOR_MESSAGE_DELETE = "messageDelete"
+    static let EVENT_NAME_FOR_MESSAGE_INSERT = "messageInsert"
     static var MESSAGE_LIFE_TIME: Double = 1.0
     static var counter: UInt = 0
 
     @State private var messages: MessagesCollection
 
-    private let publisherInsert = EventsDispatcher.shared.publisher(Self.PUBLISHER_NAME_FOR_MESSAGE_INSERT)!
-    private let publisherDelete = EventsDispatcher.shared.publisher(Self.PUBLISHER_NAME_FOR_MESSAGE_DELETE)!
+    private let publisherForInsert = EventsDispatcher.shared.publisher(
+        Self.EVENT_NAME_FOR_MESSAGE_INSERT
+    )!
 
     init(messages: MessagesCollection = [:]) {
         self.messages = messages
@@ -84,10 +84,6 @@ struct MessageBox: View {
     func onTimerTick(offset: Double, timer: RealTimer) {
         timer.stopAndReset()
         self.messages[timer.tag] = nil
-        EventsDispatcher.shared.send(
-            MessageBox.PUBLISHER_NAME_FOR_MESSAGE_DELETE,
-            object: []
-        )
     }
 
     var body: some View {
@@ -114,7 +110,7 @@ struct MessageBox: View {
                 .color(Color(MessageType.ColorNames.text.rawValue))
                 .frame(maxWidth: .infinity)
             }
-        }.onReceive(self.publisherInsert) { publisher in
+        }.onReceive(self.publisherForInsert) { publisher in
             if let message = publisher.object as? Message {
                 Self.counter += 1
                 let id = Self.counter
@@ -135,7 +131,7 @@ struct MessageBox: View {
 
     static func insert(type: MessageType, title: String, description: String = "") {
         EventsDispatcher.shared.send(
-            MessageBox.PUBLISHER_NAME_FOR_MESSAGE_INSERT,
+            MessageBox.EVENT_NAME_FOR_MESSAGE_INSERT,
             object: Message(
                 type       : type,
                 title      : title,

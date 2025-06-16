@@ -17,8 +17,9 @@ import SwiftUI
     }
 
     init() {
-        EventsDispatcher.shared.on(MessageBox.PUBLISHER_NAME_FOR_MESSAGE_INSERT) { _ in print("message: messageInsert") }
-        EventsDispatcher.shared.on(MessageBox.PUBLISHER_NAME_FOR_MESSAGE_DELETE) { _ in print("message: messageDelete") }
+        EventsDispatcher.shared.on(MessageBox.EVENT_NAME_FOR_MESSAGE_INSERT) { _ in
+            print("message: messageInsert")
+        }
     }
 
     @ViewBuilder func buttonInsert(text: String, type: MessageType, title: String, description: String = "") -> some View {
