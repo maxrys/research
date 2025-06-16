@@ -1,4 +1,8 @@
 
+/* ################################################################## */
+/* ### Copyright © 2024—2025 Maxim Rysevets. All rights reserved. ### */
+/* ################################################################## */
+
 import SwiftUI
 
 enum MessageType {
@@ -80,9 +84,10 @@ struct MessageBox: View {
     func onTimerTick(offset: Double, timer: RealTimer) {
         timer.stopAndReset()
         self.messages[timer.tag] = nil
-        #if DEBUG
-            print("onTimerTick: \(offset) | \(timer.tag)")
-        #endif
+        EventsDispatcher.shared.send(
+            MessageBox.PUBLISHER_NAME_FOR_MESSAGE_DELETE,
+            object: []
+        )
     }
 
     var body: some View {
@@ -125,10 +130,6 @@ struct MessageBox: View {
                     tickInterval: Self.MESSAGE_LIFE_TIME
                 )
             }
-        }.onReceive(self.publisherDelete) { _ in
-            for item in self.messages {
-                item.value.expirationTimer?.stopAndReset() }
-            self.messages = [:]
         }
     }
 
@@ -140,13 +141,6 @@ struct MessageBox: View {
                 title      : title,
                 description: description
             )
-        )
-    }
-
-    static func deleteAll() {
-        EventsDispatcher.shared.send(
-            MessageBox.PUBLISHER_NAME_FOR_MESSAGE_DELETE,
-            object: []
         )
     }
 

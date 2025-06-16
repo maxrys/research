@@ -17,10 +17,8 @@ import SwiftUI
     }
 
     init() {
-        EventsDispatcher.shared.on(MessageBox.PUBLISHER_NAME_FOR_MESSAGE_INSERT) { _ in print("messageInsert 1") }
-        EventsDispatcher.shared.on(MessageBox.PUBLISHER_NAME_FOR_MESSAGE_INSERT) { _ in print("messageInsert 2") }
-        EventsDispatcher.shared.on(MessageBox.PUBLISHER_NAME_FOR_MESSAGE_DELETE) { _ in print("messageDelete 1") }
-        EventsDispatcher.shared.on(MessageBox.PUBLISHER_NAME_FOR_MESSAGE_DELETE) { _ in print("messageDelete 2") }
+        EventsDispatcher.shared.on(MessageBox.PUBLISHER_NAME_FOR_MESSAGE_INSERT) { _ in print("message: messageInsert") }
+        EventsDispatcher.shared.on(MessageBox.PUBLISHER_NAME_FOR_MESSAGE_DELETE) { _ in print("message: messageDelete") }
     }
 
     @ViewBuilder func buttonInsert(text: String, type: MessageType, title: String, description: String = "") -> some View {
@@ -28,14 +26,6 @@ import SwiftUI
             MessageBox.send(type: type, title: title, description: description)
         } label: {
             Text(text).frame(maxWidth: .infinity)
-        }
-    }
-
-    @ViewBuilder func buttonDelete(text: String) -> some View {
-        Button {
-            MessageBox.deleteAll()
-        } label: {
-            Text(text)
         }
     }
 
@@ -52,7 +42,6 @@ import SwiftUI
                 self.buttonInsert(text: "Send Ok Message + Descr."     , type: .ok     , title:      "Ok message", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
                 self.buttonInsert(text: "Send Warning Message + Descr.", type: .warning, title: "Warning message", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
                 self.buttonInsert(text: "Send Error Message + Descr."  , type: .error  , title:   "Error message", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
-                self.buttonDelete(text: "delete all")
             }
             .padding(10)
             .frame(maxWidth: 240, maxHeight: .infinity)
