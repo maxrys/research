@@ -22,8 +22,9 @@ class EventsDispatcher {
         if (self.publisherBag[type] == nil) {
             self.publisherBag[type] = NotificationCenter.default.publisher(for: Notification.Name(type))
             self.publisherBag[type]!.sink(receiveValue: { notification in
+                guard let event = notification.object else { return }
                 for handler in self.handlers[type] ?? [] {
-                    handler(notification.object!)
+                    handler(event)
                 }
             }).store(in: &self.cancellableBag)
         }
