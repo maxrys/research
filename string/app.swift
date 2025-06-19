@@ -57,9 +57,12 @@ import SwiftUI
         print(string[3, 6] == "вет!")
 
         print("")
-        print(string[-100, +100] == "Привет!")
-        print(string[-100] == "П" )
-        print(string[+100] == "!" )
+        print(string[-100] == "П")
+        print(string[+100] == "!")
+        print(string[100,   0] == "Привет!")
+        print(string[  0, 100] == "Привет!")
+        print(string[  3, 1] == "рив")
+        print(string[100, 1] == "ривет!")
 
     }
 
