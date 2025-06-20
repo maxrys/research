@@ -11,7 +11,6 @@ struct WindowInfo: Identifiable {
 
 @main struct app: App {
 
-    @Environment(\.scenePhase) private var scenePhase
     @Environment(\.openWindow) private var openWindow
 
     var body: some Scene {
