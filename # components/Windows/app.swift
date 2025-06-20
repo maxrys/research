@@ -35,9 +35,13 @@ struct WindowInfo: Identifiable {
 }
 
 struct ContentView: View {
+    @State private var value: UInt = 0
     let windowId: WindowInfo.ID
     var body: some View {
-        Text("Window ID: \(self.windowId)")
-            .padding(20)
+        VStack {
+            Text("Window ID: \(self.windowId)")
+            Button("Increment") { self.value += 1 }
+            Text("Counter: \(self.value)")
+        }.padding(20)
     }
 }
