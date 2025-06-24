@@ -8,15 +8,15 @@ import SwiftUI
 enum MessageType {
 
     enum ColorNames: String {
-        case text                         = "color Message Text"
-        case infoTitleBackground          = "color Message Info Title Background"
-        case infoDescriptionBackground    = "color Message Info Description Background"
-        case okTitleBackground            = "color Message Ok Title Background"
-        case okDescriptionBackground      = "color Message Ok Description Background"
-        case warningTitleBackground       = "color Message Warning Title Background"
-        case warningDescriptionBackground = "color Message Warning Description Background"
-        case errorTitleBackground         = "color Message Error Title Background"
-        case errorDescriptionBackground   = "color Message Error Description Background"
+        case text                         = "color MessageBox Text"
+        case infoTitleBackground          = "color MessageBox Info Title Background"
+        case infoDescriptionBackground    = "color MessageBox Info Description Background"
+        case okTitleBackground            = "color MessageBox Ok Title Background"
+        case okDescriptionBackground      = "color MessageBox Ok Description Background"
+        case warningTitleBackground       = "color MessageBox Warning Title Background"
+        case warningDescriptionBackground = "color MessageBox Warning Description Background"
+        case errorTitleBackground         = "color MessageBox Error Title Background"
+        case errorDescriptionBackground   = "color MessageBox Error Description Background"
     }
 
     case info
