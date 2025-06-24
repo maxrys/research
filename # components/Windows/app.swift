@@ -5,16 +5,12 @@
 
 import SwiftUI
 
-struct WindowInfo: Identifiable {
-    var id: String = ""
-}
-
 @main struct app: App {
 
     @Environment(\.openWindow) private var openWindow
 
     var body: some Scene {
-        WindowGroup(for: WindowInfo.ID.self) { $windowId in
+        WindowGroup(for: String.self) { $windowId in
             if let windowId {
                 /* MARK: Child Windows */
                 ContentView(
@@ -35,7 +31,7 @@ struct WindowInfo: Identifiable {
 
 struct ContentView: View {
     @State private var value: UInt = 0
-    let windowId: WindowInfo.ID
+    let windowId: String
     var body: some View {
         VStack {
             Text("Window ID: \(self.windowId)")
