@@ -19,12 +19,19 @@ import SwiftUI
             } else {
                 /* MARK: Parent Window */
                 VStack {
-                    Button("Open Window 1") { openWindow(value: "1") }
-                    Button("Open Window 2") { openWindow(value: "2") }
-                    Button("Open Window 3") { openWindow(value: "3") }
+                    Button("Open Window value=1") { openWindow(value: "value=1") }
+                    Button("Open Window value=2") { openWindow(value: "value=2") }
+                    Button("Open Window value=3") { openWindow(value: "value=3") }
+                    Button("Open Window id=1") { openWindow(id: "id=1") }
+                    Button("Open Window id=2") { openWindow(id: "id=2") }
+                    Button("Open Window id=3") { openWindow(id: "id=3") }
                 }.padding(20)
             }
         }.windowResizability(.contentSize)
+
+        Window("app", id: "id=1") { ContentView(windowId: "id=1") }.windowResizability(.contentSize)
+        Window("app", id: "id=2") { ContentView(windowId: "id=1") }.windowResizability(.contentSize)
+        Window("app", id: "id=3") { ContentView(windowId: "id=1") }.windowResizability(.contentSize)
     }
 
 }
