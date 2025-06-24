@@ -7,31 +7,47 @@ import SwiftUI
 
 @main struct app: App {
 
-    @Environment(\.openWindow) private var openWindow
+    @Environment(\.openWindow)    private var openWindow
+    @Environment(\.dismissWindow) private var dismissWindow
+
+    init() {
+    }
 
     var body: some Scene {
+        Window("main", id: "main") {
+            VStack {
+                Button("Open Window value=1") { openWindow(value: "value=1") }
+                Button("Open Window value=2") { openWindow(value: "value=2") }
+                Button("Open Window value=3") { openWindow(value: "value=3") }
+                Button("Open Window id=1") { openWindow(id: "id=1") }
+                Button("Open Window id=2") { openWindow(id: "id=2") }
+                Button("Open Window id=3") { openWindow(id: "id=3") }
+            }
+            .padding(20)
+            .onAppear {
+                dismissWindow(id: "id=1")
+                dismissWindow(id: "id=2")
+                dismissWindow(id: "id=3")
+                dismissWindow(value: "value=1")
+                dismissWindow(value: "value=2")
+                dismissWindow(value: "value=3")
+            }
+        }
+        .windowResizability(.contentSize)
+        .restorationBehavior(.disabled)
+
+        Window("app", id: "id=1") { ContentView(windowId: "id=1") }.windowResizability(.contentSize).restorationBehavior(.disabled)
+        Window("app", id: "id=2") { ContentView(windowId: "id=1") }.windowResizability(.contentSize).restorationBehavior(.disabled)
+        Window("app", id: "id=3") { ContentView(windowId: "id=1") }.windowResizability(.contentSize).restorationBehavior(.disabled)
+
         WindowGroup(for: String.self) { $value in
             if let value {
-                /* MARK: Child Windows */
-                ContentView(
-                    windowId: value
-                )
-            } else {
-                /* MARK: Parent Window */
-                VStack {
-                    Button("Open Window value=1") { openWindow(value: "value=1") }
-                    Button("Open Window value=2") { openWindow(value: "value=2") }
-                    Button("Open Window value=3") { openWindow(value: "value=3") }
-                    Button("Open Window id=1") { openWindow(id: "id=1") }
-                    Button("Open Window id=2") { openWindow(id: "id=2") }
-                    Button("Open Window id=3") { openWindow(id: "id=3") }
-                }.padding(20)
+                ContentView(windowId: value)
             }
-        }.windowResizability(.contentSize)
+        }
+        .windowResizability(.contentSize)
+        .restorationBehavior(.disabled)
 
-        Window("app", id: "id=1") { ContentView(windowId: "id=1") }.windowResizability(.contentSize)
-        Window("app", id: "id=2") { ContentView(windowId: "id=1") }.windowResizability(.contentSize)
-        Window("app", id: "id=3") { ContentView(windowId: "id=1") }.windowResizability(.contentSize)
     }
 
 }
