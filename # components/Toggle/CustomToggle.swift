@@ -7,9 +7,9 @@ import SwiftUI
 
 struct CustomToggle: View {
 
-    var w: CGFloat = 50
-    var h: CGFloat = 30
-    var p: CGFloat = 3
+    var width: CGFloat = 50
+    var height: CGFloat = 22
+    var innerPadding: CGFloat = 3
 
     private var text: String
     private var isOn: Binding<Bool>
@@ -49,12 +49,12 @@ struct CustomToggle: View {
         } label: {
             Capsule()
                 .fill(self.isOn.wrappedValue ? .green : .black.opacity(0.3))
-                .frame(width: self.w, height: self.h)
+                .frame(width: self.width, height: self.height)
                 .overlay(alignment: self.isOn.wrappedValue ? .trailing : .leading) {
-                    Circle()
+                    Capsule()
                         .fill(.white)
-                        .frame(width: self.h - (self.p * 2), height: self.h - (self.p * 2))
-                        .padding(self.p)
+                        .frame(width: (self.height * 1.5) - (self.innerPadding * 2), height: self.height - (self.innerPadding * 2))
+                        .padding(self.innerPadding)
                         .shadow(
                             color: .black.opacity(0.5),
                             radius: 2.0
