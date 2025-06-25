@@ -13,9 +13,9 @@ import SwiftUI
         WindowGroup {
             VStack(alignment: .leading) {
 
-                CustomToggle(text: "Custom Toggle", isFlexible: true, isOn: self.$isOn) { isOn in }
-                CustomToggle(text: "Custom Toggle", isFlexible: true, isOn: self.$isOn) { isOn in }
-                CustomToggle(text: "Custom Toggle", isFlexible: true, isOn: self.$isOn) { isOn in }
+                ToggleCustom(text: "Custom Toggle", isFlexible: true, isOn: self.$isOn) { isOn in }
+                ToggleCustom(text: "Custom Toggle", isFlexible: true, isOn: self.$isOn) { isOn in }
+                ToggleCustom(text: "Custom Toggle", isFlexible: true, isOn: self.$isOn) { isOn in }
 
             }.frame(maxWidth: 300)
         }

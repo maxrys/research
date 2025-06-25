@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-struct CustomButton: View {
+struct ButtonCustom: View {
 
     enum Colors: String {
         case text                 = "color CustomButton Text"

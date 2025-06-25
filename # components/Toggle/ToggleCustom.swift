@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-struct CustomToggle: View {
+struct ToggleCustom: View {
 
     var width: CGFloat = 50
     var height: CGFloat = 22
@@ -68,7 +68,7 @@ struct CustomToggle: View {
 @available(macOS 14.0, *) #Preview {
     @Previewable @State var isOn: Bool = false
     HStack {
-        CustomToggle(
+        ToggleCustom(
             text: "Test",
             isOn: $isOn
         ).frame(width: 100, height: 50)
