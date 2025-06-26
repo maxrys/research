@@ -26,9 +26,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		500895402DD9DD4A00414588 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = app.app; path = "/Volumes/dev/xcode/# research/data/build/Debug/app.app"; sourceTree = "<absolute>"; };
-		500895412DD9DD4A00414588 /* test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = test.xctest; path = "/Volumes/dev/xcode/# research/data/build/Debug/app.app/Contents/PlugIns/test.xctest"; sourceTree = "<absolute>"; };
 		500895422DD9DD6000414588 /* UInt64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt64.swift; sourceTree = "<group>"; };
+		50114DFB2E0D6AFA00024326 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		50114DFC2E0D6AFA00024326 /* test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		502554E72D5268AA005F475E /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		502555352D526A29005F475E /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
@@ -61,6 +61,8 @@
 				500895422DD9DD6000414588 /* UInt64.swift */,
 				502554E72D5268AA005F475E /* Data.swift */,
 				502555352D526A29005F475E /* test.swift */,
+				50114DFB2E0D6AFA00024326 /* app.app */,
+				50114DFC2E0D6AFA00024326 /* test.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -84,7 +86,7 @@
 			packageProductDependencies = (
 			);
 			productName = test;
-			productReference = 500895412DD9DD4A00414588 /* test.xctest */;
+			productReference = 50114DFC2E0D6AFA00024326 /* test.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		50993B672D33C4C900195667 /* app */ = {
@@ -103,7 +105,7 @@
 			packageProductDependencies = (
 			);
 			productName = forEach;
-			productReference = 500895402DD9DD4A00414588 /* app.app */;
+			productReference = 50114DFB2E0D6AFA00024326 /* app.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -205,7 +207,7 @@
 				DEVELOPMENT_TEAM = 97CZR6J379;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = maxrys.test;
+				PRODUCT_BUNDLE_IDENTIFIER = maxrys.research.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -222,7 +224,7 @@
 				DEVELOPMENT_TEAM = 97CZR6J379;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = maxrys.test;
+				PRODUCT_BUNDLE_IDENTIFIER = maxrys.research.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -369,7 +371,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = maxrys.forEach;
+				PRODUCT_BUNDLE_IDENTIFIER = maxrys.research;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -397,7 +399,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = maxrys.forEach;
+				PRODUCT_BUNDLE_IDENTIFIER = maxrys.research;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
