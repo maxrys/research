@@ -46,19 +46,31 @@ enum MessageType {
 
 struct Message: Hashable {
 
+    enum LifeTime {
+        case infinity
+        case time(Double)
+    }
+
+    static var LIFE_TIME: Double = 3.0
+
     let type: MessageType
     let title: String
     let description: String
 
     init(type: MessageType, title: String, description: String = "") {
+        self.type = type
         self.title = title
         self.description = description
-        self.type = type
     }
 
 }
 
 struct MessageBox: View {
+
+    typealias MessageCollection = [UInt: (
+        message: Message,
+        expirationTimer: RealTimer?
+    )]
 
     class ValueState<T>: ObservableObject {
         @Published var value: T
@@ -66,18 +78,6 @@ struct MessageBox: View {
             self.value = value
         }
     }
-
-    enum LifeTime {
-        case infinity
-        case time(Double)
-    }
-
-    typealias MessageCollection = [UInt: (
-        message: Message,
-        expirationTimer: RealTimer?
-    )]
-
-    static var MESSAGE_LIFE_TIME: Double = 3.0
 
     @ObservedObject private var messages = ValueState<MessageCollection>([:])
     @ObservedObject private var messageCurrentID = ValueState<UInt>(0)
@@ -109,13 +109,14 @@ struct MessageBox: View {
         }
     }
 
-    func insert(type: MessageType, title: String, description: String = "", lifeTime: LifeTime = .time(Self.MESSAGE_LIFE_TIME)) {
+    func insert(type: MessageType, title: String, description: String = "", lifeTime: Message.LifeTime = .time(Message.LIFE_TIME)) {
         self.messageCurrentID.value += 1
+        let id = self.messageCurrentID.value
         let expirationTimer = RealTimer(
-            tag: self.messageCurrentID.value,
+            tag: id,
             onTick: self.onTimerTick
         )
-        self.messages.value[self.messageCurrentID.value] = (
+        self.messages.value[id] = (
             message: Message(type: type, title: title, description: description),
             expirationTimer: expirationTimer
         )
@@ -140,10 +141,10 @@ struct MessageBox: View {
             result.insert(type: .ok     , title: "Ok"     , lifeTime: .infinity)
             result.insert(type: .warning, title: "Warning", lifeTime: .infinity)
             result.insert(type: .error  , title: "Error"  , lifeTime: .infinity)
-            result.insert(type: .info   , title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", lifeTime: .infinity)
-            result.insert(type: .ok     , title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", lifeTime: .infinity)
-            result.insert(type: .warning, title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", lifeTime: .infinity)
-            result.insert(type: .error  , title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", lifeTime: .infinity)
+            result.insert(type: .info   , title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", lifeTime: .time(3))
+            result.insert(type: .ok     , title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", lifeTime: .time(4))
+            result.insert(type: .warning, title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", lifeTime: .time(5))
+            result.insert(type: .error  , title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", lifeTime: .time(6))
         return result
     }()
     ScrollView {
