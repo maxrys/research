@@ -5,9 +5,11 @@
 
 import SwiftUI
 
-@Observable final class ValueState<T> {
-    var wrappedValue: T
-    init(_ value: T) {
-        self.wrappedValue = value
+extension View {
+
+    @ViewBuilder func contentShapePolyfill<S: Shape>(_ shape: S = Capsule()) -> some View {
+        if #available(macOS 12.0, *) { self.contentShape(.focusEffect, shape) }
+        else                         { self }
     }
+
 }
