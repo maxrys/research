@@ -65,6 +65,12 @@ struct Message: Hashable {
         self.expireAfter = expireAfter
     }
 
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.type)
+        hasher.combine(self.title)
+        hasher.combine(self.description)
+    }
+
 }
 
 struct MessageBox: View {
@@ -109,6 +115,11 @@ struct MessageBox: View {
             }
         }.onReceive(self.publisherForInsert) { publisher in
             if let message = publisher.object as? Message {
+                for current in self.messages {
+                    if (message == current.value.message) {
+                        return
+                    }
+                }
                 Self.counter += 1
                 let id = Self.counter
                 let expirationTimer = RealTimer(
