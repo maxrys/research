@@ -72,13 +72,6 @@ struct MessageBox: View {
         expirationTimer: RealTimer?
     )]
 
-    class ValueState<T>: ObservableObject {
-        @Published var value: T
-        init(_ value: T) {
-            self.value = value
-        }
-    }
-
     @ObservedObject private var messages = ValueState<MessageCollection>([:])
     @ObservedObject private var messageCurrentID = ValueState<UInt>(0)
 

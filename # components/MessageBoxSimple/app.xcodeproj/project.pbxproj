@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		501939E32E0FEAFE00711283 /* ValueState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501939E22E0FEAFE00711283 /* ValueState.swift */; };
 		50583D952DFBFA5200013BD0 /* MessageBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50583D942DFBFA4F00013BD0 /* MessageBox.swift */; };
 		50583D9B2DFEF04B00013BD0 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50583D9A2DFEF04B00013BD0 /* Media.xcassets */; };
 		50583D9F2DFEF3BC00013BD0 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50583D9E2DFEF3BC00013BD0 /* View.swift */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		501939E22E0FEAFE00711283 /* ValueState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueState.swift; sourceTree = "<group>"; };
 		50583D942DFBFA4F00013BD0 /* MessageBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBox.swift; sourceTree = "<group>"; };
 		50583D9A2DFEF04B00013BD0 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		50583D9E2DFEF3BC00013BD0 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -40,6 +42,7 @@
 			children = (
 				50583D9E2DFEF3BC00013BD0 /* View.swift */,
 				50583DA12DFF046200013BD0 /* RealTimer.swift */,
+				501939E22E0FEAFE00711283 /* ValueState.swift */,
 			);
 			path = shared;
 			sourceTree = "<group>";
@@ -142,6 +145,7 @@
 				50583D952DFBFA5200013BD0 /* MessageBox.swift in Sources */,
 				50583DA22DFF046200013BD0 /* RealTimer.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
+				501939E32E0FEAFE00711283 /* ValueState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
