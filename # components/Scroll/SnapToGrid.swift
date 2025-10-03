@@ -10,10 +10,6 @@ struct SnapToGrid: View {
     @State var iconSize: CGFloat = 100
     @State var iconSpacing: CGFloat = 20
 
-    var scrollFrame: CGFloat {
-        self.iconSize + self.iconSpacing
-    }
-
     var body: some View {
         ScrollView([.horizontal, .vertical]) {
             VStack(spacing: self.iconSpacing) {
@@ -38,11 +34,12 @@ struct SnapToGrid: View {
         .scrollDisabled(false)
         .scrollPosition(self.$scrollPosition)
         .onScrollPhaseChange { oldPhase, newPhase, context in
+            let scrollFrame = self.iconSize + self.iconSpacing
             if (oldPhase != newPhase) {
                 if (newPhase == .idle) {
                     self.scrollPosition.scrollTo(
-                        x: (context.geometry.contentOffset.x / self.scrollFrame).rounded() * self.scrollFrame,
-                        y: (context.geometry.contentOffset.y / self.scrollFrame).rounded() * self.scrollFrame
+                        x: (context.geometry.contentOffset.x / scrollFrame).rounded() * scrollFrame,
+                        y: (context.geometry.contentOffset.y / scrollFrame).rounded() * scrollFrame
                     )
                 }
             }
