@@ -10,6 +10,7 @@ import SwiftUI
     var body: some Scene {
         WindowGroup {
             SnapToElement()
+            SnapToGrid()
         }.windowResizability(.contentSize)
     }
 
