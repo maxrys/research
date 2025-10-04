@@ -17,9 +17,13 @@ import SwiftUI
                 .ignoresSafeArea(.all)
                 .onAppear {
                     if let window = NSApplication.shared.windows.first {
-                        window.standardWindowButton(.closeButton)?.isHidden = true
-                        window.standardWindowButton(.miniaturizeButton)?.isHidden = true
-                        window.standardWindowButton(.zoomButton)?.isHidden = true
+                        window.styleMask = [
+                            .fullSizeContentView,
+                            .titled,
+                         // .closable,
+                         // .miniaturizable,
+                         // .resizable,
+                        ]
                     }
                 }
         }
