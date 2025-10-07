@@ -3,48 +3,29 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
 
     var body: some View {
-        NavigationSplitView {
-            List {
+        VStack(spacing: 10) {
+            Button("+") {
+                let newItem = Item(timestamp: Date())
+                modelContext.insert(newItem)
+            }
+            ScrollView {
                 ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
+                    HStack {
                         Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .navigationSplitViewColumnWidth(min: 180, ideal: 200)
-            .toolbar {
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                        Button("X") {
+                            modelContext.delete(item)
+                        }
                     }
                 }
             }
-        } detail: {
-            Text("Select an item")
-        }
+        }.padding(10)
     }
 
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
-        }
-    }
 }
 
 #Preview {

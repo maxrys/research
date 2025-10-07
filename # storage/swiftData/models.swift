@@ -1,4 +1,5 @@
 
+import Foundation
 import SwiftData
 
 extension ModelContainer {
@@ -21,5 +22,15 @@ extension ModelContainer {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
+
+}
+
+@Model final class Item {
+
+    var timestamp: Date
+
+    init(timestamp: Date) {
+        self.timestamp = timestamp
+    }
 
 }

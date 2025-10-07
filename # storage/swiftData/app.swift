@@ -7,8 +7,7 @@ import SwiftData
     var body: some Scene {
         WindowGroup {
             ContentView()
-        }
-        .modelContainer(ModelContainer.shared)
+        }.modelContainer(ModelContainer.shared)
     }
 
 }
