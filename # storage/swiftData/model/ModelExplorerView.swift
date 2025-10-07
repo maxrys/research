@@ -2,15 +2,15 @@
 import SwiftUI
 import SwiftData
 
-struct ContentView: View {
+struct ModelExplorerView: View {
 
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    @Query private var items: [ModelItem]
 
     var body: some View {
         VStack(spacing: 10) {
             Button("+") {
-                let newItem = Item(timestamp: Date())
+                let newItem = ModelItem(timestamp: Date())
                 modelContext.insert(newItem)
             }
             ScrollView {
@@ -29,6 +29,10 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+    ModelExplorerView()
+        .frame(width: 300)
+        .modelContainer(
+            for: ModelItem.self,
+            inMemory: true
+        )
 }

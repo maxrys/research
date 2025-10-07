@@ -1,12 +1,11 @@
 
-import Foundation
 import SwiftData
 
 extension ModelContainer {
 
     static var shared: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            ModelItem.self,
         ])
         let modelConfiguration = ModelConfiguration(
             schema: schema,
@@ -24,12 +23,4 @@ extension ModelContainer {
 
 }
 
-@Model final class Item {
 
-    var timestamp: Date
-
-    init(timestamp: Date) {
-        self.timestamp = timestamp
-    }
-
-}
