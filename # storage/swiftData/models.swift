@@ -13,11 +13,10 @@ extension ModelContainer {
             isStoredInMemoryOnly: false
         )
         do {
-            let modelContainer = try ModelContainer(
+            return try ModelContainer(
                 for: schema,
                 configurations: [modelConfiguration]
             )
-            return modelContainer
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
