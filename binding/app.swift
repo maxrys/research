@@ -12,6 +12,7 @@ import SwiftUI
             VStack(spacing: 10) {
                 DemoProxyView()
                 DemoOptionalView()
+                DemoProxyState()
             }
         }
     }
