@@ -9,20 +9,14 @@ import SwiftUI
 
 extension Color {
 
-    typealias _PickerPropSignature = (
-        text          : Self,
-        border        : Self,
-        background    : Self,
-        itemText      : Self,
-        itemBackground: Self,
-    )
+    struct PickerColorSet {
+        let text           = Color("color PickerCustom Text")
+        let border         = Color("color PickerCustom Border")
+        let background     = Color("color PickerCustom Background")
+        let itemText       = Color("color PickerCustom Item Text")
+        let itemBackground = Color("color PickerCustom Item Background")
+    }
 
-    static var picker: (_PickerPropSignature) {(
-        text          : Self("color PickerCustom Text"),
-        border        : Self("color PickerCustom Border"),
-        background    : Self("color PickerCustom Background"),
-        itemText      : Self("color PickerCustom Item Text"),
-        itemBackground: Self("color PickerCustom Item Background"),
-    )}
+    static let picker = PickerColorSet()
 
 }
