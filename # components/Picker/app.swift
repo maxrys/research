@@ -23,17 +23,17 @@ import SwiftUI
             VStack(spacing: 20) {
 
                 VStack {
-                    PickerCustomColored<UInt>(selected: $selected, values: values)
-                    PickerCustomColored<UInt>(selected: $selected, values: values, flexibility: .none)
-                    PickerCustomColored<UInt>(selected: $selected, values: values, flexibility: .size(100))
-                    PickerCustomColored<UInt>(selected: $selected, values: values, flexibility: .infinity)
-                }
-
-                VStack {
                     PickerCustom<UInt>(selected: $selected, values: values)
                     PickerCustom<UInt>(selected: $selected, values: values, flexibility: .none)
                     PickerCustom<UInt>(selected: $selected, values: values, flexibility: .size(100))
                     PickerCustom<UInt>(selected: $selected, values: values, flexibility: .infinity)
+                }
+
+                VStack {
+                    PickerCustomSimple<UInt>(selected: $selected, values: values)
+                    PickerCustomSimple<UInt>(selected: $selected, values: values, flexibility: .none)
+                    PickerCustomSimple<UInt>(selected: $selected, values: values, flexibility: .size(100))
+                    PickerCustomSimple<UInt>(selected: $selected, values: values, flexibility: .infinity)
                 }
 
             }.padding(30)

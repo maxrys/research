@@ -7,7 +7,6 @@ import SwiftUI
 
 struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
-    @Environment(\.colorScheme) private var colorScheme
     @State private var isOpened: Bool
     @State private var hovered: Key?
            private var selected: Binding<Key>
@@ -46,7 +45,8 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                 .padding(.horizontal, 9)
                 .padding(.vertical  , 5)
                 .flexibility(self.flexibility)
-                .background(Color(NSColor.controlBackgroundColor).opacity(self.colorScheme == .light ? 1.0 : 0.7))
+                .background(Color.picker.background)
+                .foregroundPolyfill(Color.picker.text)
                 .contentShapePolyfill(RoundedRectangle(cornerRadius: 10))
                 .cornerRadius(10)
         }
@@ -64,15 +64,16 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                     var backgroundColor: Color {
                         if (self.selected.wrappedValue == key) { return Color.accentColor.opacity(0.5) }
                         if (self.hovered               == key) { return Color.accentColor.opacity(0.2) }
-                        if (self.isPlainListStyle != true && self.colorScheme == .dark) { return Color(NSColor.darkGray) }
-                        if (self.isPlainListStyle != true && self.colorScheme != .dark) { return Color(NSColor.lightGray) }
-                        return Color.clear
+                        return self.isPlainListStyle ?
+                            Color.clear :
+                            Color.picker.itemBackground
                     }
                     Text(value)
                         .lineLimit(1)
                         .padding(.horizontal, 9)
                         .padding(.vertical  , 5)
                         .frame(maxWidth: .infinity, alignment: self.isPlainListStyle ? .leading : .center)
+                        .foregroundPolyfill(Color.picker.itemText)
                         .background(backgroundColor)
                         .contentShapePolyfill(RoundedRectangle(cornerRadius: 10))
                         .cornerRadius(10)
