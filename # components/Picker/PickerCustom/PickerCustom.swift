@@ -49,8 +49,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                 .background {
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.picker.border, lineWidth: 4)
-                        .background(Color.picker.background)
-                }
+                        .background(Color.picker.background) }
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .contentShapePolyfill(RoundedRectangle(cornerRadius: 10))
         }
