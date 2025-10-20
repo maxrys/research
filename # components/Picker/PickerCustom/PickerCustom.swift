@@ -45,10 +45,14 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                 .padding(.horizontal, 9)
                 .padding(.vertical  , 5)
                 .flexibility(self.flexibility)
-                .background(Color.picker.background)
                 .foregroundPolyfill(Color.picker.text)
+                .background {
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.picker.border, lineWidth: 4)
+                        .background(Color.picker.background)
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 10))
                 .contentShapePolyfill(RoundedRectangle(cornerRadius: 10))
-                .cornerRadius(10)
         }
         .buttonStyle(.plain)
         .onHoverCursor()
