@@ -7,12 +7,6 @@ import SwiftUI
 
 struct PickerCustomColored<Key>: View where Key: Hashable & Comparable {
 
-    enum ColorNames: String {
-        case text           = "color PickerCustom Text"
-        case background     = "color PickerCustom Background"
-        case itemBackground = "color PickerCustom Item Background"
-    }
-
     @State private var isOpened: Bool
     @State private var hovered: Key?
            private var selected: Binding<Key>
@@ -51,8 +45,8 @@ struct PickerCustomColored<Key>: View where Key: Hashable & Comparable {
                 .padding(.horizontal, 9)
                 .padding(.vertical  , 5)
                 .flexibility(self.flexibility)
-                .background(Color(Self.ColorNames.background.rawValue))
-                .foregroundPolyfill(Color(Self.ColorNames.text.rawValue))
+                .background(Color.picker.background)
+                .foregroundPolyfill(Color.picker.text)
                 .contentShapePolyfill(RoundedRectangle(cornerRadius: 10))
                 .cornerRadius(10)
         }
@@ -72,14 +66,14 @@ struct PickerCustomColored<Key>: View where Key: Hashable & Comparable {
                         if (self.hovered               == key) { return Color.accentColor.opacity(0.2) }
                         return self.isPlainListStyle ?
                             Color.clear :
-                            Color(Self.ColorNames.itemBackground.rawValue)
+                            Color.picker.itemBackground
                     }
                     Text(value)
                         .lineLimit(1)
                         .padding(.horizontal, 9)
                         .padding(.vertical  , 5)
                         .frame(maxWidth: .infinity, alignment: self.isPlainListStyle ? .leading : .center)
-                        .foregroundPolyfill(Color(Self.ColorNames.text.rawValue))
+                        .foregroundPolyfill(Color.picker.itemText)
                         .background(backgroundColor)
                         .contentShapePolyfill(RoundedRectangle(cornerRadius: 10))
                         .cornerRadius(10)

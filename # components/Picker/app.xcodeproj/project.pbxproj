@@ -12,6 +12,7 @@
 		5013DB792E9FBEF900BEDC5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5013DB782E9FBEF900BEDC5E /* Assets.xcassets */; };
 		5013DB7B2E9FBF6200BEDC5E /* enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5013DB7A2E9FBF5F00BEDC5E /* enums.swift */; };
 		5013DB7F2E9FC07300BEDC5E /* PickerCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5013DB7E2E9FC07300BEDC5E /* PickerCustom.swift */; };
+		508D6CEA2EA62DB600885E95 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D6CE92EA62DB600885E95 /* Color.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
 /* End PBXBuildFile section */
 
@@ -21,6 +22,7 @@
 		5013DB782E9FBEF900BEDC5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5013DB7A2E9FBF5F00BEDC5E /* enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = enums.swift; sourceTree = "<group>"; };
 		5013DB7E2E9FC07300BEDC5E /* PickerCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerCustom.swift; sourceTree = "<group>"; };
+		508D6CE92EA62DB600885E95 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		50993B682D33C4C900195667 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
@@ -37,16 +39,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		508D6CEB2EA62DC400885E95 /* shared */ = {
+			isa = PBXGroup;
+			children = (
+				5013DB7A2E9FBF5F00BEDC5E /* enums.swift */,
+				508D6CE92EA62DB600885E95 /* Color.swift */,
+				50114E832E0E93E100024326 /* View.swift */,
+			);
+			path = shared;
+			sourceTree = "<group>";
+		};
 		50993B5F2D33C4C900195667 = {
 			isa = PBXGroup;
 			children = (
-				50993B742D33C4CD00195667 /* app.entitlements */,
-				5013DB7A2E9FBF5F00BEDC5E /* enums.swift */,
+				508D6CEB2EA62DC400885E95 /* shared */,
 				50993B6B2D33C4C900195667 /* app.swift */,
-				50114E832E0E93E100024326 /* View.swift */,
 				5013DB762E9FBEEF00BEDC5E /* PickerCustomColored.swift */,
 				5013DB7E2E9FC07300BEDC5E /* PickerCustom.swift */,
 				5013DB782E9FBEF900BEDC5E /* Assets.xcassets */,
+				50993B742D33C4CD00195667 /* app.entitlements */,
 				50993B692D33C4C900195667 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -138,6 +149,7 @@
 				50114E842E0E93E300024326 /* View.swift in Sources */,
 				5013DB7B2E9FBF6200BEDC5E /* enums.swift in Sources */,
 				5013DB772E9FBEEF00BEDC5E /* PickerCustomColored.swift in Sources */,
+				508D6CEA2EA62DB600885E95 /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
