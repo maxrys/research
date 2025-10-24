@@ -46,7 +46,7 @@ var dictIntKeysEmpty: [Int: String] = [:]
             ForEach(dictIntKeys.ordered(), id: \.key) { key, value in
                 Text("\(key) = \(value)")
             }
-            
+
             ForEach(dictStrKeys.ordered(), id: \.key) { key, value in
                 Text("\(key) = \(value)")
             }
@@ -54,13 +54,13 @@ var dictIntKeysEmpty: [Int: String] = [:]
             ForEach(dictComplex.ordered(), id: \.key) { key, value in
                 Text("\(key) = \(value)")
             }
-            
+
             ForEach(dictIntKeysEmpty.ordered(), id: \.key) { key, value in
                 Text("\(key) = \(value)")
             }
-            
+
             // simple Dictionary
-            
+
             ForEach(dictStrKeys.sorted(by: <), id: \.key) { key, value in
                 Text("\(key) = \(value)")
             }
@@ -72,45 +72,45 @@ var dictIntKeysEmpty: [Int: String] = [:]
             ForEach(Array(dictStrKeys), id: \.key) { key, value in
                 Text("\(key) = \(value)")
             }
-            
+
             ForEach(Array(dictStrKeys.keys), id: \.self) { key in
                 if let value = dictStrKeys[key] {
                     Text("\(key) = \(value)")
                 }
             }
-            
+
             ForEach(Array(dictStrKeys.values), id: \.self) { value in
                 Text("\(value)")
             }
-            
+
             ForEach(Array(dictStrKeys.indices), id: \.self) { index in
                 let key   = dictStrKeys[index].key
                 let value = dictStrKeys[index].value
                 Text("\(key) = \(value)")
             }
-            
+
             // complex Dictionary
-            
+
             ForEach(Array(dictComplex), id: \.key) { key, value in
                 Text("BEST: \(key) = \(value.a):\(value.b)")
             }
-            
+
             ForEach(Array(dictComplex.keys), id: \.self) { key in
                 if let value = dictComplex[key] {
                     Text("\(key) = \(value.a):\(value.b)")
                 }
             }
-            
+
             ForEach(Array(dictComplex.values), id: \.self) { value in
                 Text("\(value.a):\(value.b)")
             }
-            
+
             ForEach(Array(dictComplex.indices), id: \.self) { index in
                 let key   = dictComplex[index].key
                 let value = dictComplex[index].value
                 Text("\(key) = \(value.a):\(value.b)")
             }
-            
+
         }}
     }
 

@@ -22,18 +22,24 @@ import SwiftUI
         WindowGroup {
             VStack(spacing: 20) {
 
-                VStack {
-                    PickerCustom<UInt>(selected: $selected, values: values)
-                    PickerCustom<UInt>(selected: $selected, values: values, flexibility: .none)
-                    PickerCustom<UInt>(selected: $selected, values: values, flexibility: .size(100))
-                    PickerCustom<UInt>(selected: $selected, values: values, flexibility: .infinity)
+                Picker("", selection: self.$selected) {
+                    ForEach(self.values.ordered(), id: \.key) { key, value in
+                        Text(value)
+                    }
                 }
 
                 VStack {
-                    PickerCustomSimple<UInt>(selected: $selected, values: values)
-                    PickerCustomSimple<UInt>(selected: $selected, values: values, flexibility: .none)
-                    PickerCustomSimple<UInt>(selected: $selected, values: values, flexibility: .size(100))
-                    PickerCustomSimple<UInt>(selected: $selected, values: values, flexibility: .infinity)
+                    PickerCustom<UInt>(selected: self.$selected, values: self.values)
+                    PickerCustom<UInt>(selected: self.$selected, values: self.values, flexibility: .none)
+                    PickerCustom<UInt>(selected: self.$selected, values: self.values, flexibility: .size(100))
+                    PickerCustom<UInt>(selected: self.$selected, values: self.values, flexibility: .infinity)
+                }
+
+                VStack {
+                    PickerCustomSimple<UInt>(selected: self.$selected, values: self.values)
+                    PickerCustomSimple<UInt>(selected: self.$selected, values: self.values, flexibility: .none)
+                    PickerCustomSimple<UInt>(selected: self.$selected, values: self.values, flexibility: .size(100))
+                    PickerCustomSimple<UInt>(selected: self.$selected, values: self.values, flexibility: .infinity)
                 }
 
             }.padding(30)
