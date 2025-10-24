@@ -17,6 +17,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
     private let isPlainListStyle: Bool
     private let flexibility: Flexibility
     private let colorSet: ColorSet
+    private let cornerRadius: CGFloat = 10
 
     init(selected: Binding<Key>, values: [Key: String], isPlainListStyle: Bool = false, flexibility: Flexibility = .none, colorSet: ColorSet = Color.picker) {
         self.selected         = selected
@@ -51,11 +52,11 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                 .flexibility(self.flexibility)
                 .foregroundPolyfill(self.colorSet.text)
                 .background {
-                    RoundedRectangle(cornerRadius: 10)
+                    RoundedRectangle(cornerRadius: self.cornerRadius)
                         .stroke(self.colorSet.border, lineWidth: 4)
                         .background(self.colorSet.background) }
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .contentShapePolyfill(RoundedRectangle(cornerRadius: 10))
+                .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
+                .contentShapePolyfill(RoundedRectangle(cornerRadius: self.cornerRadius))
         }
         .buttonStyle(.plain)
         .onHoverCursor()
@@ -81,8 +82,8 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                         .frame(maxWidth: .infinity, alignment: self.isPlainListStyle ? .leading : .center)
                         .foregroundPolyfill(self.colorSet.itemText)
                         .background(backgroundColor)
-                        .contentShapePolyfill(RoundedRectangle(cornerRadius: 10))
-                        .cornerRadius(10)
+                        .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
+                        .contentShapePolyfill(RoundedRectangle(cornerRadius: self.cornerRadius))
                         .onHover { isHovered in
                             self.hovered = isHovered ? key : nil
                         }
