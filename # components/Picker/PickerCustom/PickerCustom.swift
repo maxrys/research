@@ -7,6 +7,8 @@ import SwiftUI
 
 struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
+    typealias ColorSet = Color.PickerColorSet
+
     @State private var isOpened: Bool
     @State private var hovered: Key?
            private var selected: Binding<Key>
@@ -14,12 +16,14 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
     private let values: [Key: String]
     private let isPlainListStyle: Bool
     private let flexibility: Flexibility
+    private let colorSet: ColorSet
 
-    init(selected: Binding<Key>, values: [Key: String], isPlainListStyle: Bool = false, flexibility: Flexibility = .none) {
+    init(selected: Binding<Key>, values: [Key: String], isPlainListStyle: Bool = false, flexibility: Flexibility = .none, colorSet: ColorSet = Color.picker) {
         self.selected         = selected
         self.values           = values
         self.isPlainListStyle = isPlainListStyle
         self.flexibility      = flexibility
+        self.colorSet         = colorSet
         self.isOpened         = false
     }
 
@@ -45,11 +49,11 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                 .padding(.horizontal, 9)
                 .padding(.vertical  , 5)
                 .flexibility(self.flexibility)
-                .foregroundPolyfill(Color.picker.text)
+                .foregroundPolyfill(self.colorSet.text)
                 .background {
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.picker.border, lineWidth: 4)
-                        .background(Color.picker.background) }
+                        .stroke(self.colorSet.border, lineWidth: 4)
+                        .background(self.colorSet.background) }
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .contentShapePolyfill(RoundedRectangle(cornerRadius: 10))
         }
@@ -65,18 +69,17 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                     self.isOpened = false
                 } label: {
                     var backgroundColor: Color {
-                        if (self.selected.wrappedValue == key) { return Color.accentColor.opacity(0.5) }
-                        if (self.hovered               == key) { return Color.accentColor.opacity(0.2) }
-                        return self.isPlainListStyle ?
-                            Color.clear :
-                            Color.picker.itemBackground
+                        if (self.selected.wrappedValue == key)   { return self.colorSet.itemSelectedBackground }
+                        if (self.hovered               == key)   { return self.colorSet.itemHoveredBackground }
+                        if (self.isPlainListStyle      == false) { return self.colorSet.itemBackground }
+                        return Color.clear
                     }
                     Text(value)
                         .lineLimit(1)
                         .padding(.horizontal, 9)
                         .padding(.vertical  , 5)
                         .frame(maxWidth: .infinity, alignment: self.isPlainListStyle ? .leading : .center)
-                        .foregroundPolyfill(Color.picker.itemText)
+                        .foregroundPolyfill(self.colorSet.itemText)
                         .background(backgroundColor)
                         .contentShapePolyfill(RoundedRectangle(cornerRadius: 10))
                         .cornerRadius(10)
@@ -137,7 +140,6 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
     }
     .padding(20)
     .frame(width: 200)
-    .background(Color.gray)
 }
 
 @available(macOS 14.0, *) #Preview {
@@ -159,5 +161,4 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
     }
     .padding(20)
     .frame(width: 200)
-    .background(Color.gray)
 }
