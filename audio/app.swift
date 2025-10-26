@@ -10,7 +10,7 @@ let FILE_URL_PIANO_STEREO = Bundle.main.url(forResource: "piano-stereo", withExt
 let FILE_URL_OSCILLATOR   = Bundle.main.url(forResource: "oscillator"  , withExtension: "wav")!
 let FILE_PATH_RESULT      = "/Users/max/Desktop/result.wav"
 
-@main struct app: App {
+@main struct ThisApp: App {
 
     @AppStorage("appTitle") var name = "No title"
 
@@ -25,7 +25,7 @@ let FILE_PATH_RESULT      = "/Users/max/Desktop/result.wav"
     }
 
     var body: some Scene {
-        WindowGroup {
+        Window("Main", id: "main") {
             mainScene
                 .padding(20)
                 .frame(width: 650, height: 500)

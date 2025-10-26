@@ -25,7 +25,7 @@ extension Numeric {
 
 }
 
-@main struct app: App {
+@main struct ThisApp: App {
 
     private var eqState = EqState()
     private let eqLevelsCount: Int = 128
@@ -35,7 +35,7 @@ extension Numeric {
     private var timer: Timer!
 
     var body: some Scene {
-        WindowGroup {
+        Window("Main", id: "main") {
             Equalizer(
                 height    : self.eqHeight,
                 levelWidth: self.eqLevelWidth,

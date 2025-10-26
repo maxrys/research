@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-@main struct app: App {
+@main struct ThisApp: App {
 
     @State var saturation: Double = 0.65
 
@@ -15,7 +15,7 @@ import SwiftUI
     var rows = 100
 
     var body: some Scene {
-        WindowGroup {
+        Window("Main", id: "main") {
             VStack {
 
                 HStack {

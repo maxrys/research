@@ -5,9 +5,10 @@
 
 import SwiftUI
 
-@main struct app: App {
+@main struct ThisApp: App {
+
     var body: some Scene {
-        WindowGroup {
+        Window("Main", id: "main") {
 
             let formattedDate = Date().formatCustom("yyyyMMdd-HHmmss")
             Text("\(formattedDate)")

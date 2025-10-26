@@ -11,9 +11,9 @@ let AV_ENGINE = AVAudioEngine()
     let AV_SESSION = AVAudioSession.sharedInstance()
 #endif
 
-@main struct app: App {
+@main struct ThisApp: App {
     var body: some Scene {
-        WindowGroup {
+        Window("Main", id: "main") {
             Text("Audio Mix")
         }
     }

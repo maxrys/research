@@ -37,9 +37,10 @@ var dictComplex = [
 
 var dictIntKeysEmpty: [Int: String] = [:]
 
-@main struct app: App {
+@main struct ThisApp: App {
+
     var body: some Scene {
-        WindowGroup { ScrollView {
+        Window("Main", id: "main") { ScrollView {
             
             // ordered
             

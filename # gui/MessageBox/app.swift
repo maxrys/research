@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-@main struct app: App {
+@main struct ThisApp: App {
 
     var body: some Scene {
         let window = WindowGroup {
@@ -66,5 +66,5 @@ import SwiftUI
 }
 
 #Preview {
-    app().mainScene
+    ThisApp().mainScene
 }

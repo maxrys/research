@@ -9,17 +9,12 @@ import SwiftUI
 
     var body: some Scene {
         Window("Main", id: "main") {
-            VStack {
-                ButtonCustom(text: "test")
-                ButtonCustom(text: "test", zoom: 1.5)
-                ButtonCustom(text: "test", zoom: 2.0)
-                ButtonCustom(text: "test", zoom: 2.5)
-                ButtonCustom(text: "test", zoom: 3.0)
-            }.padding(10)
+            Text("test")
         }
     }
 
     init() {
+
     }
 
 }

@@ -91,12 +91,12 @@ struct ArrayDictIterator<Element>: Sequence, IteratorProtocol {
 
 }
 
-@main struct app: App {
+@main struct ThisApp: App {
 
     let intIterator = IntIterator(3)
 
     var body: some Scene {
-        WindowGroup {
+        Window("Main", id: "main") {
 
             ForEach(self.intIterator.sorted(), id: \.self) { value in
                 Text("\(value)")

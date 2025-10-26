@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-@main struct app: App {
+@main struct ThisApp: App {
 
     @State private var isOn: Bool = false
 

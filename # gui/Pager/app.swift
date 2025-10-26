@@ -15,10 +15,10 @@ let PAGES_COLORNAME_ITEM        = "color Pages Item"
 let PAGES_COLORNAME_ITEM_ACTIVE = "color Pages Item Active"
 let PAGES_COLORNAME_BACKGROUND  = "color Pages Background"
 
-@main struct app: App {
+@main struct ThisApp: App {
 
     var body: some Scene {
-        WindowGroup {
+        Window("Main", id: "main") {
 
             ViewScroll()
 

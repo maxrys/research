@@ -5,10 +5,10 @@
 
 import SwiftUI
 
-@main struct app: App {
+@main struct ThisApp: App {
 
     var body: some Scene {
-        WindowGroup {
+        Window("Main", id: "main") {
             Text("JSON")
         }
     }
@@ -17,7 +17,6 @@ import SwiftUI
         print(""); print("test_JSONSerialization():"); test_JSONSerialization()
         print(""); print("test_JSONEncoder():");       test_JSONEncoder()
         print(""); print("test_JSONDecoder():");       test_JSONDecoder()
-
         print(""); print("test_jsBlockerRules_JSONSerialization():"); test_jsBlockerRules_JSONSerialization()
         print(""); print("test_jsBlockerRules_JSONEncoder():");       test_jsBlockerRules_JSONEncoder()
     }

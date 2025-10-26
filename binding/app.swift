@@ -5,10 +5,10 @@
 
 import SwiftUI
 
-@main struct app: App {
+@main struct ThisApp: App {
 
     var body: some Scene {
-        WindowGroup {
+        Window("Main", id: "main") {
             VStack(spacing: 10) {
                 DemoProxyView()
                 DemoOptionalView()

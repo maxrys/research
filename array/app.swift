@@ -25,9 +25,9 @@ let arrayTuples = [
     (key: 1, value: ComplexStruct(a: "value 2.1", b: "value 2.2")),
 ]
 
-@main struct app: App {
+@main struct ThisApp: App {
     var body: some Scene {
-        WindowGroup {
+        Window("Main", id: "main") {
 
             ForEach(0 ..< array.count, id: \.self) { key in
                 Text("\(key)")
