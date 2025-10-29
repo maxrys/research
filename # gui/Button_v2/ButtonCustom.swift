@@ -7,26 +7,7 @@ import SwiftUI
 
 struct ButtonCustom: View {
 
-    enum Style {
-
-        case accent
-        case custom
-
-        var colorText: Color {
-            switch self {
-                case .accent: Color.white
-                case .custom: Color("color ButtonCustom Text")
-            }
-        }
-
-        var colorBackground: Color {
-            switch self {
-                case .accent: Color.accentColor
-                case .custom: Color("color ButtonCustom Background")
-            }
-        }
-
-    }
+    typealias Style = Color.ButtonColorSet.Style
 
     @Environment(\.colorScheme) private var colorScheme
 
@@ -35,7 +16,12 @@ struct ButtonCustom: View {
     private let flexibility: Flexibility
     private let onClick: () -> Void
 
-    init(_ text: String = "button", style: Style = .accent, flexibility: Flexibility = .none, onClick: @escaping () -> Void = { }) {
+    init(
+        _ text: String = "button",
+        style: Style = .accent,
+        flexibility: Flexibility = .none,
+        onClick: @escaping () -> Void = { }
+    ) {
         self.text        = text
         self.style       = style
         self.flexibility = flexibility
@@ -48,11 +34,11 @@ struct ButtonCustom: View {
                 .lineLimit(1)
                 .flexibility(self.flexibility)
                 .font(.system(size: 12, weight: .regular))
-                .foregroundPolyfill(self.style.colorText)
+                .foregroundPolyfill(self.style.text)
                 .padding(.init(top: 6, leading: 10, bottom: 7, trailing: 10))
                 .background(
                     RoundedRectangle(cornerRadius: 7)
-                        .fillGradientPolyfill(self.style.colorBackground)
+                        .fillGradientPolyfill(self.style.background)
                         .shadow(
                             color: self.colorScheme == .dark ?
                                 .black.opacity(1.0) :
