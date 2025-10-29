@@ -15,6 +15,7 @@ import SwiftUI
                 ButtonCustom(flexibility: .size(100))
                 ButtonCustom(flexibility: .infinity)
                 ButtonCustom(style: .accent)
+                ButtonCustom(style: .danger)
                 ButtonCustom(style: .custom)
             }.padding(10)
         }
