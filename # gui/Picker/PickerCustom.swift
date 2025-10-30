@@ -26,7 +26,13 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
         )
     }
 
-    init(selected: Binding<Key>, values: [Key: String], isPlainListStyle: Bool = false, flexibility: Flexibility = .none, colorSet: ColorSet = Color.picker) {
+    init(
+        selected: Binding<Key>,
+        values: [Key: String],
+        isPlainListStyle: Bool = false,
+        flexibility: Flexibility = .none,
+        colorSet: ColorSet = Color.picker
+    ) {
         self.selectedKey = selected
         self.values = values
         self.isPlainListStyle = isPlainListStyle
