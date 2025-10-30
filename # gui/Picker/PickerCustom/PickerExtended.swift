@@ -43,6 +43,7 @@ struct PickerExtended<Key>: View where Key: Hashable & Comparable {
             self.main
                 .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow  .rawValue) { self.isOpened = true }
                 .onKeyPressPolyfill(character: KeyEquivalentPolyfill.downArrow.rawValue) { self.isOpened = true }
+                .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return   .rawValue) { self.isOpened = true }
                 .popover(isPresented: self.$isOpened) {
                     ScrollViewReader { proxy in
                         ScrollView(.vertical) {

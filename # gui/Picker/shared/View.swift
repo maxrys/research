@@ -6,11 +6,11 @@
 import SwiftUI
 
 enum KeyEquivalentPolyfill: String {
-    case upArrow    = "\u{F700}"
-    case downArrow  = "\u{F701}"
-    case leftArrow  = "\u{F702}"
-    case rightArrow = "\u{F703}"
-    case `return`   = "\n"
+    case upArrow    = "\u{f700}"
+    case downArrow  = "\u{f701}"
+    case leftArrow  = "\u{f702}"
+    case rightArrow = "\u{f703}"
+    case `return`   = "\u{000d}"
 }
 
 extension View {
