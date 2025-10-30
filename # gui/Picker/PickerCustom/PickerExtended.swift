@@ -5,13 +5,14 @@
 
 import SwiftUI
 
-struct PickerCustom<Key>: View where Key: Hashable & Comparable {
+struct PickerExtended<Key>: View where Key: Hashable & Comparable {
 
     typealias ColorSet = Color.PickerColorSet
 
     @State private var isOpened: Bool
     @State private var hovered: Key?
-           private var selected: Binding<Key>
+    @State private var selectedIndex: Int = 0
+           private var selectedKey: Binding<Key>
 
     private let values: [Key: String]
     private let isPlainListStyle: Bool
@@ -19,8 +20,14 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
     private let colorSet: ColorSet
     private let cornerRadius: CGFloat = 10
 
+    private var valuesList: [(key: Key, value: String)] {
+        self.values.sorted(
+            by: { $0.key < $1.key }
+        )
+    }
+
     init(selected: Binding<Key>, values: [Key: String], isPlainListStyle: Bool = false, flexibility: Flexibility = .none, colorSet: ColorSet = Color.picker) {
-        self.selected = selected
+        self.selectedKey = selected
         self.values = values
         self.isPlainListStyle = isPlainListStyle
         self.flexibility = flexibility
@@ -36,7 +43,45 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
             self.main
                 .popover(isPresented: self.$isOpened) {
                     if (self.values.count <= 10) { self.list }
-                    else { ScrollView(.vertical) { self.list }.frame(maxHeight: 370) }
+                    else {
+                        if #available(macOS 14.0, *) {
+                            ScrollViewReader { proxy in
+                                ScrollView(.vertical) {
+                                    self.list
+                                }
+                                .frame(maxHeight: 370)
+                                .onKeyPress(phases: .down) { press in
+                                    let list = self.valuesList
+                                    if (press.key == .downArrow) {
+                                        if (self.selectedIndex < list.count - 1) {
+                                            self.selectedIndex += 1
+                                            self.selectedKey.wrappedValue = list[self.selectedIndex].key
+                                            proxy.scrollTo(
+                                                self.selectedKey.wrappedValue
+                                            )
+                                        }
+                                    }
+                                    if (press.key == .upArrow) {
+                                        if (self.selectedIndex > 0) {
+                                            self.selectedIndex -= 1
+                                            self.selectedKey.wrappedValue = list[self.selectedIndex].key
+                                            proxy.scrollTo(
+                                                self.selectedKey.wrappedValue
+                                            )
+                                        }
+                                    }
+                                    if (press.key == .return) {
+                                        self.isOpened = false
+                                    }
+                                    return .handled
+                                }
+                            }
+                        } else {
+                            ScrollView(.vertical) {
+                                self.list
+                            }.frame(maxHeight: 370)
+                        }
+                    }
                 }
         }
     }
@@ -45,7 +90,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
         Button {
             self.isOpened = true
         } label: {
-            Text(self.values[self.selected.wrappedValue] ?? ThisApp.NA_SIGN)
+            Text(self.values[self.selectedKey.wrappedValue] ?? ThisApp.NA_SIGN)
                 .lineLimit(1)
                 .padding(.horizontal, 9)
                 .padding(.vertical  , 5)
@@ -64,18 +109,19 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
     @ViewBuilder var list: some View {
         VStack (alignment: .leading, spacing: 6) {
-            ForEach(self.values.sorted(by: { $0.key < $1.key }), id: \.key) { key, value in
+            ForEach(Array(valuesList.enumerated()), id: \.element.key) { index, element in
                 Button {
-                    self.selected.wrappedValue = key
+                    self.selectedKey.wrappedValue = element.key
+                    self.selectedIndex = index
                     self.isOpened = false
                 } label: {
                     var backgroundColor: Color {
-                        if (self.selected.wrappedValue == key)   { return self.colorSet.itemSelectedBackground }
-                        if (self.hovered               == key)   { return self.colorSet.itemHoveredBackground }
-                        if (self.isPlainListStyle      == false) { return self.colorSet.itemBackground }
+                        if (self.selectedKey.wrappedValue == element.key) { return self.colorSet.itemSelectedBackground }
+                        if (self.hovered                  == element.key) { return self.colorSet.itemHoveredBackground }
+                        if (self.isPlainListStyle         == false      ) { return self.colorSet.itemBackground }
                         return Color.clear
                     }
-                    Text(value)
+                    Text(element.value)
                         .lineLimit(1)
                         .padding(.horizontal, 9)
                         .padding(.vertical  , 5)
@@ -85,9 +131,11 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                         .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
                         .contentShapePolyfill(RoundedRectangle(cornerRadius: self.cornerRadius))
                         .onHover { isHovered in
-                            self.hovered = isHovered ? key : nil
+                            self.hovered = isHovered ? element.key : nil
                         }
-                }.buttonStyle(.plain)
+                }
+                .buttonStyle(.plain)
+                .id(element.key)
             }
         }.padding(10)
     }
@@ -107,8 +155,8 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
         VStack {
             Text("No value:").font(.headline)
-            PickerCustom<UInt>(selected: $selectedV1, values: valuesV1, isPlainListStyle: true)
-            PickerCustom<UInt>(selected: $selectedV1, values: valuesV1)
+            PickerExtended<UInt>(selected: $selectedV1, values: valuesV1, isPlainListStyle: true)
+            PickerExtended<UInt>(selected: $selectedV1, values: valuesV1)
         }
 
         /* single value */
@@ -119,8 +167,8 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
         VStack {
             Text("Single value:").font(.headline)
-            PickerCustom<UInt>(selected: $selectedV2, values: valuesV2, isPlainListStyle: true)
-            PickerCustom<UInt>(selected: $selectedV2, values: valuesV2)
+            PickerExtended<UInt>(selected: $selectedV2, values: valuesV2, isPlainListStyle: true)
+            PickerExtended<UInt>(selected: $selectedV2, values: valuesV2)
         }
 
         /* multiple values */
@@ -134,8 +182,8 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
         VStack {
             Text("Multiple values:").font(.headline)
-            PickerCustom<UInt>(selected: $selectedV3, values: valuesV3, isPlainListStyle: true)
-            PickerCustom<UInt>(selected: $selectedV3, values: valuesV3)
+            PickerExtended<UInt>(selected: $selectedV3, values: valuesV3, isPlainListStyle: true)
+            PickerExtended<UInt>(selected: $selectedV3, values: valuesV3)
         }
 
     }
@@ -155,7 +203,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
     VStack {
         Text("String ID:").font(.headline)
-        PickerCustom<String>(selected: $selected, values: values)
+        PickerExtended<String>(selected: $selected, values: values)
     }
     .padding(20)
     .frame(width: 200)
@@ -173,10 +221,10 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
     VStack {
         Text("Flexibility:").font(.headline)
-        PickerCustom<UInt>(selected: $selected, values: values)
-        PickerCustom<UInt>(selected: $selected, values: values, flexibility: .none)
-        PickerCustom<UInt>(selected: $selected, values: values, flexibility: .size(100))
-        PickerCustom<UInt>(selected: $selected, values: values, flexibility: .infinity)
+        PickerExtended<UInt>(selected: $selected, values: values)
+        PickerExtended<UInt>(selected: $selected, values: values, flexibility: .none)
+        PickerExtended<UInt>(selected: $selected, values: values, flexibility: .size(100))
+        PickerExtended<UInt>(selected: $selected, values: values, flexibility: .infinity)
     }
     .padding(20)
     .frame(width: 200)

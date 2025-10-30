@@ -22,20 +22,35 @@ import SwiftUI
         WindowGroup {
             VStack(spacing: 20) {
 
-                Picker("", selection: self.$selected) {
-                    ForEach(self.values.ordered(), id: \.key) { key, value in
-                        Text(value)
+                VStack {
+                    Text("Picker").font(.headline)
+                    Picker("", selection: self.$selected) {
+                        ForEach(self.values.ordered(), id: \.key) { key, value in
+                            Text(value)
+                        }
                     }
                 }
 
                 VStack {
+                    Text("PickerCustom").font(.headline)
                     PickerCustom<UInt>(selected: self.$selected, values: self.values)
                     PickerCustom<UInt>(selected: self.$selected, values: self.values, flexibility: .none)
                     PickerCustom<UInt>(selected: self.$selected, values: self.values, flexibility: .size(100))
                     PickerCustom<UInt>(selected: self.$selected, values: self.values, flexibility: .infinity)
                 }
 
+                if #available(macOS 14.0, *) {
+                    VStack {
+                        Text("PickerExtended").font(.headline)
+                        PickerExtended<UInt>(selected: self.$selected, values: self.values)
+                        PickerExtended<UInt>(selected: self.$selected, values: self.values, flexibility: .none)
+                        PickerExtended<UInt>(selected: self.$selected, values: self.values, flexibility: .size(100))
+                        PickerExtended<UInt>(selected: self.$selected, values: self.values, flexibility: .infinity)
+                    }
+                }
+
                 VStack {
+                    Text("PickerCustomSimple").font(.headline)
                     PickerCustomSimple<UInt>(selected: self.$selected, values: self.values)
                     PickerCustomSimple<UInt>(selected: self.$selected, values: self.values, flexibility: .none)
                     PickerCustomSimple<UInt>(selected: self.$selected, values: self.values, flexibility: .size(100))
