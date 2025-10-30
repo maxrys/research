@@ -62,6 +62,10 @@ var dictIntKeysEmpty: [Int: String] = [:]
 
             // simple Dictionary
 
+            ForEach(Array(dictStrKeys.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }).enumerated()), id: \.element.key) { index, element in
+                Text("\(index): \(element.key) = \(element.value)")
+            }
+
             ForEach(dictStrKeys.sorted(by: <), id: \.key) { key, value in
                 Text("\(key) = \(value)")
             }
