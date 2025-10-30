@@ -11,7 +11,8 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
     @State private var isOpened: Bool
     @State private var hovered: Key?
-           private var selected: Binding<Key>
+    @State private var selectedIndex: Int = 0
+           private var selectedKey: Binding<Key>
 
     private let values: [Key: String]
     private let isPlainListStyle: Bool
@@ -19,8 +20,14 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
     private let colorSet: ColorSet
     private let cornerRadius: CGFloat = 10
 
+    private var valuesList: [(key: Key, value: String)] {
+        self.values.sorted(
+            by: { $0.key < $1.key }
+        )
+    }
+
     init(selected: Binding<Key>, values: [Key: String], isPlainListStyle: Bool = false, flexibility: Flexibility = .none, colorSet: ColorSet = Color.picker) {
-        self.selected = selected
+        self.selectedKey = selected
         self.values = values
         self.isPlainListStyle = isPlainListStyle
         self.flexibility = flexibility
@@ -34,11 +41,40 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                 .disabled(true)
         } else {
             self.main
+                .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow  .rawValue) { self.isOpened = true }
+                .onKeyPressPolyfill(character: KeyEquivalentPolyfill.downArrow.rawValue) { self.isOpened = true }
+                .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return   .rawValue) { self.isOpened = true }
                 .popover(isPresented: self.$isOpened) {
-                    ScrollView(.vertical) { self.list }
-                        .scrollDisabledPolyfill(self.values.count <= 10)
+                    ScrollViewReader { proxy in
+                        ScrollView(.vertical) {
+                            self.list
+                        }
                         .frame(maxHeight: 370)
+                        .scrollDisabledPolyfill(self.values.count <= 10)
+                        .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow.rawValue) {
+                            if (self.selectedIndex > 0) {
+                                self.selectedIndex -= 1
+                                self.selectedKey.wrappedValue = self.valuesList[self.selectedIndex].key
+                                proxy.scrollTo(
+                                    self.selectedKey.wrappedValue
+                                )
+                            }
+                        }
+                        .onKeyPressPolyfill(character: KeyEquivalentPolyfill.downArrow.rawValue) {
+                            if (self.selectedIndex < self.valuesList.count - 1) {
+                                self.selectedIndex += 1
+                                self.selectedKey.wrappedValue = self.valuesList[self.selectedIndex].key
+                                proxy.scrollTo(
+                                    self.selectedKey.wrappedValue
+                                )
+                            }
+                        }
+                        .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return.rawValue) {
+                            self.isOpened = false
+                        }
+                    }
                 }
+
         }
     }
 
@@ -46,7 +82,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
         Button {
             self.isOpened = true
         } label: {
-            Text(self.values[self.selected.wrappedValue] ?? ThisApp.NA_SIGN)
+            Text(self.values[self.selectedKey.wrappedValue] ?? ThisApp.NA_SIGN)
                 .lineLimit(1)
                 .padding(.horizontal, 9)
                 .padding(.vertical  , 5)
@@ -65,18 +101,19 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
     @ViewBuilder var list: some View {
         VStack (alignment: .leading, spacing: 6) {
-            ForEach(self.values.sorted(by: { $0.key < $1.key }), id: \.key) { key, value in
+            ForEach(Array(valuesList.enumerated()), id: \.element.key) { index, element in
                 Button {
-                    self.selected.wrappedValue = key
+                    self.selectedKey.wrappedValue = element.key
+                    self.selectedIndex = index
                     self.isOpened = false
                 } label: {
                     var backgroundColor: Color {
-                        if (self.selected.wrappedValue == key)   { return self.colorSet.itemSelectedBackground }
-                        if (self.hovered               == key)   { return self.colorSet.itemHoveredBackground }
-                        if (self.isPlainListStyle      == false) { return self.colorSet.itemBackground }
+                        if (self.selectedKey.wrappedValue == element.key) { return self.colorSet.itemSelectedBackground }
+                        if (self.hovered                  == element.key) { return self.colorSet.itemHoveredBackground }
+                        if (self.isPlainListStyle         == false      ) { return self.colorSet.itemBackground }
                         return Color.clear
                     }
-                    Text(value)
+                    Text(element.value)
                         .lineLimit(1)
                         .padding(.horizontal, 9)
                         .padding(.vertical  , 5)
@@ -86,9 +123,11 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                         .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
                         .contentShapePolyfill(RoundedRectangle(cornerRadius: self.cornerRadius))
                         .onHover { isHovered in
-                            self.hovered = isHovered ? key : nil
+                            self.hovered = isHovered ? element.key : nil
                         }
-                }.buttonStyle(.plain)
+                }
+                .buttonStyle(.plain)
+                .id(element.key)
             }
         }.padding(10)
     }
