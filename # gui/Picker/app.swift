@@ -9,12 +9,29 @@ import SwiftUI
 
     static let NA_SIGN = "—"
 
-    @State var selected: UInt = 0
+    @State var selectedInt: UInt = 0
+    @State var selectedString: String = ""
 
-    let values = {
+    let valuesInt0: [UInt: String] = [:]
+
+    let valuesInt10 = {
+        (0 ..< 10).reduce(into: [UInt: String]()) { result, i in
+            if (i == 5) { result[UInt(i)] = "Value \(i) long long long long long long" }
+            else        { result[UInt(i)] = "Value \(i)" }
+        }
+    }()
+
+    let valuesInt100 = {
         (0 ..< 100).reduce(into: [UInt: String]()) { result, i in
             if (i == 5) { result[UInt(i)] = "Value \(i) long long long long long long" }
             else        { result[UInt(i)] = "Value \(i)" }
+        }
+    }()
+
+    let valuesString100 = {
+        (0 ..< 100).reduce(into: [String: String]()) { result, i in
+            if (i == 5) { result["id:\(i)"] = "Value \(i) long long long long long long" }
+            else        { result["id:\(i)"] = "Value \(i)" }
         }
     }()
 
@@ -22,36 +39,100 @@ import SwiftUI
         WindowGroup {
             HStack(spacing: 20) {
 
-                VStack {
+                VStack(spacing: 20) {
                     Text("PickerCustom").font(.headline)
-                    PickerCustom<UInt>(selected: self.$selected, values: self.values)
-                    PickerCustom<UInt>(selected: self.$selected, values: self.values, flexibility: .none)
-                    PickerCustom<UInt>(selected: self.$selected, values: self.values, flexibility: .size(100))
-                    PickerCustom<UInt>(selected: self.$selected, values: self.values, flexibility: .infinity)
+
+                    VStack {
+                        Text("0 values")
+                        PickerCustom<UInt>(selected: self.$selectedInt, values: self.valuesInt0)
+                    }
+
+                    VStack {
+                        Text("10 values")
+                        PickerCustom<UInt>(selected: self.$selectedInt, values: self.valuesInt10)
+                    }
+
+                    VStack {
+                        Text("100 values + flexibility")
+                        PickerCustom<UInt>(selected: self.$selectedInt, values: self.valuesInt100)
+                        PickerCustom<UInt>(selected: self.$selectedInt, values: self.valuesInt100, flexibility: .none)
+                        PickerCustom<UInt>(selected: self.$selectedInt, values: self.valuesInt100, flexibility: .size(100))
+                        PickerCustom<UInt>(selected: self.$selectedInt, values: self.valuesInt100, flexibility: .infinity)
+                    }
+
+                    VStack {
+                        Text("String values")
+                        PickerCustom<String>(
+                            selected: self.$selectedString,
+                            values: self.valuesString100
+                        )
+                    }
                 }
 
-                if #available(macOS 14.0, *) {
+                VStack(spacing: 20) {
+                    Text("PickerExtended").font(.headline)
+
                     VStack {
-                        Text("PickerExtended").font(.headline)
-                        PickerExtended<UInt>(selected: self.$selected, values: self.values)
-                        PickerExtended<UInt>(selected: self.$selected, values: self.values, flexibility: .none)
-                        PickerExtended<UInt>(selected: self.$selected, values: self.values, flexibility: .size(100))
-                        PickerExtended<UInt>(selected: self.$selected, values: self.values, flexibility: .infinity)
+                        Text("0 values")
+                        PickerExtended<UInt>(selected: self.$selectedInt, values: self.valuesInt0)
+                    }
+
+                    VStack {
+                        Text("10 values")
+                        PickerExtended<UInt>(selected: self.$selectedInt, values: self.valuesInt10)
+                    }
+
+                    VStack {
+                        Text("100 values + flexibility")
+                        PickerExtended<UInt>(selected: self.$selectedInt, values: self.valuesInt100)
+                        PickerExtended<UInt>(selected: self.$selectedInt, values: self.valuesInt100, flexibility: .none)
+                        PickerExtended<UInt>(selected: self.$selectedInt, values: self.valuesInt100, flexibility: .size(100))
+                        PickerExtended<UInt>(selected: self.$selectedInt, values: self.valuesInt100, flexibility: .infinity)
+                    }
+
+                    VStack {
+                        Text("String values")
+                        PickerExtended<String>(
+                            selected: self.$selectedString,
+                            values: self.valuesString100
+                        )
+                    }
+                }
+
+                VStack(spacing: 20) {
+                    Text("PickerCustomSimple").font(.headline)
+
+                    VStack {
+                        Text("0 values")
+                        PickerCustomSimple<UInt>(selected: self.$selectedInt, values: self.valuesInt0)
+                    }
+
+                    VStack {
+                        Text("10 values")
+                        PickerCustomSimple<UInt>(selected: self.$selectedInt, values: self.valuesInt10)
+                    }
+
+                    VStack {
+                        Text("100 values + flexibility")
+                        PickerCustomSimple<UInt>(selected: self.$selectedInt, values: self.valuesInt100)
+                        PickerCustomSimple<UInt>(selected: self.$selectedInt, values: self.valuesInt100, flexibility: .none)
+                        PickerCustomSimple<UInt>(selected: self.$selectedInt, values: self.valuesInt100, flexibility: .size(100))
+                        PickerCustomSimple<UInt>(selected: self.$selectedInt, values: self.valuesInt100, flexibility: .infinity)
+                    }
+
+                    VStack {
+                        Text("String values")
+                        PickerCustomSimple<String>(
+                            selected: self.$selectedString,
+                            values: self.valuesString100
+                        )
                     }
                 }
 
                 VStack {
-                    Text("PickerCustomSimple").font(.headline)
-                    PickerCustomSimple<UInt>(selected: self.$selected, values: self.values)
-                    PickerCustomSimple<UInt>(selected: self.$selected, values: self.values, flexibility: .none)
-                    PickerCustomSimple<UInt>(selected: self.$selected, values: self.values, flexibility: .size(100))
-                    PickerCustomSimple<UInt>(selected: self.$selected, values: self.values, flexibility: .infinity)
-                }
-
-                VStack {
                     Text("Picker").font(.headline)
-                    Picker("", selection: self.$selected) {
-                        ForEach(self.values.ordered(), id: \.key) { key, value in
+                    Picker("", selection: self.$selectedInt) {
+                        ForEach(self.valuesInt100.ordered(), id: \.key) { key, value in
                             Text(value)
                         }
                     }
