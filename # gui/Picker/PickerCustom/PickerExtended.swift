@@ -39,13 +39,27 @@ struct PickerExtended<Key>: View where Key: Hashable & Comparable {
         if (self.values.isEmpty) {
             self.main
                 .disabled(true)
-        } else {
-            self.main
-                .popover(isPresented: self.$isOpened) {
-                    if (self.values.count <= 10) { self.list }
-                    else {
-                        if #available(macOS 14.0, *) {
-                            ScrollViewReader { proxy in
+        }
+        if (self.values.count > 0) {
+            if #unavailable(macOS 14.0) {
+                self.main
+                    .popover(isPresented: self.$isOpened) {
+                        if (self.values.count <= 10) { self.list }
+                        else { ScrollView(.vertical) { self.list }.frame(maxHeight: 370) }
+                    }
+            }
+            if #available(macOS 14.0, *) {
+                self.main
+                    .onKeyPress(phases: .down) { press in
+                        if (press.key == .downArrow || press.key == .upArrow) {
+                            self.isOpened = true
+                        }
+                        return .handled
+                    }
+                    .popover(isPresented: self.$isOpened) {
+                        ScrollViewReader { proxy in
+                            if (self.values.count <= 10) { self.list }
+                            else {
                                 ScrollView(.vertical) {
                                     self.list
                                 }
@@ -76,13 +90,9 @@ struct PickerExtended<Key>: View where Key: Hashable & Comparable {
                                     return .handled
                                 }
                             }
-                        } else {
-                            ScrollView(.vertical) {
-                                self.list
-                            }.frame(maxHeight: 370)
                         }
                     }
-                }
+            }
         }
     }
 
