@@ -20,16 +20,7 @@ import SwiftUI
 
     var body: some Scene {
         WindowGroup {
-            VStack(spacing: 20) {
-
-                VStack {
-                    Text("Picker").font(.headline)
-                    Picker("", selection: self.$selected) {
-                        ForEach(self.values.ordered(), id: \.key) { key, value in
-                            Text(value)
-                        }
-                    }
-                }
+            HStack(spacing: 20) {
 
                 VStack {
                     Text("PickerCustom").font(.headline)
@@ -55,6 +46,15 @@ import SwiftUI
                     PickerCustomSimple<UInt>(selected: self.$selected, values: self.values, flexibility: .none)
                     PickerCustomSimple<UInt>(selected: self.$selected, values: self.values, flexibility: .size(100))
                     PickerCustomSimple<UInt>(selected: self.$selected, values: self.values, flexibility: .infinity)
+                }
+
+                VStack {
+                    Text("Picker").font(.headline)
+                    Picker("", selection: self.$selected) {
+                        ForEach(self.values.ordered(), id: \.key) { key, value in
+                            Text(value)
+                        }
+                    }
                 }
 
             }.padding(30)

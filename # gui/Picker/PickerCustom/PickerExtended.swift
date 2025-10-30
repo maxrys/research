@@ -39,60 +39,41 @@ struct PickerExtended<Key>: View where Key: Hashable & Comparable {
         if (self.values.isEmpty) {
             self.main
                 .disabled(true)
-        }
-        if (self.values.count > 0) {
-            if #unavailable(macOS 14.0) {
-                self.main
-                    .popover(isPresented: self.$isOpened) {
-                        if (self.values.count <= 10) { self.list }
-                        else { ScrollView(.vertical) { self.list }.frame(maxHeight: 370) }
-                    }
-            }
-            if #available(macOS 14.0, *) {
-                self.main
-                    .onKeyPress(phases: .down) { press in
-                        if (press.key == .downArrow || press.key == .upArrow) {
-                            self.isOpened = true
+        } else {
+            self.main
+                .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow  .rawValue) { self.isOpened = true }
+                .onKeyPressPolyfill(character: KeyEquivalentPolyfill.downArrow.rawValue) { self.isOpened = true }
+                .popover(isPresented: self.$isOpened) {
+                    ScrollViewReader { proxy in
+                        ScrollView(.vertical) {
+                            self.list
                         }
-                        return .handled
-                    }
-                    .popover(isPresented: self.$isOpened) {
-                        ScrollViewReader { proxy in
-                            if (self.values.count <= 10) { self.list }
-                            else {
-                                ScrollView(.vertical) {
-                                    self.list
-                                }
-                                .frame(maxHeight: 370)
-                                .onKeyPress(phases: .down) { press in
-                                    let list = self.valuesList
-                                    if (press.key == .downArrow) {
-                                        if (self.selectedIndex < list.count - 1) {
-                                            self.selectedIndex += 1
-                                            self.selectedKey.wrappedValue = list[self.selectedIndex].key
-                                            proxy.scrollTo(
-                                                self.selectedKey.wrappedValue
-                                            )
-                                        }
-                                    }
-                                    if (press.key == .upArrow) {
-                                        if (self.selectedIndex > 0) {
-                                            self.selectedIndex -= 1
-                                            self.selectedKey.wrappedValue = list[self.selectedIndex].key
-                                            proxy.scrollTo(
-                                                self.selectedKey.wrappedValue
-                                            )
-                                        }
-                                    }
-                                    if (press.key == .return) {
-                                        self.isOpened = false
-                                    }
-                                    return .handled
-                                }
+                        .frame(maxHeight: 370)
+                        .scrollDisabledPolyfill(self.values.count <= 10)
+                        .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow.rawValue) {
+                            if (self.selectedIndex > 0) {
+                                self.selectedIndex -= 1
+                                self.selectedKey.wrappedValue = self.valuesList[self.selectedIndex].key
+                                proxy.scrollTo(
+                                    self.selectedKey.wrappedValue
+                                )
                             }
                         }
+                        .onKeyPressPolyfill(character: KeyEquivalentPolyfill.downArrow.rawValue) {
+                            if (self.selectedIndex < self.valuesList.count - 1) {
+                                self.selectedIndex += 1
+                                self.selectedKey.wrappedValue = self.valuesList[self.selectedIndex].key
+                                proxy.scrollTo(
+                                    self.selectedKey.wrappedValue
+                                )
+                            }
+                        }
+                        .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return.rawValue) {
+                            self.isOpened = false
+                        }
                     }
-            }
+                }
+
         }
     }
 
