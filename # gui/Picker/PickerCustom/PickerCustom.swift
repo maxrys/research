@@ -35,8 +35,9 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
         } else {
             self.main
                 .popover(isPresented: self.$isOpened) {
-                    if (self.values.count <= 10) { self.list }
-                    else { ScrollView(.vertical) { self.list }.frame(maxHeight: 370) }
+                    ScrollView(.vertical) { self.list }
+                        .scrollDisabledPolyfill(self.values.count <= 10)
+                        .frame(maxHeight: 370)
                 }
         }
     }
