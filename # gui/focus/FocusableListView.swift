@@ -4,7 +4,6 @@ import SwiftUI
 struct FocusableListView: View {
 
     enum Focuser: Hashable {
-        case none
         case item(id: Int)
     }
 
