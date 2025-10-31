@@ -1,43 +1,47 @@
 
 import SwiftUI
 
-struct FocusableListView: View {
+struct FocusableListView<Key>: View where Key: Hashable & Comparable {
 
     enum Focuser: Hashable {
-        case item(id: Int)
+        case item(index: Int)
     }
 
     @FocusState private var focuser: Focuser?
 
-    var items: [Item]
-    var selectedItem: Binding<Item?>
+    var items: [Key: String]
+    var selectedKey: Binding<Key?>
+
+    private var itemsList: [(key: Key, value: String)] {
+        self.items.ordered()
+    }
 
     var body: some View {
         ScrollViewReader { proxy in
             List { self.list }
                 .onAppear {
-                    self.focuser = .item(id: 0)
+                    self.focuser = .item(index: 0)
                 }
                 .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow.rawValue) {
-                    if case .item(let id) = self.focuser {
-                        if (id > 0) {
-                            self.focuser = .item(id: id - 1)
-                            proxy.scrollTo(id - 1)
+                    if case .item(let index) = self.focuser {
+                        if (index > 0) {
+                            self.focuser = .item(index: index - 1)
+                            proxy.scrollTo(index - 1)
                         }
                     }
                 }
                 .onKeyPressPolyfill(character: KeyEquivalentPolyfill.downArrow.rawValue) {
-                    if case .item(let id) = self.focuser {
-                        if (id < self.items.count - 1) {
-                            self.focuser = .item(id: id + 1)
-                            proxy.scrollTo(id + 1)
+                    if case .item(let index) = self.focuser {
+                        if (index < self.items.count - 1) {
+                            self.focuser = .item(index: index + 1)
+                            proxy.scrollTo(index + 1)
                         }
                     }
                 }
                 .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return.rawValue) {
-                    if case .item(let id) = self.focuser {
-                        if (id >= 0 && id <= self.items.count - 1) {
-                            self.selectedItem.wrappedValue = self.items[id]
+                    if case .item(let index) = self.focuser {
+                        if (index >= 0 && index <= self.items.count - 1) {
+                            self.selectedKey.wrappedValue = self.itemsList[index].key
                         }
                     }
                 }
@@ -45,14 +49,14 @@ struct FocusableListView: View {
     }
 
     @ViewBuilder var list: some View {
-        ForEach(self.items) { item in
+        ForEach(Array(itemsList.enumerated()), id: \.element.key) { index, item in
             Button {
-                self.selectedItem.wrappedValue = item
+                self.selectedKey.wrappedValue = self.itemsList[index].key
             } label: {
-                Text("\(item.id):\(item.title)")
+                Text("\(index):\(item.key):\(item.value)")
             }
-            .focused(self.$focuser, equals: .item(id: item.id))
-            .id(item.id)
+            .focused(self.$focuser, equals: .item(index: index))
+            .id(index)
         }
     }
 

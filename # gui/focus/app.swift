@@ -5,20 +5,15 @@
 
 import SwiftUI
 
-struct Item: Identifiable {
-    var id: Int
-    var title: String
-}
-
 @main struct ThisApp: App {
 
-    @State private var selectedItem: Item?
+    typealias Key = UInt
 
-    let items: [Item] = {
-        (0 ..< 100).reduce(into: [Item]()) { result, i in
-            result.append(
-                Item(id: i, title: "Item \(i + 1)")
-            )
+    @State private var selectedItem: Key?
+
+    let items: [Key: String] = {
+        (1000 ..< 1100).reduce(into: [Key: String]()) { result, i in
+            result[Key(i)] = "Item \(i)"
         }
     }()
 
@@ -26,15 +21,15 @@ struct Item: Identifiable {
         WindowGroup {
             HStack {
 
-                FocusableListView(
+                FocusableListView<Key>(
                     items: self.items,
-                    selectedItem: self.$selectedItem
+                    selectedKey: self.$selectedItem
                 )
 
                 VStack {
-                    if let item = self.selectedItem {
-                        Text("Selected item ID: \(item.id)")
-                        Text("Selected item Title: \(item.title)")
+                    if let key = self.selectedItem {
+                        Text("Selected item Key: \(key)")
+                        Text("Selected item Title: \(self.items[key] ?? "-")")
                     } else {
                         Text("Nothing selected")
                     }
