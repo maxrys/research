@@ -15,21 +15,21 @@ import SwiftUI
     let itemsInt0: [UInt: String] = [:]
 
     let itemsInt10 = {
-        (0 ..< 10).reduce(into: [UInt: String]()) { result, i in
+        (1000 ..< 1010).reduce(into: [UInt: String]()) { result, i in
             if (i == 5) { result[UInt(i)] = "Value \(i) long long long long long long" }
             else        { result[UInt(i)] = "Value \(i)" }
         }
     }()
 
     let itemsInt100 = {
-        (0 ..< 100).reduce(into: [UInt: String]()) { result, i in
+        (1000 ..< 1100).reduce(into: [UInt: String]()) { result, i in
             if (i == 5) { result[UInt(i)] = "Value \(i) long long long long long long" }
             else        { result[UInt(i)] = "Value \(i)" }
         }
     }()
 
     let itemsString100 = {
-        (0 ..< 100).reduce(into: [String: String]()) { result, i in
+        (1000 ..< 1100).reduce(into: [String: String]()) { result, i in
             if (i == 5) { result["id:\(i)"] = "Value \(i) long long long long long long" }
             else        { result["id:\(i)"] = "Value \(i)" }
         }

@@ -74,8 +74,6 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
 fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparable {
 
-    typealias ColorSet = Color.PickerColorSet
-
     enum Focuser: Hashable {
         case item(index: Int)
     }
@@ -84,8 +82,23 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
     @State private var hovered: Key?
 
     private var rootView: PickerCustom<Key>
-    private var itemsList: [(key: Key, value: String)] {
+
+    private var itemsOrdered: [(key: Key, value: String)] {
         self.rootView.items.ordered()
+    }
+
+    private var indexToKey: [Int: Key] {
+        self.itemsOrdered.enumerated().reduce(into: [Int: Key]()) { result, info in
+            let (index, item) = info
+            result[index] = item.key
+        }
+    }
+
+    private var KeyToIndex: [Key: Int] {
+        self.itemsOrdered.enumerated().reduce(into: [Key: Int]()) { result, info in
+            let (index, item) = info
+            result[item.key] = index
+        }
     }
 
     init(rootView: PickerCustom<Key>) {
@@ -95,7 +108,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
     var body: some View {
         ScrollViewReader { proxy in
             List {
-                ForEach(Array(itemsList.enumerated()), id: \.element.key) { index, item in
+                ForEach(Array(self.itemsOrdered.enumerated()), id: \.element.key) { index, item in
                     Button {
                         self.rootView.selectedKey.wrappedValue = item.key
                         self.rootView.$isOpened.wrappedValue = false
@@ -119,13 +132,15 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
                                 self.hovered = isHovered ? item.key : nil
                             }
                     }
+                    .onHoverCursor()
                     .buttonStyle(.plain)
                     .focused(self.$focuser, equals: .item(index: index))
                     .id(index)
                 }
             }
             .onAppear {
-                self.focuser = .item(index: 0)
+                let index = self.KeyToIndex[self.rootView.selectedKey.wrappedValue] ?? 0
+                self.focuser = .item(index: index)
             }
             .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow.rawValue) {
                 if case .item(let index) = self.focuser {
@@ -146,7 +161,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
             .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return.rawValue) {
                 if case .item(let index) = self.focuser {
                     if (index >= 0 && index <= self.rootView.items.count - 1) {
-                        self.rootView.selectedKey.wrappedValue = self.itemsList[index].key
+                        self.rootView.selectedKey.wrappedValue = self.itemsOrdered[index].key
                     }
                 }
                 self.rootView.$isOpened.wrappedValue = false
@@ -176,7 +191,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
         /* single value */
 
         let itemsV2: [UInt: String] = [
-            0: "Single value"
+            1000: "Single value"
         ]
 
         VStack {
@@ -188,7 +203,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
         /* multiple values */
 
         let itemsV3 = {
-            (0 ..< 100).reduce(into: [UInt: String]()) { result, i in
+            (1000 ..< 1100).reduce(into: [UInt: String]()) { result, i in
                 if (i == 5) { result[UInt(i)] = "Value \(i) long long long long long long" }
                 else        { result[UInt(i)] = "Value \(i)" }
             }
@@ -209,7 +224,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
     @Previewable @State var selected: String = ""
 
     let items = {
-        (0 ..< 100).reduce(into: [String: String]()) { result, i in
+        (1000 ..< 1100).reduce(into: [String: String]()) { result, i in
             if (i == 5) { result["id:\(i)"] = "Value \(i) long long long long long long" }
             else        { result["id:\(i)"] = "Value \(i)" }
         }
@@ -227,7 +242,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
     @Previewable @State var selected: UInt = 0
 
     let items = {
-        (0 ..< 100).reduce(into: [UInt: String]()) { result, i in
+        (1000 ..< 1100).reduce(into: [UInt: String]()) { result, i in
             if (i == 5) { result[UInt(i)] = "Value \(i) long long long long long long" }
             else        { result[UInt(i)] = "Value \(i)" }
         }
