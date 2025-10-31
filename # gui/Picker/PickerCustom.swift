@@ -9,14 +9,14 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
     typealias ColorSet = Color.PickerColorSet
 
-    @State private var isOpened: Bool
-           private var selectedKey: Binding<Key>
+    @State fileprivate var isOpened: Bool = false
 
-    private let items: [Key: String]
-    private let isPlainListStyle: Bool
-    private let flexibility: Flexibility
-    private let colorSet: ColorSet
-    private let cornerRadius: CGFloat = 10
+    fileprivate var selectedKey: Binding<Key>
+    fileprivate let items: [Key: String]
+    fileprivate let isPlainListStyle: Bool
+    fileprivate let flexibility: Flexibility
+    fileprivate let colorSet: ColorSet
+    fileprivate let cornerRadius: CGFloat = 10
 
     init(
         selected: Binding<Key>,
@@ -30,7 +30,6 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
         self.isPlainListStyle = isPlainListStyle
         self.flexibility = flexibility
         self.colorSet = colorSet
-        self.isOpened = false
     }
 
     var body: some View {
@@ -44,12 +43,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                 .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return   .rawValue) { self.isOpened = true }
                 .popover(isPresented: self.$isOpened) {
                     PickerCustomPopover<Key>(
-                        selected: self.selectedKey,
-                        items: self.items,
-                        isPlainListStyle: self.isPlainListStyle,
-                        flexibility: self.flexibility,
-                        colorSet: self.colorSet,
-                        isOpened: self.$isOpened
+                        rootView: self
                     )
                 }
         }
@@ -78,7 +72,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
 }
 
-private struct PickerCustomPopover<Key>: View where Key: Hashable & Comparable {
+fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparable {
 
     typealias ColorSet = Color.PickerColorSet
 
@@ -87,35 +81,15 @@ private struct PickerCustomPopover<Key>: View where Key: Hashable & Comparable {
     }
 
     @FocusState private var focuser: Focuser?
-
     @State private var hovered: Key?
-    private var selectedKey: Binding<Key>
-    private var isOpened: Binding<Bool>
 
-    private let items: [Key: String]
-    private let isPlainListStyle: Bool
-    private let flexibility: Flexibility
-    private let colorSet: ColorSet
-    private let cornerRadius: CGFloat = 10
-
+    private var rootView: PickerCustom<Key>
     private var itemsList: [(key: Key, value: String)] {
-        self.items.ordered()
+        self.rootView.items.ordered()
     }
 
-    init(
-        selected: Binding<Key>,
-        items: [Key: String],
-        isPlainListStyle: Bool = false,
-        flexibility: Flexibility = .none,
-        colorSet: ColorSet = Color.picker,
-        isOpened: Binding<Bool>
-    ) {
-        self.selectedKey = selected
-        self.items = items
-        self.isPlainListStyle = isPlainListStyle
-        self.flexibility = flexibility
-        self.colorSet = colorSet
-        self.isOpened = isOpened
+    init(rootView: PickerCustom<Key>) {
+        self.rootView = rootView
     }
 
     var body: some View {
@@ -123,24 +97,24 @@ private struct PickerCustomPopover<Key>: View where Key: Hashable & Comparable {
             List {
                 ForEach(Array(itemsList.enumerated()), id: \.element.key) { index, item in
                     Button {
-                        self.selectedKey.wrappedValue = item.key
-                        self.isOpened.wrappedValue = false
+                        self.rootView.selectedKey.wrappedValue = item.key
+                        self.rootView.$isOpened.wrappedValue = false
                     } label: {
                         var backgroundColor: Color {
-                            if (self.selectedKey.wrappedValue == item.key) { return self.colorSet.itemSelectedBackground }
-                            if (self.hovered                  == item.key) { return self.colorSet.itemHoveredBackground }
-                            if (self.isPlainListStyle         == false   ) { return self.colorSet.itemBackground }
+                            if (self.rootView.selectedKey.wrappedValue == item.key) { return self.rootView.colorSet.itemSelectedBackground }
+                            if (self.hovered                           == item.key) { return self.rootView.colorSet.itemHoveredBackground }
+                            if (self.rootView.isPlainListStyle         == false   ) { return self.rootView.colorSet.itemBackground }
                             return Color.clear
                         }
                         Text(item.value)
                             .lineLimit(1)
                             .padding(.horizontal, 9)
                             .padding(.vertical  , 5)
-                            .frame(maxWidth: .infinity, alignment: self.isPlainListStyle ? .leading : .center)
-                            .foregroundPolyfill(self.colorSet.itemText)
+                            .frame(maxWidth: .infinity, alignment: self.rootView.isPlainListStyle ? .leading : .center)
+                            .foregroundPolyfill(self.rootView.colorSet.itemText)
                             .background(backgroundColor)
-                            .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
-                            .contentShapePolyfill(RoundedRectangle(cornerRadius: self.cornerRadius))
+                            .clipShape(RoundedRectangle(cornerRadius: self.rootView.cornerRadius))
+                            .contentShapePolyfill(RoundedRectangle(cornerRadius: self.rootView.cornerRadius))
                             .onHover { isHovered in
                                 self.hovered = isHovered ? item.key : nil
                             }
@@ -163,7 +137,7 @@ private struct PickerCustomPopover<Key>: View where Key: Hashable & Comparable {
             }
             .onKeyPressPolyfill(character: KeyEquivalentPolyfill.downArrow.rawValue) {
                 if case .item(let index) = self.focuser {
-                    if (index < self.items.count - 1) {
+                    if (index < self.rootView.items.count - 1) {
                         self.focuser = .item(index: index + 1)
                         proxy.scrollTo(index + 1)
                     }
@@ -171,11 +145,11 @@ private struct PickerCustomPopover<Key>: View where Key: Hashable & Comparable {
             }
             .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return.rawValue) {
                 if case .item(let index) = self.focuser {
-                    if (index >= 0 && index <= self.items.count - 1) {
-                        self.selectedKey.wrappedValue = self.itemsList[index].key
+                    if (index >= 0 && index <= self.rootView.items.count - 1) {
+                        self.rootView.selectedKey.wrappedValue = self.itemsList[index].key
                     }
                 }
-                self.isOpened.wrappedValue = false
+                self.rootView.$isOpened.wrappedValue = false
             }
         }
     }
