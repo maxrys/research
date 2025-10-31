@@ -51,7 +51,7 @@ struct FocusableListView<Key>: View where Key: Hashable & Comparable {
     @ViewBuilder var list: some View {
         ForEach(Array(itemsList.enumerated()), id: \.element.key) { index, item in
             Button {
-                self.selectedKey.wrappedValue = self.itemsList[index].key
+                self.selectedKey.wrappedValue = item.key
             } label: {
                 Text("\(index):\(item.key):\(item.value)")
             }
