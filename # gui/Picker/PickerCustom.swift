@@ -138,6 +138,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
                     .id(index)
                 }
             }
+            .listStyle(.sidebar)
             .onAppear {
                 let index = self.KeyToIndex[self.rootView.selectedKey.wrappedValue] ?? 0
                 self.focuser = .item(index: index)
