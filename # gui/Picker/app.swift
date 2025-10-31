@@ -12,23 +12,23 @@ import SwiftUI
     @State var selectedInt: UInt = 0
     @State var selectedString: String = ""
 
-    let valuesInt0: [UInt: String] = [:]
+    let itemsInt0: [UInt: String] = [:]
 
-    let valuesInt10 = {
+    let itemsInt10 = {
         (0 ..< 10).reduce(into: [UInt: String]()) { result, i in
             if (i == 5) { result[UInt(i)] = "Value \(i) long long long long long long" }
             else        { result[UInt(i)] = "Value \(i)" }
         }
     }()
 
-    let valuesInt100 = {
+    let itemsInt100 = {
         (0 ..< 100).reduce(into: [UInt: String]()) { result, i in
             if (i == 5) { result[UInt(i)] = "Value \(i) long long long long long long" }
             else        { result[UInt(i)] = "Value \(i)" }
         }
     }()
 
-    let valuesString100 = {
+    let itemsString100 = {
         (0 ..< 100).reduce(into: [String: String]()) { result, i in
             if (i == 5) { result["id:\(i)"] = "Value \(i) long long long long long long" }
             else        { result["id:\(i)"] = "Value \(i)" }
@@ -44,27 +44,27 @@ import SwiftUI
 
                     VStack {
                         Text("0 values")
-                        PickerCustom<UInt>(selected: self.$selectedInt, values: self.valuesInt0)
+                        PickerCustom<UInt>(selected: self.$selectedInt, items: self.itemsInt0)
                     }
 
                     VStack {
                         Text("10 values")
-                        PickerCustom<UInt>(selected: self.$selectedInt, values: self.valuesInt10)
+                        PickerCustom<UInt>(selected: self.$selectedInt, items: self.itemsInt10)
                     }
 
                     VStack {
                         Text("100 values + flexibility")
-                        PickerCustom<UInt>(selected: self.$selectedInt, values: self.valuesInt100)
-                        PickerCustom<UInt>(selected: self.$selectedInt, values: self.valuesInt100, flexibility: .none)
-                        PickerCustom<UInt>(selected: self.$selectedInt, values: self.valuesInt100, flexibility: .size(100))
-                        PickerCustom<UInt>(selected: self.$selectedInt, values: self.valuesInt100, flexibility: .infinity)
+                        PickerCustom<UInt>(selected: self.$selectedInt, items: self.itemsInt100)
+                        PickerCustom<UInt>(selected: self.$selectedInt, items: self.itemsInt100, flexibility: .none)
+                        PickerCustom<UInt>(selected: self.$selectedInt, items: self.itemsInt100, flexibility: .size(100))
+                        PickerCustom<UInt>(selected: self.$selectedInt, items: self.itemsInt100, flexibility: .infinity)
                     }
 
                     VStack {
                         Text("String values")
                         PickerCustom<String>(
                             selected: self.$selectedString,
-                            values: self.valuesString100
+                            items: self.itemsString100
                         )
                     }
                 }
@@ -72,7 +72,7 @@ import SwiftUI
                 VStack {
                     Text("Picker").font(.headline)
                     Picker("", selection: self.$selectedInt) {
-                        ForEach(self.valuesInt100.ordered(), id: \.key) { key, value in
+                        ForEach(self.itemsInt100.ordered(), id: \.key) { key, value in
                             Text(value)
                         }
                     }
