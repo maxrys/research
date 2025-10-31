@@ -9,14 +9,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
     typealias ColorSet = Color.PickerColorSet
 
-    enum Focuser: Hashable {
-        case item(index: Int)
-    }
-
-    @FocusState private var focuser: Focuser?
-
     @State private var isOpened: Bool
-    @State private var hovered: Key?
            private var selectedKey: Binding<Key>
 
     private let items: [Key: String]
@@ -24,10 +17,6 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
     private let flexibility: Flexibility
     private let colorSet: ColorSet
     private let cornerRadius: CGFloat = 10
-
-    private var itemsList: [(key: Key, value: String)] {
-        self.items.ordered()
-    }
 
     init(
         selected: Binding<Key>,
@@ -46,49 +35,27 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
     var body: some View {
         if (self.items.isEmpty) {
-            self.main
+            self.opener
                 .disabled(true)
         } else {
-            self.main
+            self.opener
                 .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow  .rawValue) { self.isOpened = true }
                 .onKeyPressPolyfill(character: KeyEquivalentPolyfill.downArrow.rawValue) { self.isOpened = true }
                 .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return   .rawValue) { self.isOpened = true }
                 .popover(isPresented: self.$isOpened) {
-                    ScrollViewReader { proxy in
-                        List { self.list }
-                            .onAppear {
-                                self.focuser = .item(index: 0)
-                            }
-                            .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow.rawValue) {
-                                if case .item(let index) = self.focuser {
-                                    if (index > 0) {
-                                        self.focuser = .item(index: index - 1)
-                                        proxy.scrollTo(index - 1)
-                                    }
-                                }
-                            }
-                            .onKeyPressPolyfill(character: KeyEquivalentPolyfill.downArrow.rawValue) {
-                                if case .item(let index) = self.focuser {
-                                    if (index < self.items.count - 1) {
-                                        self.focuser = .item(index: index + 1)
-                                        proxy.scrollTo(index + 1)
-                                    }
-                                }
-                            }
-                            .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return.rawValue) {
-                                if case .item(let index) = self.focuser {
-                                    if (index >= 0 && index <= self.items.count - 1) {
-                                        self.selectedKey.wrappedValue = self.itemsList[index].key
-                                    }
-                                }
-                                self.isOpened = false
-                            }
-                    }
+                    PickerCustomPopover<Key>(
+                        selected: self.selectedKey,
+                        items: self.items,
+                        isPlainListStyle: self.isPlainListStyle,
+                        flexibility: self.flexibility,
+                        colorSet: self.colorSet,
+                        isOpened: self.$isOpened
+                    )
                 }
         }
     }
 
-    @ViewBuilder var main: some View {
+    @ViewBuilder var opener: some View {
         Button {
             self.isOpened = true
         } label: {
@@ -109,34 +76,107 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
         .onHoverCursor()
     }
 
-    @ViewBuilder var list: some View {
-        ForEach(Array(itemsList.enumerated()), id: \.element.key) { index, item in
-            Button {
-                self.selectedKey.wrappedValue = item.key
-                self.isOpened = false
-            } label: {
-                var backgroundColor: Color {
-                    if (self.selectedKey.wrappedValue == item.key) { return self.colorSet.itemSelectedBackground }
-                    if (self.hovered                  == item.key) { return self.colorSet.itemHoveredBackground }
-                    if (self.isPlainListStyle         == false   ) { return self.colorSet.itemBackground }
-                    return Color.clear
-                }
-                Text(item.value)
-                    .lineLimit(1)
-                    .padding(.horizontal, 9)
-                    .padding(.vertical  , 5)
-                    .frame(maxWidth: .infinity, alignment: self.isPlainListStyle ? .leading : .center)
-                    .foregroundPolyfill(self.colorSet.itemText)
-                    .background(backgroundColor)
-                    .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
-                    .contentShapePolyfill(RoundedRectangle(cornerRadius: self.cornerRadius))
-                    .onHover { isHovered in
-                        self.hovered = isHovered ? item.key : nil
+}
+
+private struct PickerCustomPopover<Key>: View where Key: Hashable & Comparable {
+
+    typealias ColorSet = Color.PickerColorSet
+
+    enum Focuser: Hashable {
+        case item(index: Int)
+    }
+
+    @FocusState private var focuser: Focuser?
+
+    @State private var hovered: Key?
+    private var selectedKey: Binding<Key>
+    private var isOpened: Binding<Bool>
+
+    private let items: [Key: String]
+    private let isPlainListStyle: Bool
+    private let flexibility: Flexibility
+    private let colorSet: ColorSet
+    private let cornerRadius: CGFloat = 10
+
+    private var itemsList: [(key: Key, value: String)] {
+        self.items.ordered()
+    }
+
+    init(
+        selected: Binding<Key>,
+        items: [Key: String],
+        isPlainListStyle: Bool = false,
+        flexibility: Flexibility = .none,
+        colorSet: ColorSet = Color.picker,
+        isOpened: Binding<Bool>
+    ) {
+        self.selectedKey = selected
+        self.items = items
+        self.isPlainListStyle = isPlainListStyle
+        self.flexibility = flexibility
+        self.colorSet = colorSet
+        self.isOpened = isOpened
+    }
+
+    var body: some View {
+        ScrollViewReader { proxy in
+            List {
+                ForEach(Array(itemsList.enumerated()), id: \.element.key) { index, item in
+                    Button {
+                        self.selectedKey.wrappedValue = item.key
+                        self.isOpened.wrappedValue = false
+                    } label: {
+                        var backgroundColor: Color {
+                            if (self.selectedKey.wrappedValue == item.key) { return self.colorSet.itemSelectedBackground }
+                            if (self.hovered                  == item.key) { return self.colorSet.itemHoveredBackground }
+                            if (self.isPlainListStyle         == false   ) { return self.colorSet.itemBackground }
+                            return Color.clear
+                        }
+                        Text(item.value)
+                            .lineLimit(1)
+                            .padding(.horizontal, 9)
+                            .padding(.vertical  , 5)
+                            .frame(maxWidth: .infinity, alignment: self.isPlainListStyle ? .leading : .center)
+                            .foregroundPolyfill(self.colorSet.itemText)
+                            .background(backgroundColor)
+                            .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
+                            .contentShapePolyfill(RoundedRectangle(cornerRadius: self.cornerRadius))
+                            .onHover { isHovered in
+                                self.hovered = isHovered ? item.key : nil
+                            }
                     }
+                    .buttonStyle(.plain)
+                    .focused(self.$focuser, equals: .item(index: index))
+                    .id(index)
+                }
             }
-            .buttonStyle(.plain)
-            .focused(self.$focuser, equals: .item(index: index))
-            .id(index)
+            .onAppear {
+                self.focuser = .item(index: 0)
+            }
+            .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow.rawValue) {
+                if case .item(let index) = self.focuser {
+                    if (index > 0) {
+                        self.focuser = .item(index: index - 1)
+                        proxy.scrollTo(index - 1)
+                    }
+                }
+            }
+            .onKeyPressPolyfill(character: KeyEquivalentPolyfill.downArrow.rawValue) {
+                if case .item(let index) = self.focuser {
+                    if (index < self.items.count - 1) {
+                        self.focuser = .item(index: index + 1)
+                        proxy.scrollTo(index + 1)
+                    }
+                }
+            }
+            .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return.rawValue) {
+                if case .item(let index) = self.focuser {
+                    if (index >= 0 && index <= self.items.count - 1) {
+                        self.selectedKey.wrappedValue = self.itemsList[index].key
+                    }
+                }
+                self.isOpened.wrappedValue = false
+            }
         }
     }
 
