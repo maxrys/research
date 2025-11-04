@@ -87,13 +87,6 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
         self.rootView.items.ordered()
     }
 
-    private var indexToKey: [Int: Key] {
-        self.itemsOrdered.enumerated().reduce(into: [Int: Key]()) { result, info in
-            let (index, item) = info
-            result[index] = item.key
-        }
-    }
-
     private var KeyToIndex: [Key: Int] {
         self.itemsOrdered.enumerated().reduce(into: [Key: Int]()) { result, info in
             let (index, item) = info
@@ -106,6 +99,73 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
     }
 
     var body: some View {
+        if (self.rootView.items.count > 8)
+             { self.listWithScroll }
+        else { self.list }
+    }
+
+    var list: some View {
+        VStack(spacing: 10) {
+            ForEach(Array(self.itemsOrdered.enumerated()), id: \.element.key) { index, item in
+                Button {
+                    self.rootView.selectedKey.wrappedValue = item.key
+                    self.rootView.$isOpened.wrappedValue = false
+                } label: {
+                    var backgroundColor: Color {
+                        if (self.rootView.selectedKey.wrappedValue == item.key) { return self.rootView.colorSet.itemSelectedBackground }
+                        if (self.hovered                           == item.key) { return self.rootView.colorSet.itemHoveredBackground }
+                        if (self.rootView.isPlainListStyle         == false   ) { return self.rootView.colorSet.itemBackground }
+                        return Color.clear
+                    }
+                    Text(item.value)
+                        .lineLimit(1)
+                        .padding(.horizontal, 9)
+                        .padding(.vertical  , 5)
+                        .frame(maxWidth: .infinity, alignment: self.rootView.isPlainListStyle ? .leading : .center)
+                        .foregroundPolyfill(self.rootView.colorSet.itemText)
+                        .background(backgroundColor)
+                        .clipShape(RoundedRectangle(cornerRadius: self.rootView.cornerRadius))
+                        .contentShapePolyfill(RoundedRectangle(cornerRadius: self.rootView.cornerRadius))
+                        .onHover { isHovered in
+                            self.hovered = isHovered ? item.key : nil
+                        }
+                }
+                .onHoverCursor()
+                .buttonStyle(.plain)
+                .focused(self.$focuser, equals: .item(index: index))
+                .id(index)
+            }
+        }
+        .padding(10)
+        .onAppear {
+            let index = self.KeyToIndex[self.rootView.selectedKey.wrappedValue] ?? 0
+            self.focuser = .item(index: index)
+        }
+        .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow.rawValue) {
+            if case .item(let index) = self.focuser {
+                if (index > 0) {
+                    self.focuser = .item(index: index - 1)
+                }
+            }
+        }
+        .onKeyPressPolyfill(character: KeyEquivalentPolyfill.downArrow.rawValue) {
+            if case .item(let index) = self.focuser {
+                if (index < self.rootView.items.count - 1) {
+                    self.focuser = .item(index: index + 1)
+                }
+            }
+        }
+        .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return.rawValue) {
+            if case .item(let index) = self.focuser {
+                if (index >= 0 && index <= self.rootView.items.count - 1) {
+                    self.rootView.selectedKey.wrappedValue = self.itemsOrdered[index].key
+                }
+            }
+            self.rootView.$isOpened.wrappedValue = false
+        }
+    }
+
+    var listWithScroll: some View {
         ScrollViewReader { proxy in
             List {
                 ForEach(Array(self.itemsOrdered.enumerated()), id: \.element.key) { index, item in
@@ -172,89 +232,95 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
 
 }
 
+/* ############################################################# */
+/* ########################## PREVIEW ########################## */
+/* ############################################################# */
+
+func generatePreviewItems_intKey(count: Int) -> [UInt: String] {
+    (1000 ..< 1000 + count).reduce(into: [UInt: String]()) { result, i in
+        if (i == 1005) { result[UInt(i)] = "Value \(i) long long long long long long" }
+        else           { result[UInt(i)] = "Value \(i)" }
+    }
+}
+
+func generatePreviewItems_strKey(count: Int) -> [String: String] {
+    (1000 ..< 1100).reduce(into: [String: String]()) { result, i in
+        if (i == 1005) { result["id:\(i)"] = "Value \(i) long long long long long long" }
+        else           { result["id:\(i)"] = "Value \(i)" }
+    }
+}
+
 @available(macOS 14.0, *) #Preview {
-    @Previewable @State var selectedV1: UInt = 0
-    @Previewable @State var selectedV2: UInt = 0
-    @Previewable @State var selectedV3: UInt = 0
+    @Previewable @State var selectedKeyInt: UInt = 0
+    @Previewable @State var selectedKeyString: String = ""
 
     VStack(spacing: 20) {
 
-        /* no value */
-
-        let itemsV1: [UInt: String] = [:]
-
         VStack {
-            Text("No value:").font(.headline)
-            PickerCustom<UInt>(selected: $selectedV1, items: itemsV1, isPlainListStyle: true)
-            PickerCustom<UInt>(selected: $selectedV1, items: itemsV1)
+            Text("Items: 0-30, key: int").font(.headline)
+            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count:  0))
+            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count:  5))
+            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 10))
+            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 15))
+            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 20))
+            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 25))
+            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 30))
         }
 
-        /* single value */
-
-        let itemsV2: [UInt: String] = [
-            1000: "Single value"
-        ]
-
         VStack {
-            Text("Single value:").font(.headline)
-            PickerCustom<UInt>(selected: $selectedV2, items: itemsV2, isPlainListStyle: true)
-            PickerCustom<UInt>(selected: $selectedV2, items: itemsV2)
+            Text("Items: 0-30, key: string").font(.headline)
+            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count:  0))
+            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count:  5))
+            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 10))
+            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 15))
+            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 20))
+            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 25))
+            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 30))
         }
 
-        /* multiple values */
-
-        let itemsV3 = {
-            (1000 ..< 1100).reduce(into: [UInt: String]()) { result, i in
-                if (i == 5) { result[UInt(i)] = "Value \(i) long long long long long long" }
-                else        { result[UInt(i)] = "Value \(i)" }
-            }
-        }()
-
-        VStack {
-            Text("Multiple values:").font(.headline)
-            PickerCustom<UInt>(selected: $selectedV3, items: itemsV3, isPlainListStyle: true)
-            PickerCustom<UInt>(selected: $selectedV3, items: itemsV3)
-        }
-
-    }
-    .padding(20)
-    .frame(width: 200)
+    }.frame(minWidth: 250, minHeight: 600)
 }
 
 @available(macOS 14.0, *) #Preview {
-    @Previewable @State var selected: String = ""
+    @Previewable @State var selectedKeyInt: UInt = 0
+    @Previewable @State var selectedKeyString: String = ""
 
-    let items = {
-        (1000 ..< 1100).reduce(into: [String: String]()) { result, i in
-            if (i == 5) { result["id:\(i)"] = "Value \(i) long long long long long long" }
-            else        { result["id:\(i)"] = "Value \(i)" }
+    VStack(spacing: 20) {
+
+        VStack {
+            Text("Items: 0-30, key: int, style: plain").font(.headline)
+            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count:  0), isPlainListStyle: true)
+            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count:  5), isPlainListStyle: true)
+            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 10), isPlainListStyle: true)
+            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 15), isPlainListStyle: true)
+            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 20), isPlainListStyle: true)
+            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 25), isPlainListStyle: true)
+            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 30), isPlainListStyle: true)
         }
-    }()
 
-    VStack {
-        Text("String ID:").font(.headline)
-        PickerCustom<String>(selected: $selected, items: items)
-    }
-    .padding(20)
-    .frame(width: 200)
+        VStack {
+            Text("Items: 0-30, key: string, style: plain").font(.headline)
+            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count:  0), isPlainListStyle: true)
+            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count:  5), isPlainListStyle: true)
+            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 10), isPlainListStyle: true)
+            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 15), isPlainListStyle: true)
+            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 20), isPlainListStyle: true)
+            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 25), isPlainListStyle: true)
+            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 30), isPlainListStyle: true)
+        }
+
+    }.frame(minWidth: 250, minHeight: 600)
 }
+
 
 @available(macOS 14.0, *) #Preview {
     @Previewable @State var selected: UInt = 0
-
-    let items = {
-        (1000 ..< 1100).reduce(into: [UInt: String]()) { result, i in
-            if (i == 5) { result[UInt(i)] = "Value \(i) long long long long long long" }
-            else        { result[UInt(i)] = "Value \(i)" }
-        }
-    }()
-
     VStack {
         Text("Flexibility:").font(.headline)
-        PickerCustom<UInt>(selected: $selected, items: items)
-        PickerCustom<UInt>(selected: $selected, items: items, flexibility: .none)
-        PickerCustom<UInt>(selected: $selected, items: items, flexibility: .size(100))
-        PickerCustom<UInt>(selected: $selected, items: items, flexibility: .infinity)
+        PickerCustom<UInt>(selected: $selected, items: generatePreviewItems_intKey(count: 30))
+        PickerCustom<UInt>(selected: $selected, items: generatePreviewItems_intKey(count: 30), flexibility: .none)
+        PickerCustom<UInt>(selected: $selected, items: generatePreviewItems_intKey(count: 30), flexibility: .size(100))
+        PickerCustom<UInt>(selected: $selected, items: generatePreviewItems_intKey(count: 30), flexibility: .infinity)
     }
     .padding(20)
     .frame(width: 200)
