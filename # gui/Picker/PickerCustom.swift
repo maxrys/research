@@ -67,7 +67,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                 .contentShapePolyfill(RoundedRectangle(cornerRadius: self.cornerRadius))
         }
         .buttonStyle(.plain)
-        .onHoverCursor()
+        .pointerStyleLinkPolyfill()
     }
 
 }
@@ -130,7 +130,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
                             self.hovered = isHovered ? item.key : nil
                         }
                 }
-                .onHoverCursor()
+                .pointerStyleLinkPolyfill()
                 .buttonStyle(.plain)
                 .focused(self.$focuser, equals: .item(index: index))
                 .id(index)
@@ -192,7 +192,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
                                 self.hovered = isHovered ? item.key : nil
                             }
                     }
-                    .onHoverCursor()
+                    .pointerStyleLinkPolyfill()
                     .buttonStyle(.plain)
                     .focused(self.$focuser, equals: .item(index: index))
                     .id(index)
