@@ -79,7 +79,7 @@ import SwiftUI
     }
 
     @ViewBuilder func colorBox(hex: UInt) -> some View {
-        Color(hex: hex)
+        Color(fromUInt: hex)
             .frame(width: 20, height: 20)
     }
 
@@ -92,7 +92,7 @@ import SwiftUI
         print("\( Color.blue.uint )")
         print("\( Color.black.uint )")
         print("\( Color.white.uint )")
-        print("\( Color(hex: UInt.max).uint )")
+        print("\( Color(fromUInt: UInt.max).uint )")
 
     }
 

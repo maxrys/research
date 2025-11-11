@@ -7,21 +7,56 @@ import SwiftUI
 
 extension Color {
 
-    init(hex: UInt, alpha: Double = 1) {
+    init(fromUInt: UInt, alpha: Double = 1) {
         self.init(.sRGB,
-            red  : Double((hex >> 16) & 0xff) / 255,
-            green: Double((hex >> 08) & 0xff) / 255,
-            blue : Double((hex >> 00) & 0xff) / 255,
+            red  : Double((fromUInt >> 16) & 0xff) / 255,
+            green: Double((fromUInt >> 08) & 0xff) / 255,
+            blue : Double((fromUInt >> 00) & 0xff) / 255,
             opacity: alpha
         )
     }
 
     var uint: UInt {
-        let components = NSColor(self).cgColor.components
-        let red   = UInt((components?[0] ?? 0) * 255)
-        let green = UInt((components?[1] ?? 0) * 255)
-        let blue  = UInt((components?[2] ?? 0) * 255)
-        return (red << 16) | (green << 8) | blue
+        guard let components = self.cgColor?.components, components.count >= 3 else { return 0 }
+        let R = UInt(components[0] * 255)
+        let G = UInt(components[1] * 255)
+        let B = UInt(components[2] * 255)
+        return (R << 16) | (G << 8) | B
     }
+
+    var HSB: (hue: CGFloat, saturation: CGFloat, brightness: CGFloat) {
+        guard let components = self.cgColor?.components, components.count >= 3 else {
+            return (0, 0, 0)
+        }
+        let R = components[0]
+        let G = components[1]
+        let B = components[2]
+        let maxRGB = max(R, G, B)
+        let minRGB = min(R, G, B)
+        let delta = maxRGB - minRGB
+
+        var hue: CGFloat = 0
+        let brightness = maxRGB
+
+        if (maxRGB == 0) { /* a rare case in which the color is black */
+            return (0, 0, 0)
+        }
+
+        let saturation: CGFloat = delta / maxRGB
+        if      (R == maxRGB) { hue =     (G - B) / delta }
+        else if (G == maxRGB) { hue = 2 + (B - R) / delta }
+        else                  { hue = 4 + (R - G) / delta }
+
+        hue *= 60 // convert to degrees
+        if hue < 0 {
+            hue += 360
+        }
+
+        return (hue, saturation, brightness)
+    }
+
+    // func hueShift
+    // func brightnessShift
+    // func saturationShift
 
 }
