@@ -7,35 +7,35 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
-    @State var saturation: Double = 0.65
+    static let SIZE = 5
+    static let COLS = 50
+    static let ROWS = 50
 
-    let SIZE = 5
-
-    var cols = 100
-    var rows = 100
+    @State var saturation: Decimal = 0.5
 
     var body: some Scene {
         Window("Main", id: "main") {
             VStack {
 
                 HStack {
-                    Button { if self.saturation > 0 {self.saturation -= 0.01} } label: { Text("-") }
-                    Text("\(self.saturation)")
-                    Button { if self.saturation < 1 {self.saturation += 0.01} } label: { Text("+") }
+                    Button { if self.saturation > 0 {self.saturation -= 0.1} } label: { Text("-") }
+                    Button { if self.saturation < 1 {self.saturation += 0.1} } label: { Text("+") }
+                    Text(self.saturation.formatted(.number.precision(.fractionLength(2))))
                 }
 
                 Canvas { context, size in
-                    for y in 0 ... self.rows {
-                    for x in 0 ... self.cols {
-                        let hue        = Double(x) / Double(self.cols)
-                        let brightness = Double(y) / Double(self.rows)
+                    for y in 0 ... Self.ROWS {
+                    for x in 0 ... Self.COLS {
+                        let hue        = Double(x) / Double(Self.COLS)
+                        let brightness = Double(y) / Double(Self.ROWS)
                         context.drawRectangle(
-                            x: Double(self.SIZE * x),
-                            y: Double(self.SIZE * y),
-                            w: Double(self.SIZE),
-                            h: Double(self.SIZE),
+                            x: Double(Self.SIZE * x),
+                            y: Double(Self.SIZE * y),
+                            w: Double(Self.SIZE),
+                            h: Double(Self.SIZE),
                             colorFill: Color(
-                                hue       : hue, saturation: self.saturation,
+                                hue       : hue,
+                                saturation: self.saturation.double,
                                 brightness: brightness
                             )
                         )
@@ -43,30 +43,57 @@ import SwiftUI
                     };  print("y = \(y)") }
                 }
                 .frame(
-                    width : Double(self.SIZE * (self.cols + 1)),
-                    height: Double(self.SIZE * (self.rows + 1))
-                )
-
-                Canvas { context, size in
-                    context.drawRectangle(
-                        w: 50,
-                        h: 50,
-                        colorFill: Color(
-                            hue       : 0.56, saturation: 0.59,
-                            brightness: 0.67
-                        )
-                    )
-                }
-                .frame(
-                    width : 50,
-                    height: 50
+                    width : Double(Self.SIZE * (Self.COLS + 1)),
+                    height: Double(Self.SIZE * (Self.ROWS + 1))
                 )
 
             }.padding(10)
+
+            /* ############# */
+            /* ### MARK: Hex */
+            /* ############# */
+
+            HStack(spacing: 5) {
+
+                self.colorBox(hex: 0x000000)
+                self.colorBox(hex: 0x111111)
+                self.colorBox(hex: 0x222222)
+                self.colorBox(hex: 0x333333)
+                self.colorBox(hex: 0x444444)
+                self.colorBox(hex: 0x555555)
+                self.colorBox(hex: 0x666666)
+                self.colorBox(hex: 0x777777)
+                self.colorBox(hex: 0x888888)
+                self.colorBox(hex: 0x999999)
+                self.colorBox(hex: 0xAAAAAA)
+                self.colorBox(hex: 0xBBBBBB)
+                self.colorBox(hex: 0xCCCCCC)
+                self.colorBox(hex: 0xDDDDDD)
+                self.colorBox(hex: 0xEEEEEE)
+                self.colorBox(hex: 0xFFFFFF)
+                self.colorBox(hex: UInt.max)
+
+            }.padding(10)
+
         }
     }
 
+    @ViewBuilder func colorBox(hex: UInt) -> some View {
+        Color(hex: hex)
+            .frame(width: 20, height: 20)
+    }
+
     init() {
+
+        print("\( Color.red.uint )")
+        print("\( Color.orange.uint )")
+        print("\( Color.yellow.uint )")
+        print("\( Color.green.uint )")
+        print("\( Color.blue.uint )")
+        print("\( Color.black.uint )")
+        print("\( Color.white.uint )")
+        print("\( Color(hex: UInt.max).uint )")
+
     }
 
 }
