@@ -24,19 +24,25 @@ extension Color {
         return (R << 16) | (G << 8) | B
     }
 
-    var HSB: (hue: CGFloat, saturation: CGFloat, brightness: CGFloat) {
+    var RGB: (red: CGFloat, green: CGFloat, blue: CGFloat) {
         guard let components = self.cgColor?.components, components.count >= 3 else {
             return (0, 0, 0)
         }
-        let R = components[0]
-        let G = components[1]
-        let B = components[2]
+        return (
+            components[0].fixBounds(max: 255),
+            components[1].fixBounds(max: 255),
+            components[2].fixBounds(max: 255)
+        )
+    }
+
+    var HSB: (hue: CGFloat, saturation: CGFloat, brightness: CGFloat) {
+        let (R, G, B) = self.RGB
         let maxRGB = max(R, G, B)
         let minRGB = min(R, G, B)
         let delta = maxRGB - minRGB
         var hue: CGFloat = 0
         let saturation: CGFloat = delta / maxRGB
-        let brightness = maxRGB
+        let brightness = maxRGB / 255
 
         if (maxRGB == 0) {
             return (0, 0, 0)
