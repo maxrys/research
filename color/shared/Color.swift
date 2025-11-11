@@ -24,25 +24,40 @@ extension Color {
         return (R << 16) | (G << 8) | B
     }
 
-    var RGB: (red: CGFloat, green: CGFloat, blue: CGFloat) {
+    var RGB: (red: UInt8, green: UInt8, blue: UInt8) {
         guard let components = self.cgColor?.components, components.count >= 3 else {
             return (0, 0, 0)
         }
         return (
-            components[0].fixBounds(max: 255),
-            components[1].fixBounds(max: 255),
-            components[2].fixBounds(max: 255)
+            UInt8(components[0]).fixBounds(max: 255),
+            UInt8(components[1]).fixBounds(max: 255),
+            UInt8(components[2]).fixBounds(max: 255)
         )
     }
 
-    var HSB: (hue: CGFloat, saturation: CGFloat, brightness: CGFloat) {
-        let (R, G, B) = self.RGB
-        let maxRGB = max(R, G, B)
+    var RGBv2: (red: UInt8, green: UInt8, blue: UInt8) {
+        let nsColor = NSColor(self)
+        var R: CGFloat = 0
+        var G: CGFloat = 0
+        var B: CGFloat = 0
+        nsColor.getRed(&R, green: &G, blue: &B, alpha: nil)
+        return (
+            UInt8(R).fixBounds(max: 255),
+            UInt8(G).fixBounds(max: 255),
+            UInt8(B).fixBounds(max: 255)
+        )
+    }
+
+    static func toHSB(red R: UInt8, green G: UInt8, blue B: UInt8) -> (hue: CGFloat, saturation: CGFloat, brightness: CGFloat) {
+        let R = CGFloat(R)
+        let G = CGFloat(G)
+        let B = CGFloat(B)
         let minRGB = min(R, G, B)
+        let maxRGB = max(R, G, B)
         let delta = maxRGB - minRGB
         var hue: CGFloat = 0
         let saturation: CGFloat = delta / maxRGB
-        let brightness = maxRGB
+        let brightness = maxRGB / 255
 
         if (maxRGB == 0) {
             return (0, 0, 0)
@@ -57,36 +72,6 @@ extension Color {
         else if (maxRGB == B) { hue = (60 * (R - G) / delta + 240).truncatingRemainder(dividingBy: 360) }
 
         return (hue, saturation, brightness)
-    }
-
-    func hueShift(amount: CGFloat) -> Self {
-        let (H, S, B) = self.HSB
-        return Self(
-            hue       : H + amount,
-            saturation: S,
-            brightness: B,
-            opacity   : 1.0
-        )
-    }
-
-    func saturationShift(amount: CGFloat) -> Self {
-        let (H, S, B) = self.HSB
-        return Self(
-            hue       : H,
-            saturation: S + amount,
-            brightness: B,
-            opacity   : 1.0
-        )
-    }
-
-    func brightnessShift(amount: CGFloat) -> Self {
-        let (H, S, B) = self.HSB
-        return Self(
-            hue       : H,
-            saturation: S,
-            brightness: B + amount,
-            opacity   : 1.0
-        )
     }
 
 }

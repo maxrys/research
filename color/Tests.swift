@@ -4,14 +4,6 @@ import SwiftUI
 
 struct Tests {
 
-    func formatDouble(_ value: Double, fractionLength: Int = 3) -> String {
-        value.formatted(
-            .number.precision(
-                .fractionLength(fractionLength)
-            )
-        )
-    }
-
     @Test func test_color_fromUInt_total() async throws {
         for uintValue in 0 ... 0xff_ff_ff + 1 {
             let color = Color(fromUInt: UInt(uintValue))
@@ -24,15 +16,16 @@ struct Tests {
         }
     }
 
-    @Test func test_color_HSB_total() async throws {
+    @Test func test_color_toHSB_total() async throws {
         for uintValue in 0 ... 0xff_ff_ff + 1 {
-            let (H, S, B) = Color(fromUInt: UInt(uintValue)).HSB
-            #expect(H >= 0.0)
-            #expect(H <= 360.0)
-            #expect(S >= 0.0)
-            #expect(S <= 1.0)
-            #expect(B >= 0.0)
-            #expect(B <= 1.0)
+            let (red, green, blue) = Color(fromUInt: UInt(uintValue)).RGB
+            let (hue, saturation, brightness) = Color.toHSB(red: red, green: green, blue: blue)
+            #expect(hue        >= 0.0  );  if !(hue        >= 0.0  ) { return }
+            #expect(hue        <= 360.0);  if !(hue        <= 360.0) { return }
+            #expect(saturation >= 0.0  );  if !(saturation >= 0.0  ) { return }
+            #expect(saturation <= 1.0  );  if !(saturation <= 1.0  ) { return }
+            #expect(brightness >= 0.0  );  if !(brightness >= 0.0  ) { return }
+            #expect(brightness <= 1.0  );  if !(brightness <= 1.0  ) { return }
         }
     }
 
@@ -41,55 +34,13 @@ struct Tests {
         let color_G = Color(red:   0, green: 255, blue:   0) /* green */
         let color_B = Color(red:   0, green:   0, blue: 255) /* blue */
 
-        #expect( color_R.RGB == ( 255.0,   0.0,   0.0 ) )
-        #expect( color_G.RGB == (   0.0, 255.0,   0.0 ) )
-        #expect( color_B.RGB == (   0.0,   0.0, 255.0 ) )
+        #expect(color_R.RGB == ( 255,   0,   0 ))
+        #expect(color_G.RGB == (   0, 255,   0 ))
+        #expect(color_B.RGB == (   0,   0, 255 ))
 
-        #expect( color_R.HSB == (   0.0,   1.0,   1.0 ) )
-        #expect( color_G.HSB == ( 120.0,   1.0,   1.0 ) )
-        #expect( color_B.HSB == ( 240.0,   1.0,   1.0 ) )
-    }
-
-    @Test func test_color_hueShift() async throws {
-        for i in 0 ... 360 + 1 {
-            let color = Color(hue: 1, saturation: 0.5, brightness: 0.5)
-            let newColorAmount = CGFloat(i)
-            let newColor = color.hueShift(amount: newColorAmount)
-            print(
-                "i: \(i) | " +
-                "H: \(self.formatDouble(newColor.HSB.hue)) | " +
-                "S: \(self.formatDouble(newColor.HSB.saturation)) | " +
-                "B: \(self.formatDouble(newColor.HSB.brightness))"
-            )
-        }
-    }
-
-    @Test func test_color_saturationShift() async throws {
-        for i in 0 ... 100 + 1 {
-            let color = Color(hue: 1, saturation: 0.01, brightness: 0.01)
-            let newColorAmount = Decimal(i) * Decimal(0.01)
-            let newColor = color.saturationShift(amount: newColorAmount.double)
-            print(
-                "i: \(i) | " +
-                "H: \(self.formatDouble(newColor.HSB.hue)) | " +
-                "S: \(self.formatDouble(newColor.HSB.saturation)) | " +
-                "B: \(self.formatDouble(newColor.HSB.brightness))"
-            )
-        }
-    }
-
-    @Test func test_color_brightnessShift() async throws {
-        for i in 0 ... 100 + 1 {
-            let color = Color(hue: 1, saturation: 0.01, brightness: 0.01)
-            let newColorAmount = Decimal(i) * Decimal(0.01)
-            let newColor = color.brightnessShift(amount: newColorAmount.double)
-            print(
-                "i: \(i) | " +
-                "H: \(self.formatDouble(newColor.HSB.hue)) | " +
-                "S: \(self.formatDouble(newColor.HSB.saturation)) | " +
-                "B: \(self.formatDouble(newColor.HSB.brightness))"
-            )
-        }
+        #expect(Color.toHSB(red: color_R.RGB.red, green: color_R.RGB.green, blue: color_R.RGB.blue) == (   0.0, 1.0, 1.0 ))
+        #expect(Color.toHSB(red: color_G.RGB.red, green: color_G.RGB.green, blue: color_G.RGB.blue) == ( 120.0, 1.0, 1.0 ))
+        #expect(Color.toHSB(red: color_B.RGB.red, green: color_B.RGB.green, blue: color_B.RGB.blue) == ( 240.0, 1.0, 1.0 ))
     }
 
 }

@@ -58,8 +58,8 @@
 		5071B9352EC319120068DB06 /* shared */ = {
 			isa = PBXGroup;
 			children = (
-				5071B9312EC318F30068DB06 /* Color.swift */,
 				5071B93B2EC31CBD0068DB06 /* Numeric.swift */,
+				5071B9312EC318F30068DB06 /* Color.swift */,
 				50778CCC2D5CE19900C5A42E /* GraphicsContext.swift */,
 			);
 			path = shared;

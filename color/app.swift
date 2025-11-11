@@ -86,47 +86,15 @@ import SwiftUI
 
                 VStack(spacing: 10) {
 
-                    Text("hueShift")
+                    Text("Shift")
                         .font(.headline)
 
                     LazyVGrid(columns: columns, spacing: 0) {
                         ForEach(0 ... 360 + 1, id: \.self) { i in
-                            let color = Color(fromUInt: 0x00_ff_00)
-                            let newColorAmount = CGFloat(i)
-                            let newColor = color.hueShift(amount: newColorAmount)
-                            newColor.frame(width: 20, height: 20)
-                        }
-                    }
-
-                }.padding(10)
-
-                VStack(spacing: 10) {
-
-                    Text("saturationShift")
-                        .font(.headline)
-
-                    LazyVGrid(columns: columns, spacing: 0) {
-                        ForEach(0 ... 100 + 1, id: \.self) { i in
-                            let color = Color(fromUInt: 0x00_ff_00)
-                            let newColorAmount = Decimal(i) * Decimal(0.01)
-                            let newColor = color.saturationShift(amount: newColorAmount.double)
-                            newColor.frame(width: 20, height: 20)
-                        }
-                    }
-
-                }.padding(10)
-
-                VStack(spacing: 10) {
-
-                    Text("brightnessShift")
-                        .font(.headline)
-
-                    LazyVGrid(columns: columns, spacing: 0) {
-                        ForEach(0 ... 100 + 1, id: \.self) { i in
-                            let color = Color(fromUInt: 0x00_ff_00)
-                            let newColorAmount = Decimal(i) * Decimal(0.01)
-                            let newColor = color.brightnessShift(amount: newColorAmount.double)
-                            newColor.frame(width: 20, height: 20)
+                            // let color = Color(fromUInt: 0x00_ff_00)
+                            // let newColorAmount = CGFloat(i)
+                            // let newColor = color.hueShift(amount: newColorAmount)
+                            // newColor.frame(width: 20, height: 20)
                         }
                     }
 
