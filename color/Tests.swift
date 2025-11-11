@@ -13,7 +13,7 @@ struct Tests {
     }
 
     @Test func test_color_fromUInt_total() async throws {
-        for uintValue in 0 ... 0x_ff_ff_ff + 1 {
+        for uintValue in 0 ... 0xff_ff_ff + 1 {
             let color = Color(fromUInt: UInt(uintValue))
             let received = color.uint
             let expected = uintValue & 0xff_ff_ff
@@ -25,7 +25,7 @@ struct Tests {
     }
 
     @Test func test_color_HSB_total() async throws {
-        for uintValue in 0 ... 0x_ff_ff_ff + 1 {
+        for uintValue in 0 ... 0xff_ff_ff + 1 {
             let (H, S, B) = Color(fromUInt: UInt(uintValue)).HSB
             #expect(H >= 0.0)
             #expect(H <= 360.0)
@@ -48,20 +48,6 @@ struct Tests {
         #expect( color_R.HSB == (   0.0,   1.0,   1.0 ) )
         #expect( color_G.HSB == ( 120.0,   1.0,   1.0 ) )
         #expect( color_B.HSB == ( 240.0,   1.0,   1.0 ) )
-    }
-
-    @Test func test_color_HSB() async throws {
-        let color_R = Color(hue:   0, saturation: 1.0, brightness: 1.0) /* red */
-        let color_G = Color(hue: 120, saturation: 1.0, brightness: 1.0) /* green */
-        let color_B = Color(hue: 240, saturation: 1.0, brightness: 1.0) /* blue */
-
-        dump( color_R.RGB )
-        dump( color_G.RGB )
-        dump( color_B.RGB )
-
-        dump( color_R.HSB )
-        dump( color_G.HSB )
-        dump( color_B.HSB )
     }
 
     @Test func test_color_hueShift() async throws {
