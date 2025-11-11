@@ -9,18 +9,18 @@ extension Color {
 
     init(fromUInt: UInt, alpha: Double = 1) {
         self.init(.sRGB,
-            red  : Double((fromUInt >> 16) & 0xff) / 255,
-            green: Double((fromUInt >> 08) & 0xff) / 255,
-            blue : Double((fromUInt >> 00) & 0xff) / 255,
+            red  : Double((fromUInt >> 16) & 0xff) / 255.0,
+            green: Double((fromUInt >> 08) & 0xff) / 255.0,
+            blue : Double((fromUInt >> 00) & 0xff) / 255.0,
             opacity: alpha
         )
     }
 
     var uint: UInt {
         guard let components = self.cgColor?.components, components.count >= 3 else { return 0 }
-        let R = UInt(components[0] * 255)
-        let G = UInt(components[1] * 255)
-        let B = UInt(components[2] * 255)
+        let R = UInt((components[0] * 255.0).rounded())
+        let G = UInt((components[1] * 255.0).rounded())
+        let B = UInt((components[2] * 255.0).rounded())
         return (R << 16) | (G << 8) | B
     }
 

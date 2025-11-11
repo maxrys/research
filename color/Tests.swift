@@ -5,7 +5,7 @@ import SwiftUI
 struct Tests {
 
     @Test func test_color_fromUInt() async throws {
-        for uintValue in 0 ... 0xff { // 0xff_ff_ff + 1
+        for uintValue in 0 ... 0xff_ff_ff {
             let color = Color(fromUInt: UInt(uintValue))
             let received = color.uint
             let expected = uintValue
@@ -17,7 +17,6 @@ struct Tests {
                 return
             }
         }
-        print("test_color_HSB: OK")
     }
 
     @Test func test_color_HSB() async throws {
