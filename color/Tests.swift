@@ -4,6 +4,14 @@ import SwiftUI
 
 struct Tests {
 
+    func formatDouble(_ value: Double, fractionLength: Int = 3) -> String {
+        value.formatted(
+            .number.precision(
+                .fractionLength(fractionLength)
+            )
+        )
+    }
+
     @Test func test_color_fromUInt() async throws {
         for uintValue in 0 ... 0xff_ff_ff + 1 {
             let color = Color(fromUInt: UInt(uintValue))
@@ -30,10 +38,15 @@ struct Tests {
 
     @Test func test_color_hueShift() async throws {
         for i in 0 ... 360 + 1 {
-            let color = Color(hue: 1, saturation: 0.01, brightness: 0.01)
+            let color = Color(hue: 1, saturation: 0.5, brightness: 0.5)
             let newColorAmount = CGFloat(i)
             let newColor = color.hueShift(amount: newColorAmount)
-            print(newColor.HSB)
+            print(
+                "i: \(i) | " +
+                "H: \(self.formatDouble(newColor.HSB.hue)) | " +
+                "S: \(self.formatDouble(newColor.HSB.saturation)) | " +
+                "B: \(self.formatDouble(newColor.HSB.brightness))"
+            )
         }
     }
 
@@ -42,7 +55,12 @@ struct Tests {
             let color = Color(hue: 1, saturation: 0.01, brightness: 0.01)
             let newColorAmount = Decimal(i) * Decimal(0.01)
             let newColor = color.saturationShift(amount: newColorAmount.double)
-            print(newColor.HSB)
+            print(
+                "i: \(i) | " +
+                "H: \(self.formatDouble(newColor.HSB.hue)) | " +
+                "S: \(self.formatDouble(newColor.HSB.saturation)) | " +
+                "B: \(self.formatDouble(newColor.HSB.brightness))"
+            )
         }
     }
 
@@ -51,7 +69,12 @@ struct Tests {
             let color = Color(hue: 1, saturation: 0.01, brightness: 0.01)
             let newColorAmount = Decimal(i) * Decimal(0.01)
             let newColor = color.brightnessShift(amount: newColorAmount.double)
-            print(newColor.HSB)
+            print(
+                "i: \(i) | " +
+                "H: \(self.formatDouble(newColor.HSB.hue)) | " +
+                "S: \(self.formatDouble(newColor.HSB.saturation)) | " +
+                "B: \(self.formatDouble(newColor.HSB.brightness))"
+            )
         }
     }
 

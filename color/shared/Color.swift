@@ -45,13 +45,10 @@ extension Color {
             return (0, saturation, brightness)
         }
 
-        if      (R == maxRGB) { hue =     (G - B) / delta }
-        else if (G == maxRGB) { hue = 2 + (B - R) / delta }
-        else                  { hue = 4 + (R - G) / delta }
-        hue *= 60 /* convert to degrees */
-        if hue < 0 {
-            hue += 360
-        }
+        if (maxRGB == minRGB) { hue = 0 }
+        else if (maxRGB == R) { hue = (60 * (G - B) / delta + 360).truncatingRemainder(dividingBy: 360) }
+        else if (maxRGB == G) { hue = (60 * (B - R) / delta + 120).truncatingRemainder(dividingBy: 360) }
+        else if (maxRGB == B) { hue = (60 * (R - G) / delta + 240).truncatingRemainder(dividingBy: 360) }
 
         return (hue, saturation, brightness)
     }
