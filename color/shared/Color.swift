@@ -25,13 +25,15 @@ extension Color {
     }
 
     var RGB: (red: CGFloat, green: CGFloat, blue: CGFloat) {
-        guard let components = self.cgColor?.components, components.count >= 3 else {
-            return (0, 0, 0)
-        }
+        let nsColor = NSColor(self)
+        var R: CGFloat = 0
+        var G: CGFloat = 0
+        var B: CGFloat = 0
+        nsColor.getRed(&R, green: &G, blue: &B, alpha: nil)
         return (
-            components[0].fixBounds(max: 255),
-            components[1].fixBounds(max: 255),
-            components[2].fixBounds(max: 255)
+            R.fixBounds(max: 255),
+            G.fixBounds(max: 255),
+            B.fixBounds(max: 255)
         )
     }
 
