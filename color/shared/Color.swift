@@ -34,35 +34,56 @@ extension Color {
         let maxRGB = max(R, G, B)
         let minRGB = min(R, G, B)
         let delta = maxRGB - minRGB
+        var hue: CGFloat = 0
+        let saturation: CGFloat = delta / maxRGB
+        let brightness = maxRGB
 
-        /* a rare case in which the color is black */
         if (maxRGB == 0) {
             return (0, 0, 0)
         }
+        if (delta == 0) {
+            return (0, saturation, brightness)
+        }
 
-        /* brightness */
-        let brightness = maxRGB
-
-        /* saturation */
-        let saturation: CGFloat = delta / maxRGB
-
-        /* hue */
-        var hue: CGFloat = 0
-        if (delta > 0) {
-            if      (R == maxRGB) { hue =     (G - B) / delta }
-            else if (G == maxRGB) { hue = 2 + (B - R) / delta }
-            else                  { hue = 4 + (R - G) / delta }
-            hue *= 60 /* convert to degrees */
-            if hue < 0 {
-                hue += 360
-            }
+        if      (R == maxRGB) { hue =     (G - B) / delta }
+        else if (G == maxRGB) { hue = 2 + (B - R) / delta }
+        else                  { hue = 4 + (R - G) / delta }
+        hue *= 60 /* convert to degrees */
+        if hue < 0 {
+            hue += 360
         }
 
         return (hue, saturation, brightness)
     }
 
-    // func hueShift
-    // func brightnessShift
-    // func saturationShift
+    func hueShift(amount: CGFloat) -> Self {
+        let (H, S, B) = self.HSB
+        return Self(
+            hue       : H + amount,
+            saturation: S,
+            brightness: B,
+            opacity   : 1.0
+        )
+    }
+
+    func saturationShift(amount: CGFloat) -> Self {
+        let (H, S, B) = self.HSB
+        return Self(
+            hue       : H,
+            saturation: S + amount,
+            brightness: B,
+            opacity   : 1.0
+        )
+    }
+
+    func brightnessShift(amount: CGFloat) -> Self {
+        let (H, S, B) = self.HSB
+        return Self(
+            hue       : H,
+            saturation: S,
+            brightness: B + amount,
+            opacity   : 1.0
+        )
+    }
 
 }

@@ -28,4 +28,31 @@ struct Tests {
         }
     }
 
+    @Test func test_color_hueShift() async throws {
+        for i in 0 ... 360 + 1 {
+            let color = Color(hue: 1, saturation: 0.01, brightness: 0.01)
+            let newColorAmount = CGFloat(i)
+            let newColor = color.hueShift(amount: newColorAmount)
+            print(newColor.HSB)
+        }
+    }
+
+    @Test func test_color_saturationShift() async throws {
+        for i in 0 ... 100 + 1 {
+            let color = Color(hue: 1, saturation: 0.01, brightness: 0.01)
+            let newColorAmount = Decimal(i) * Decimal(0.01)
+            let newColor = color.saturationShift(amount: newColorAmount.double)
+            print(newColor.HSB)
+        }
+    }
+
+    @Test func test_color_brightnessShift() async throws {
+        for i in 0 ... 100 + 1 {
+            let color = Color(hue: 1, saturation: 0.01, brightness: 0.01)
+            let newColorAmount = Decimal(i) * Decimal(0.01)
+            let newColor = color.brightnessShift(amount: newColorAmount.double)
+            print(newColor.HSB)
+        }
+    }
+
 }
