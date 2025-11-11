@@ -13,7 +13,7 @@ struct Tests {
     }
 
     @Test func test_color_fromUInt_total() async throws {
-        for uintValue in 0 ... 0xff_ff_ff + 1 {
+        for uintValue in 0 ... 0x_ff_ff_ff + 1 {
             let color = Color(fromUInt: UInt(uintValue))
             let received = color.uint
             let expected = uintValue & 0xff_ff_ff
@@ -25,7 +25,7 @@ struct Tests {
     }
 
     @Test func test_color_HSB_total() async throws {
-        for uintValue in 0 ... 0xff_ff_ff + 1 {
+        for uintValue in 0 ... 0x_ff_ff_ff + 1 {
             let (H, S, B) = Color(fromUInt: UInt(uintValue)).HSB
             #expect(H >= 0.0)
             #expect(H <= 360.0)

@@ -91,7 +91,7 @@ import SwiftUI
 
                     LazyVGrid(columns: columns, spacing: 0) {
                         ForEach(0 ... 360 + 1, id: \.self) { i in
-                            let color = Color(hue: 100, saturation: 0.5, brightness: 0.5)
+                            let color = Color(fromUInt: 0x00_ff_00)
                             let newColorAmount = CGFloat(i)
                             let newColor = color.hueShift(amount: newColorAmount)
                             newColor.frame(width: 20, height: 20)
@@ -107,7 +107,7 @@ import SwiftUI
 
                     LazyVGrid(columns: columns, spacing: 0) {
                         ForEach(0 ... 100 + 1, id: \.self) { i in
-                            let color = Color(hue: 100, saturation: 0.5, brightness: 0.5)
+                            let color = Color(fromUInt: 0x00_ff_00)
                             let newColorAmount = Decimal(i) * Decimal(0.01)
                             let newColor = color.saturationShift(amount: newColorAmount.double)
                             newColor.frame(width: 20, height: 20)
@@ -123,7 +123,7 @@ import SwiftUI
 
                     LazyVGrid(columns: columns, spacing: 0) {
                         ForEach(0 ... 100 + 1, id: \.self) { i in
-                            let color = Color(hue: 100, saturation: 0.5, brightness: 0.5)
+                            let color = Color(fromUInt: 0x00_ff_00)
                             let newColorAmount = Decimal(i) * Decimal(0.01)
                             let newColor = color.brightnessShift(amount: newColorAmount.double)
                             newColor.frame(width: 20, height: 20)
