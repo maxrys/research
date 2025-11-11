@@ -90,11 +90,12 @@ import SwiftUI
                         .font(.headline)
 
                     LazyVGrid(columns: columns, spacing: 0) {
-                        ForEach(0 ... 360 + 1, id: \.self) { i in
-                            // let color = Color(fromUInt: 0x00_ff_00)
-                            // let newColorAmount = CGFloat(i)
-                            // let newColor = color.hueShift(amount: newColorAmount)
-                            // newColor.frame(width: 20, height: 20)
+                        ForEach(0xff_00_00 ... 0xff_00_ff, id: \.self) { i in
+                            let color = Color(fromUInt: UInt(i))
+                            let (red, green, blue) = color.RGB
+                            let (hue, saturation, brightness) = Color.toHSB(red: red, green: green, blue: blue)
+                            Color(hue: hue, saturation: saturation, brightness: brightness)
+                                .frame(width: 20, height: 20)
                         }
                     }
 
