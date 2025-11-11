@@ -35,21 +35,27 @@ extension Color {
         let minRGB = min(R, G, B)
         let delta = maxRGB - minRGB
 
-        var hue: CGFloat = 0
-        let brightness = maxRGB
-
-        if (maxRGB == 0) { /* a rare case in which the color is black */
+        /* a rare case in which the color is black */
+        if (maxRGB == 0) {
             return (0, 0, 0)
         }
 
-        let saturation: CGFloat = delta / maxRGB
-        if      (R == maxRGB) { hue =     (G - B) / delta }
-        else if (G == maxRGB) { hue = 2 + (B - R) / delta }
-        else                  { hue = 4 + (R - G) / delta }
+        /* brightness */
+        let brightness = maxRGB
 
-        hue *= 60 // convert to degrees
-        if hue < 0 {
-            hue += 360
+        /* saturation */
+        let saturation: CGFloat = delta / maxRGB
+
+        /* hue */
+        var hue: CGFloat = 0
+        if (delta > 0) {
+            if      (R == maxRGB) { hue =     (G - B) / delta }
+            else if (G == maxRGB) { hue = 2 + (B - R) / delta }
+            else                  { hue = 4 + (R - G) / delta }
+            hue *= 60 /* convert to degrees */
+            if hue < 0 {
+                hue += 360
+            }
         }
 
         return (hue, saturation, brightness)

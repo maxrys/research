@@ -11,9 +11,6 @@ struct Tests {
             let expected = uintValue & 0xff_ff_ff
             #expect(received == expected)
             if (received != expected) {
-                print("ERROR: \(uintValue)");
-                print("RECEIVED:"); dump(received);
-                print("EXPECTED:"); dump(expected);
                 return
             }
         }
@@ -21,7 +18,13 @@ struct Tests {
 
     @Test func test_color_HSB() async throws {
         for uintValue in 0 ... 0xff_ff_ff + 1 {
-            _ = Color(fromUInt: UInt(uintValue)).HSB
+            let (H, S, B) = Color(fromUInt: UInt(uintValue)).HSB
+            #expect(H >= 0.0)
+            #expect(H <= 360.0)
+            #expect(S >= 0.0)
+            #expect(S <= 1.0)
+            #expect(B >= 0.0)
+            #expect(B <= 1.0)
         }
     }
 
