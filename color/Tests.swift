@@ -41,13 +41,13 @@ struct Tests {
         let color_G = Color(red:   0, green: 255, blue:   0) /* green */
         let color_B = Color(red:   0, green:   0, blue: 255) /* blue */
 
-        dump( color_R.RGB )
-        dump( color_G.RGB )
-        dump( color_B.RGB )
+        #expect( color_R.RGB == ( 255.0,   0.0,   0.0 ) )
+        #expect( color_G.RGB == (   0.0, 255.0,   0.0 ) )
+        #expect( color_B.RGB == (   0.0,   0.0, 255.0 ) )
 
-        dump( color_R.HSB )
-        dump( color_G.HSB )
-        dump( color_B.HSB )
+        #expect( color_R.HSB == (   0.0,   1.0,   1.0 ) )
+        #expect( color_G.HSB == ( 120.0,   1.0,   1.0 ) )
+        #expect( color_B.HSB == ( 240.0,   1.0,   1.0 ) )
     }
 
     @Test func test_color_HSB() async throws {
