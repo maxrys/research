@@ -24,7 +24,7 @@ extension Color {
         return (R << 16) | (G << 8) | B
     }
 
-    var RGB: (red: UInt8, green: UInt8, blue: UInt8) {
+    var RGBv1: (red: UInt8, green: UInt8, blue: UInt8) {
         guard let components = self.cgColor?.components, components.count >= 3 else {
             return (0, 0, 0)
         }
