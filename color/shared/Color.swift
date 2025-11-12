@@ -47,7 +47,7 @@ extension Color {
         )
     }
 
-    static func toHSB(_ R: UInt8, _ G: UInt8, _ B: UInt8) -> (hue: CGFloat, saturation: CGFloat, brightness: CGFloat) {
+    static func RGBtoHSB(_ R: UInt8, _ G: UInt8, _ B: UInt8) -> (hue: CGFloat, saturation: CGFloat, brightness: CGFloat) {
         let R = CGFloat(R)
         let G = CGFloat(G)
         let B = CGFloat(B)

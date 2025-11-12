@@ -54,7 +54,7 @@ struct Tests {
 
     /* HSB */
 
-    @Test func test_color_HSB() async throws {
+    @Test func test_color_RGBtoHSB() async throws {
         let rgbFFFFFF = UInt(0xFFFFFF).RGB
         let rgbFFFF00 = UInt(0xFFFF00).RGB
         let rgbFF00FF = UInt(0xFF00FF).RGB
@@ -64,14 +64,14 @@ struct Tests {
         let rgb0000FF = UInt(0x0000FF).RGB
         let rgb000000 = UInt(0x000000).RGB
 
-        #expect(Color.toHSB(rgbFFFFFF.red, rgbFFFFFF.green, rgbFFFFFF.blue) == (   0.0, 0.0, 1.0 ))
-        #expect(Color.toHSB(rgbFFFF00.red, rgbFFFF00.green, rgbFFFF00.blue) == (  60.0, 1.0, 1.0 ))
-        #expect(Color.toHSB(rgbFF00FF.red, rgbFF00FF.green, rgbFF00FF.blue) == ( 300.0, 1.0, 1.0 ))
-        #expect(Color.toHSB(rgbFF0000.red, rgbFF0000.green, rgbFF0000.blue) == (   0.0, 1.0, 1.0 ))
-        #expect(Color.toHSB(rgb00FFFF.red, rgb00FFFF.green, rgb00FFFF.blue) == ( 180.0, 1.0, 1.0 ))
-        #expect(Color.toHSB(rgb00FF00.red, rgb00FF00.green, rgb00FF00.blue) == ( 120.0, 1.0, 1.0 ))
-        #expect(Color.toHSB(rgb0000FF.red, rgb0000FF.green, rgb0000FF.blue) == ( 240.0, 1.0, 1.0 ))
-        #expect(Color.toHSB(rgb000000.red, rgb000000.green, rgb000000.blue) == (   0.0, 0.0, 0.0 ))
+        #expect(Color.RGBtoHSB(rgbFFFFFF.red, rgbFFFFFF.green, rgbFFFFFF.blue) == (   0.0, 0.0, 1.0 ))
+        #expect(Color.RGBtoHSB(rgbFFFF00.red, rgbFFFF00.green, rgbFFFF00.blue) == (  60.0, 1.0, 1.0 ))
+        #expect(Color.RGBtoHSB(rgbFF00FF.red, rgbFF00FF.green, rgbFF00FF.blue) == ( 300.0, 1.0, 1.0 ))
+        #expect(Color.RGBtoHSB(rgbFF0000.red, rgbFF0000.green, rgbFF0000.blue) == (   0.0, 1.0, 1.0 ))
+        #expect(Color.RGBtoHSB(rgb00FFFF.red, rgb00FFFF.green, rgb00FFFF.blue) == ( 180.0, 1.0, 1.0 ))
+        #expect(Color.RGBtoHSB(rgb00FF00.red, rgb00FF00.green, rgb00FF00.blue) == ( 120.0, 1.0, 1.0 ))
+        #expect(Color.RGBtoHSB(rgb0000FF.red, rgb0000FF.green, rgb0000FF.blue) == ( 240.0, 1.0, 1.0 ))
+        #expect(Color.RGBtoHSB(rgb000000.red, rgb000000.green, rgb000000.blue) == (   0.0, 0.0, 0.0 ))
 
         let rgb7F7F7F = UInt(0x7F7F7F).RGB
         let rgb7F7F00 = UInt(0x7F7F00).RGB
@@ -81,19 +81,19 @@ struct Tests {
         let rgb007F00 = UInt(0x007F00).RGB
         let rgb00007F = UInt(0x00007F).RGB
 
-        #expect(Color.toHSB(rgb7F7F7F.red, rgb7F7F7F.green, rgb7F7F7F.blue) == (   0.0, 0.0, 0.4980392156862745 ))
-        #expect(Color.toHSB(rgb7F7F00.red, rgb7F7F00.green, rgb7F7F00.blue) == (  60.0, 1.0, 0.4980392156862745 ))
-        #expect(Color.toHSB(rgb7F007F.red, rgb7F007F.green, rgb7F007F.blue) == ( 300.0, 1.0, 0.4980392156862745 ))
-        #expect(Color.toHSB(rgb7F0000.red, rgb7F0000.green, rgb7F0000.blue) == (   0.0, 1.0, 0.4980392156862745 ))
-        #expect(Color.toHSB(rgb007F7F.red, rgb007F7F.green, rgb007F7F.blue) == ( 180.0, 1.0, 0.4980392156862745 ))
-        #expect(Color.toHSB(rgb007F00.red, rgb007F00.green, rgb007F00.blue) == ( 120.0, 1.0, 0.4980392156862745 ))
-        #expect(Color.toHSB(rgb00007F.red, rgb00007F.green, rgb00007F.blue) == ( 240.0, 1.0, 0.4980392156862745 ))
+        #expect(Color.RGBtoHSB(rgb7F7F7F.red, rgb7F7F7F.green, rgb7F7F7F.blue) == (   0.0, 0.0, 0.4980392156862745 ))
+        #expect(Color.RGBtoHSB(rgb7F7F00.red, rgb7F7F00.green, rgb7F7F00.blue) == (  60.0, 1.0, 0.4980392156862745 ))
+        #expect(Color.RGBtoHSB(rgb7F007F.red, rgb7F007F.green, rgb7F007F.blue) == ( 300.0, 1.0, 0.4980392156862745 ))
+        #expect(Color.RGBtoHSB(rgb7F0000.red, rgb7F0000.green, rgb7F0000.blue) == (   0.0, 1.0, 0.4980392156862745 ))
+        #expect(Color.RGBtoHSB(rgb007F7F.red, rgb007F7F.green, rgb007F7F.blue) == ( 180.0, 1.0, 0.4980392156862745 ))
+        #expect(Color.RGBtoHSB(rgb007F00.red, rgb007F00.green, rgb007F00.blue) == ( 120.0, 1.0, 0.4980392156862745 ))
+        #expect(Color.RGBtoHSB(rgb00007F.red, rgb00007F.green, rgb00007F.blue) == ( 240.0, 1.0, 0.4980392156862745 ))
     }
 
-    @Test func test_color_toHSB_total() async throws {
+    @Test func test_color_RGBtoHSB_total() async throws {
         for value in 0 ... 0xff_ff_ff + 1 {
             let (red, green, blue) = UInt(value).RGB
-            let (hue, saturation, brightness) = Color.toHSB(red, green, blue)
+            let (hue, saturation, brightness) = Color.RGBtoHSB(red, green, blue)
             #expect(hue        >= 0.0  );  if !(hue        >= 0.0  ) { return }
             #expect(hue        <= 360.0);  if !(hue        <= 360.0) { return }
             #expect(saturation >= 0.0  );  if !(saturation >= 0.0  ) { return }

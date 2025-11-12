@@ -121,7 +121,7 @@ import SwiftUI
                     LazyVGrid(columns: columns, spacing: 1) {
                         let color = Color(fromUInt: 0xFF_00_00)
                         let (red, green, blue) = color.RGBv1
-                        let (hue, saturation, _) = Color.toHSB(red, green, blue)
+                        let (hue, saturation, _) = Color.RGBtoHSB(red, green, blue)
                         ForEach(0 ... 100, id: \.self) { i in
                             Color(hue: hue / 360, saturation: saturation, brightness: Double(i) * 0.01)
                                 .frame(width: 20, height: 20)
@@ -131,7 +131,7 @@ import SwiftUI
                     LazyVGrid(columns: columns, spacing: 1) {
                         let color = Color(fromUInt: 0x00_FF_00)
                         let (red, green, blue) = color.RGBv1
-                        let (hue, saturation, _) = Color.toHSB(red, green, blue)
+                        let (hue, saturation, _) = Color.RGBtoHSB(red, green, blue)
                         ForEach(0 ... 100, id: \.self) { i in
                             Color(hue: hue / 360, saturation: saturation, brightness: Double(i) * 0.01)
                                 .frame(width: 20, height: 20)
@@ -141,7 +141,7 @@ import SwiftUI
                     LazyVGrid(columns: columns, spacing: 1) {
                         let color = Color(fromUInt: 0x00_00_FF)
                         let (red, green, blue) = color.RGBv1
-                        let (hue, saturation, _) = Color.toHSB(red, green, blue)
+                        let (hue, saturation, _) = Color.RGBtoHSB(red, green, blue)
                         ForEach(0 ... 100, id: \.self) { i in
                             Color(hue: hue / 360, saturation: saturation, brightness: Double(i) * 0.01)
                                 .frame(width: 20, height: 20)
