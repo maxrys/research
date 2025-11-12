@@ -47,7 +47,24 @@ extension Color {
         )
     }
 
+    func brightnessSet(_ brightness: Double) -> Self {
+        let (red, green, blue) = self.RGBv1
+        let (hue, saturation, _) = Self.RGBtoHSB(red, green, blue)
+        return Color(hue: hue / 360, saturation: saturation,
+            brightness: brightness.fixBounds(max: 1.0)
+        )
+    }
+
+    func brightnessShift(_ amount: Double) -> Self {
+        let (red, green, blue) = self.RGBv1
+        let (hue, saturation, brightness) = Self.RGBtoHSB(red, green, blue)
+        return Color(hue: hue / 360, saturation: saturation,
+            brightness: (brightness + amount).fixBounds(max: 1.0)
+        )
+    }
+
     static func RGBtoHSB(_ R: UInt8, _ G: UInt8, _ B: UInt8) -> (hue: CGFloat, saturation: CGFloat, brightness: CGFloat) {
+
         let R = CGFloat(R)
         let G = CGFloat(G)
         let B = CGFloat(B)
