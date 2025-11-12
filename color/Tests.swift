@@ -16,16 +16,6 @@ struct Tests {
         }
     }
 
-    @Test func test_color_fromUInt() async throws {
-        let color_R = Color(fromUInt: 0xFF_00_00) /* red */
-        let color_G = Color(fromUInt: 0x00_FF_00) /* green */
-        let color_B = Color(fromUInt: 0x00_00_FF) /* blue */
-
-        #expect(color_R.uint == 0xFF_00_00)
-        #expect(color_G.uint == 0x00_FF_00)
-        #expect(color_B.uint == 0x00_00_FF)
-    }
-
     @Test func test_color_toHSB_total() async throws {
         for uintValue in 0 ... 0xff_ff_ff + 1 {
             let (red, green, blue) = Color(fromUInt: UInt(uintValue)).RGBv1

@@ -28,9 +28,9 @@ extension Color {
             return (0, 0, 0)
         }
         return (
-            UInt8(components[0]).fixBounds(max: 255),
-            UInt8(components[1]).fixBounds(max: 255),
-            UInt8(components[2]).fixBounds(max: 255)
+            UInt8(components[0].rounded()).fixBounds(max: 255),
+            UInt8(components[1].rounded()).fixBounds(max: 255),
+            UInt8(components[2].rounded()).fixBounds(max: 255)
         )
     }
 
@@ -41,9 +41,9 @@ extension Color {
         var B: CGFloat = 0
         nsColor.getRed(&R, green: &G, blue: &B, alpha: nil)
         return (
-            UInt8(R).fixBounds(max: 255),
-            UInt8(G).fixBounds(max: 255),
-            UInt8(B).fixBounds(max: 255)
+            UInt8(R.rounded()).fixBounds(max: 255),
+            UInt8(G.rounded()).fixBounds(max: 255),
+            UInt8(B.rounded()).fixBounds(max: 255)
         )
     }
 
