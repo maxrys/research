@@ -101,20 +101,40 @@ import SwiftUI
                 /* ############### */
 
                 let columns: [GridItem] = (0 ... 20).map { _ in
-                    GridItem(.fixed(20), spacing: 0)
+                    GridItem(.fixed(20), spacing: 1)
                 }
 
                 VStack(spacing: 10) {
 
-                    Text("Shift")
+                    Text("Brightness")
                         .font(.headline)
 
-                    LazyVGrid(columns: columns, spacing: 0) {
-                        ForEach(0xff_00_00 ... 0xff_00_ff, id: \.self) { i in
-                            let color = Color(fromUInt: UInt(i))
+                    LazyVGrid(columns: columns, spacing: 1) {
+                        ForEach(0 ... 100, id: \.self) { i in
+                            let color = Color(fromUInt: 0xFF_00_00)
                             let (red, green, blue) = color.RGBv1
-                            let (hue, saturation, brightness) = Color.toHSB(red, green, blue)
-                            Color(hue: hue, saturation: saturation, brightness: brightness)
+                            let (hue, saturation, _) = Color.toHSB(red, green, blue)
+                            Color(hue: hue, saturation: saturation, brightness: Double(i) * 0.01)
+                                .frame(width: 20, height: 20)
+                        }
+                    }
+
+                    LazyVGrid(columns: columns, spacing: 1) {
+                        ForEach(0 ... 100, id: \.self) { i in
+                            let color = Color(fromUInt: 0x00_FF_00)
+                            let (red, green, blue) = color.RGBv1
+                            let (hue, saturation, _) = Color.toHSB(red, green, blue)
+                            Color(hue: hue, saturation: saturation, brightness: Double(i) * 0.01)
+                                .frame(width: 20, height: 20)
+                        }
+                    }
+
+                    LazyVGrid(columns: columns, spacing: 1) {
+                        ForEach(0 ... 100, id: \.self) { i in
+                            let color = Color(fromUInt: 0x00_00_FF)
+                            let (red, green, blue) = color.RGBv1
+                            let (hue, saturation, _) = Color.toHSB(red, green, blue)
+                            Color(hue: hue, saturation: saturation, brightness: Double(i) * 0.01)
                                 .frame(width: 20, height: 20)
                         }
                     }
