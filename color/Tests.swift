@@ -43,6 +43,26 @@ struct Tests {
         #expect(color_B.RGBv2 == (   0,   0, 255 ))
     }
 
+    @Test func test_numeric_RGB() async throws {
+        let rgbFFFFFF: UInt = 0xFFFFFF
+        let rgbFFFF00: UInt = 0xFFFF00
+        let rgbFF00FF: UInt = 0xFF00FF
+        let rgbFF0000: UInt = 0xFF0000
+        let rgb00FFFF: UInt = 0x00FFFF
+        let rgb00FF00: UInt = 0x00FF00
+        let rgb0000FF: UInt = 0x0000FF
+        let rgb000000: UInt = 0x000000
+
+        #expect(rgbFFFFFF.RGB == ( 255, 255, 255 ))
+        #expect(rgbFFFF00.RGB == ( 255, 255,   0 ))
+        #expect(rgbFF00FF.RGB == ( 255,   0, 255 ))
+        #expect(rgbFF0000.RGB == ( 255,   0,   0 ))
+        #expect(rgb00FFFF.RGB == (   0, 255, 255 ))
+        #expect(rgb00FF00.RGB == (   0, 255,   0 ))
+        #expect(rgb0000FF.RGB == (   0,   0, 255 ))
+        #expect(rgb000000.RGB == (   0,   0,   0 ))
+    }
+
     @Test func test_color_HSB() async throws {
         let rgbFFFFFF = Color(red: 255, green: 255, blue: 255).RGBv1
         let rgbFFFF00 = Color(red: 255, green: 255, blue:   0).RGBv1
