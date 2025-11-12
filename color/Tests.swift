@@ -44,13 +44,39 @@ struct Tests {
     }
 
     @Test func test_color_HSB() async throws {
+        let rgbFFFFFF = Color(red: 255, green: 255, blue: 255).RGBv1
+        let rgbFFFF00 = Color(red: 255, green: 255, blue:   0).RGBv1
+        let rgbFF00FF = Color(red: 255, green:   0, blue: 255).RGBv1
         let rgbFF0000 = Color(red: 255, green:   0, blue:   0).RGBv1
+        let rgb00FFFF = Color(red:   0, green: 255, blue: 255).RGBv1
         let rgb00FF00 = Color(red:   0, green: 255, blue:   0).RGBv1
         let rgb0000FF = Color(red:   0, green:   0, blue: 255).RGBv1
+        let rgb000000 = Color(red:   0, green:   0, blue:   0).RGBv1
 
+        #expect(Color.toHSB(rgbFFFFFF.red, rgbFFFFFF.green, rgbFFFFFF.blue) == (   0.0, 0.0, 1.0 ))
+        #expect(Color.toHSB(rgbFFFF00.red, rgbFFFF00.green, rgbFFFF00.blue) == (  60.0, 1.0, 1.0 ))
+        #expect(Color.toHSB(rgbFF00FF.red, rgbFF00FF.green, rgbFF00FF.blue) == ( 300.0, 1.0, 1.0 ))
         #expect(Color.toHSB(rgbFF0000.red, rgbFF0000.green, rgbFF0000.blue) == (   0.0, 1.0, 1.0 ))
+        #expect(Color.toHSB(rgb00FFFF.red, rgb00FFFF.green, rgb00FFFF.blue) == ( 180.0, 1.0, 1.0 ))
         #expect(Color.toHSB(rgb00FF00.red, rgb00FF00.green, rgb00FF00.blue) == ( 120.0, 1.0, 1.0 ))
         #expect(Color.toHSB(rgb0000FF.red, rgb0000FF.green, rgb0000FF.blue) == ( 240.0, 1.0, 1.0 ))
+        #expect(Color.toHSB(rgb000000.red, rgb000000.green, rgb000000.blue) == (   0.0, 0.0, 0.0 ))
+
+        let rgb7F7F7F = Color(red: 127, green: 127, blue: 127).RGBv1
+        let rgb7F7F00 = Color(red: 127, green: 127, blue:   0).RGBv1
+        let rgb7F007F = Color(red: 127, green:   0, blue: 127).RGBv1
+        let rgb7F0000 = Color(red: 127, green:   0, blue:   0).RGBv1
+        let rgb007F7F = Color(red:   0, green: 127, blue: 127).RGBv1
+        let rgb007F00 = Color(red:   0, green: 127, blue:   0).RGBv1
+        let rgb00007F = Color(red:   0, green:   0, blue: 127).RGBv1
+
+        #expect(Color.toHSB(rgb7F7F7F.red, rgb7F7F7F.green, rgb7F7F7F.blue) == (   0.0, 0.0, 0.4980392156862745 ))
+        #expect(Color.toHSB(rgb7F7F00.red, rgb7F7F00.green, rgb7F7F00.blue) == (  60.0, 1.0, 0.4980392156862745 ))
+        #expect(Color.toHSB(rgb7F007F.red, rgb7F007F.green, rgb7F007F.blue) == ( 300.0, 1.0, 0.4980392156862745 ))
+        #expect(Color.toHSB(rgb7F0000.red, rgb7F0000.green, rgb7F0000.blue) == (   0.0, 1.0, 0.4980392156862745 ))
+        #expect(Color.toHSB(rgb007F7F.red, rgb007F7F.green, rgb007F7F.blue) == ( 180.0, 1.0, 0.4980392156862745 ))
+        #expect(Color.toHSB(rgb007F00.red, rgb007F00.green, rgb007F00.blue) == ( 120.0, 1.0, 0.4980392156862745 ))
+        #expect(Color.toHSB(rgb00007F.red, rgb00007F.green, rgb00007F.blue) == ( 240.0, 1.0, 0.4980392156862745 ))
     }
 
 }
