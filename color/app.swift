@@ -14,14 +14,6 @@ import SwiftUI
     @State var saturation: Decimal = 0.5
 
     init() {
-        print("\( Color.red.uint )")
-        print("\( Color.orange.uint )")
-        print("\( Color.yellow.uint )")
-        print("\( Color.green.uint )")
-        print("\( Color.blue.uint )")
-        print("\( Color.black.uint )")
-        print("\( Color.white.uint )")
-        print("\( Color(fromUInt: UInt.max).uint )")
     }
 
     func formatDouble(_ value: Double, fractionLength: Int = 3) -> String {

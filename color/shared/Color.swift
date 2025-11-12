@@ -7,21 +7,20 @@ import SwiftUI
 
 extension Color {
 
-    init(fromUInt: UInt, alpha: Double = 1) {
-        self.init(.sRGB,
-            red  : Double((fromUInt >> 16) & 0xff) / 255.0,
-            green: Double((fromUInt >> 08) & 0xff) / 255.0,
-            blue : Double((fromUInt >> 00) & 0xff) / 255.0,
-            opacity: alpha
+    init(fromUInt value: UInt) {
+        self.init(
+            red  : Double(value >> 16 & 0xff),
+            green: Double(value >> 08 & 0xff),
+            blue : Double(value >> 00 & 0xff),
         )
     }
 
     var uint: UInt {
-        guard let components = self.cgColor?.components, components.count >= 3 else { return 0 }
-        let R = UInt((components[0] * 255.0).rounded())
-        let G = UInt((components[1] * 255.0).rounded())
-        let B = UInt((components[2] * 255.0).rounded())
-        return (R << 16) | (G << 8) | B
+        let (rUInt, gUInt, bUInt) = self.RGBv1
+        let R = Int(rUInt)
+        let G = Int(gUInt)
+        let B = Int(bUInt)
+        return UInt((R << 16) | (G << 8) | B)
     }
 
     var RGBv1: (red: UInt8, green: UInt8, blue: UInt8) {

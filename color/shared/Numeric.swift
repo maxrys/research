@@ -26,9 +26,9 @@ extension Numeric where Self == Decimal {
 extension Numeric where Self == UInt {
 
     var RGB: (red: UInt8, green: UInt8, blue: UInt8) {(
-        UInt8((self >> 16) & 0xff),
-        UInt8((self >> 08) & 0xff),
-        UInt8((self >> 00) & 0xff),
+        UInt8(self >> 16 & 0xff),
+        UInt8(self >> 08 & 0xff),
+        UInt8(self >> 00 & 0xff),
     )}
 
 }
