@@ -12,6 +12,7 @@ import SwiftUI
     static let ROWS = 50
 
     @State var saturation: Decimal = 0.5
+    @State var brightness: Decimal = 0.5
 
     init() {
     }
@@ -35,9 +36,17 @@ import SwiftUI
                 VStack {
 
                     HStack {
-                        Button { if self.saturation > 0 {self.saturation -= 0.1} } label: { Text("-") }
-                        Button { if self.saturation < 1 {self.saturation += 0.1} } label: { Text("+") }
-                        Text(self.saturation.formatted(.number.precision(.fractionLength(2))))
+                        Text("saturation").font(.headline)
+                            Button { if self.saturation > 0 {self.saturation -= 0.1} } label: { Text("-") }
+                            Button { if self.saturation < 1 {self.saturation += 0.1} } label: { Text("+") }
+                        Text(self.formatDouble(self.saturation.double))
+                    }
+
+                    HStack {
+                        Text("brightness").font(.headline)
+                            Button { if self.brightness > 0 {self.brightness -= 0.1} } label: { Text("-") }
+                            Button { if self.brightness < 1 {self.brightness += 0.1} } label: { Text("+") }
+                        Text(self.formatDouble(self.brightness.double))
                     }
 
                     Canvas { context, size in
@@ -53,7 +62,7 @@ import SwiftUI
                                 colorFill: Color(
                                     hue       : hue,
                                     saturation: self.saturation.double,
-                                    brightness: brightness
+                                    brightness: self.brightness.double
                                 )
                             )
                             print(
@@ -110,31 +119,31 @@ import SwiftUI
                         .font(.headline)
 
                     LazyVGrid(columns: columns, spacing: 1) {
+                        let color = Color(fromUInt: 0xFF_00_00)
+                        let (red, green, blue) = color.RGBv1
+                        let (hue, saturation, _) = Color.toHSB(red, green, blue)
                         ForEach(0 ... 100, id: \.self) { i in
-                            let color = Color(fromUInt: 0xFF_00_00)
-                            let (red, green, blue) = color.RGBv1
-                            let (hue, saturation, _) = Color.toHSB(red, green, blue)
-                            Color(hue: hue, saturation: saturation, brightness: Double(i) * 0.01)
+                            Color(hue: hue / 360, saturation: saturation, brightness: Double(i) * 0.01)
                                 .frame(width: 20, height: 20)
                         }
                     }
 
                     LazyVGrid(columns: columns, spacing: 1) {
+                        let color = Color(fromUInt: 0x00_FF_00)
+                        let (red, green, blue) = color.RGBv1
+                        let (hue, saturation, _) = Color.toHSB(red, green, blue)
                         ForEach(0 ... 100, id: \.self) { i in
-                            let color = Color(fromUInt: 0x00_FF_00)
-                            let (red, green, blue) = color.RGBv1
-                            let (hue, saturation, _) = Color.toHSB(red, green, blue)
-                            Color(hue: hue, saturation: saturation, brightness: Double(i) * 0.01)
+                            Color(hue: hue / 360, saturation: saturation, brightness: Double(i) * 0.01)
                                 .frame(width: 20, height: 20)
                         }
                     }
 
                     LazyVGrid(columns: columns, spacing: 1) {
+                        let color = Color(fromUInt: 0x00_00_FF)
+                        let (red, green, blue) = color.RGBv1
+                        let (hue, saturation, _) = Color.toHSB(red, green, blue)
                         ForEach(0 ... 100, id: \.self) { i in
-                            let color = Color(fromUInt: 0x00_00_FF)
-                            let (red, green, blue) = color.RGBv1
-                            let (hue, saturation, _) = Color.toHSB(red, green, blue)
-                            Color(hue: hue, saturation: saturation, brightness: Double(i) * 0.01)
+                            Color(hue: hue / 360, saturation: saturation, brightness: Double(i) * 0.01)
                                 .frame(width: 20, height: 20)
                         }
                     }
