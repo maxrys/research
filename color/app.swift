@@ -121,7 +121,7 @@ import SwiftUI
                         ForEach(0xff_00_00 ... 0xff_00_ff, id: \.self) { i in
                             let color = Color(fromUInt: UInt(i))
                             let (red, green, blue) = color.RGBv1
-                            let (hue, saturation, brightness) = Color.toHSB(red: red, green: green, blue: blue)
+                            let (hue, saturation, brightness) = Color.toHSB(red, green, blue)
                             Color(hue: hue, saturation: saturation, brightness: brightness)
                                 .frame(width: 20, height: 20)
                         }

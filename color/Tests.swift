@@ -19,7 +19,7 @@ struct Tests {
     @Test func test_color_toHSB_total() async throws {
         for uintValue in 0 ... 0xff_ff_ff + 1 {
             let (red, green, blue) = Color(fromUInt: UInt(uintValue)).RGBv1
-            let (hue, saturation, brightness) = Color.toHSB(red: red, green: green, blue: blue)
+            let (hue, saturation, brightness) = Color.toHSB(red, green, blue)
             #expect(hue        >= 0.0  );  if !(hue        >= 0.0  ) { return }
             #expect(hue        <= 360.0);  if !(hue        <= 360.0) { return }
             #expect(saturation >= 0.0  );  if !(saturation >= 0.0  ) { return }
@@ -41,10 +41,16 @@ struct Tests {
         #expect(color_R.RGBv2 == ( 255,   0,   0 ))
         #expect(color_G.RGBv2 == (   0, 255,   0 ))
         #expect(color_B.RGBv2 == (   0,   0, 255 ))
+    }
 
-        #expect(Color.toHSB(red: color_R.RGBv1.red, green: color_R.RGBv1.green, blue: color_R.RGBv1.blue) == (   0.0, 1.0, 1.0 ))
-        #expect(Color.toHSB(red: color_G.RGBv1.red, green: color_G.RGBv1.green, blue: color_G.RGBv1.blue) == ( 120.0, 1.0, 1.0 ))
-        #expect(Color.toHSB(red: color_B.RGBv1.red, green: color_B.RGBv1.green, blue: color_B.RGBv1.blue) == ( 240.0, 1.0, 1.0 ))
+    @Test func test_color_HSB() async throws {
+        let rgbFF0000 = Color(red: 255, green:   0, blue:   0).RGBv1
+        let rgb00FF00 = Color(red:   0, green: 255, blue:   0).RGBv1
+        let rgb0000FF = Color(red:   0, green:   0, blue: 255).RGBv1
+
+        #expect(Color.toHSB(rgbFF0000.red, rgbFF0000.green, rgbFF0000.blue) == (   0.0, 1.0, 1.0 ))
+        #expect(Color.toHSB(rgb00FF00.red, rgb00FF00.green, rgb00FF00.blue) == ( 120.0, 1.0, 1.0 ))
+        #expect(Color.toHSB(rgb0000FF.red, rgb0000FF.green, rgb0000FF.blue) == ( 240.0, 1.0, 1.0 ))
     }
 
 }
