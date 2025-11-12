@@ -13,6 +13,30 @@ import SwiftUI
 
     @State var saturation: Decimal = 0.5
 
+    init() {
+        print("\( Color.red.uint )")
+        print("\( Color.orange.uint )")
+        print("\( Color.yellow.uint )")
+        print("\( Color.green.uint )")
+        print("\( Color.blue.uint )")
+        print("\( Color.black.uint )")
+        print("\( Color.white.uint )")
+        print("\( Color(fromUInt: UInt.max).uint )")
+    }
+
+    func formatDouble(_ value: Double, fractionLength: Int = 3) -> String {
+        value.formatted(
+            .number.precision(
+                .fractionLength(fractionLength)
+            )
+        )
+    }
+
+    @ViewBuilder func colorBox(hex: UInt) -> some View {
+        Color(fromUInt: hex)
+            .frame(width: 20, height: 20)
+    }
+
     var body: some Scene {
         Window("Main", id: "main") {
             ScrollView(.vertical) {
@@ -40,8 +64,12 @@ import SwiftUI
                                     brightness: brightness
                                 )
                             )
-                            print("hue = \(hue) | brightness = \(brightness)")
-                        };  print("y = \(y)") }
+                            print(
+                                "H: \(self.formatDouble(hue)) | " +
+                                "S: \(self.formatDouble(brightness)) | " +
+                                "B: \(self.formatDouble(self.saturation.double))"
+                            )
+                        }}
                     }
                     .frame(
                         width : Double(Self.SIZE * (Self.COLS + 1)),
@@ -103,24 +131,6 @@ import SwiftUI
 
             }.padding(20)
         }
-    }
-
-    @ViewBuilder func colorBox(hex: UInt) -> some View {
-        Color(fromUInt: hex)
-            .frame(width: 20, height: 20)
-    }
-
-    init() {
-
-        print("\( Color.red.uint )")
-        print("\( Color.orange.uint )")
-        print("\( Color.yellow.uint )")
-        print("\( Color.green.uint )")
-        print("\( Color.blue.uint )")
-        print("\( Color.black.uint )")
-        print("\( Color.white.uint )")
-        print("\( Color(fromUInt: UInt.max).uint )")
-
     }
 
 }
