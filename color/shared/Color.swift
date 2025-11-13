@@ -24,16 +24,43 @@ extension Color {
     }
 
     var RGB: (red: UInt8, green: UInt8, blue: UInt8) {
-        let resolve = self.resolve(in: EnvironmentValues())
+        guard let components = self.cgColor?.components, components.count >= 3 else {
+            return (0, 0, 0)
+        }
         return (
-            UInt8(resolve.red  .rounded()).fixBounds(max: 255),
-            UInt8(resolve.green.rounded()).fixBounds(max: 255),
-            UInt8(resolve.blue .rounded()).fixBounds(max: 255)
+            UInt8(components[0].rounded()).fixBounds(max: 255),
+            UInt8(components[1].rounded()).fixBounds(max: 255),
+            UInt8(components[2].rounded()).fixBounds(max: 255)
         )
+     // let nsColor = NSColor(self)
+     // return (
+     //     UInt8(nsColor.redComponent  .rounded()).fixBounds(max: 255),
+     //     UInt8(nsColor.greenComponent.rounded()).fixBounds(max: 255),
+     //     UInt8(nsColor.blueComponent .rounded()).fixBounds(max: 255)
+     // )
+
+     // let nsColor = NSColor(self).usingColorSpace(.deviceRGB)!
+     // return (
+     //     UInt8(nsColor.redComponent  .rounded()).fixBounds(max: 255),
+     //     UInt8(nsColor.greenComponent.rounded()).fixBounds(max: 255),
+     //     UInt8(nsColor.blueComponent .rounded()).fixBounds(max: 255)
+     // )
+
+     // let resolve = self.resolve(in: EnvironmentValues())
+     // return (
+     //     UInt8(resolve.red  .rounded()).fixBounds(max: 255),
+     //     UInt8(resolve.green.rounded()).fixBounds(max: 255),
+     //     UInt8(resolve.blue .rounded()).fixBounds(max: 255)
+     // )
     }
 
     var isDark: Bool {
         let (red, green, blue) = self.RGB
+        let (_, _, brightness) = Self.RGBtoHSB(red, green, blue)
+        return brightness >= 0.5
+    }
+
+    func isDarkFromRGB(red: UInt8, green: UInt8, blue: UInt8) -> Bool {
         let (_, _, brightness) = Self.RGBtoHSB(red, green, blue)
         return brightness >= 0.5
     }
