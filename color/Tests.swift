@@ -4,6 +4,8 @@ import SwiftUI
 
 struct Tests {
 
+    /* fromUInt */
+
     @Test func test_color_fromUInt_total() async throws {
         for uintValue in 0 ... 0xff_ff_ff + 1 {
             let color = Color(fromUInt: UInt(uintValue))
@@ -97,6 +99,21 @@ struct Tests {
             #expect(brightness >= 0.0  );  if !(brightness >= 0.0  ) { return }
             #expect(brightness <= 1.0  );  if !(brightness <= 1.0  ) { return }
         }
+    }
+
+    /* isDark */
+
+    @Test func test_color_isDark_total() async throws {
+        var countD: UInt = 0 /* count of dark colors */
+        var countL: UInt = 0 /* count of light colors */
+        for uintValue in 0 ... 0xff_ff_ff + 1 {
+            let color = Color(fromUInt: UInt(uintValue))
+            if (color.isDark)
+                 { countD += 1 }
+            else { countL += 1 }
+        }
+        #expect(countD == 14680064)
+        #expect(countL == 2097153)
     }
 
 }
