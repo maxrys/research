@@ -120,7 +120,7 @@ import SwiftUI
 
                     LazyVGrid(columns: columns, spacing: 1) {
                         let color = Color(fromUInt: 0x00_00_FF)
-                        let (red, green, blue) = color.RGBv1
+                        let (red, green, blue) = color.RGB
                         let (hue, saturation, _) = Color.RGBtoHSB(red, green, blue)
                         ForEach(0 ... 100, id: \.self) { i in
                             Color(hue: hue / 360, saturation: saturation, brightness: Double(i) * 0.01)

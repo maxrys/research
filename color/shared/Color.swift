@@ -16,14 +16,14 @@ extension Color {
     }
 
     var uint: UInt {
-        let (rUInt, gUInt, bUInt) = self.RGBv1
+        let (rUInt, gUInt, bUInt) = self.RGB
         let R = Int(rUInt)
         let G = Int(gUInt)
         let B = Int(bUInt)
         return UInt((R << 16) | (G << 8) | B)
     }
 
-    var RGBv1: (red: UInt8, green: UInt8, blue: UInt8) {
+    var RGB: (red: UInt8, green: UInt8, blue: UInt8) {
         guard let components = self.cgColor?.components, components.count >= 3 else {
             return (0, 0, 0)
         }
@@ -34,17 +34,8 @@ extension Color {
         )
     }
 
-    var RGBv2: (red: UInt8, green: UInt8, blue: UInt8) {
-        let nsColor = NSColor(self)
-        return (
-            UInt8(nsColor.redComponent  .rounded()).fixBounds(max: 255),
-            UInt8(nsColor.greenComponent.rounded()).fixBounds(max: 255),
-            UInt8(nsColor.blueComponent .rounded()).fixBounds(max: 255)
-        )
-    }
-
     func brightnessSet(_ brightness: Double) -> Self {
-        let (red, green, blue) = self.RGBv1
+        let (red, green, blue) = self.RGB
         let (hue, saturation, _) = Self.RGBtoHSB(red, green, blue)
         return Color(hue: hue / 360, saturation: saturation,
             brightness: brightness.fixBounds(max: 1.0)
@@ -52,7 +43,7 @@ extension Color {
     }
 
     func brightnessShift(_ amount: Double) -> Self {
-        let (red, green, blue) = self.RGBv1
+        let (red, green, blue) = self.RGB
         let (hue, saturation, brightness) = Self.RGBtoHSB(red, green, blue)
         return Color(hue: hue / 360, saturation: saturation,
             brightness: (brightness + amount).fixBounds(max: 1.0)

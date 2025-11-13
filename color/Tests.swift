@@ -43,13 +43,9 @@ struct Tests {
         let color_G = Color(red:   0, green: 255, blue:   0) /* green */
         let color_B = Color(red:   0, green:   0, blue: 255) /* blue */
 
-        #expect(color_R.RGBv1 == ( 255,   0,   0 ))
-        #expect(color_G.RGBv1 == (   0, 255,   0 ))
-        #expect(color_B.RGBv1 == (   0,   0, 255 ))
-
-        #expect(color_R.RGBv2 == ( 255,   0,   0 ))
-        #expect(color_G.RGBv2 == (   0, 255,   0 ))
-        #expect(color_B.RGBv2 == (   0,   0, 255 ))
+        #expect(color_R.RGB == ( 255,   0,   0 ))
+        #expect(color_G.RGB == (   0, 255,   0 ))
+        #expect(color_B.RGB == (   0,   0, 255 ))
     }
 
     /* HSB */
