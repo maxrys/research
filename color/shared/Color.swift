@@ -36,14 +36,10 @@ extension Color {
 
     var RGBv2: (red: UInt8, green: UInt8, blue: UInt8) {
         let nsColor = NSColor(self)
-        var R: CGFloat = 0
-        var G: CGFloat = 0
-        var B: CGFloat = 0
-        nsColor.getRed(&R, green: &G, blue: &B, alpha: nil)
         return (
-            UInt8(R.rounded()).fixBounds(max: 255),
-            UInt8(G.rounded()).fixBounds(max: 255),
-            UInt8(B.rounded()).fixBounds(max: 255)
+            UInt8(nsColor.redComponent  .rounded()).fixBounds(max: 255),
+            UInt8(nsColor.greenComponent.rounded()).fixBounds(max: 255),
+            UInt8(nsColor.blueComponent .rounded()).fixBounds(max: 255)
         )
     }
 
