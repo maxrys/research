@@ -54,6 +54,16 @@ extension Color {
         )
     }
 
+    func tune(hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, opacity: CGFloat = 1) -> Color {
+        let nsColor = NSColor(self).usingColorSpace(.deviceRGB)!
+        return Color(
+            hue       : (nsColor.hueComponent        + hue       ).fixBounds(max: 1.0),
+            saturation: (nsColor.saturationComponent + saturation).fixBounds(max: 1.0),
+            brightness: (nsColor.brightnessComponent + brightness).fixBounds(max: 1.0),
+            opacity   : (opacity)                                 .fixBounds(max: 1.0)
+        )
+    }
+
     static func RGBtoHSB(_ R: UInt8, _ G: UInt8, _ B: UInt8) -> (hue: CGFloat, saturation: CGFloat, brightness: CGFloat) {
 
         let R = CGFloat(R)

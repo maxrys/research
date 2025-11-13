@@ -105,6 +105,49 @@ import SwiftUI
 
                 }.padding(10)
 
+                /* ############## */
+                /* ### MARK: tune */
+                /* ############## */
+
+                Text("Tune")
+                    .font(.headline)
+
+                HStack(spacing: 1) {
+                    Color.red.tune(brightness: -0.1).frame(width: 20, height: 20)
+                    Color.red.tune(brightness: -0.2).frame(width: 20, height: 20)
+                    Color.red.tune(brightness: -0.3).frame(width: 20, height: 20)
+                    Color.red.tune(brightness: -0.4).frame(width: 20, height: 20)
+                    Color.red.tune(brightness: -0.5).frame(width: 20, height: 20)
+                    Color.red.tune(brightness: -0.6).frame(width: 20, height: 20)
+                }
+
+                HStack(spacing: 1) {
+                    Color.red.tune(saturation: -0.1).frame(width: 20, height: 20)
+                    Color.red.tune(saturation: -0.2).frame(width: 20, height: 20)
+                    Color.red.tune(saturation: -0.3).frame(width: 20, height: 20)
+                    Color.red.tune(saturation: -0.4).frame(width: 20, height: 20)
+                    Color.red.tune(saturation: -0.5).frame(width: 20, height: 20)
+                    Color.red.tune(saturation: -0.6).frame(width: 20, height: 20)
+                }
+
+                HStack(spacing: 1) {
+                    Color(red: 255, green: 0, blue: 0).tune(brightness: -0.1).frame(width: 20, height: 20)
+                    Color(red: 255, green: 0, blue: 0).tune(brightness: -0.2).frame(width: 20, height: 20)
+                    Color(red: 255, green: 0, blue: 0).tune(brightness: -0.3).frame(width: 20, height: 20)
+                    Color(red: 255, green: 0, blue: 0).tune(brightness: -0.4).frame(width: 20, height: 20)
+                    Color(red: 255, green: 0, blue: 0).tune(brightness: -0.5).frame(width: 20, height: 20)
+                    Color(red: 255, green: 0, blue: 0).tune(brightness: -0.6).frame(width: 20, height: 20)
+                }
+
+                HStack(spacing: 1) {
+                    Color(red: 255, green: 0, blue: 0).tune(saturation: -0.1).frame(width: 20, height: 20)
+                    Color(red: 255, green: 0, blue: 0).tune(saturation: -0.2).frame(width: 20, height: 20)
+                    Color(red: 255, green: 0, blue: 0).tune(saturation: -0.3).frame(width: 20, height: 20)
+                    Color(red: 255, green: 0, blue: 0).tune(saturation: -0.4).frame(width: 20, height: 20)
+                    Color(red: 255, green: 0, blue: 0).tune(saturation: -0.5).frame(width: 20, height: 20)
+                    Color(red: 255, green: 0, blue: 0).tune(saturation: -0.6).frame(width: 20, height: 20)
+                }
+
                 /* ############### */
                 /* ### MARK: shift */
                 /* ############### */
