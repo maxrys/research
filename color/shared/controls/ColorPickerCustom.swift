@@ -22,9 +22,9 @@ struct ColorPickerCustom: View {
         Canvas { context, size in
             for y in 0 ... Self.ROWS {
             for x in 0 ... Self.COLS {
-                let H: Decimal = Decimal(y) / Decimal(Self.COLS)
+                let H: Decimal = Decimal(y) / Decimal(Self.ROWS)
                 let S: Decimal = 1.0
-                let B: Decimal = Decimal(x) / Decimal(Self.ROWS)
+                let B: Decimal = Decimal(x) / Decimal(Self.COLS)
                 context.drawRectangle(
                     x: Double(Self.CELL_SIZE * x),
                     y: Double(Self.CELL_SIZE * y),
@@ -39,8 +39,8 @@ struct ColorPickerCustom: View {
             }}
             for y in 0 ... Self.ROWS {
             for x in 0 ... Self.COLS {
-                let H: Decimal =       Decimal(y) / Decimal(Self.COLS)
-                let S: Decimal = 1.0 - Decimal(x) / Decimal(Self.ROWS)
+                let H: Decimal =       Decimal(y) / Decimal(Self.ROWS)
+                let S: Decimal = 1.0 - Decimal(x) / Decimal(Self.COLS)
                 let B: Decimal = 1.0
                 context.drawRectangle(
                     x: Double(Self.CELL_SIZE * x) + canvasW,
