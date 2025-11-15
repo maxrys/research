@@ -20,14 +20,14 @@ struct ColorPickerCustom: View {
         let canvasH = Double(Self.CELL_SIZE * (Self.ROWS + 1))
 
         Canvas { context, size in
-            for y in 0 ... Self.ROWS {
-            for x in 0 ... Self.COLS {
-                let H: Decimal = Decimal(y) / Decimal(Self.ROWS)
+            for rowNum in 0 ... Self.ROWS {
+            for colNum in 0 ... Self.COLS {
+                let H: Decimal = Decimal(rowNum) / Decimal(Self.ROWS)
                 let S: Decimal = 1.0
-                let B: Decimal = Decimal(x) / Decimal(Self.COLS)
+                let B: Decimal = Decimal(colNum) / Decimal(Self.COLS)
                 context.drawRectangle(
-                    x: Double(Self.CELL_SIZE * x),
-                    y: Double(Self.CELL_SIZE * y),
+                    x: Double(Self.CELL_SIZE * colNum),
+                    y: Double(Self.CELL_SIZE * rowNum),
                     w: Double(Self.CELL_SIZE),
                     h: Double(Self.CELL_SIZE),
                     colorFill: Color(
@@ -37,14 +37,14 @@ struct ColorPickerCustom: View {
                     )
                 )
             }}
-            for y in 0 ... Self.ROWS {
-            for x in 0 ... Self.COLS {
-                let H: Decimal =       Decimal(y) / Decimal(Self.ROWS)
-                let S: Decimal = 1.0 - Decimal(x) / Decimal(Self.COLS)
+            for rowNum in 0 ... Self.ROWS {
+            for colNum in 0 ... Self.COLS {
+                let H: Decimal =       Decimal(rowNum) / Decimal(Self.ROWS)
+                let S: Decimal = 1.0 - Decimal(colNum) / Decimal(Self.COLS)
                 let B: Decimal = 1.0
                 context.drawRectangle(
-                    x: Double(Self.CELL_SIZE * x) + canvasW,
-                    y: Double(Self.CELL_SIZE * y),
+                    x: Double(Self.CELL_SIZE * colNum) + canvasW,
+                    y: Double(Self.CELL_SIZE * rowNum),
                     w: Double(Self.CELL_SIZE),
                     h: Double(Self.CELL_SIZE),
                     colorFill: Color(
@@ -65,6 +65,7 @@ struct ColorPickerCustom: View {
             let rowNum: UInt = UInt(location.y / CGFloat(Self.CELL_SIZE))
             print("colNum: \(colNum) | rowNum: \(rowNum)")
         }
+        .background(.red)
 
     }
 
