@@ -7,9 +7,9 @@ import SwiftUI
 
 struct ColorPickerCustom: View {
 
-    static let COLS = 50
-    static let ROWS = 50
-    static let CELL_SIZE = 5
+    static let COLS = 20
+    static let ROWS = 20
+    static let CELL_SIZE = 15
 
     init() {
     }
@@ -56,6 +56,12 @@ struct ColorPickerCustom: View {
             width : Double(Self.CELL_SIZE * (Self.COLS + 1)) * 2,
             height: Double(Self.CELL_SIZE * (Self.ROWS + 1))
         )
+        .pointerStyle(.link)
+        .onTapGesture { location in
+            let colNum: UInt = UInt(location.x / CGFloat(Self.CELL_SIZE))
+            let rowNum: UInt = UInt(location.y / CGFloat(Self.CELL_SIZE))
+            print("colNum: \(colNum) | rowNum: \(rowNum)")
+        }
 
     }
 
