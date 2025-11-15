@@ -16,6 +16,9 @@ struct ColorPickerCustom: View {
 
     public var body: some View {
 
+        let canvasW = Double(Self.CELL_SIZE * (Self.COLS + 1))
+        let canvasH = Double(Self.CELL_SIZE * (Self.ROWS + 1))
+
         Canvas { context, size in
             for y in 0 ... Self.ROWS {
             for x in 0 ... Self.COLS {
@@ -36,25 +39,25 @@ struct ColorPickerCustom: View {
             }}
             for y in 0 ... Self.ROWS {
             for x in 0 ... Self.COLS {
-                let H: Decimal = Decimal(y) / Decimal(Self.COLS)
-                let S: Decimal = Decimal(x) / Decimal(Self.ROWS)
+                let H: Decimal =       Decimal(y) / Decimal(Self.COLS)
+                let S: Decimal = 1.0 - Decimal(x) / Decimal(Self.ROWS)
                 let B: Decimal = 1.0
                 context.drawRectangle(
-                    x: Double(Self.CELL_SIZE * x) + Double(Self.CELL_SIZE * (Self.COLS + 1)),
+                    x: Double(Self.CELL_SIZE * x) + canvasW,
                     y: Double(Self.CELL_SIZE * y),
                     w: Double(Self.CELL_SIZE),
                     h: Double(Self.CELL_SIZE),
                     colorFill: Color(
-                        hue       :     H.double,
-                        saturation: 1 - S.double,
-                        brightness:     B.double
+                        hue       : H.double,
+                        saturation: S.double,
+                        brightness: B.double
                     )
                 )
             }}
         }
         .frame(
-            width : Double(Self.CELL_SIZE * (Self.COLS + 1)) * 2,
-            height: Double(Self.CELL_SIZE * (Self.ROWS + 1))
+            width : canvasW * 2,
+            height: canvasH
         )
         .pointerStyle(.link)
         .onTapGesture { location in
