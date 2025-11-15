@@ -41,9 +41,9 @@ struct Tests {
     }
 
     @Test func test_color_RGB() async throws {
-        let color_R = Color(red: 255, green:   0, blue:   0) /* red */
-        let color_G = Color(red:   0, green: 255, blue:   0) /* green */
-        let color_B = Color(red:   0, green:   0, blue: 255) /* blue */
+        let color_R = Color(.sRGB, red: 255, green:   0, blue:   0, opacity: 1.0) /* red */
+        let color_G = Color(.sRGB, red:   0, green: 255, blue:   0, opacity: 1.0) /* green */
+        let color_B = Color(.sRGB, red:   0, green:   0, blue: 255, opacity: 1.0) /* blue */
 
         #expect(color_R.RGB == ( 255,   0,   0 ))
         #expect(color_G.RGB == (   0, 255,   0 ))

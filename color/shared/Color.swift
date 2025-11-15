@@ -7,11 +7,12 @@ import SwiftUI
 
 extension Color {
 
-    init(fromUInt value: UInt) {
-        self.init(
+    init(fromUInt value: UInt, alpha: Double = 1) {
+        self.init(.sRGB,
             red  : Double(value >> 16 & 0xff),
             green: Double(value >> 08 & 0xff),
             blue : Double(value >> 00 & 0xff),
+            opacity: alpha
         )
     }
 
