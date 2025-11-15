@@ -68,7 +68,7 @@ extension Color {
     func brightnessSet(_ brightness: Double) -> Self {
         let (red, green, blue) = self.RGB
         let (hue, saturation, _) = Self.RGBtoHSB(red, green, blue)
-        return Color(hue: hue / 360, saturation: saturation,
+        return Self(hue: hue / 360, saturation: saturation,
             brightness: brightness.fixBounds(max: 1.0)
         )
     }
@@ -76,14 +76,14 @@ extension Color {
     func brightnessShift(_ amount: Double) -> Self {
         let (red, green, blue) = self.RGB
         let (hue, saturation, brightness) = Self.RGBtoHSB(red, green, blue)
-        return Color(hue: hue / 360, saturation: saturation,
+        return Self(hue: hue / 360, saturation: saturation,
             brightness: (brightness + amount).fixBounds(max: 1.0)
         )
     }
 
     func tune(hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, opacity: CGFloat = 1) -> Color {
         let nsColor = NSColor(self).usingColorSpace(.deviceRGB)!
-        return Color(
+        return Self(
             hue       : (nsColor.hueComponent        + hue       ).fixBounds(max: 1.0),
             saturation: (nsColor.saturationComponent + saturation).fixBounds(max: 1.0),
             brightness: (nsColor.brightnessComponent + brightness).fixBounds(max: 1.0),
