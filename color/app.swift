@@ -7,22 +7,7 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
-    static let SIZE = 5
-    static let COLS = 50
-    static let ROWS = 50
-
-    @State var saturation: Decimal = 0.5
-    @State var brightness: Decimal = 0.5
-
     init() {
-    }
-
-    func formatDouble(_ value: Double, fractionLength: Int = 3) -> String {
-        value.formatted(
-            .number.precision(
-                .fractionLength(fractionLength)
-            )
-        )
     }
 
     @ViewBuilder func colorBox(hex: UInt) -> some View {
@@ -33,51 +18,8 @@ import SwiftUI
     var body: some Scene {
         Window("Main", id: "main") {
             ScrollView(.vertical) {
-                VStack {
 
-                    HStack {
-                        Text("saturation").font(.headline)
-                            Button { if self.saturation > 0 {self.saturation -= 0.1} } label: { Text("-") }
-                            Button { if self.saturation < 1 {self.saturation += 0.1} } label: { Text("+") }
-                        Text(self.formatDouble(self.saturation.double))
-                    }
-
-                    HStack {
-                        Text("brightness").font(.headline)
-                            Button { if self.brightness > 0 {self.brightness -= 0.1} } label: { Text("-") }
-                            Button { if self.brightness < 1 {self.brightness += 0.1} } label: { Text("+") }
-                        Text(self.formatDouble(self.brightness.double))
-                    }
-
-                    Canvas { context, size in
-                        for y in 0 ... Self.ROWS {
-                        for x in 0 ... Self.COLS {
-                            let hue        = Double(x) / Double(Self.COLS)
-                            let brightness = Double(y) / Double(Self.ROWS)
-                            context.drawRectangle(
-                                x: Double(Self.SIZE * x),
-                                y: Double(Self.SIZE * y),
-                                w: Double(Self.SIZE),
-                                h: Double(Self.SIZE),
-                                colorFill: Color(
-                                    hue       : hue,
-                                    saturation: self.saturation.double,
-                                    brightness: self.brightness.double
-                                )
-                            )
-                            print(
-                                "H: \(self.formatDouble(hue)) | " +
-                                "S: \(self.formatDouble(brightness)) | " +
-                                "B: \(self.formatDouble(self.saturation.double))"
-                            )
-                        }}
-                    }
-                    .frame(
-                        width : Double(Self.SIZE * (Self.COLS + 1)),
-                        height: Double(Self.SIZE * (Self.ROWS + 1))
-                    )
-
-                }.padding(10)
+                ColorPickerCustom()
 
                 /* ############# */
                 /* ### MARK: Hex */
