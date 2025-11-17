@@ -9,9 +9,9 @@ struct ColorPickerCustom: View {
 
     typealias ColorHSB = (H: Double, S: Double, B: Double)
 
-    static let COLS = 10
-    static let ROWS = 10
-    static let CELL_SIZE = 30
+    static let COLS = 40
+    static let ROWS = 40
+    static let CELL_SIZE = 8
 
     @State var color: ColorHSB = (H: 0.0, S: 1.0, B: 0.0)
     @State private var isShowPalette: Bool = false
