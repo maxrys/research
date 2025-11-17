@@ -22,35 +22,29 @@ struct ColorPickerCustom: View {
         Canvas { context, size in
             for rowNum in 0 ... Self.ROWS {
             for colNum in 0 ... Self.COLS {
-                let H: Decimal = Decimal(rowNum) / Decimal(Self.ROWS)
-                let S: Decimal = 1.0
-                let B: Decimal = Decimal(colNum) / Decimal(Self.COLS)
+                let H: ()     -> Decimal = {                          Decimal(rowNum) / Decimal(Self.ROWS) }
+                let S: (Bool) -> Decimal = { isHalf in isHalf ? 1.0 - Decimal(colNum) / Decimal(Self.COLS) : 1.0 }
+                let B: (Bool) -> Decimal = { isHalf in isHalf ? 1.0 : Decimal(colNum) / Decimal(Self.COLS) }
                 context.drawRectangle(
                     x: Double(Self.CELL_SIZE * colNum),
                     y: Double(Self.CELL_SIZE * rowNum),
                     w: Double(Self.CELL_SIZE),
                     h: Double(Self.CELL_SIZE),
                     colorFill: Color(
-                        hue       : H.double,
-                        saturation: S.double,
-                        brightness: B.double
+                        hue       : H(     ).double,
+                        saturation: S(false).double,
+                        brightness: B(false).double
                     )
                 )
-            }}
-            for rowNum in 0 ... Self.ROWS {
-            for colNum in 0 ... Self.COLS {
-                let H: Decimal =       Decimal(rowNum) / Decimal(Self.ROWS)
-                let S: Decimal = 1.0 - Decimal(colNum) / Decimal(Self.COLS)
-                let B: Decimal = 1.0
                 context.drawRectangle(
                     x: Double(Self.CELL_SIZE * colNum) + canvasW,
                     y: Double(Self.CELL_SIZE * rowNum),
                     w: Double(Self.CELL_SIZE),
                     h: Double(Self.CELL_SIZE),
                     colorFill: Color(
-                        hue       : H.double,
-                        saturation: S.double,
-                        brightness: B.double
+                        hue       : H(    ).double,
+                        saturation: S(true).double,
+                        brightness: B(true).double
                     )
                 )
             }}
@@ -65,7 +59,6 @@ struct ColorPickerCustom: View {
             let rowNum: UInt = UInt(location.y / CGFloat(Self.CELL_SIZE))
             print("colNum: \(colNum) | rowNum: \(rowNum)")
         }
-        .background(.red)
 
     }
 
