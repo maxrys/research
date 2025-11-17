@@ -7,14 +7,18 @@ import SwiftUI
 
 struct ColorPickerCustom: View {
 
+    typealias ColorHSB = (H: Decimal, S: Decimal, B: Decimal)
+
     static let COLS = 10
     static let ROWS = 10
     static let CELL_SIZE = 30
 
+    @State var color: ColorHSB?
+
     init() {
     }
 
-    func getColor(_ colNum: Int, _ rowNum: Int) -> (H: Decimal, S: Decimal, B: Decimal) {(
+    func getColor(_ colNum: Int, _ rowNum: Int) -> ColorHSB {(
         H:                            Decimal(rowNum            ) / Decimal(Self.ROWS),
         S: colNum > Self.COLS ? 1.0 - Decimal(colNum - Self.COLS) / Decimal(Self.COLS) : 1.0,
         B: colNum > Self.COLS ? 1.0 : Decimal(colNum            ) / Decimal(Self.COLS)
@@ -28,16 +32,18 @@ struct ColorPickerCustom: View {
         Canvas { context, size in
             for rowNum in 0 ... Self.ROWS     {
             for colNum in 0 ... Self.COLS * 2 {
-                let color = self.getColor(colNum, rowNum)
+                let cellColor = self.getColor(colNum, rowNum)
                 context.drawRectangle(
                     x: Double(Self.CELL_SIZE * colNum),
                     y: Double(Self.CELL_SIZE * rowNum),
                     w: Double(Self.CELL_SIZE),
                     h: Double(Self.CELL_SIZE),
+                    lineWidth: self.color != nil && self.color! == cellColor ? 3 : 0,
+                    colorLine: self.color != nil && self.color! == cellColor ? (colNum < Self.COLS ? .white : .black) : .clear,
                     colorFill: Color(
-                        hue       : color.H.double,
-                        saturation: color.S.double,
-                        brightness: color.B.double
+                        hue       : cellColor.H.double,
+                        saturation: cellColor.S.double,
+                        brightness: cellColor.B.double
                     )
                 )
             }}
@@ -50,8 +56,10 @@ struct ColorPickerCustom: View {
         .onTapGesture { location in
             let colNum = Int(location.x / CGFloat(Self.CELL_SIZE))
             let rowNum = Int(location.y / CGFloat(Self.CELL_SIZE))
-            let color = self.getColor(colNum, rowNum)
-            print("colNum: \(colNum) | rowNum: \(rowNum) | H: \(color.H) | S: \(color.S) | B: \(color.B)")
+            self.color = self.getColor(colNum, rowNum)
+            if let color = self.color {
+                print("colNum: \(colNum) | rowNum: \(rowNum) | H: \(color.H) | S: \(color.S) | B: \(color.B)")
+            }
         }
 
     }
