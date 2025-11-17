@@ -19,7 +19,7 @@ struct ColorPickerCustom: View {
     init() {
     }
 
-    func getColor(_ colNum: Int, _ rowNum: Int) -> ColorHSB {
+    private func getCellColor(_ colNum: Int, _ rowNum: Int) -> ColorHSB {
         let H =                            Decimal(rowNum            ) / Decimal(Self.ROWS)
         let S = colNum > Self.COLS ? 1.0 - Decimal(colNum - Self.COLS) / Decimal(Self.COLS) : 1.0
         let B = colNum > Self.COLS ? 1.0 : Decimal(colNum            ) / Decimal(Self.COLS)
@@ -48,7 +48,7 @@ struct ColorPickerCustom: View {
         Canvas { context, size in
             for rowNum in 0 ... Self.ROWS     {
             for colNum in 0 ... Self.COLS * 2 {
-                let cellColor = self.getColor(colNum, rowNum)
+                let cellColor = self.getCellColor(colNum, rowNum)
                 context.drawRectangle(
                     x: Double(Self.CELL_SIZE * colNum),
                     y: Double(Self.CELL_SIZE * rowNum),
@@ -72,9 +72,8 @@ struct ColorPickerCustom: View {
         .onTapGesture { location in
             let colNum = Int(location.x / CGFloat(Self.CELL_SIZE))
             let rowNum = Int(location.y / CGFloat(Self.CELL_SIZE))
-            self.color = self.getColor(colNum, rowNum)
+            self.color = self.getCellColor(colNum, rowNum)
             self.isShowPalette = false
-            print("H: \(self.color.H) | S: \(self.color.S) | B: \(self.color.B)")
         }
 
     }
