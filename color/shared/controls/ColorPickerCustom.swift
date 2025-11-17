@@ -5,33 +5,84 @@
 
 import SwiftUI
 
-struct ColorPickerCustom: View {
+extension ColorPickerCustom {
 
-    typealias ColorHSB = (H: Double, S: Double, B: Double)
+    struct ColorHSB: Equatable, Codable {
+
+        let H: Double
+        let S: Double
+        let B: Double
+
+        init(_ H: Double, _ S: Double, _ B: Double) {
+            self.H = H
+            self.S = S
+            self.B = B
+        }
+
+        static func == (lhs: Self, rhs: Self) -> Bool {
+            lhs.H == rhs.H &&
+            lhs.S == rhs.S &&
+            lhs.B == rhs.B
+        }
+
+        init?(json: String) {
+            do {
+                guard let data = json.data(using: .utf8) else {
+                    return nil
+                }
+                self = try JSONDecoder().decode(
+                    Self.self,
+                    from: data
+                )
+            } catch {
+                return nil
+            }
+        }
+
+        func toJSON() -> String? {
+            guard let data = try? JSONEncoder().encode(self) else {
+                return nil
+            }
+            return String(
+                data: data,
+                encoding: .utf8
+            )
+        }
+
+    }
+
+}
+
+struct ColorPickerCustom: View {
 
     static let COLS = 40
     static let ROWS = 40
     static let CELL_SIZE = 8
 
-    @State var color: ColorHSB = (H: 0.0, S: 1.0, B: 0.0)
     @State private var isShowPalette: Bool = false
 
-    init() {
+    var color: Binding<ColorHSB>
+
+    init(color: Binding<ColorHSB>) {
+        self.color = color
     }
 
     private func getCellColor(_ colNum: Int, _ rowNum: Int) -> ColorHSB {
         let H =                            Decimal(rowNum            ) / Decimal(Self.ROWS)
         let S = colNum > Self.COLS ? 1.0 - Decimal(colNum - Self.COLS) / Decimal(Self.COLS) : 1.0
         let B = colNum > Self.COLS ? 1.0 : Decimal(colNum            ) / Decimal(Self.COLS)
-        return (H.double, S.double, B.double)
+        return ColorHSB(H.double, S.double, B.double)
     }
 
     public var body: some View {
         Button {
             self.isShowPalette = true
         } label: {
-            Color(hue: self.color.H, saturation: self.color.S, brightness: self.color.B)
-                .frame(width: 20, height: 20)
+            Color(
+                hue       : self.color.wrappedValue.H,
+                saturation: self.color.wrappedValue.S,
+                brightness: self.color.wrappedValue.B
+            ).frame(width: 20, height: 20)
         }
         .buttonStyle(.plain)
         .pointerStyle(.link)
@@ -54,8 +105,8 @@ struct ColorPickerCustom: View {
                     y: Double(Self.CELL_SIZE * rowNum),
                     w: Double(Self.CELL_SIZE),
                     h: Double(Self.CELL_SIZE),
-                    lineWidth: self.color == cellColor ? 3 : 0,
-                    colorLine: self.color == cellColor ? (colNum < Self.COLS ? .white : .black) : .clear,
+                    lineWidth: self.color.wrappedValue == cellColor ? 3 : 0,
+                    colorLine: self.color.wrappedValue == cellColor ? (colNum < Self.COLS ? .white : .black) : .clear,
                     colorFill: Color(
                         hue       : cellColor.H,
                         saturation: cellColor.S,
@@ -72,7 +123,7 @@ struct ColorPickerCustom: View {
         .onTapGesture { location in
             let colNum = Int(location.x / CGFloat(Self.CELL_SIZE))
             let rowNum = Int(location.y / CGFloat(Self.CELL_SIZE))
-            self.color = self.getCellColor(colNum, rowNum)
+            self.color.wrappedValue = self.getCellColor(colNum, rowNum)
             self.isShowPalette = false
         }
 
@@ -81,7 +132,10 @@ struct ColorPickerCustom: View {
 }
 
 #Preview {
-    ColorPickerCustom()
-        .frame(width: 200)
-        .padding(10)
+    @Previewable @State var pickerColor = ColorPickerCustom.ColorHSB(0.0, 1.0, 0.0)
+    ColorPickerCustom(
+        color: $pickerColor
+    )
+    .frame(width: 200)
+    .padding(10)
 }

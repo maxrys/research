@@ -7,6 +7,10 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
+    @State var pickerColor = ColorPickerCustom.ColorHSB(
+        0.0, 1.0, 0.0
+    )
+
     init() {
     }
 
@@ -19,7 +23,11 @@ import SwiftUI
         Window("Main", id: "main") {
             ScrollView(.vertical) {
 
-                ColorPickerCustom()
+                ColorPickerCustom(
+                    color: self.$pickerColor
+                ).onChange(of: self.pickerColor) { oldValue, newValue in
+                    print(newValue.toJSON() ?? "")
+                }
 
                 /* ############# */
                 /* ### MARK: Hex */
