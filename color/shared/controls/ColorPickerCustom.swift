@@ -20,31 +20,21 @@ struct ColorPickerCustom: View {
         let canvasH = Double(Self.CELL_SIZE * (Self.ROWS + 1))
 
         Canvas { context, size in
-            for rowNum in 0 ... Self.ROWS {
-            for colNum in 0 ... Self.COLS {
-                let H: ()     -> Decimal = {                          Decimal(rowNum) / Decimal(Self.ROWS) }
-                let S: (Bool) -> Decimal = { isHalf in isHalf ? 1.0 - Decimal(colNum) / Decimal(Self.COLS) : 1.0 }
-                let B: (Bool) -> Decimal = { isHalf in isHalf ? 1.0 : Decimal(colNum) / Decimal(Self.COLS) }
+            for rowNum in 0 ... Self.ROWS     {
+            for colNum in 0 ... Self.COLS * 2 {
+                let isHalf = colNum > Self.COLS
+                let H =                Decimal(rowNum            ) / Decimal(Self.ROWS)
+                let S = isHalf ? 1.0 - Decimal(colNum - Self.COLS) / Decimal(Self.COLS) : 1.0
+                let B = isHalf ? 1.0 : Decimal(colNum            ) / Decimal(Self.COLS)
                 context.drawRectangle(
                     x: Double(Self.CELL_SIZE * colNum),
                     y: Double(Self.CELL_SIZE * rowNum),
                     w: Double(Self.CELL_SIZE),
                     h: Double(Self.CELL_SIZE),
                     colorFill: Color(
-                        hue       : H(     ).double,
-                        saturation: S(false).double,
-                        brightness: B(false).double
-                    )
-                )
-                context.drawRectangle(
-                    x: Double(Self.CELL_SIZE * colNum) + canvasW,
-                    y: Double(Self.CELL_SIZE * rowNum),
-                    w: Double(Self.CELL_SIZE),
-                    h: Double(Self.CELL_SIZE),
-                    colorFill: Color(
-                        hue       : H(    ).double,
-                        saturation: S(true).double,
-                        brightness: B(true).double
+                        hue       : H.double,
+                        saturation: S.double,
+                        brightness: B.double
                     )
                 )
             }}
