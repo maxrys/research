@@ -7,24 +7,40 @@ import SwiftUI
 
 struct ColorPickerCustom: View {
 
-    typealias ColorHSB = (H: Decimal, S: Decimal, B: Decimal)
+    typealias ColorHSB = (H: Double, S: Double, B: Double)
 
     static let COLS = 10
     static let ROWS = 10
     static let CELL_SIZE = 30
 
-    @State var color: ColorHSB?
+    @State var color: ColorHSB = (H: 0.0, S: 1.0, B: 0.0)
+    @State private var isShowPalette: Bool = false
 
     init() {
     }
 
-    func getColor(_ colNum: Int, _ rowNum: Int) -> ColorHSB {(
-        H:                            Decimal(rowNum            ) / Decimal(Self.ROWS),
-        S: colNum > Self.COLS ? 1.0 - Decimal(colNum - Self.COLS) / Decimal(Self.COLS) : 1.0,
-        B: colNum > Self.COLS ? 1.0 : Decimal(colNum            ) / Decimal(Self.COLS)
-    )}
+    func getColor(_ colNum: Int, _ rowNum: Int) -> ColorHSB {
+        let H =                            Decimal(rowNum            ) / Decimal(Self.ROWS)
+        let S = colNum > Self.COLS ? 1.0 - Decimal(colNum - Self.COLS) / Decimal(Self.COLS) : 1.0
+        let B = colNum > Self.COLS ? 1.0 : Decimal(colNum            ) / Decimal(Self.COLS)
+        return (H.double, S.double, B.double)
+    }
 
     public var body: some View {
+        Button {
+            self.isShowPalette = true
+        } label: {
+            Color(hue: self.color.H, saturation: self.color.S, brightness: self.color.B)
+                .frame(width: 20, height: 20)
+        }
+        .buttonStyle(.plain)
+        .pointerStyle(.link)
+        .popover(isPresented: self.$isShowPalette) {
+            self.palette
+        }
+    }
+
+    @ViewBuilder private var palette: some View {
 
         let canvasW = Double(Self.CELL_SIZE * (Self.COLS + 1))
         let canvasH = Double(Self.CELL_SIZE * (Self.ROWS + 1))
@@ -38,12 +54,12 @@ struct ColorPickerCustom: View {
                     y: Double(Self.CELL_SIZE * rowNum),
                     w: Double(Self.CELL_SIZE),
                     h: Double(Self.CELL_SIZE),
-                    lineWidth: self.color != nil && self.color! == cellColor ? 3 : 0,
-                    colorLine: self.color != nil && self.color! == cellColor ? (colNum < Self.COLS ? .white : .black) : .clear,
+                    lineWidth: self.color == cellColor ? 3 : 0,
+                    colorLine: self.color == cellColor ? (colNum < Self.COLS ? .white : .black) : .clear,
                     colorFill: Color(
-                        hue       : cellColor.H.double,
-                        saturation: cellColor.S.double,
-                        brightness: cellColor.B.double
+                        hue       : cellColor.H,
+                        saturation: cellColor.S,
+                        brightness: cellColor.B
                     )
                 )
             }}
@@ -57,9 +73,8 @@ struct ColorPickerCustom: View {
             let colNum = Int(location.x / CGFloat(Self.CELL_SIZE))
             let rowNum = Int(location.y / CGFloat(Self.CELL_SIZE))
             self.color = self.getColor(colNum, rowNum)
-            if let color = self.color {
-                print("colNum: \(colNum) | rowNum: \(rowNum) | H: \(color.H) | S: \(color.S) | B: \(color.B)")
-            }
+            self.isShowPalette = false
+            print("H: \(self.color.H) | S: \(self.color.S) | B: \(self.color.B)")
         }
 
     }
