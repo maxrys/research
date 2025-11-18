@@ -26,8 +26,8 @@ import SwiftUI
                 ColorPickerCustom(
                     color: self.$pickerColor
                 ).onChange(of: self.pickerColor) { oldValue, newValue in
-                    print(newValue.toJSON() ?? "")
-                }
+                    print(newValue.encode() ?? "")
+                }.padding(20)
 
                 /* ############# */
                 /* ### MARK: Hex */

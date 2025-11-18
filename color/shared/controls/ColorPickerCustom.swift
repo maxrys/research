@@ -9,23 +9,19 @@ extension ColorPickerCustom {
 
     struct ColorHSB: Equatable, Codable {
 
-        let H: Double
-        let S: Double
-        let B: Double
+        let hue: Double
+        let saturation: Double
+        let brightness: Double
+        let opacity: Double
 
-        init(_ H: Double, _ S: Double, _ B: Double) {
-            self.H = H
-            self.S = S
-            self.B = B
+        init(_ hue: Double, _ saturation: Double, _ brightness: Double, _ opacity: Double = 1.0) {
+            self.hue = hue
+            self.saturation = saturation
+            self.brightness = brightness
+            self.opacity = opacity
         }
 
-        static func == (lhs: Self, rhs: Self) -> Bool {
-            lhs.H == rhs.H &&
-            lhs.S == rhs.S &&
-            lhs.B == rhs.B
-        }
-
-        init?(json: String) {
+        init?(decode json: String) {
             do {
                 guard let data = json.data(using: .utf8) else {
                     return nil
@@ -39,7 +35,7 @@ extension ColorPickerCustom {
             }
         }
 
-        func toJSON() -> String? {
+        func encode() -> String? {
             guard let data = try? JSONEncoder().encode(self) else {
                 return nil
             }
@@ -67,11 +63,11 @@ struct ColorPickerCustom: View {
         self.color = color
     }
 
-    private func getCellColor(_ colNum: Int, _ rowNum: Int) -> ColorHSB {
+    private func cellColor(_ colNum: Int, _ rowNum: Int) -> ColorHSB {
         let H =                            Decimal(rowNum            ) / Decimal(Self.ROWS)
         let S = colNum > Self.COLS ? 1.0 - Decimal(colNum - Self.COLS) / Decimal(Self.COLS) : 1.0
         let B = colNum > Self.COLS ? 1.0 : Decimal(colNum            ) / Decimal(Self.COLS)
-        return ColorHSB(H.double, S.double, B.double)
+        return ColorHSB(H.double, S.double, B.double, 1.0)
     }
 
     public var body: some View {
@@ -79,9 +75,10 @@ struct ColorPickerCustom: View {
             self.isShowPalette = true
         } label: {
             Color(
-                hue       : self.color.wrappedValue.H,
-                saturation: self.color.wrappedValue.S,
-                brightness: self.color.wrappedValue.B
+                hue       : self.color.wrappedValue.hue,
+                saturation: self.color.wrappedValue.saturation,
+                brightness: self.color.wrappedValue.brightness,
+                opacity   : self.color.wrappedValue.opacity
             ).frame(width: 20, height: 20)
         }
         .buttonStyle(.plain)
@@ -99,7 +96,7 @@ struct ColorPickerCustom: View {
         Canvas { context, size in
             for rowNum in 0 ... Self.ROWS     {
             for colNum in 0 ... Self.COLS * 2 {
-                let cellColor = self.getCellColor(colNum, rowNum)
+                let cellColor = self.cellColor(colNum, rowNum)
                 context.drawRectangle(
                     x: Double(Self.CELL_SIZE * colNum),
                     y: Double(Self.CELL_SIZE * rowNum),
@@ -108,9 +105,9 @@ struct ColorPickerCustom: View {
                     lineWidth: self.color.wrappedValue == cellColor ? 3 : 0,
                     colorLine: self.color.wrappedValue == cellColor ? (colNum < Self.COLS ? .white : .black) : .clear,
                     colorFill: Color(
-                        hue       : cellColor.H,
-                        saturation: cellColor.S,
-                        brightness: cellColor.B
+                        hue       : cellColor.hue,
+                        saturation: cellColor.saturation,
+                        brightness: cellColor.brightness
                     )
                 )
             }}
@@ -123,7 +120,7 @@ struct ColorPickerCustom: View {
         .onTapGesture { location in
             let colNum = Int(location.x / CGFloat(Self.CELL_SIZE))
             let rowNum = Int(location.y / CGFloat(Self.CELL_SIZE))
-            self.color.wrappedValue = self.getCellColor(colNum, rowNum)
+            self.color.wrappedValue = self.cellColor(colNum, rowNum)
             self.isShowPalette = false
         }
 
