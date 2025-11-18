@@ -7,7 +7,7 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
-    @State var pickerColor = ColorPickerCustom.ColorHSB(
+    @State var pickerColor = ColorHSB(
         0.0, 1.0, 0.0
     )
 

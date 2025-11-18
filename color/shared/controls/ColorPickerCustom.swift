@@ -5,50 +5,6 @@
 
 import SwiftUI
 
-extension ColorPickerCustom {
-
-    struct ColorHSB: Equatable, Codable {
-
-        var hue: Double
-        var saturation: Double
-        var brightness: Double
-        var opacity: Double
-
-        init(_ hue: Double, _ saturation: Double, _ brightness: Double, _ opacity: Double = 1.0) {
-            self.hue = hue
-            self.saturation = saturation
-            self.brightness = brightness
-            self.opacity = opacity
-        }
-
-        init?(decode json: String) {
-            do {
-                guard let data = json.data(using: .utf8) else {
-                    return nil
-                }
-                self = try JSONDecoder().decode(
-                    Self.self,
-                    from: data
-                )
-            } catch {
-                return nil
-            }
-        }
-
-        func encode() -> String? {
-            guard let data = try? JSONEncoder().encode(self) else {
-                return nil
-            }
-            return String(
-                data: data,
-                encoding: .utf8
-            )
-        }
-
-    }
-
-}
-
 struct ColorPickerCustom: View {
 
     static let COLS = 40
@@ -174,10 +130,10 @@ struct ColorPickerCustom: View {
 }
 
 #Preview {
-    @Previewable @State var pickerColor = ColorPickerCustom.ColorHSB(0.0, 1.0, 0.0)
+    @Previewable @State var pickerColor = ColorHSB(0.0, 1.0, 0.0)
     ColorPickerCustom(
         color: $pickerColor
-    )
-    .frame(width: 200)
-    .padding(10)
+    ).onChange(of: pickerColor) { oldValue, newValue in
+        print(newValue.encode() ?? "")
+    }.padding(10)
 }
