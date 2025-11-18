@@ -9,10 +9,10 @@ extension ColorPickerCustom {
 
     struct ColorHSB: Equatable, Codable {
 
-        let hue: Double
-        let saturation: Double
-        let brightness: Double
-        let opacity: Double
+        var hue: Double
+        var saturation: Double
+        var brightness: Double
+        var opacity: Double
 
         init(_ hue: Double, _ saturation: Double, _ brightness: Double, _ opacity: Double = 1.0) {
             self.hue = hue
@@ -56,7 +56,6 @@ struct ColorPickerCustom: View {
     static let CELL_SIZE = 8
 
     @State private var isShowPalette: Bool = false
-    @State private var opacity: Double = 1.0
 
     var color: Binding<ColorHSB>
 
@@ -123,13 +122,7 @@ struct ColorPickerCustom: View {
         .onTapGesture { location in
             let colNum = Int(location.x / CGFloat(Self.CELL_SIZE))
             let rowNum = Int(location.y / CGFloat(Self.CELL_SIZE))
-            let cellColor = self.cellColor(colNum, rowNum)
-            self.color.wrappedValue = ColorHSB(
-                cellColor.hue,
-                cellColor.saturation,
-                cellColor.brightness,
-                self.opacity
-            )
+            self.color.wrappedValue = self.cellColor(colNum, rowNum)
             self.isShowPalette = false
         }
 
@@ -137,8 +130,14 @@ struct ColorPickerCustom: View {
 
     @ViewBuilder private var opacityChanger: some View {
         VStack(spacing: 10) {
-            Slider(value: self.$opacity, in: 0.0 ... 1.0)
-            Text("Opacity: \(self.opacity, specifier: "%.2f")")
+            Slider(
+                value: Binding<Double>(
+                    get: {          self.color.wrappedValue.opacity },
+                    set: { value in self.color.wrappedValue.opacity = value }
+                ),
+                in: 0.0 ... 1.0
+            )
+            Text("Opacity: \(self.color.wrappedValue.opacity, specifier: "%.2f")")
                 .font(.headline)
         }
         .padding(.horizontal, 20)
@@ -150,7 +149,7 @@ struct ColorPickerCustom: View {
             hue       : self.color.wrappedValue.hue,
             saturation: self.color.wrappedValue.saturation,
             brightness: self.color.wrappedValue.brightness,
-            opacity   : self.opacity
+            opacity   : self.color.wrappedValue.opacity
         )
         .frame(width: 100, height: 50)
         .padding(20)
