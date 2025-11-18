@@ -86,13 +86,8 @@ struct ColorPickerCustom: View {
         .pointerStyle(.link)
         .popover(isPresented: self.$isShowPalette) {
             self.palette
-            VStack(spacing: 10) {
-                Slider(value: self.$opacity, in: 0.0 ... 1.0)
-                Text("Opacity: \(self.opacity, specifier: "%.2f")")
-                    .font(.headline)
-            }
-            .padding(.horizontal, 20)
-            .padding(.vertical  , 10)
+            self.opacityChanger
+            self.resultColor
         }
     }
 
@@ -138,6 +133,27 @@ struct ColorPickerCustom: View {
             self.isShowPalette = false
         }
 
+    }
+
+    @ViewBuilder private var opacityChanger: some View {
+        VStack(spacing: 10) {
+            Slider(value: self.$opacity, in: 0.0 ... 1.0)
+            Text("Opacity: \(self.opacity, specifier: "%.2f")")
+                .font(.headline)
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical  , 10)
+    }
+
+    @ViewBuilder private var resultColor: some View {
+        Color(
+            hue       : self.color.wrappedValue.hue,
+            saturation: self.color.wrappedValue.saturation,
+            brightness: self.color.wrappedValue.brightness,
+            opacity   : self.opacity
+        )
+        .frame(width: 100, height: 50)
+        .padding(20)
     }
 
 }
