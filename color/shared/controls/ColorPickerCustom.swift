@@ -158,7 +158,8 @@ struct ColorPickerCustom: View {
                     get: {          self.color.wrappedValue.opacity },
                     set: { value in self.color.wrappedValue.opacity = value }
                 ),
-                in: 0.0 ... 1.0
+                in: 0.0 ... 1.0,
+                step: 0.01
             )
             Text("Opacity: \(self.color.wrappedValue.opacity, specifier: "%.2f")")
                 .font(.headline)
