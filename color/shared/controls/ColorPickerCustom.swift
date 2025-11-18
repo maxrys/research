@@ -56,6 +56,7 @@ struct ColorPickerCustom: View {
     static let CELL_SIZE = 8
 
     @State private var isShowPalette: Bool = false
+    @State private var opacity: Double = 1.0
 
     var color: Binding<ColorHSB>
 
@@ -85,6 +86,13 @@ struct ColorPickerCustom: View {
         .pointerStyle(.link)
         .popover(isPresented: self.$isShowPalette) {
             self.palette
+            VStack(spacing: 10) {
+                Slider(value: self.$opacity, in: 0.0 ... 1.0)
+                Text("Opacity: \(self.opacity, specifier: "%.2f")")
+                    .font(.headline)
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical  , 10)
         }
     }
 
@@ -120,7 +128,13 @@ struct ColorPickerCustom: View {
         .onTapGesture { location in
             let colNum = Int(location.x / CGFloat(Self.CELL_SIZE))
             let rowNum = Int(location.y / CGFloat(Self.CELL_SIZE))
-            self.color.wrappedValue = self.cellColor(colNum, rowNum)
+            let cellColor = self.cellColor(colNum, rowNum)
+            self.color.wrappedValue = ColorHSB(
+                cellColor.hue,
+                cellColor.saturation,
+                cellColor.brightness,
+                self.opacity
+            )
             self.isShowPalette = false
         }
 
