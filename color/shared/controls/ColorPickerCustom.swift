@@ -113,8 +113,10 @@ struct ColorPickerCustom: View {
         let canvasW = Double(Self.CELL_SIZE * (Self.COLS + 1))
         let canvasH = Double(Self.CELL_SIZE * (Self.ROWS + 1))
         ZStack {
+
             Self.canvasWithPalette
                 .opacity(self.color.wrappedValue.opacity)
+
             /* selection visualizer */
             Canvas { context, size in
                 for rowNum in 0 ... Self.ROWS     {
@@ -135,6 +137,7 @@ struct ColorPickerCustom: View {
                     }
                 }}
             }
+
         }
         .frame(
             width : canvasW * 2 - Double(Self.CELL_SIZE),
