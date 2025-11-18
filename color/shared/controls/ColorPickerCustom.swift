@@ -106,7 +106,6 @@ struct ColorPickerCustom: View {
         .popover(isPresented: self.$isShowPalette) {
             self.palette
             self.opacityChanger
-            self.resultColor
         }
     }
 
@@ -115,6 +114,7 @@ struct ColorPickerCustom: View {
         let canvasH = Double(Self.CELL_SIZE * (Self.ROWS + 1))
         ZStack {
             Self.canvasWithPalette
+                .opacity(self.color.wrappedValue.opacity)
             /* selection visualizer */
             Canvas { context, size in
                 for rowNum in 0 ... Self.ROWS     {
@@ -144,7 +144,9 @@ struct ColorPickerCustom: View {
         .onTapGesture { location in
             let colNum = Int(location.x / CGFloat(Self.CELL_SIZE))
             let rowNum = Int(location.y / CGFloat(Self.CELL_SIZE))
+            let currentOpacity = self.color.wrappedValue.opacity
             self.color.wrappedValue = Self.cellColor(colNum, rowNum)
+            self.color.wrappedValue.opacity = currentOpacity
             self.isShowPalette = false
         }
     }
@@ -163,17 +165,6 @@ struct ColorPickerCustom: View {
         }
         .padding(.horizontal, 20)
         .padding(.vertical  , 10)
-    }
-
-    @ViewBuilder private var resultColor: some View {
-        Color(
-            hue       : self.color.wrappedValue.hue,
-            saturation: self.color.wrappedValue.saturation,
-            brightness: self.color.wrappedValue.brightness,
-            opacity   : self.color.wrappedValue.opacity
-        )
-        .frame(width: 100, height: 50)
-        .padding(20)
     }
 
 }
