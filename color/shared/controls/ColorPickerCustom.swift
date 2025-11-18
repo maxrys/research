@@ -63,7 +63,27 @@ struct ColorPickerCustom: View {
         self.color = color
     }
 
-    private func cellColor(_ colNum: Int, _ rowNum: Int) -> ColorHSB {
+    static private var canvasWithPalette: some View = {
+        Canvas { context, size in
+            for rowNum in 0 ... Self.ROWS     {
+            for colNum in 0 ... Self.COLS * 2 {
+                let cellColor = Self.cellColor(colNum, rowNum)
+                context.drawRectangle(
+                    x: Double(Self.CELL_SIZE * colNum),
+                    y: Double(Self.CELL_SIZE * rowNum),
+                    w: Double(Self.CELL_SIZE),
+                    h: Double(Self.CELL_SIZE),
+                    colorFill: Color(
+                        hue       : cellColor.hue,
+                        saturation: cellColor.saturation,
+                        brightness: cellColor.brightness
+                    )
+                )
+            }}
+        }
+    }()
+
+    static private func cellColor(_ colNum: Int, _ rowNum: Int) -> ColorHSB {
         let H =                            Decimal(rowNum            ) / Decimal(Self.ROWS)
         let S = colNum > Self.COLS ? 1.0 - Decimal(colNum - Self.COLS) / Decimal(Self.COLS) : 1.0
         let B = colNum > Self.COLS ? 1.0 : Decimal(colNum            ) / Decimal(Self.COLS)
@@ -91,28 +111,30 @@ struct ColorPickerCustom: View {
     }
 
     @ViewBuilder private var palette: some View {
-
         let canvasW = Double(Self.CELL_SIZE * (Self.COLS + 1))
         let canvasH = Double(Self.CELL_SIZE * (Self.ROWS + 1))
-
-        Canvas { context, size in
-            for rowNum in 0 ... Self.ROWS     {
-            for colNum in 0 ... Self.COLS * 2 {
-                let cellColor = self.cellColor(colNum, rowNum)
-                context.drawRectangle(
-                    x: Double(Self.CELL_SIZE * colNum),
-                    y: Double(Self.CELL_SIZE * rowNum),
-                    w: Double(Self.CELL_SIZE),
-                    h: Double(Self.CELL_SIZE),
-                    lineWidth: self.color.wrappedValue == cellColor ? 3 : 0,
-                    colorLine: self.color.wrappedValue == cellColor ? (colNum < Self.COLS ? .white : .black) : .clear,
-                    colorFill: Color(
-                        hue       : cellColor.hue,
-                        saturation: cellColor.saturation,
-                        brightness: cellColor.brightness
-                    )
-                )
-            }}
+        ZStack {
+            Self.canvasWithPalette
+            /* selection visualizer */
+            Canvas { context, size in
+                for rowNum in 0 ... Self.ROWS     {
+                for colNum in 0 ... Self.COLS * 2 {
+                    let cellColor = Self.cellColor(colNum, rowNum)
+                    if (self.color.wrappedValue.hue        == cellColor.hue        &&
+                        self.color.wrappedValue.saturation == cellColor.saturation &&
+                        self.color.wrappedValue.brightness == cellColor.brightness) {
+                        context.drawRectangle(
+                            x: Double(Self.CELL_SIZE * colNum),
+                            y: Double(Self.CELL_SIZE * rowNum),
+                            w: Double(Self.CELL_SIZE),
+                            h: Double(Self.CELL_SIZE),
+                            lineWidth: 1,
+                            colorLine: colNum < Self.COLS ? .white : .black,
+                            colorFill: .clear
+                        )
+                    }
+                }}
+            }
         }
         .frame(
             width : canvasW * 2 - Double(Self.CELL_SIZE),
@@ -122,10 +144,9 @@ struct ColorPickerCustom: View {
         .onTapGesture { location in
             let colNum = Int(location.x / CGFloat(Self.CELL_SIZE))
             let rowNum = Int(location.y / CGFloat(Self.CELL_SIZE))
-            self.color.wrappedValue = self.cellColor(colNum, rowNum)
+            self.color.wrappedValue = Self.cellColor(colNum, rowNum)
             self.isShowPalette = false
         }
-
     }
 
     @ViewBuilder private var opacityChanger: some View {
