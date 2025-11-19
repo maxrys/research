@@ -107,7 +107,6 @@ struct ColorPickerCustom: View {
             let currentOpacity = self.color.wrappedValue.opacity
             self.color.wrappedValue = Self.cellColor(colNum, rowNum)
             self.color.wrappedValue.opacity = currentOpacity
-            self.isShowPalette = false
         }
     }
 
