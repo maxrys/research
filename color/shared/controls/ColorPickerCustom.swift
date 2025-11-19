@@ -90,6 +90,7 @@ struct ColorPickerCustom: View {
                             colorLine: colNum < Self.COLS ? .white : .black,
                             colorFill: .clear
                         )
+                        return
                     }
                 }}
             }
