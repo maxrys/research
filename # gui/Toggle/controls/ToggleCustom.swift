@@ -7,18 +7,19 @@ import SwiftUI
 
 struct ToggleCustom: View {
 
-    var width: CGFloat = 50
-    var height: CGFloat = 22
+    @Binding private var isOn: Bool
+
+    var width: CGFloat = 40
+    var height: CGFloat = 16
     var innerPadding: CGFloat = 3
 
     private var text: String
-    private var isOn: Binding<Bool>
     private var isFlexible: Bool
     private var onChange: (Bool) -> Void
 
     init(text: String = "", isFlexible: Bool = false, isOn: Binding<Bool>, onChange: @escaping (Bool) -> Void = { isOn in }) {
         self.text = text
-        self.isOn = isOn
+        self._isOn = isOn
         self.isFlexible = isFlexible
         self.onChange = onChange
     }
@@ -42,14 +43,14 @@ struct ToggleCustom: View {
 
     @ViewBuilder var switcher: some View {
         Button {
-            self.onChange(!self.isOn.wrappedValue)
+            self.onChange(!self.isOn)
             withAnimation(.easeInOut(duration: 0.1)) {
-                self.isOn.wrappedValue.toggle()
+                self.isOn.toggle()
             }
         } label: {
-            ZStack(alignment: self.isOn.wrappedValue ? .trailing : .leading) {
+            ZStack(alignment: self.isOn ? .trailing : .leading) {
                 Capsule()
-                    .fill(self.isOn.wrappedValue ? .green : .black.opacity(0.3))
+                    .fill(self.isOn ? .green : .black.opacity(0.3))
                     .frame(width: self.width, height: self.height)
                 Capsule()
                     .fill(.white)
@@ -66,6 +67,12 @@ struct ToggleCustom: View {
     }
 
 }
+
+
+
+/* ############################################################# */
+/* ########################## PREVIEW ########################## */
+/* ############################################################# */
 
 @available(macOS 14.0, *) #Preview {
     @Previewable @State var isOn: Bool = false
