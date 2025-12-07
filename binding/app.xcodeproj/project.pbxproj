@@ -12,7 +12,6 @@
 		5073185F2DE9B563005E26F9 /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5073185E2DE9B563005E26F9 /* Binding.swift */; };
 		507318612DE9B9C1005E26F9 /* DemoToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507318602DE9B9C0005E26F9 /* DemoToggle.swift */; };
 		507318672DE9BAF5005E26F9 /* DemoToggleOptional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507318662DE9BAF5005E26F9 /* DemoToggleOptional.swift */; };
-		5073186B2DE9BB33005E26F9 /* ValueState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5073186A2DE9BB33005E26F9 /* ValueState.swift */; };
 		5073186D2DE9BDB4005E26F9 /* Demo_bindingOptional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5073186C2DE9BDB4005E26F9 /* Demo_bindingOptional.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
 /* End PBXBuildFile section */
@@ -23,7 +22,6 @@
 		5073185E2DE9B563005E26F9 /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		507318602DE9B9C0005E26F9 /* DemoToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoToggle.swift; sourceTree = "<group>"; };
 		507318662DE9BAF5005E26F9 /* DemoToggleOptional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoToggleOptional.swift; sourceTree = "<group>"; };
-		5073186A2DE9BB33005E26F9 /* ValueState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueState.swift; sourceTree = "<group>"; };
 		5073186C2DE9BDB4005E26F9 /* Demo_bindingOptional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demo_bindingOptional.swift; sourceTree = "<group>"; };
 		50993B682D33C4C900195667 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
@@ -45,7 +43,6 @@
 			isa = PBXGroup;
 			children = (
 				5073185E2DE9B563005E26F9 /* Binding.swift */,
-				5073186A2DE9BB33005E26F9 /* ValueState.swift */,
 				50CE72322EE5A87700FE3282 /* controls */,
 			);
 			path = shared;
@@ -158,7 +155,6 @@
 				5073185F2DE9B563005E26F9 /* Binding.swift in Sources */,
 				507318672DE9BAF5005E26F9 /* DemoToggleOptional.swift in Sources */,
 				5073186D2DE9BDB4005E26F9 /* Demo_bindingOptional.swift in Sources */,
-				5073186B2DE9BB33005E26F9 /* ValueState.swift in Sources */,
 				507318612DE9B9C1005E26F9 /* DemoToggle.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				5013DB822EA0256200BEDC5E /* DemoProxyState.swift in Sources */,

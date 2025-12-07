@@ -7,6 +7,13 @@ import SwiftUI
 
 struct DemoToggleOptional: View {
 
+    @Observable final class ValueState<T> {
+        var wrappedValue: T
+        init(_ value: T) {
+            self.wrappedValue = value
+        }
+    }
+
     private var text: String
     private var intIsOn = ValueState<Bool>(false)
     private var extIsOn: Binding<Bool>?
