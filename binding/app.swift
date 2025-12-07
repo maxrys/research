@@ -10,7 +10,7 @@ import SwiftUI
     var body: some Scene {
         Window("Main", id: "main") {
             VStack(spacing: 10) {
-                DemoProxyView()
+                Demo_bindingProxy()
                 DemoOptionalView()
                 DemoProxyState()
             }

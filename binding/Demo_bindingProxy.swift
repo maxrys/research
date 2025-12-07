@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-struct DemoProxyView: View {
+struct Demo_bindingProxy: View {
 
     @State var isOn: Bool = false
 
@@ -13,24 +13,24 @@ struct DemoProxyView: View {
         VStack(spacing: 10) {
 
             /* MARK: Binding Proxy */
+
             DemoToggle("Binding Proxy: \(isOn)",
                 isOn: Binding(
-                    get: {                                    self.isOn         },
-                    set: { value in self.onChangeIsOn(value); self.isOn = value }
+                    get: {                                self.isOn         },
+                    set: { value in self.onChange(value); self.isOn = value }
                 )
             )
 
             /* MARK: Binding.proxy */
-            DemoToggle("Binding.proxy: \(isOn)",
-                isOn: self.$isOn.proxy(onChangeIsOn)
-            )
 
-            Text("Value: \(self.isOn)")
+            DemoToggle("Binding.proxy: \(isOn)",
+                isOn: self.$isOn.proxy(self.onChange)
+            )
 
         }
     }
 
-    func onChangeIsOn(_ value: Bool) {
+    func onChange(_ value: Bool) {
         print("change: \(value)")
     }
 

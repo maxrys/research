@@ -6,8 +6,11 @@
 import SwiftUI
 
 @Observable final class ValueState<T> {
+
     var wrappedValue: T
+
     init(_ value: T) {
         self.wrappedValue = value
     }
+
 }

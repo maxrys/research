@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5013DB822EA0256200BEDC5E /* DemoProxyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5013DB812EA0255800BEDC5E /* DemoProxyState.swift */; };
-		5073185B2DE9ACA7005E26F9 /* DemoProxyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5073185A2DE9ACA4005E26F9 /* DemoProxyView.swift */; };
+		5073185B2DE9ACA7005E26F9 /* Demo_bindingProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5073185A2DE9ACA4005E26F9 /* Demo_bindingProxy.swift */; };
 		5073185F2DE9B563005E26F9 /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5073185E2DE9B563005E26F9 /* Binding.swift */; };
 		507318612DE9B9C1005E26F9 /* DemoToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507318602DE9B9C0005E26F9 /* DemoToggle.swift */; };
 		507318672DE9BAF5005E26F9 /* DemoToggleOptional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507318662DE9BAF5005E26F9 /* DemoToggleOptional.swift */; };
@@ -19,7 +19,7 @@
 
 /* Begin PBXFileReference section */
 		5013DB812EA0255800BEDC5E /* DemoProxyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoProxyState.swift; sourceTree = "<group>"; };
-		5073185A2DE9ACA4005E26F9 /* DemoProxyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoProxyView.swift; sourceTree = "<group>"; };
+		5073185A2DE9ACA4005E26F9 /* Demo_bindingProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demo_bindingProxy.swift; sourceTree = "<group>"; };
 		5073185E2DE9B563005E26F9 /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		507318602DE9B9C0005E26F9 /* DemoToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoToggle.swift; sourceTree = "<group>"; };
 		507318662DE9BAF5005E26F9 /* DemoToggleOptional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoToggleOptional.swift; sourceTree = "<group>"; };
@@ -46,8 +46,7 @@
 			children = (
 				5073185E2DE9B563005E26F9 /* Binding.swift */,
 				5073186A2DE9BB33005E26F9 /* ValueState.swift */,
-				507318602DE9B9C0005E26F9 /* DemoToggle.swift */,
-				507318662DE9BAF5005E26F9 /* DemoToggleOptional.swift */,
+				50CE72322EE5A87700FE3282 /* controls */,
 			);
 			path = shared;
 			sourceTree = "<group>";
@@ -58,7 +57,7 @@
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				507318622DE9B9D2005E26F9 /* shared */,
 				50993B6B2D33C4C900195667 /* app.swift */,
-				5073185A2DE9ACA4005E26F9 /* DemoProxyView.swift */,
+				5073185A2DE9ACA4005E26F9 /* Demo_bindingProxy.swift */,
 				5013DB812EA0255800BEDC5E /* DemoProxyState.swift */,
 				5073186C2DE9BDB4005E26F9 /* DemoOptionalView.swift */,
 				50993B692D33C4C900195667 /* Products */,
@@ -71,6 +70,15 @@
 				50993B682D33C4C900195667 /* app.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		50CE72322EE5A87700FE3282 /* controls */ = {
+			isa = PBXGroup;
+			children = (
+				507318602DE9B9C0005E26F9 /* DemoToggle.swift */,
+				507318662DE9BAF5005E26F9 /* DemoToggleOptional.swift */,
+			);
+			path = controls;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,7 +154,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5073185B2DE9ACA7005E26F9 /* DemoProxyView.swift in Sources */,
+				5073185B2DE9ACA7005E26F9 /* Demo_bindingProxy.swift in Sources */,
 				5073185F2DE9B563005E26F9 /* Binding.swift in Sources */,
 				507318672DE9BAF5005E26F9 /* DemoToggleOptional.swift in Sources */,
 				5073186D2DE9BDB4005E26F9 /* DemoOptionalView.swift in Sources */,
