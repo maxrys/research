@@ -109,7 +109,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
             ForEach(Array(self.itemsOrdered.enumerated()), id: \.element.key) { index, item in
                 Button {
                     self.rootView.selectedKey = item.key
-                    self.rootView.$isOpened.wrappedValue = false
+                    self.rootView.isOpened = false
                 } label: {
                     var backgroundColor: Color {
                         if (self.rootView.selectedKey      == item.key) { return self.rootView.colorSet.itemSelectedBackground }
@@ -161,7 +161,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
                     self.rootView.selectedKey = self.itemsOrdered[index].key
                 }
             }
-            self.rootView.$isOpened.wrappedValue = false
+            self.rootView.isOpened = false
         }
     }
 
@@ -171,7 +171,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
                 ForEach(Array(self.itemsOrdered.enumerated()), id: \.element.key) { index, item in
                     Button {
                         self.rootView.selectedKey = item.key
-                        self.rootView.$isOpened.wrappedValue = false
+                        self.rootView.isOpened = false
                     } label: {
                         var backgroundColor: Color {
                             if (self.rootView.selectedKey      == item.key) { return self.rootView.colorSet.itemSelectedBackground }
@@ -225,7 +225,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
                         self.rootView.selectedKey = self.itemsOrdered[index].key
                     }
                 }
-                self.rootView.$isOpened.wrappedValue = false
+                self.rootView.isOpened = false
             }
         }
     }
