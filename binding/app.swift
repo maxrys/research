@@ -12,7 +12,6 @@ import SwiftUI
             VStack(spacing: 10) {
                 Demo_bindingProxy()
                 Demo_bindingOptional()
-                DemoProxyState()
             }
         }
     }
