@@ -17,14 +17,17 @@ import SwiftUI
 
 struct Main: View {
 
-    @State var isShowingPopover = false
+    @State private var isShowingPopover = false
 
     var body: some View {
         Button("Show Popover") {
             self.isShowingPopover = true
         }
-        .popover(isPresented: self.$isShowingPopover) {
+        .popover(isPresented: self.$isShowingPopover, arrowEdge: .bottom) {
             Popover(isShowingPopover: self.$isShowingPopover)
+        }
+        .onChange(of: self.isShowingPopover) { _, newValue in
+            dump(newValue)
         }
     }
 
