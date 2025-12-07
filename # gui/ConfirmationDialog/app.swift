@@ -26,9 +26,6 @@ struct Main: View {
         .popover(isPresented: self.$isShowingPopover, arrowEdge: .bottom) {
             Popover(isShowingPopover: self.$isShowingPopover)
         }
-        .onChange(of: self.isShowingPopover) { _, newValue in
-            dump(newValue)
-        }
     }
 
 }
@@ -53,9 +50,7 @@ struct Popover: View {
             }
             Button("Close Dialog + Popover", role: .destructive) {
                 self.isShowingDialog = false
-                DispatchQueue.main.async {
-                    self.isShowingPopover = false
-                }
+                self.isShowingPopover = false
             }
         }
     }
