@@ -5,12 +5,16 @@
 
 import Foundation
 
-struct ColorHSB: Equatable, Codable {
+struct ColorHSBValue: Equatable, Codable {
 
-    var hue: Double
-    var saturation: Double
-    var brightness: Double
-    var opacity: Double
+    public var hue: Double
+    public var saturation: Double
+    public var brightness: Double
+    public var opacity: Double
+
+    public var isDark: Bool {
+        self.brightness < 0.5
+    }
 
     init(_ hue: Double, _ saturation: Double, _ brightness: Double, _ opacity: Double = 1.0) {
         self.hue = hue

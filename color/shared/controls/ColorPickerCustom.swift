@@ -11,12 +11,11 @@ struct ColorPickerCustom: View {
     static let ROWS = 40
     static let CELL_SIZE = 8
 
+    @Binding private var color: ColorHSBValue
     @State private var isShowPalette: Bool = false
 
-    var color: Binding<ColorHSB>
-
-    init(color: Binding<ColorHSB>) {
-        self.color = color
+    init(color: Binding<ColorHSBValue>) {
+        self._color = color
     }
 
     static private var canvasWithPalette: some View = {
@@ -39,11 +38,11 @@ struct ColorPickerCustom: View {
         }
     }()
 
-    static private func cellColor(_ colNum: Int, _ rowNum: Int) -> ColorHSB {
+    static private func cellColor(_ colNum: Int, _ rowNum: Int) -> ColorHSBValue {
         let H =                            Decimal(rowNum            ) / Decimal(Self.ROWS)
         let S = colNum > Self.COLS ? 1.0 - Decimal(colNum - Self.COLS) / Decimal(Self.COLS) : 1.0
         let B = colNum > Self.COLS ? 1.0 : Decimal(colNum            ) / Decimal(Self.COLS)
-        return ColorHSB(H.double, S.double, B.double, 1.0)
+        return ColorHSBValue(H.double, S.double, B.double, 1.0)
     }
 
     public var body: some View {
@@ -51,10 +50,10 @@ struct ColorPickerCustom: View {
             self.isShowPalette = true
         } label: {
             Color(
-                hue       : self.color.wrappedValue.hue,
-                saturation: self.color.wrappedValue.saturation,
-                brightness: self.color.wrappedValue.brightness,
-                opacity   : self.color.wrappedValue.opacity
+                hue       : self.color.hue,
+                saturation: self.color.saturation,
+                brightness: self.color.brightness,
+                opacity   : self.color.opacity
             ).frame(width: 20, height: 20)
         }
         .buttonStyle(.plain)
@@ -71,16 +70,17 @@ struct ColorPickerCustom: View {
         ZStack {
 
             Self.canvasWithPalette
-                .opacity(self.color.wrappedValue.opacity)
+                .opacity(self.color.opacity)
 
             /* selection visualizer */
+
             Canvas { context, size in
                 for rowNum in 0 ... Self.ROWS     {
                 for colNum in 0 ... Self.COLS * 2 {
                     let cellColor = Self.cellColor(colNum, rowNum)
-                    if (self.color.wrappedValue.hue        == cellColor.hue        &&
-                        self.color.wrappedValue.saturation == cellColor.saturation &&
-                        self.color.wrappedValue.brightness == cellColor.brightness) {
+                    if (self.color.hue        == cellColor.hue        &&
+                        self.color.saturation == cellColor.saturation &&
+                        self.color.brightness == cellColor.brightness) {
                         context.drawRectangle(
                             x: Double(Self.CELL_SIZE * colNum),
                             y: Double(Self.CELL_SIZE * rowNum),
@@ -104,9 +104,9 @@ struct ColorPickerCustom: View {
         .onTapGesture { location in
             let colNum = Int(location.x / CGFloat(Self.CELL_SIZE))
             let rowNum = Int(location.y / CGFloat(Self.CELL_SIZE))
-            let currentOpacity = self.color.wrappedValue.opacity
-            self.color.wrappedValue = Self.cellColor(colNum, rowNum)
-            self.color.wrappedValue.opacity = currentOpacity
+            let currentOpacity = self.color.opacity
+            self.color = Self.cellColor(colNum, rowNum)
+            self.color.opacity = currentOpacity
         }
     }
 
@@ -114,13 +114,13 @@ struct ColorPickerCustom: View {
         VStack(spacing: 10) {
             Slider(
                 value: Binding<Double>(
-                    get: {          self.color.wrappedValue.opacity },
-                    set: { value in self.color.wrappedValue.opacity = value }
+                    get: {          self.color.opacity },
+                    set: { value in self.color.opacity = value }
                 ),
                 in: 0.0 ... 1.0,
                 step: 0.01
             )
-            Text("Opacity: \(self.color.wrappedValue.opacity, specifier: "%.2f")")
+            Text("Opacity: \(self.color.opacity, specifier: "%.2f")")
                 .font(.headline)
         }
         .padding(.horizontal, 20)
@@ -129,8 +129,14 @@ struct ColorPickerCustom: View {
 
 }
 
+
+
+/* ############################################################# */
+/* ########################## PREVIEW ########################## */
+/* ############################################################# */
+
 #Preview {
-    @Previewable @State var pickerColor = ColorHSB(0.0, 1.0, 0.0)
+    @Previewable @State var pickerColor = ColorHSBValue(0.0, 1.0, 0.0)
     ColorPickerCustom(
         color: $pickerColor
     ).onChange(of: pickerColor) { oldValue, newValue in

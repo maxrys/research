@@ -32,8 +32,12 @@ struct Main: View {
 
 struct Popover: View {
 
-    @Binding var isShowingPopover: Bool
+    @Binding private var isShowingPopover: Bool
     @State var isShowingDialog = false
+
+    init(isShowingPopover: Binding<Bool>) {
+        self._isShowingPopover = isShowingPopover
+    }
 
     var body: some View {
         Button("Show dialog") {
