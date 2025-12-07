@@ -8,9 +8,16 @@ struct FocusableListView<Key>: View where Key: Hashable & Comparable {
     }
 
     @FocusState private var focuser: Focuser?
+    @Binding var selectedKey: Key?
 
-    var items: [Key: String]
-    var selectedKey: Binding<Key?>
+    var items: [
+        Key: String
+    ]
+
+    init(items: [Key: String], selectedKey: Binding<Key?>) {
+        self.items = items
+        self._selectedKey = selectedKey
+    }
 
     private var itemsList: [(key: Key, value: String)] {
         self.items.ordered()
@@ -41,7 +48,7 @@ struct FocusableListView<Key>: View where Key: Hashable & Comparable {
                 .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return.rawValue) {
                     if case .item(let index) = self.focuser {
                         if (index >= 0 && index <= self.items.count - 1) {
-                            self.selectedKey.wrappedValue = self.itemsList[index].key
+                            self.selectedKey = self.itemsList[index].key
                         }
                     }
                 }
@@ -51,7 +58,7 @@ struct FocusableListView<Key>: View where Key: Hashable & Comparable {
     @ViewBuilder var list: some View {
         ForEach(Array(itemsList.enumerated()), id: \.element.key) { index, item in
             Button {
-                self.selectedKey.wrappedValue = item.key
+                self.selectedKey = item.key
             } label: {
                 Text("\(index):\(item.key):\(item.value)")
             }
