@@ -7,7 +7,7 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
-    static let NA_SIGN = "—"
+    static let NOT_APPLICABLE = "—"
 
     @State var selectedKeyInt: UInt = 0
     @State var selectedKeyString: String = ""

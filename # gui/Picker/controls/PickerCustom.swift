@@ -9,9 +9,9 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
     typealias ColorSet = Color.PickerColorSet
 
+    @Binding fileprivate var selectedKey: Key
     @State fileprivate var isOpened: Bool = false
 
-    fileprivate var selectedKey: Binding<Key>
     fileprivate let items: [Key: String]
     fileprivate let isPlainListStyle: Bool
     fileprivate let flexibility: Flexibility
@@ -25,14 +25,14 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
         flexibility: Flexibility = .none,
         colorSet: ColorSet = Color.picker
     ) {
-        self.selectedKey = selected
+        self._selectedKey = selected
         self.items = items
         self.isPlainListStyle = isPlainListStyle
         self.flexibility = flexibility
         self.colorSet = colorSet
     }
 
-    var body: some View {
+    public var body: some View {
         if (self.items.isEmpty) {
             self.opener
                 .disabled(true)
@@ -53,7 +53,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
         Button {
             self.isOpened = true
         } label: {
-            Text(self.items[self.selectedKey.wrappedValue] ?? ThisApp.NA_SIGN)
+            Text(self.items[self.selectedKey] ?? ThisApp.NOT_APPLICABLE)
                 .lineLimit(1)
                 .padding(.horizontal, 9)
                 .padding(.vertical  , 5)
@@ -98,23 +98,23 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
         self.rootView = rootView
     }
 
-    var body: some View {
+    public var body: some View {
         if (self.rootView.items.count > 8)
              { self.listWithScroll }
         else { self.list }
     }
 
-    var list: some View {
+    private var list: some View {
         VStack(spacing: 10) {
             ForEach(Array(self.itemsOrdered.enumerated()), id: \.element.key) { index, item in
                 Button {
-                    self.rootView.selectedKey.wrappedValue = item.key
+                    self.rootView.selectedKey = item.key
                     self.rootView.$isOpened.wrappedValue = false
                 } label: {
                     var backgroundColor: Color {
-                        if (self.rootView.selectedKey.wrappedValue == item.key) { return self.rootView.colorSet.itemSelectedBackground }
-                        if (self.hovered                           == item.key) { return self.rootView.colorSet.itemHoveredBackground }
-                        if (self.rootView.isPlainListStyle         == false   ) { return self.rootView.colorSet.itemBackground }
+                        if (self.rootView.selectedKey      == item.key) { return self.rootView.colorSet.itemSelectedBackground }
+                        if (self.hovered                   == item.key) { return self.rootView.colorSet.itemHoveredBackground }
+                        if (self.rootView.isPlainListStyle == false   ) { return self.rootView.colorSet.itemBackground }
                         return Color.clear
                     }
                     Text(item.value)
@@ -138,7 +138,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
         }
         .padding(10)
         .onAppear {
-            let index = self.KeyToIndex[self.rootView.selectedKey.wrappedValue] ?? 0
+            let index = self.KeyToIndex[self.rootView.selectedKey] ?? 0
             self.focuser = .item(index: index)
         }
         .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow.rawValue) {
@@ -158,25 +158,25 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
         .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return.rawValue) {
             if case .item(let index) = self.focuser {
                 if (index >= 0 && index <= self.rootView.items.count - 1) {
-                    self.rootView.selectedKey.wrappedValue = self.itemsOrdered[index].key
+                    self.rootView.selectedKey = self.itemsOrdered[index].key
                 }
             }
             self.rootView.$isOpened.wrappedValue = false
         }
     }
 
-    var listWithScroll: some View {
-        ScrollViewReader { proxy in
+    private var listWithScroll: some View {
+        ScrollViewReader { scrollProxy in
             List {
                 ForEach(Array(self.itemsOrdered.enumerated()), id: \.element.key) { index, item in
                     Button {
-                        self.rootView.selectedKey.wrappedValue = item.key
+                        self.rootView.selectedKey = item.key
                         self.rootView.$isOpened.wrappedValue = false
                     } label: {
                         var backgroundColor: Color {
-                            if (self.rootView.selectedKey.wrappedValue == item.key) { return self.rootView.colorSet.itemSelectedBackground }
-                            if (self.hovered                           == item.key) { return self.rootView.colorSet.itemHoveredBackground }
-                            if (self.rootView.isPlainListStyle         == false   ) { return self.rootView.colorSet.itemBackground }
+                            if (self.rootView.selectedKey      == item.key) { return self.rootView.colorSet.itemSelectedBackground }
+                            if (self.hovered                   == item.key) { return self.rootView.colorSet.itemHoveredBackground }
+                            if (self.rootView.isPlainListStyle == false   ) { return self.rootView.colorSet.itemBackground }
                             return Color.clear
                         }
                         Text(item.value)
@@ -200,14 +200,14 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
             }
             .listStyle(.sidebar)
             .onAppear {
-                let index = self.KeyToIndex[self.rootView.selectedKey.wrappedValue] ?? 0
+                let index = self.KeyToIndex[self.rootView.selectedKey] ?? 0
                 self.focuser = .item(index: index)
             }
             .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow.rawValue) {
                 if case .item(let index) = self.focuser {
                     if (index > 0) {
                         self.focuser = .item(index: index - 1)
-                        proxy.scrollTo(index - 1)
+                        scrollProxy.scrollTo(index - 1)
                     }
                 }
             }
@@ -215,14 +215,14 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
                 if case .item(let index) = self.focuser {
                     if (index < self.rootView.items.count - 1) {
                         self.focuser = .item(index: index + 1)
-                        proxy.scrollTo(index + 1)
+                        scrollProxy.scrollTo(index + 1)
                     }
                 }
             }
             .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return.rawValue) {
                 if case .item(let index) = self.focuser {
                     if (index >= 0 && index <= self.rootView.items.count - 1) {
-                        self.rootView.selectedKey.wrappedValue = self.itemsOrdered[index].key
+                        self.rootView.selectedKey = self.itemsOrdered[index].key
                     }
                 }
                 self.rootView.$isOpened.wrappedValue = false
@@ -231,6 +231,8 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
     }
 
 }
+
+
 
 /* ############################################################# */
 /* ########################## PREVIEW ########################## */
@@ -245,8 +247,8 @@ func generatePreviewItems_intKey(count: Int) -> [UInt: String] {
 
 func generatePreviewItems_strKey(count: Int) -> [String: String] {
     (1000 ..< 1100).reduce(into: [String: String]()) { result, i in
-        if (i == 1005) { result["id:\(i)"] = "Value \(i) long long long long long long" }
-        else           { result["id:\(i)"] = "Value \(i)" }
+        if (i == 1005) { result["ID:\(i)"] = "Value \(i) long long long long long long" }
+        else           { result["ID:\(i)"] = "Value \(i)" }
     }
 }
 
