@@ -11,7 +11,7 @@ import SwiftUI
         Window("Main", id: "main") {
             VStack(spacing: 10) {
                 Demo_bindingProxy()
-                DemoOptionalView()
+                Demo_bindingOptional()
                 DemoProxyState()
             }
         }

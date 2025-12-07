@@ -8,6 +8,7 @@ import SwiftUI
 struct DemoToggle: View {
 
     @Binding private var isOn: Bool
+
     private var text: String
 
     init(_ text: String = "", isOn: Binding<Bool>) {

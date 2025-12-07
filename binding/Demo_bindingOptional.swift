@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-struct DemoOptionalView: View {
+struct Demo_bindingOptional: View {
 
     @State var isOn: Bool = false
 
@@ -13,27 +13,31 @@ struct DemoOptionalView: View {
         VStack(spacing: 10) {
 
             /* MARK: Binding = nil */
-            DemoToggleOptional("Binding = nil", isOn: nil) { isOn in }
+
+            DemoToggleOptional("Binding = nil",
+                isOn: nil,
+                onChange: self.onChange
+            )
 
             /* MARK: Binding.constant */
+
             DemoToggleOptional("Binding.constant: \(isOn)",
                 isOn: Binding.constant(self.isOn)) { isOn in
                     self.isOn = !isOn
-                    self.onChangeIsOn(self.isOn)
+                    self.onChange(self.isOn)
                 }
 
             /* MARK: Binding Classic */
+
             DemoToggleOptional("Binding Classic: \(isOn)",
                 isOn    : self.$isOn,
-                onChange: self.onChangeIsOn
+                onChange: self.onChange
             )
-
-            Text("Value: \(self.isOn)")
 
         }.padding(20)
     }
 
-    func onChangeIsOn(_ value: Bool) {
+    func onChange(_ value: Bool) {
         print("change: \(value)")
     }
 
