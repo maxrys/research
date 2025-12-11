@@ -104,7 +104,9 @@ struct CustomGrid: View {
                     ID: cellID,
                     size: self.cellSize,
                     isVisible: self.cellsVisibility[cellID] ?? false
-                ).id(cellID)
+                )
+                .zIndex(Double(self.rowsCount - rowNum))
+                .id(cellID)
             }}
         }.padding(self.cellSpacing)
 
