@@ -7,6 +7,10 @@ import SwiftUI
 
 struct CustomGrid: View {
 
+    typealias DataSource = [
+        Int: [Int: Cell]
+    ]
+
     @State private var scrollPosition: ScrollPosition = ScrollPosition()
     @State private var scrollPhase: ScrollPhase = .idle
     @State private var visibleFrame: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
@@ -15,6 +19,7 @@ struct CustomGrid: View {
     @State private var cellsVisibilityDelayTimer: Timer.Custom!
     @State private var cellsVisibility: [CellID: Bool] = [:]
 
+    private let source: DataSource
     private let colsCount: UInt
     private let rowsCount: UInt
     private let cellSize: CGFloat
@@ -22,14 +27,14 @@ struct CustomGrid: View {
     private let isSticky: Bool
 
     init(
-        colsCount: UInt,
-        rowsCount: UInt,
+        data source: DataSource,
         cellSize: CGFloat,
         cellSpacing: CGFloat,
         isSticky: Bool
     ) {
-        self.colsCount = colsCount
-        self.rowsCount = rowsCount
+        self.source = source
+        self.colsCount = UInt(self.source.count)
+        self.rowsCount = UInt(self.source.first?.value.count ?? 0)
         self.cellSize = cellSize
         self.cellSpacing = cellSpacing
         self.isSticky = isSticky
@@ -91,25 +96,21 @@ struct CustomGrid: View {
     }
 
     @ViewBuilder private var grid: some View {
-
         let columns: [GridItem] = (0 ..< self.colsCount).map { _ in
             GridItem(.fixed(self.cellSize), spacing: self.cellSpacing)
         }
-
         LazyVGrid(columns: columns, spacing: self.cellSpacing) {
             ForEach(0 ..< self.rowsCount, id: \.self) { rowNum in
             ForEach(0 ..< self.colsCount, id: \.self) { colNum in
-                let cellID = CellID(UInt16(rowNum) * UInt16(self.colsCount) + UInt16(colNum))
-                Cell(
-                    ID: cellID,
-                    size: self.cellSize,
-                    isVisible: self.cellsVisibility[cellID] ?? false
-                )
-                .zIndex(Double(self.rowsCount - rowNum))
-                .id(cellID)
+                if var cell = self.source[Int(rowNum)]?[Int(colNum)] as? Cell {
+                    let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
+                    cell.zIndex(Double(self.rowsCount - rowNum))
+                        .id(cell.ID)
+                } else {
+                    Color.clear
+                }
             }}
         }.padding(self.cellSpacing)
-
     }
 
     private func cellsVisibilityUpdate() {
@@ -164,11 +165,32 @@ struct CustomGrid: View {
 }
 
 #Preview {
+    let colsCount = 30
+    let rowsCount = 30
+    let cellSize: CGFloat = 100
+    let cellSpacing: CGFloat = 20
+    let source: CustomGrid.DataSource = {
+        var result: CustomGrid.DataSource = [:]
+        for rowNum in 0 ..< rowsCount {
+        for colNum in 0 ..< colsCount {
+            if (result[rowNum] == nil) { result[rowNum] = [:] }
+            let cellID = CellID(UInt16(rowNum) * UInt16(colsCount) + UInt16(colNum))
+            result[rowNum]![colNum] = Cell(
+                ID: cellID,
+                size: cellSize,
+                isVisible: false
+            )
+        }}
+        return result
+    }()
     CustomGrid(
-        colsCount: 30,
-        rowsCount: 30,
-        cellSize: 100,
-        cellSpacing: 20,
+        data: source,
+        cellSize: cellSize,
+        cellSpacing: cellSpacing,
         isSticky: true
+    )
+    .frame(
+        width : (cellSize * 3) + (cellSpacing * 4),
+        height: (cellSize * 3) + (cellSpacing * 4)
     )
 }
