@@ -8,7 +8,7 @@ import SwiftUI
 struct CustomGrid: View {
 
     typealias DataSource = [
-        Int: [Int: any CellProtocol]
+        Int: [Int: CellProtocol]
     ]
 
     @State private var scrollPosition: ScrollPosition = ScrollPosition()

@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-protocol CellProtocol: View {
+protocol CellProtocol {
     var ID       : CellID  { get }
     var size     : CGFloat { get }
     var isVisible: Bool    { get set }
