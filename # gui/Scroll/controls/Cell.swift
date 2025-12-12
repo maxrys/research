@@ -5,11 +5,10 @@
 
 import SwiftUI
 
-protocol CellProtocol {
+protocol CellProtocol: View {
     var ID       : CellID  { get }
     var size     : CGFloat { get }
     var isVisible: Bool    { get set }
-    var view     : AnyView { get }
 }
 
 struct Cell: View, CellProtocol {
@@ -17,9 +16,6 @@ struct Cell: View, CellProtocol {
     var ID: CellID
     var size: CGFloat
     var isVisible: Bool
-    var view: AnyView {
-        AnyView(self.body)
-    }
 
     var body: some View {
         RoundedRectangle(cornerRadius: 10)

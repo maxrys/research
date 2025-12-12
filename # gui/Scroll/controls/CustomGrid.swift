@@ -8,7 +8,7 @@ import SwiftUI
 struct CustomGrid: View {
 
     typealias DataSource = [
-        Int: [Int: CellProtocol]
+        Int: [Int: any CellProtocol]
     ]
 
     @State private var scrollPosition: ScrollPosition = ScrollPosition()
@@ -104,7 +104,7 @@ struct CustomGrid: View {
             ForEach(0 ..< self.colsCount, id: \.self) { colNum in
                 if var cell = self.source[Int(rowNum)]?[Int(colNum)] {
                     let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
-                    cell.view
+                    AnyView(cell)
                         .zIndex(Double(self.rowsCount - rowNum))
                         .id(cell.ID)
                 } else {
