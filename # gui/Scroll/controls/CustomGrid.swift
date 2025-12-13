@@ -33,8 +33,8 @@ struct CustomGrid: View {
         isSticky: Bool
     ) {
         self.source = source
-        self.colsCount = UInt(self.source.count)
-        self.rowsCount = UInt(self.source.first?.value.count ?? 0)
+        self.rowsCount = UInt(self.source.count)
+        self.colsCount = UInt(self.source.first?.value.count ?? 0)
         self.cellSize = cellSize
         self.cellSpacing = cellSpacing
         self.isSticky = isSticky
@@ -109,6 +109,7 @@ struct CustomGrid: View {
                         .id(cell.ID)
                 } else {
                     Color.clear
+                        .frame(width: self.cellSize, height: self.cellSize)
                 }
             }}
         }.padding(self.cellSpacing)
