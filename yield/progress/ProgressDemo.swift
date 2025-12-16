@@ -13,14 +13,18 @@ struct ProgressDemo: View {
 
     var body: some View {
         VStack {
+
             ProgressCustom(value: self.$progress)
+
             Button("start") {
                 Task {
+                    self.progress = 0
                     for await value in TaskProgress(totalSteps: self.totalSteps) {
                         self.progress = value
                     }
                 }
             }
+
         }.padding(20)
     }
 
