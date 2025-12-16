@@ -7,7 +7,10 @@ import SwiftUI
 
 struct ProgressBar: View {
 
-    let height: CGFloat = 20
+    @Environment(\.colorScheme) private var colorScheme
+    @State private var visibleFrame: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
+
+    let height: CGFloat = 30
     var value: Double
 
     init(value: Double) {
@@ -15,19 +18,24 @@ struct ProgressBar: View {
     }
 
     var body: some View {
-        GeometryReader { geometry in
-            let width: CGFloat = self.value == 0 ? 1 : geometry.size.width * CGFloat(self.value)
-            RoundedRectangle(cornerRadius: 5)
-                .stroke(.black, lineWidth: 1)
-                .fill(Color.blue)
-                .frame(width: width, height: geometry.size.height)
-                .animation(.linear, value: self.value)
-                .overlay(alignment: .center) {
-                    let formattedValue = Int(self.value * 100)
-                    Text("\(formattedValue) %")
-                        .foregroundStyle(.white)
-                }
-        }.frame(maxHeight: self.height)
+        let formattedValue = Int(self.value * 100)
+        let width: CGFloat = visibleFrame.width * CGFloat(self.value)
+        Color(self.colorScheme == .dark ? .black : .white).frame(height: self.height)
+            .overlay(alignment: .leading) {
+                Rectangle()
+                    .fill(Color.blue.gradient)
+                    .animation(.linear, value: self.value)
+                    .frame(width: width)
+            }.overlay(alignment: .center) {
+                Text("\(formattedValue) %")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundStyle(.blue)
+                    .blendMode(.difference)
+            }
+        .clipShape(RoundedRectangle(cornerRadius: 7))
+        .onGeometryChange(for: CGSize.self) { geometry in geometry.size } action: { size in
+            self.visibleFrame.size = size
+        }
     }
 
 }
@@ -40,19 +48,9 @@ struct ProgressBar: View {
 
 #Preview {
     VStack(spacing: 10) {
-        ProgressBar(value: -0.5)
-        ProgressBar(value: +0.0)
-        ProgressBar(value: +0.1)
-        ProgressBar(value: +0.2)
-        ProgressBar(value: +0.3)
-        ProgressBar(value: +0.4)
-        ProgressBar(value: +0.5)
-        ProgressBar(value: +0.6)
-        ProgressBar(value: +0.7)
-        ProgressBar(value: +0.8)
-        ProgressBar(value: +0.9)
-        ProgressBar(value: +1.0)
-        ProgressBar(value: +1.5)
+        ForEach(Array(stride(from: -0.1, through: 1.1, by: 0.1)), id: \.self) { value in
+            ProgressBar(value: value)
+        }
     }
     .padding(10)
     .frame(width: 300)
