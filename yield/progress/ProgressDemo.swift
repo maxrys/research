@@ -9,14 +9,15 @@ struct ProgressDemo: View {
 
     @State private var progress: Double = 0.0
 
+    let totalSteps = 10
+
     var body: some View {
         VStack {
-            ProgressCustom(value: progress)
+            ProgressCustom(value: self.$progress)
             Button("start") {
                 Task {
-                    for await value in TaskProgress(totalSteps: 10) {
+                    for await value in TaskProgress(totalSteps: self.totalSteps) {
                         self.progress = value
-                        print(value)
                     }
                 }
             }

@@ -8,23 +8,26 @@ import SwiftUI
 struct ProgressCustom: View {
 
     @Environment(\.colorScheme) private var colorScheme
+
+    @Binding private var value: Double
     @State private var visibleFrame: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
 
-    let height: CGFloat = 30
-    var value: Double
+    let height: CGFloat
 
-    init(value: Double) {
-        self.value = value.fixBounds(max: 1.0)
+    init(value: Binding<Double>, height: CGFloat = 30) {
+        self._value = value
+        self.height = height
     }
 
     var body: some View {
-        let formattedValue = Int(self.value * 100)
-        let width: CGFloat = visibleFrame.width * CGFloat(self.value)
+        let value = self.value.fixBounds(max: 1.0)
+        let formattedValue = Int(value * 100)
+        let width: CGFloat = visibleFrame.width * CGFloat(value)
         Color(self.colorScheme == .dark ? .black : .white).frame(height: self.height)
             .overlay(alignment: .leading) {
                 Rectangle()
                     .fill(Color.blue.gradient)
-                    .animation(.linear, value: self.value)
+                    .animation(.linear, value: value)
                     .frame(width: width)
             }.overlay(alignment: .center) {
                 Text("\(formattedValue) %")
@@ -49,7 +52,9 @@ struct ProgressCustom: View {
 #Preview {
     VStack(spacing: 10) {
         ForEach(Array(stride(from: -0.1, through: 1.1, by: 0.1)), id: \.self) { value in
-            ProgressCustom(value: value)
+            ProgressCustom(
+                value: Binding.constant(value)
+            )
         }
     }
     .padding(10)
