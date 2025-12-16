@@ -11,7 +11,7 @@ struct ProgressDemo: View {
 
     var body: some View {
         VStack {
-            ProgressBar(value: progress)
+            ProgressCustom(value: progress)
             Button("start") {
                 Task {
                     for await value in TaskProgress(totalSteps: 10) {
