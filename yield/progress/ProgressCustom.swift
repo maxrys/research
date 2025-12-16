@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-struct ProgressBar: View {
+struct ProgressCustom: View {
 
     @Environment(\.colorScheme) private var colorScheme
     @State private var visibleFrame: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
@@ -49,7 +49,7 @@ struct ProgressBar: View {
 #Preview {
     VStack(spacing: 10) {
         ForEach(Array(stride(from: -0.1, through: 1.1, by: 0.1)), id: \.self) { value in
-            ProgressBar(value: value)
+            ProgressCustom(value: value)
         }
     }
     .padding(10)

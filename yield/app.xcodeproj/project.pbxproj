@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		507501342EF1997C00624409 /* TaskProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507501332EF1997B00624409 /* TaskProgress.swift */; };
-		507501362EF19AC300624409 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507501352EF19AC000624409 /* ProgressBar.swift */; };
+		507501362EF19AC300624409 /* ProgressCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507501352EF19AC000624409 /* ProgressCustom.swift */; };
 		5075013A2EF19BC600624409 /* ProgressDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507501392EF19BC600624409 /* ProgressDemo.swift */; };
 		5075013E2EF1A6A300624409 /* Numeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5075013D2EF1A6A000624409 /* Numeric.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
@@ -16,7 +16,7 @@
 
 /* Begin PBXFileReference section */
 		507501332EF1997B00624409 /* TaskProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskProgress.swift; sourceTree = "<group>"; };
-		507501352EF19AC000624409 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		507501352EF19AC000624409 /* ProgressCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCustom.swift; sourceTree = "<group>"; };
 		507501392EF19BC600624409 /* ProgressDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressDemo.swift; sourceTree = "<group>"; };
 		5075013D2EF1A6A000624409 /* Numeric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numeric.swift; sourceTree = "<group>"; };
 		50993B682D33C4C900195667 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,7 +47,7 @@
 			isa = PBXGroup;
 			children = (
 				507501392EF19BC600624409 /* ProgressDemo.swift */,
-				507501352EF19AC000624409 /* ProgressBar.swift */,
+				507501352EF19AC000624409 /* ProgressCustom.swift */,
 				507501332EF1997B00624409 /* TaskProgress.swift */,
 			);
 			path = progress;
@@ -145,7 +145,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				507501362EF19AC300624409 /* ProgressBar.swift in Sources */,
+				507501362EF19AC300624409 /* ProgressCustom.swift in Sources */,
 				5075013E2EF1A6A300624409 /* Numeric.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				507501342EF1997C00624409 /* TaskProgress.swift in Sources */,
