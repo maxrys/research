@@ -16,10 +16,11 @@ struct ProgressDemo: View {
                 Task {
                     for await value in TaskProgress(totalSteps: 10) {
                         self.progress = value
+                        print(value)
                     }
                 }
             }
-        }
+        }.padding(20)
     }
 
 }
