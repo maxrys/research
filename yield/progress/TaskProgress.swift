@@ -7,23 +7,40 @@ struct TaskProgress: AsyncSequence {
 
     typealias Element = Double
 
-    struct AsyncIterator: AsyncIteratorProtocol {
-        let totalSteps: Int
-        var currentStep = 0
-        mutating func next() async -> Double? {
-            guard self.currentStep < self.totalSteps + 1 else { return nil }
-            let progress = Double(self.currentStep) / Double(self.totalSteps)
-            try? await Task.sleep(nanoseconds: 500_000_000)
-            self.currentStep += 1
-            return progress
-        }
+    let count: UInt
+
+    func makeAsyncIterator() -> AsyncIterator {
+        return AsyncIterator(
+            count: self.count
+        )
     }
 
-    let totalSteps: Int
+}
 
-    func makeAsyncIterator() -> Self.AsyncIterator {
-        return Self.AsyncIterator(
-            totalSteps: self.totalSteps
+struct AsyncIterator: AsyncIteratorProtocol {
+
+    let count: UInt
+    var i: UInt = 0
+
+    mutating func next() async -> Double? {
+        guard self.i < self.count  else { return nil }
+        let progress = Double(self.i + 1) / Double(self.count)
+        await self.payloadStep(
+            i: self.i,
+            count: self.count,
+            progress: progress
+        )
+        self.i += 1
+        return progress
+    }
+
+    func payloadStep(i: UInt, count: UInt, progress: Double) async {
+        print(
+            "Process (\(i) from \(count) | " +
+            "\(progress.formatted(.number.precision(.fractionLength(2))))"
+        )
+        try? await Task.sleep(
+            nanoseconds: 500_000_000
         )
     }
 

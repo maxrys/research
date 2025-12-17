@@ -9,7 +9,7 @@ struct ProgressDemo: View {
 
     @State private var progress: Double = 0.0
 
-    let totalSteps = 10
+    let count: UInt = 10
 
     var body: some View {
         VStack {
@@ -19,7 +19,7 @@ struct ProgressDemo: View {
             Button("start") {
                 Task {
                     self.progress = 0
-                    for await value in TaskProgress(totalSteps: self.totalSteps) {
+                    for await value in TaskProgress(count: self.count) {
                         self.progress = value
                     }
                 }
