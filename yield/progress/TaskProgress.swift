@@ -35,13 +35,16 @@ struct AsyncIterator: AsyncIteratorProtocol {
     }
 
     func payloadStep(i: UInt, count: UInt, progress: Double) async {
-        print(
-            "Process (\(i) from \(count) | " +
-            "\(progress.formatted(.number.precision(.fractionLength(2))))"
+        let formattedProgress = progress.formatted(
+            .number.precision(
+                .fractionLength(2)
+            )
         )
+        print("Process (\(i) from \(count) | \(formattedProgress) %) will start")
         try? await Task.sleep(
-            nanoseconds: 500_000_000
+            nanoseconds: 1_000_000_000
         )
+        print("Process (\(i) from \(count) | \(formattedProgress) %) ended")
     }
 
 }
