@@ -25,10 +25,7 @@ struct ProgressCustom: View {
         let width: CGFloat = visibleFrame.width * CGFloat(value)
         Color(self.colorScheme == .dark ? .black : .white).frame(height: self.height)
             .overlay(alignment: .leading) {
-                Rectangle()
-                    .fill(Color.blue.gradient)
-                    .animation(.linear, value: value)
-                    .frame(width: width)
+                self.indicator(width)
             }.overlay(alignment: .center) {
                 Text("\(formattedValue) %")
                     .font(.system(size: 14, weight: .bold))
@@ -39,6 +36,31 @@ struct ProgressCustom: View {
         .onGeometryChange(for: CGSize.self) { geometry in geometry.size } action: { size in
             self.visibleFrame.size = size
         }
+    }
+
+    @ViewBuilder private func indicator(_ width: CGFloat, zebraSize: CGFloat = 30.0) -> some View {
+        let value = self.value.fixBounds(max: 1.0)
+        ZStack {
+            Rectangle()
+                .fill(Color.blue.gradient)
+                .animation(.linear, value: value)
+            Rectangle()
+                .fill(Color.white.opacity(0.1))
+                .animation(.linear, value: value)
+                .mask {
+                    TimelineView(.periodic(from: .now, by: 1.0 / 24)) { _ in
+                        Path { path in
+                            for i in -Int(zebraSize) ... Int(width / zebraSize) {
+                                let x = CGFloat(i) * zebraSize
+                                path.move   (to: CGPoint(x: x,      y: +20 + self.height))
+                                path.addLine(to: CGPoint(x: x + 40, y: -20))
+                            }
+                        }
+                        .offset(x: Date.spin(max: UInt(zebraSize), speed: 50))
+                        .stroke(.black, lineWidth: zebraSize / 2.2)
+                    }
+                }.clipShape(Rectangle())
+        }.frame(width: width)
     }
 
 }
