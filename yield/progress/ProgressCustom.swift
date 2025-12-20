@@ -48,7 +48,7 @@ struct ProgressCustom: View {
                 .fill(Color.white.opacity(0.1))
                 .animation(.linear, value: value)
                 .mask {
-                    TimelineView(.periodic(from: .now, by: 1.0 / 24)) { _ in
+                    TimelineView(.periodic(from: .now, by: Date.defaultFPS)) { _ in
                         Path { path in
                             for i in -Int(zebraSize) ... Int(width / zebraSize) {
                                 let x = CGFloat(i) * zebraSize
