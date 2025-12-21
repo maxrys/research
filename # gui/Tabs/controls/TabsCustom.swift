@@ -5,22 +5,38 @@
 
 import SwiftUI
 
-struct Tabs: View {
+struct TabsCustom: View {
+
+    typealias TabID = UInt
+    typealias TabCollection = [TabID: (
+        title: String,
+        systemIcon: String?,
+        view: any View
+    )]
 
     @Environment(\.colorScheme) private var colorScheme
 
-    @State private var tabSelectedID: UInt = 0
+    @State private var selected: TabID = 0
 
-    init() {
+    private var content: TabCollection = [:]
+
+    init(_ content: TabCollection) {
+        self.content = content
     }
 
     public var body: some View {
         VStack(spacing: 0) {
 
             HStack(spacing: 0) {
-                self.tabHeader(title: NSLocalizedString("Update", comment: ""), icon: "pencil"     , ID: 0)
-                self.tabHeader(title: NSLocalizedString("Insert", comment: ""), icon: "plus.circle", ID: 1)
-                self.tabHeader(title: NSLocalizedString("Delete", comment: ""), icon: "trash"      , ID: 2)
+                ForEach(self.content.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }), id: \.key) { key, value in
+                    if let item = self.content[key] {
+                        self.tabHeader(
+                            title: item.title,
+                            icon: item.systemIcon,
+                            ID: key
+                        )
+                    }
+                }
             }.padding(.init(top: 10, leading: 10, bottom: 0, trailing: 10))
 
             Color(self.colorScheme == .dark ? .white : .black)
@@ -28,12 +44,13 @@ struct Tabs: View {
                 .frame(height: 1)
 
             ZStack {
-                if (self.tabSelectedID == 0) { TabUpdate().frame(maxWidth: .infinity) }
-                if (self.tabSelectedID == 1) { TabInsert().frame(maxWidth: .infinity) }
-                if (self.tabSelectedID == 2) { TabDelete().frame(maxWidth: .infinity) }
+                if let item = self.content[self.selected] {
+                    AnyView(item.view)
+                        .frame(maxWidth: .infinity)
+                }
             }
             .padding(20)
-            .frame(maxHeight: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(
                 Color(self.colorScheme == .dark ? .white : .black)
                     .opacity(0.04)
@@ -42,9 +59,9 @@ struct Tabs: View {
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    @ViewBuilder private func tabHeader(title: String, icon: String? = nil, ID: UInt) -> some View {
+    @ViewBuilder private func tabHeader(title: String, icon: String? = nil, ID: TabID) -> some View {
         Button {
-            self.tabSelectedID = ID
+            self.selected = ID
         } label: {
             HStack(spacing: 5) {
                 if let icon {
@@ -63,7 +80,7 @@ struct Tabs: View {
         }
         .buttonStyle(.plain)
         .background {
-            if (self.tabSelectedID == ID) {
+            if (self.selected == ID) {
                 VStack(spacing: 0) {
                     Color(self.colorScheme == .dark ? .white : .black)
                         .opacity(0.1)
@@ -85,5 +102,9 @@ struct Tabs: View {
 /* ############################################################# */
 
 #Preview {
-    Tabs().frame(maxWidth: .infinity)
+    TabsCustom([
+        0: (title: "Tab 1", view: Text("tab 1 content")),
+        1: (title: "Tab 2", view: Text("tab 2 content")),
+        2: (title: "Tab 3", view: Text("tab 3 content")),
+    ] as! TabsCustom.TabCollection).frame(maxWidth: .infinity)
 }

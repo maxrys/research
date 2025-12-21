@@ -11,7 +11,11 @@ import SwiftUI
 
     var body: some Scene {
         WindowGroup {
-            Tabs().frame(maxWidth: .infinity, maxHeight: .infinity)
+            TabsCustom([
+                0: (title: "Update", systemIcon: "pencil"     , view: TabUpdate()),
+                1: (title: "Insert", systemIcon: "plus.circle", view: TabInsert()),
+                2: (title: "Delete", systemIcon: "trash"      , view: TabDelete()),
+            ]).frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 

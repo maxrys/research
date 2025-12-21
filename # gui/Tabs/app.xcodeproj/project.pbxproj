@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		507501532EF879D400624409 /* Tabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5075014F2EF8798A00624409 /* Tabs.swift */; };
+		507501532EF879D400624409 /* TabsCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5075014F2EF8798A00624409 /* TabsCustom.swift */; };
 		507501542EF879D900624409 /* TabDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507501522EF8798A00624409 /* TabDelete.swift */; };
 		507501552EF879D900624409 /* TabInsert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507501512EF8798A00624409 /* TabInsert.swift */; };
 		507501562EF879D900624409 /* TabUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507501502EF8798A00624409 /* TabUpdate.swift */; };
@@ -16,7 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5075014F2EF8798A00624409 /* Tabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabs.swift; sourceTree = "<group>"; };
+		5075014F2EF8798A00624409 /* TabsCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsCustom.swift; sourceTree = "<group>"; };
 		507501502EF8798A00624409 /* TabUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabUpdate.swift; sourceTree = "<group>"; };
 		507501512EF8798A00624409 /* TabInsert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabInsert.swift; sourceTree = "<group>"; };
 		507501522EF8798A00624409 /* TabDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabDelete.swift; sourceTree = "<group>"; };
@@ -44,7 +44,6 @@
 				50CE72302EE582F400FE3282 /* shared */,
 				50CE722F2EE582E500FE3282 /* controls */,
 				50993B6B2D33C4C900195667 /* app.swift */,
-				5075014F2EF8798A00624409 /* Tabs.swift */,
 				507501502EF8798A00624409 /* TabUpdate.swift */,
 				507501512EF8798A00624409 /* TabInsert.swift */,
 				507501522EF8798A00624409 /* TabDelete.swift */,
@@ -63,6 +62,7 @@
 		50CE722F2EE582E500FE3282 /* controls */ = {
 			isa = PBXGroup;
 			children = (
+				5075014F2EF8798A00624409 /* TabsCustom.swift */,
 			);
 			path = controls;
 			sourceTree = "<group>";
@@ -153,7 +153,7 @@
 				507501552EF879D900624409 /* TabInsert.swift in Sources */,
 				507501562EF879D900624409 /* TabUpdate.swift in Sources */,
 				507501582EF87AF900624409 /* TabItemShape.swift in Sources */,
-				507501532EF879D400624409 /* Tabs.swift in Sources */,
+				507501532EF879D400624409 /* TabsCustom.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
