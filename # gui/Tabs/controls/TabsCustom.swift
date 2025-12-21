@@ -56,6 +56,7 @@ struct TabsCustom: View {
                     .opacity(0.04)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             )
+
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
