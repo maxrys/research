@@ -5,37 +5,35 @@
 
 import SwiftUI
 
-struct TabsCustom: View {
+@resultBuilder struct TabBuilder {
+    static func buildBlock(_ components: TabItemCustom...) -> [TabItemCustom] {
+        components
+    }
+}
 
-    typealias TabID = UInt
-    typealias TabCollection = [TabID: (
-        title: String,
-        systemIcon: String?,
-        view: any View
-    )]
+struct TabsCustom: View {
 
     @Environment(\.colorScheme) private var colorScheme
 
-    @State private var selected: TabID = 0
+    @State private var selected: Int = 0
 
-    private var content: TabCollection = [:]
+    private let contents: [TabItemCustom]
 
-    init(_ content: TabCollection) {
-        self.content = content
+    init(@TabBuilder content: () -> [TabItemCustom]) {
+        self.contents = content()
     }
 
     public var body: some View {
         VStack(spacing: 0) {
 
             HStack(spacing: 0) {
-                ForEach(self.content.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }), id: \.key) { key, value in
-                    if let item = self.content[key] {
-                        self.tabHeader(
-                            title: item.title,
-                            icon: item.systemIcon,
-                            ID: key
-                        )
-                    }
+                ForEach(0 ..< self.contents.count, id: \.self) { index in
+                    let tabItem = self.contents[index]
+                    self.tabHeader(
+                        title: tabItem.title,
+                        icon: tabItem.systemIcon,
+                        ID: index
+                    )
                 }
             }.padding(.init(top: 10, leading: 10, bottom: 0, trailing: 10))
 
@@ -44,10 +42,8 @@ struct TabsCustom: View {
                 .frame(height: 1)
 
             ZStack {
-                if let item = self.content[self.selected] {
-                    AnyView(item.view)
-                        .frame(maxWidth: .infinity)
-                }
+                self.contents[self.selected]
+                    .frame(maxWidth: .infinity)
             }
             .padding(20)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -60,7 +56,7 @@ struct TabsCustom: View {
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    @ViewBuilder private func tabHeader(title: String, icon: String? = nil, ID: TabID) -> some View {
+    @ViewBuilder private func tabHeader(title: String, icon: String? = nil, ID: Int) -> some View {
         Button {
             self.selected = ID
         } label: {
@@ -96,6 +92,28 @@ struct TabsCustom: View {
 
 }
 
+struct TabItemCustom: View {
+
+    var title: String
+    var systemIcon: String?
+    var view: any View
+
+    init(
+        title: String,
+        systemIcon: String?,
+        @ViewBuilder view: () -> any View
+    ) {
+        self.title = title
+        self.systemIcon = systemIcon
+        self.view = view()
+    }
+
+    public var body: some View {
+        AnyView(self.view)
+    }
+
+}
+
 
 
 /* ############################################################# */
@@ -103,9 +121,9 @@ struct TabsCustom: View {
 /* ############################################################# */
 
 #Preview {
-    TabsCustom([
-        0: (title: "Tab 1", view: Text("tab 1 content")),
-        1: (title: "Tab 2", view: Text("tab 2 content")),
-        2: (title: "Tab 3", view: Text("tab 3 content")),
-    ] as! TabsCustom.TabCollection).frame(maxWidth: .infinity)
+    TabsCustom {
+        TabItemCustom(title: "Update", systemIcon: "pencil"     ) { TabUpdate() }
+        TabItemCustom(title: "Insert", systemIcon: "plus.circle") { TabInsert() }
+        TabItemCustom(title: "Delete", systemIcon: "trash"      ) { TabDelete() }
+    }.frame(maxWidth: .infinity)
 }
