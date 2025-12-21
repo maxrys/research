@@ -5,8 +5,14 @@
 
 import SwiftUI
 
-@resultBuilder struct TabBuilder {
-    static func buildBlock(_ components: TabItemCustom...) -> [TabItemCustom] {
+extension Array {
+    subscript(safe index: Int) -> Element? {
+        indices.contains(index) ? self[index] : nil
+    }
+}
+
+@resultBuilder struct ViewBuilderCustom<T> {
+    static func buildBlock(_ components: T...) -> [T] {
         components
     }
 }
@@ -19,7 +25,7 @@ struct TabsCustom: View {
 
     private let contents: [TabItemCustom]
 
-    init(@TabBuilder content: () -> [TabItemCustom]) {
+    init(@ViewBuilderCustom<TabItemCustom> content: () -> [TabItemCustom]) {
         self.contents = content()
     }
 
@@ -28,12 +34,13 @@ struct TabsCustom: View {
 
             HStack(spacing: 0) {
                 ForEach(0 ..< self.contents.count, id: \.self) { index in
-                    let tabItem = self.contents[index]
-                    self.tabHeader(
-                        title: tabItem.title,
-                        icon: tabItem.systemIcon,
-                        ID: index
-                    )
+                    if let tabItem = self.contents[safe: index] {
+                        self.tabHeader(
+                            title: tabItem.title,
+                            icon: tabItem.systemIcon,
+                            index: index
+                        )
+                    }
                 }
             }.padding(.init(top: 10, leading: 10, bottom: 0, trailing: 10))
 
@@ -42,8 +49,9 @@ struct TabsCustom: View {
                 .frame(height: 1)
 
             ZStack {
-                self.contents[self.selected]
-                    .frame(maxWidth: .infinity)
+                if let tabItem = self.contents[safe: self.selected] {
+                    tabItem.frame(maxWidth: .infinity)
+                }
             }
             .padding(20)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -56,9 +64,9 @@ struct TabsCustom: View {
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    @ViewBuilder private func tabHeader(title: String, icon: String? = nil, ID: Int) -> some View {
+    @ViewBuilder private func tabHeader(title: String, icon: String? = nil, index: Int) -> some View {
         Button {
-            self.selected = ID
+            self.selected = index
         } label: {
             HStack(spacing: 5) {
                 if let icon {
@@ -77,7 +85,7 @@ struct TabsCustom: View {
         }
         .buttonStyle(.plain)
         .background {
-            if (self.selected == ID) {
+            if (self.selected == index) {
                 VStack(spacing: 0) {
                     Color(self.colorScheme == .dark ? .white : .black)
                         .opacity(0.1)
