@@ -20,7 +20,7 @@ struct TabsCustom: View {
     public var body: some View {
         VStack(spacing: 0) {
 
-            HStack(spacing: 0) {
+            HStack(spacing: 10) {
                 ForEach(0 ..< self.contents.count, id: \.self) { index in
                     if let tabItem = self.contents[safe: index] {
                         self.tabHeader(
@@ -30,24 +30,20 @@ struct TabsCustom: View {
                         )
                     }
                 }
-            }.padding(.init(top: 10, leading: 10, bottom: 0, trailing: 10))
-
-            Color(self.colorScheme == .dark ? .white : .black)
-                .opacity(0.5)
-                .frame(height: 1)
+            }
+            .padding(10)
+            .frame(maxWidth: .infinity)
+            .background(
+                self.colorScheme == .dark ?
+                    .black.opacity(0.2) :
+                    .white.opacity(0.7)
+            )
 
             ZStack {
                 if let tabItem = self.contents[safe: self.selected] {
                     tabItem.frame(maxWidth: .infinity)
                 }
-            }
-            .padding(20)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(
-                Color(self.colorScheme == .dark ? .white : .black)
-                    .opacity(0.04)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            )
+            }.frame(maxWidth: .infinity, maxHeight: .infinity)
 
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
     }
@@ -56,33 +52,34 @@ struct TabsCustom: View {
         Button {
             self.selected = index
         } label: {
-            HStack(spacing: 5) {
+            HStack(spacing: 7) {
                 if let icon {
                     Image(systemName: icon)
                         .resizable()
-                        .frame(width: 20, height: 20)
+                        .frame(width: 15, height: 15)
                 }
                 Text(title)
                     .lineLimit(1)
                     .fixedSize(horizontal: true, vertical: false)
             }
-            .padding(.horizontal, 9)
-            .padding(.vertical  , 5)
-            .contentShape(.focusEffect, Capsule())
             .padding(10)
+            .contentShape(.focusEffect, Capsule())
         }
         .buttonStyle(.plain)
+        .pointerStyle(.link)
+        .foregroundStyle(
+            self.selected == index ? Color.white :
+                (self.colorScheme == .dark ?
+                    Color.white :
+                    Color.black
+                )
+        )
         .background {
             if (self.selected == index) {
-                VStack(spacing: 0) {
-                    Color(self.colorScheme == .dark ? .white : .black)
-                        .opacity(0.1)
-                    Color.accentColor
-                        .frame(height: 3)
-                }
+                Color.accentColor
             }
         }
-        .pointerStyle(.link)
+        .clipShape(Capsule())
     }
 
 }
@@ -117,8 +114,8 @@ struct TabItemCustom: View {
 
 #Preview {
     TabsCustom {
-        TabItemCustom(title: "Update", systemIcon: "pencil"     ) { TabUpdate() }
-        TabItemCustom(title: "Insert", systemIcon: "plus.circle") { TabInsert() }
-        TabItemCustom(title: "Delete", systemIcon: "trash"      ) { TabDelete() }
-    }.frame(maxWidth: .infinity)
+        TabItemCustom(title: "Update", systemIcon: "pencil.tip.crop.circle") { TabUpdate() }
+        TabItemCustom(title: "Insert", systemIcon: "plus.circle"           ) { TabInsert() }
+        TabItemCustom(title: "Delete", systemIcon: "trash"                 ) { TabDelete() }
+    }.frame(maxWidth: 350)
 }
