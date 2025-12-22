@@ -36,8 +36,12 @@ struct TabsCustom: View {
             .background(
                 self.colorScheme == .dark ?
                     .black.opacity(0.2) :
-                    .white.opacity(0.7)
+                    .white.opacity(0.5)
             )
+            .overlay(alignment: .bottom) {
+                self.shadow
+                    .offset(y: 5)
+            }
 
             ZStack {
                 if let tabItem = self.contents[safe: self.selected] {
@@ -80,6 +84,21 @@ struct TabsCustom: View {
             }
         }
         .clipShape(Capsule())
+    }
+
+    @ViewBuilder private var shadow: some View {
+        Rectangle()
+            .fill(
+                LinearGradient(
+                    colors: [
+                        self.colorScheme == .dark ?
+                            .black.opacity(0.5) :
+                            .black.opacity(0.2),
+                        Color.clear ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            ).frame(height: 5)
     }
 
 }
