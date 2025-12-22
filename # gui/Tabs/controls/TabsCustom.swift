@@ -5,18 +5,6 @@
 
 import SwiftUI
 
-extension Array {
-    subscript(safe index: Int) -> Element? {
-        indices.contains(index) ? self[index] : nil
-    }
-}
-
-@resultBuilder struct ViewBuilderCustom<T> {
-    static func buildBlock(_ components: T...) -> [T] {
-        components
-    }
-}
-
 struct TabsCustom: View {
 
     @Environment(\.colorScheme) private var colorScheme
@@ -25,7 +13,7 @@ struct TabsCustom: View {
 
     private let contents: [TabItemCustom]
 
-    init(@ViewBuilderCustom<TabItemCustom> content: () -> [TabItemCustom]) {
+    init(@ViewBuilderArray<TabItemCustom> content: () -> [TabItemCustom]) {
         self.contents = content()
     }
 
@@ -80,7 +68,7 @@ struct TabsCustom: View {
             }
             .padding(.horizontal, 9)
             .padding(.vertical  , 5)
-            .contentShape(.focusEffect, TabItemShape(radius: 2))
+            .contentShape(.focusEffect, Capsule())
             .padding(10)
         }
         .buttonStyle(.plain)
@@ -94,7 +82,6 @@ struct TabsCustom: View {
                 }
             }
         }
-        .clipShape(TabItemShape())
         .pointerStyle(.link)
     }
 
