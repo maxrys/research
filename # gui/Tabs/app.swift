@@ -12,9 +12,9 @@ import SwiftUI
     var body: some Scene {
         WindowGroup {
             TabsCustom {
-                TabItemCustom(title: "Update", systemIcon: "pencil.tip.crop.circle") { TabUpdate() }
-                TabItemCustom(title: "Insert", systemIcon: "plus.circle"           ) { TabInsert() }
-                TabItemCustom(title: "Delete", systemIcon: "trash"                 ) { TabDelete() }
+                TabItemCustom(title: "Update", systemIcon: "pencil.tip.crop.circle") { Text("Tab Update content") }
+                TabItemCustom(title: "Insert", systemIcon: "plus.circle"           ) { Text("Tab Insert content") }
+                TabItemCustom(title: "Delete", systemIcon: "trash"                 ) { Text("Tab Delete content") }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }

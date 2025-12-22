@@ -43,7 +43,7 @@ struct TabsCustom: View {
                     .offset(y: 5)
             }
 
-            ZStack {
+            VStack {
                 if let tabItem = self.contents[safe: self.selected] {
                     tabItem.frame(maxWidth: .infinity)
                 }
@@ -133,8 +133,8 @@ struct TabItemCustom: View {
 
 #Preview {
     TabsCustom {
-        TabItemCustom(title: "Update", systemIcon: "pencil.tip.crop.circle") { TabUpdate() }
-        TabItemCustom(title: "Insert", systemIcon: "plus.circle"           ) { TabInsert() }
-        TabItemCustom(title: "Delete", systemIcon: "trash"                 ) { TabDelete() }
+        TabItemCustom(title: "Update", systemIcon: "pencil.tip.crop.circle") { Text("Tab Update content") }
+        TabItemCustom(title: "Insert", systemIcon: "plus.circle"           ) { Text("Tab Insert content") }
+        TabItemCustom(title: "Delete", systemIcon: "trash"                 ) { Text("Tab Delete content") }
     }.frame(maxWidth: 350)
 }
