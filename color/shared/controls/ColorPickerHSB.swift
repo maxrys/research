@@ -43,18 +43,18 @@ struct ColorPickerHSB: View {
         VStack(spacing: 10) {
 
             ZStack(alignment: .leading) {
-                self.huePalette
-                self.knob(component: .H)
+                self.palette(component: .H)
+                self.knob   (component: .H)
             }.frame(height: 30)
 
             ZStack(alignment: .leading) {
-                self.saturationPalette
-                self.knob(component: .S)
+                self.palette(component: .S)
+                self.knob   (component: .S)
             }.frame(height: 30)
 
             ZStack(alignment: .leading) {
-                self.brightnessPalette
-                self.knob(component: .B)
+                self.palette(component: .B)
+                self.knob   (component: .B)
             }.frame(height: 30)
 
         }
@@ -77,7 +77,7 @@ struct ColorPickerHSB: View {
             }())
     }
 
-    @ViewBuilder private var huePalette: some View {
+    @ViewBuilder private func palette(component: ColorComponent) -> some View {
         Canvas { context, size in
             for i in 0 ... Int(size.width) {
                 context.drawRectangle(
@@ -86,9 +86,9 @@ struct ColorPickerHSB: View {
                     w: 1,
                     h: size.height,
                     colorFill: Color(
-                        hue       : 1.0 / size.width * CGFloat(i),
-                        saturation: 1.0,
-                        brightness: 1.0
+                        hue       : component == .H ? 1.0 / size.width * CGFloat(i) : self.color.hue,
+                        saturation: component == .S ? 1.0 / size.width * CGFloat(i) : 1.0,
+                        brightness: component == .B ? 1.0 / size.width * CGFloat(i) : 1.0
                     )
                 )
             }
@@ -96,73 +96,21 @@ struct ColorPickerHSB: View {
         .pointerStyle(.link)
         .onTapGesture { location in
             let x = location.x.fixBounds(max: self.width)
-            self.color.hue = x / width
-        }
-        .gesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { gesture in
-                    let x = gesture.location.x.fixBounds(max: self.width)
-                    self.color.hue = x / width
-                }
-        )
-    }
-
-    @ViewBuilder private var saturationPalette: some View {
-        Canvas { context, size in
-            for i in 0 ... Int(size.width) {
-                context.drawRectangle(
-                    x: CGFloat(i),
-                    y: 0,
-                    w: 1,
-                    h: size.height,
-                    colorFill: Color(
-                        hue       : self.color.hue,
-                        saturation: 1.0 / size.width * CGFloat(i),
-                        brightness: 1.0
-                    )
-                )
+            switch component {
+                case .H: self.color.hue        = x / width
+                case .S: self.color.saturation = x / width
+                case .B: self.color.brightness = x / width
             }
         }
-        .pointerStyle(.link)
-        .onTapGesture { location in
-            let x = location.x.fixBounds(max: self.width)
-            self.color.saturation = x / width
-        }
         .gesture(
             DragGesture(minimumDistance: 0)
                 .onChanged { gesture in
                     let x = gesture.location.x.fixBounds(max: self.width)
-                    self.color.saturation = x / width
-                }
-        )
-    }
-
-    @ViewBuilder private var brightnessPalette: some View {
-        Canvas { context, size in
-            for i in 0 ... Int(size.width) {
-                context.drawRectangle(
-                    x: CGFloat(i),
-                    y: 0,
-                    w: 1,
-                    h: size.height,
-                    colorFill: Color(
-                        hue       : self.color.hue,
-                        saturation: 1.0,
-                        brightness: 1.0 / size.width * CGFloat(i)
-                    )
-                )
-            }
-        }
-        .pointerStyle(.link)
-        .onTapGesture { location in
-            let x = location.x.fixBounds(max: self.width)
-            self.color.brightness = x / width
-        }
-        .gesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { gesture in
-                    let x = gesture.location.x.fixBounds(max: self.width)
-                    self.color.brightness = x / width
+                    switch component {
+                        case .H: self.color.hue        = x / width
+                        case .S: self.color.saturation = x / width
+                        case .B: self.color.brightness = x / width
+                    }
                 }
         )
     }
