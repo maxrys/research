@@ -43,18 +43,18 @@ struct ColorPickerHSB: View {
         VStack(spacing: 10) {
 
             ZStack(alignment: .leading) {
-                self.palette(component: .H)
-                self.knob   (component: .H)
+                self.indicator(component: .H)
+                self.palette  (component: .H)
             }.frame(height: 30)
 
             ZStack(alignment: .leading) {
-                self.palette(component: .S)
-                self.knob   (component: .S)
+                self.indicator(component: .S)
+                self.palette  (component: .S)
             }.frame(height: 30)
 
             ZStack(alignment: .leading) {
-                self.palette(component: .B)
-                self.knob   (component: .B)
+                self.indicator(component: .B)
+                self.palette  (component: .B)
             }.frame(height: 30)
 
         }
@@ -62,7 +62,7 @@ struct ColorPickerHSB: View {
         .padding(20)
     }
 
-    @ViewBuilder private func knob(component: ColorComponent) -> some View {
+    @ViewBuilder private func indicator(component: ColorComponent) -> some View {
         RoundedRectangle(cornerRadius: 2)
             .stroke(.black.opacity(0.5), lineWidth: 3)
             .fill(.white.opacity(0.01))
