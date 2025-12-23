@@ -6,8 +6,16 @@ import SwiftUI
 
 struct ColorPickerHSB: View {
 
+    enum ColorComponent {
+        case H
+        case S
+        case B
+    }
+
     @Binding private var color: ColorHSBValue
     @State private var isShowPalette: Bool = false
+
+    let width: CGFloat = 200
 
     init(color: Binding<ColorHSBValue>) {
         self._color = color
@@ -27,16 +35,46 @@ struct ColorPickerHSB: View {
         .buttonStyle(.plain)
         .pointerStyle(.link)
         .popover(isPresented: self.$isShowPalette) {
-            self.huePalette
+            self.popover
         }
     }
 
     @ViewBuilder var popover: some View {
         VStack(spacing: 10) {
-            self.huePalette       .frame(height: 30)
-            self.saturationPalette.frame(height: 30)
-            self.brightnessPalette.frame(height: 30)
-        }.frame(width: 200)
+
+            ZStack(alignment: .leading) {
+                self.huePalette
+                self.knob(component: .H)
+            }.frame(height: 30)
+
+            ZStack(alignment: .leading) {
+                self.saturationPalette
+                self.knob(component: .S)
+            }.frame(height: 30)
+
+            ZStack(alignment: .leading) {
+                self.brightnessPalette
+                self.knob(component: .B)
+            }.frame(height: 30)
+
+        }
+        .frame(width: self.width)
+        .padding(20)
+    }
+
+    @ViewBuilder private func knob(component: ColorComponent) -> some View {
+        RoundedRectangle(cornerRadius: 2)
+            .stroke(.black.opacity(0.5), lineWidth: 3)
+            .fill(.white.opacity(0.01))
+            .frame(width: 10)
+            .padding(-5)
+            .offset(x: {
+                switch component {
+                    case .H: width * self.color.hue
+                    case .S: width * self.color.saturation
+                    case .B: width * self.color.brightness
+                }
+            }())
     }
 
     @ViewBuilder private var huePalette: some View {
@@ -55,6 +93,18 @@ struct ColorPickerHSB: View {
                 )
             }
         }
+        .pointerStyle(.link)
+        .onTapGesture { location in
+            let x = location.x.fixBounds(max: self.width)
+            self.color.hue = x / width
+        }
+        .gesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { gesture in
+                    let x = gesture.location.x.fixBounds(max: self.width)
+                    self.color.hue = x / width
+                }
+        )
     }
 
     @ViewBuilder private var saturationPalette: some View {
@@ -73,6 +123,18 @@ struct ColorPickerHSB: View {
                 )
             }
         }
+        .pointerStyle(.link)
+        .onTapGesture { location in
+            let x = location.x.fixBounds(max: self.width)
+            self.color.saturation = x / width
+        }
+        .gesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { gesture in
+                    let x = gesture.location.x.fixBounds(max: self.width)
+                    self.color.saturation = x / width
+                }
+        )
     }
 
     @ViewBuilder private var brightnessPalette: some View {
@@ -91,6 +153,18 @@ struct ColorPickerHSB: View {
                 )
             }
         }
+        .pointerStyle(.link)
+        .onTapGesture { location in
+            let x = location.x.fixBounds(max: self.width)
+            self.color.brightness = x / width
+        }
+        .gesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { gesture in
+                    let x = gesture.location.x.fixBounds(max: self.width)
+                    self.color.brightness = x / width
+                }
+        )
     }
 
 }
@@ -111,8 +185,10 @@ struct ColorPickerHSB: View {
 }
 
 #Preview {
-    @Previewable @State var pickerColor = ColorHSBValue(0.0, 1.0, 0.0)
-    ColorPickerHSB(color: $pickerColor)
-        .popover
-        .padding(20)
+    @Previewable @State var pickerColorR = ColorHSBValue(0.00, 1.0, 0.0)
+    @Previewable @State var pickerColorG = ColorHSBValue(0.33, 1.0, 0.0)
+    @Previewable @State var pickerColorB = ColorHSBValue(0.66, 1.0, 0.0)
+    ColorPickerHSB(color: $pickerColorR).popover.padding(20)
+    ColorPickerHSB(color: $pickerColorG).popover.padding(20)
+    ColorPickerHSB(color: $pickerColorB).popover.padding(20)
 }

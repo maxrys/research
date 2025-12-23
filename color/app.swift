@@ -23,11 +23,21 @@ import SwiftUI
         Window("Main", id: "main") {
             ScrollView(.vertical) {
 
-                ColorPickerCustom(
-                    color: self.$pickerColor
-                ).onChange(of: self.pickerColor) { oldValue, newValue in
-                    print(newValue.encode() ?? "")
-                }.padding(20)
+                HStack {
+
+                    ColorPickerCustom(
+                        color: self.$pickerColor
+                    ).onChange(of: self.pickerColor) { _, value in
+                        print(value.encode() ?? "")
+                    }.padding(20)
+
+                    ColorPickerHSB(
+                        color: self.$pickerColor
+                    ).onChange(of: self.pickerColor) { _, value in
+                        print(value.encode() ?? "")
+                    }.padding(20)
+
+                }
 
                 /* ############# */
                 /* ### MARK: Hex */

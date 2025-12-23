@@ -79,9 +79,9 @@
 		50993B5F2D33C4C900195667 = {
 			isa = PBXGroup;
 			children = (
+				50993B742D33C4CD00195667 /* app.entitlements */,
 				5071B9352EC319120068DB06 /* shared */,
 				50993B6B2D33C4C900195667 /* app.swift */,
-				50993B742D33C4CD00195667 /* app.entitlements */,
 				5071B9432EC347110068DB06 /* Tests.swift */,
 				50993B692D33C4C900195667 /* Products */,
 			);
