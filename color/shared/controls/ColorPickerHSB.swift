@@ -1,3 +1,4 @@
+
 /* ############################################################# */
 /* ### Copyright © 2025 Maxim Rysevets. All rights reserved. ### */
 /* ############################################################# */
@@ -17,6 +18,9 @@ struct ColorPickerHSB: View {
     @State private var isShowPopover: Bool = false
 
     let width: CGFloat = 200
+    let openerSize: CGSize
+    let openerRadius: CGFloat
+
     private var colorView: Color {
         Color(
             hue       : self.color.hue,
@@ -26,8 +30,14 @@ struct ColorPickerHSB: View {
         )
     }
 
-    init(color: Binding<ColorHSBValue>) {
+    init(
+        color: Binding<ColorHSBValue>,
+        openerSize: CGSize = CGSize(width: 20, height: 20),
+        openerRadius: CGFloat = 0
+    ) {
         self._color = color
+        self.openerSize = openerSize
+        self.openerRadius = openerRadius
     }
 
     public var body: some View {
@@ -35,7 +45,19 @@ struct ColorPickerHSB: View {
             self.isShowPopover = true
         } label: {
             self.colorView
-                .frame(width: 20, height: 20)
+                .frame(
+                    width : openerSize.width,
+                    height: openerSize.height
+                )
+                .overlay {
+                    RoundedRectangle(cornerRadius: self.openerRadius)
+                        .stroke(.black, lineWidth: 1)
+                    RoundedRectangle(cornerRadius: self.openerRadius)
+                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [1], dashPhase: 0.5))
+                        .foregroundStyle(.white)
+                }
+                .clipShape(                 RoundedRectangle(cornerRadius: self.openerRadius))
+                .contentShape(.focusEffect, RoundedRectangle(cornerRadius: self.openerRadius))
         }
         .buttonStyle(.plain)
         .pointerStyle(.link)
@@ -66,6 +88,7 @@ struct ColorPickerHSB: View {
             }.frame(height: 30)
 
             ZStack(alignment: .leading) {
+                self.chessboard
                 self.colorView
                 self.indicator(component: .O)
                 self.touchpad (component: .O)
@@ -74,6 +97,26 @@ struct ColorPickerHSB: View {
         }
         .frame(width: self.width)
         .padding(20)
+    }
+
+    @ViewBuilder private var chessboard: some View {
+        let cellSize: CGFloat = 10
+        Canvas { context, size in
+            context.drawRectangle(x: 0, y: 0, w: size.width, h: size.height, colorFill: .white)
+            for j in 0 ... Int(size.height / cellSize) {
+            for i in 0 ... Int(size.width  / cellSize) {
+                if (i % 2 == 0 && j % 2 != 0) ||
+                   (i % 2 != 0 && j % 2 == 0) {
+                    context.drawRectangle(
+                        x: CGFloat(i) * cellSize,
+                        y: CGFloat(j) * cellSize,
+                        w: cellSize,
+                        h: cellSize,
+                        colorFill: .black.opacity(0.3)
+                    )
+                }
+            }}
+        }
     }
 
     @ViewBuilder private func palette(component: ColorComponent) -> some View {

@@ -1,6 +1,6 @@
 
 /* ############################################################# */
-/* ### Copyright © 2025 Maxim Rysevets. All rights reserved. ### */
+/* ### Copyright © 2026 Maxim Rysevets. All rights reserved. ### */
 /* ############################################################# */
 
 import SwiftUI
@@ -12,10 +12,19 @@ struct ColorPickerCustom: View {
     static let CELL_SIZE = 8
 
     @Binding private var color: ColorHSBValue
-    @State private var isShowPalette: Bool = false
+    @State private var isShowPopover = false
 
-    init(color: Binding<ColorHSBValue>) {
+    let openerSize: CGSize
+    let openerRadius: CGFloat
+
+    init(
+        color: Binding<ColorHSBValue>,
+        openerSize: CGSize = CGSize(width: 20, height: 20),
+        openerRadius: CGFloat = 0
+    ) {
         self._color = color
+        self.openerSize = openerSize
+        self.openerRadius = openerRadius
     }
 
     static private var canvasWithPalette: some View = {
@@ -47,18 +56,31 @@ struct ColorPickerCustom: View {
 
     public var body: some View {
         Button {
-            self.isShowPalette = true
+            self.isShowPopover = true
         } label: {
             Color(
                 hue       : self.color.hue,
                 saturation: self.color.saturation,
                 brightness: self.color.brightness,
-                opacity   : self.color.opacity
-            ).frame(width: 20, height: 20)
+                opacity   : self.color.opacity.fixBounds(min: 0.01, max: 1.0)
+            )
+            .frame(
+                width : openerSize.width,
+                height: openerSize.height
+            )
+            .overlay {
+                RoundedRectangle(cornerRadius: self.openerRadius)
+                    .stroke(.black, lineWidth: 1)
+                RoundedRectangle(cornerRadius: self.openerRadius)
+                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [1], dashPhase: 0.5))
+                    .foregroundStyle(.white)
+            }
+            .clipShape(                 RoundedRectangle(cornerRadius: self.openerRadius))
+            .contentShape(.focusEffect, RoundedRectangle(cornerRadius: self.openerRadius))
         }
         .buttonStyle(.plain)
         .pointerStyle(.link)
-        .popover(isPresented: self.$isShowPalette) {
+        .popover(isPresented: self.$isShowPopover) {
             self.palette
             self.opacityChanger
         }
@@ -120,7 +142,12 @@ struct ColorPickerCustom: View {
                 in: 0.0 ... 1.0,
                 step: 0.01
             )
-            Text("Opacity: \(self.color.opacity, specifier: "%.2f")")
+            let formattedValue = self.color.opacity.formatted(
+                .number.precision(
+                    .fractionLength(2)
+                )
+            )
+            Text("Opacity: \(formattedValue)")
                 .font(.headline)
         }
         .padding(.horizontal, 20)
@@ -138,7 +165,7 @@ struct ColorPickerCustom: View {
 #Preview {
     @Previewable @State var pickerColor = ColorHSBValue(0.0, 1.0, 0.0)
     ColorPickerCustom(
-        color: $pickerColor
+        color: $pickerColor, openerRadius: 5
     ).onChange(of: pickerColor) { oldValue, newValue in
         print(newValue.encode() ?? "")
     }.padding(10)
