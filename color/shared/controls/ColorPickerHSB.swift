@@ -12,6 +12,7 @@ struct ColorPickerHSB: View {
         case B
     }
 
+    @Environment(\.colorScheme) private var colorScheme
     @Binding private var color: ColorHSBValue
     @State private var isShowPopover: Bool = false
 
@@ -40,21 +41,24 @@ struct ColorPickerHSB: View {
     }
 
     @ViewBuilder var popover: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 20) {
 
             ZStack(alignment: .leading) {
-                self.indicator(component: .H)
                 self.palette  (component: .H)
+                self.indicator(component: .H)
+                self.touchpad (component: .H)
             }.frame(height: 30)
 
             ZStack(alignment: .leading) {
-                self.indicator(component: .S)
                 self.palette  (component: .S)
+                self.indicator(component: .S)
+                self.touchpad (component: .S)
             }.frame(height: 30)
 
             ZStack(alignment: .leading) {
-                self.indicator(component: .B)
                 self.palette  (component: .B)
+                self.indicator(component: .B)
+                self.touchpad (component: .B)
             }.frame(height: 30)
 
         }
@@ -62,29 +66,7 @@ struct ColorPickerHSB: View {
         .padding(20)
     }
 
-    @ViewBuilder private func indicator(component: ColorComponent) -> some View {
-        RoundedRectangle(cornerRadius: 2)
-            .stroke(.black.opacity(0.5), lineWidth: 3)
-            .fill(.white.opacity(0.01))
-            .frame(width: 10)
-            .padding(-5)
-            .offset(x: {
-                switch component {
-                    case .H: self.width * self.color.hue
-                    case .S: self.width * self.color.saturation
-                    case .B: self.width * self.color.brightness
-                }
-            }())
-    }
-
     @ViewBuilder private func palette(component: ColorComponent) -> some View {
-        let setComponentValue: (ColorComponent, Double) -> Void = { component, value in
-            switch component {
-                case .H: self.color.hue        = value
-                case .S: self.color.saturation = value
-                case .B: self.color.brightness = value
-            }
-        }
         Canvas { context, size in
             for i in 0 ... Int(size.width) {
                 context.drawRectangle(
@@ -100,18 +82,52 @@ struct ColorPickerHSB: View {
                 )
             }
         }
-        .pointerStyle(.link)
-        .onTapGesture { location in
-            let x = location.x.fixBounds(max: self.width)
-            setComponentValue(component, x / self.width)
-        }
-        .gesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { gesture in
-                    let x = gesture.location.x.fixBounds(max: self.width)
-                    setComponentValue(component, x / self.width)
+    }
+
+    @ViewBuilder private func indicator(component: ColorComponent) -> some View {
+        RoundedRectangle(cornerRadius: 0)
+            .stroke(.white, lineWidth: 4)
+            .frame(width: 12)
+            .padding(.horizontal, -6)
+            .padding(.vertical  , -2)
+            .shadow(
+                color: self.colorScheme == .dark ?
+                    .white.opacity(0.5) :
+                    .black.opacity(0.5),
+                radius: 2.0
+            )
+            .offset(x: {
+                switch component {
+                    case .H: self.width * self.color.hue
+                    case .S: self.width * self.color.saturation
+                    case .B: self.width * self.color.brightness
                 }
-        )
+            }())
+    }
+
+    @ViewBuilder private func touchpad(component: ColorComponent) -> some View {
+        let setComponentValue: (ColorComponent, Double) -> Void = { component, value in
+            switch component {
+                case .H: self.color.hue        = value
+                case .S: self.color.saturation = value
+                case .B: self.color.brightness = value
+            }
+        }
+        Rectangle()
+            .foregroundColor(.clear)
+            .contentShape(Rectangle())
+            .pointerStyle(.link)
+            .onTapGesture { location in
+                let x = location.x.fixBounds(max: self.width)
+                setComponentValue(component, x / self.width)
+            }
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { gesture in
+                        let x = gesture.location.x.fixBounds(max: self.width)
+                        setComponentValue(component, x / self.width)
+                    }
+            )
     }
 
 }
@@ -135,7 +151,7 @@ struct ColorPickerHSB: View {
     @Previewable @State var pickerColorR = ColorHSBValue(0.00, 1.0, 0.0)
     @Previewable @State var pickerColorG = ColorHSBValue(0.33, 1.0, 0.0)
     @Previewable @State var pickerColorB = ColorHSBValue(0.66, 1.0, 0.0)
-    ColorPickerHSB(color: $pickerColorR).popover.padding(20)
-    ColorPickerHSB(color: $pickerColorG).popover.padding(20)
-    ColorPickerHSB(color: $pickerColorB).popover.padding(20)
+    ColorPickerHSB(color: $pickerColorR).popover
+    ColorPickerHSB(color: $pickerColorG).popover
+    ColorPickerHSB(color: $pickerColorB).popover
 }
