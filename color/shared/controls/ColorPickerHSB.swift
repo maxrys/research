@@ -61,6 +61,8 @@ struct ColorPickerHSB: View {
                 self.touchpad (component: .B)
             }.frame(height: 30)
 
+            self.opacityChanger
+
         }
         .frame(width: self.width)
         .padding(20)
@@ -137,6 +139,23 @@ struct ColorPickerHSB: View {
                         setComponentValue(component, x / self.width)
                     }
             )
+    }
+
+    @ViewBuilder private var opacityChanger: some View {
+        VStack(spacing: 10) {
+            Slider(
+                value: Binding<Double>(
+                    get: {          self.color.opacity },
+                    set: { value in self.color.opacity = value }
+                ),
+                in: 0.0 ... 1.0,
+                step: 0.01
+            )
+            Text("Opacity: \(self.color.opacity, specifier: "%.2f")")
+                .font(.headline)
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical  , 10)
     }
 
 }
