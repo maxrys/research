@@ -10,6 +10,7 @@ struct ColorPickerHSB: View {
         case H
         case S
         case B
+        case O
     }
 
     @Environment(\.colorScheme) private var colorScheme
@@ -17,6 +18,14 @@ struct ColorPickerHSB: View {
     @State private var isShowPopover: Bool = false
 
     let width: CGFloat = 200
+    private var colorView: some View {
+        Color(
+            hue       : self.color.hue,
+            saturation: self.color.saturation,
+            brightness: self.color.brightness,
+            opacity   : self.color.opacity
+        )
+    }
 
     init(color: Binding<ColorHSBValue>) {
         self._color = color
@@ -26,12 +35,7 @@ struct ColorPickerHSB: View {
         Button {
             self.isShowPopover = true
         } label: {
-            Color(
-                hue       : self.color.hue,
-                saturation: self.color.saturation,
-                brightness: self.color.brightness,
-                opacity   : self.color.opacity
-            ).frame(width: 20, height: 20)
+            self.colorView.frame(width: 20, height: 20)
         }
         .buttonStyle(.plain)
         .pointerStyle(.link)
@@ -61,7 +65,11 @@ struct ColorPickerHSB: View {
                 self.touchpad (component: .B)
             }.frame(height: 30)
 
-            self.opacityChanger
+            ZStack(alignment: .leading) {
+                self.colorView
+                self.indicator(component: .O)
+                self.touchpad (component: .O)
+            }.frame(height: 30)
 
         }
         .frame(width: self.width)
@@ -95,7 +103,8 @@ struct ColorPickerHSB: View {
                 switch component {
                     case .H: "H"
                     case .S: "S"
-                    case .B: "B" }}())
+                    case .B: "B"
+                    case .O: "O" }}())
                 .font(.system(size: 10, design: .monospaced))
                 .foregroundStyle(.white)
         }
@@ -112,6 +121,7 @@ struct ColorPickerHSB: View {
                 case .H: self.width * self.color.hue
                 case .S: self.width * self.color.saturation
                 case .B: self.width * self.color.brightness
+                case .O: self.width * self.color.opacity
             }
         }())
     }
@@ -122,6 +132,7 @@ struct ColorPickerHSB: View {
                 case .H: self.color.hue        = value
                 case .S: self.color.saturation = value
                 case .B: self.color.brightness = value
+                case .O: self.color.opacity    = value
             }
         }
         Rectangle()
@@ -139,23 +150,6 @@ struct ColorPickerHSB: View {
                         setComponentValue(component, x / self.width)
                     }
             )
-    }
-
-    @ViewBuilder private var opacityChanger: some View {
-        VStack(spacing: 10) {
-            Slider(
-                value: Binding<Double>(
-                    get: {          self.color.opacity },
-                    set: { value in self.color.opacity = value }
-                ),
-                in: 0.0 ... 1.0,
-                step: 0.01
-            )
-            Text("Opacity: \(self.color.opacity, specifier: "%.2f")")
-                .font(.headline)
-        }
-        .padding(.horizontal, 20)
-        .padding(.vertical  , 10)
     }
 
 }
