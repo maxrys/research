@@ -85,24 +85,33 @@ struct ColorPickerHSB: View {
     }
 
     @ViewBuilder private func indicator(component: ColorComponent) -> some View {
-        RoundedRectangle(cornerRadius: 0)
-            .stroke(.white, lineWidth: 4)
-            .frame(width: 12)
-            .padding(.horizontal, -6)
-            .padding(.vertical  , -2)
-            .shadow(
-                color: self.colorScheme == .dark ?
-                    .white.opacity(0.5) :
-                    .black.opacity(0.5),
-                radius: 2.0
-            )
-            .offset(x: {
+        ZStack {
+            RoundedRectangle(cornerRadius: 0)
+                .stroke(.white, lineWidth: 4)
+                .frame(width: 12)
+            Text({
                 switch component {
-                    case .H: self.width * self.color.hue
-                    case .S: self.width * self.color.saturation
-                    case .B: self.width * self.color.brightness
-                }
-            }())
+                    case .H: "H"
+                    case .S: "S"
+                    case .B: "B" }}())
+                .font(.system(size: 10, design: .monospaced))
+                .foregroundStyle(.white)
+        }
+        .shadow(
+            color: self.colorScheme == .dark ?
+                .white.opacity(0.5) :
+                .black.opacity(0.5),
+            radius: 1.0
+        )
+        .padding(.horizontal, -6)
+        .padding(.vertical  , -2)
+        .offset(x: {
+            switch component {
+                case .H: self.width * self.color.hue
+                case .S: self.width * self.color.saturation
+                case .B: self.width * self.color.brightness
+            }
+        }())
     }
 
     @ViewBuilder private func touchpad(component: ColorComponent) -> some View {
