@@ -20,6 +20,7 @@ struct ColorPickerCustom: View {
     let width: CGFloat = 200
     let openerSize: CGSize
     let openerRadius: CGFloat
+    let isCanSlide: Bool
 
     private var colorView: Color {
         Color(
@@ -33,11 +34,13 @@ struct ColorPickerCustom: View {
     init(
         color: Binding<ColorHSBValue>,
         openerSize: CGSize = CGSize(width: 20, height: 20),
-        openerRadius: CGFloat = 0
+        openerRadius: CGFloat = 0,
+        isCanSlide: Bool = true
     ) {
         self._color = color
         self.openerSize = openerSize
         self.openerRadius = openerRadius
+        self.isCanSlide = isCanSlide
     }
 
     public var body: some View {
@@ -109,8 +112,8 @@ struct ColorPickerCustom: View {
                 if (i % 2 == 0 && j % 2 != 0) ||
                    (i % 2 != 0 && j % 2 == 0) {
                     context.drawRectangle(
-                        x: CGFloat(i) * cellSize,
-                        y: CGFloat(j) * cellSize,
+                        x: cellSize * CGFloat(i),
+                        y: cellSize * CGFloat(j),
                         w: cellSize,
                         h: cellSize,
                         colorFill: .black.opacity(0.3)
@@ -147,12 +150,11 @@ struct ColorPickerCustom: View {
                     color: .black.opacity(0.7),
                     radius: 2.0
                 )
-            let title = {
-                switch component {
-                    case .H: "H"
-                    case .S: "S"
-                    case .B: "B"
-                    case .O: "O"
+            let title = { switch component {
+                case .H: "H"
+                case .S: "S"
+                case .B: "B"
+                case .O: "O"
             }}()
             Text(title)
                 .font(.system(size: 10, weight: .bold, design: .monospaced))
@@ -192,11 +194,12 @@ struct ColorPickerCustom: View {
                 setComponentValue(component, x / self.width)
             }
             .gesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { gesture in
+                DragGesture(minimumDistance: 0).onChanged { gesture in
+                    if (self.isCanSlide) {
                         let x = gesture.location.x.fixBounds(max: self.width)
                         setComponentValue(component, x / self.width)
                     }
+                }
             )
     }
 
