@@ -13,12 +13,11 @@ struct ColorPickerHSB: View {
         case O
     }
 
-    @Environment(\.colorScheme) private var colorScheme
     @Binding private var color: ColorHSBValue
     @State private var isShowPopover: Bool = false
 
     let width: CGFloat = 200
-    private var colorView: some View {
+    private var colorView: Color {
         Color(
             hue       : self.color.hue,
             saturation: self.color.saturation,
@@ -35,7 +34,8 @@ struct ColorPickerHSB: View {
         Button {
             self.isShowPopover = true
         } label: {
-            self.colorView.frame(width: 20, height: 20)
+            self.colorView
+                .frame(width: 20, height: 20)
         }
         .buttonStyle(.plain)
         .pointerStyle(.link)
@@ -109,9 +109,7 @@ struct ColorPickerHSB: View {
                 .foregroundStyle(.white)
         }
         .shadow(
-            color: self.colorScheme == .dark ?
-                .white.opacity(0.5) :
-                .black.opacity(0.5),
+            color: .black.opacity(0.5),
             radius: 1.0
         )
         .padding(.horizontal, -6)
