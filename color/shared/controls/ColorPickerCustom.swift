@@ -64,17 +64,8 @@ struct ColorPickerCustom: View {
                 brightness: self.color.brightness,
                 opacity   : self.color.opacity.fixBounds(min: 0.01, max: 1.0)
             )
-            .frame(
-                width : openerSize.width,
-                height: openerSize.height
-            )
-            .overlay {
-                RoundedRectangle(cornerRadius: self.openerRadius)
-                    .stroke(.black, lineWidth: 1)
-                RoundedRectangle(cornerRadius: self.openerRadius)
-                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [1], dashPhase: 0.5))
-                    .foregroundStyle(.white)
-            }
+            .frame(width: openerSize.width, height: openerSize.height)
+            .overlay { self.zebraStroke }
             .clipShape(                 RoundedRectangle(cornerRadius: self.openerRadius))
             .contentShape(.focusEffect, RoundedRectangle(cornerRadius: self.openerRadius))
         }
@@ -83,6 +74,16 @@ struct ColorPickerCustom: View {
         .popover(isPresented: self.$isShowPopover) {
             self.popover
             self.opacityChanger
+        }
+    }
+
+    @ViewBuilder private var zebraStroke: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: self.openerRadius)
+                .stroke(.black, lineWidth: 1)
+            RoundedRectangle(cornerRadius: self.openerRadius)
+                .stroke(style: StrokeStyle(lineWidth: 1, dash: [1], dashPhase: 0.5))
+                .foregroundStyle(.white)
         }
     }
 

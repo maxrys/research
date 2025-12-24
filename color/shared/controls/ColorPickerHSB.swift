@@ -45,17 +45,8 @@ struct ColorPickerHSB: View {
             self.isShowPopover = true
         } label: {
             self.colorView
-                .frame(
-                    width : openerSize.width,
-                    height: openerSize.height
-                )
-                .overlay {
-                    RoundedRectangle(cornerRadius: self.openerRadius)
-                        .stroke(.black, lineWidth: 1)
-                    RoundedRectangle(cornerRadius: self.openerRadius)
-                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [1], dashPhase: 0.5))
-                        .foregroundStyle(.white)
-                }
+                .frame(width: openerSize.width, height: openerSize.height)
+                .overlay { self.zebraStroke }
                 .clipShape(                 RoundedRectangle(cornerRadius: self.openerRadius))
                 .contentShape(.focusEffect, RoundedRectangle(cornerRadius: self.openerRadius))
         }
@@ -66,7 +57,17 @@ struct ColorPickerHSB: View {
         }
     }
 
-    @ViewBuilder var popover: some View {
+    @ViewBuilder private var zebraStroke: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: self.openerRadius)
+                .stroke(.black, lineWidth: 1)
+            RoundedRectangle(cornerRadius: self.openerRadius)
+                .stroke(style: StrokeStyle(lineWidth: 1, dash: [1], dashPhase: 0.5))
+                .foregroundStyle(.white)
+        }
+    }
+
+    @ViewBuilder private var popover: some View {
         VStack(spacing: 20) {
 
             ZStack(alignment: .leading) {
@@ -206,19 +207,16 @@ struct ColorPickerHSB: View {
 /* ############################################################# */
 
 #Preview {
-    @Previewable @State var pickerColor = ColorHSBValue(0.0, 1.0, 0.0)
-    ColorPickerHSB(color: $pickerColor)
-        .padding(20)
-        .onChange(of: pickerColor) { _, value in
-            print(value.encode() ?? "")
-        }
-}
-
-#Preview {
-    @Previewable @State var pickerColorR = ColorHSBValue(0.00, 1.0, 0.0)
-    @Previewable @State var pickerColorG = ColorHSBValue(0.33, 1.0, 0.0)
-    @Previewable @State var pickerColorB = ColorHSBValue(0.66, 1.0, 0.0)
-    ColorPickerHSB(color: $pickerColorR).popover
-    ColorPickerHSB(color: $pickerColorG).popover
-    ColorPickerHSB(color: $pickerColorB).popover
+    @Previewable @State var pickerColorR = ColorHSBValue(0.00, 1.0, 1.0)
+    @Previewable @State var pickerColorG = ColorHSBValue(0.33, 1.0, 1.0)
+    @Previewable @State var pickerColorB = ColorHSBValue(0.66, 1.0, 1.0)
+    VStack(spacing: 10) {
+        ColorPickerHSB(color: $pickerColorR)
+        ColorPickerHSB(color: $pickerColorG)
+        ColorPickerHSB(color: $pickerColorB)
+    }
+    .padding(20)
+    .onChange(of: pickerColorR) { _, value in print(value.encode() ?? "") }
+    .onChange(of: pickerColorG) { _, value in print(value.encode() ?? "") }
+    .onChange(of: pickerColorB) { _, value in print(value.encode() ?? "") }
 }
