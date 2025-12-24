@@ -13,7 +13,7 @@ struct ColorPickerHSB: View {
     }
 
     @Binding private var color: ColorHSBValue
-    @State private var isShowPalette: Bool = false
+    @State private var isShowPopover: Bool = false
 
     let width: CGFloat = 200
 
@@ -23,7 +23,7 @@ struct ColorPickerHSB: View {
 
     public var body: some View {
         Button {
-            self.isShowPalette = true
+            self.isShowPopover = true
         } label: {
             Color(
                 hue       : self.color.hue,
@@ -34,7 +34,7 @@ struct ColorPickerHSB: View {
         }
         .buttonStyle(.plain)
         .pointerStyle(.link)
-        .popover(isPresented: self.$isShowPalette) {
+        .popover(isPresented: self.$isShowPopover) {
             self.popover
         }
     }
@@ -70,14 +70,21 @@ struct ColorPickerHSB: View {
             .padding(-5)
             .offset(x: {
                 switch component {
-                    case .H: width * self.color.hue
-                    case .S: width * self.color.saturation
-                    case .B: width * self.color.brightness
+                    case .H: self.width * self.color.hue
+                    case .S: self.width * self.color.saturation
+                    case .B: self.width * self.color.brightness
                 }
             }())
     }
 
     @ViewBuilder private func palette(component: ColorComponent) -> some View {
+        let setComponentValue: (ColorComponent, Double) -> Void = { component, value in
+            switch component {
+                case .H: self.color.hue        = value
+                case .S: self.color.saturation = value
+                case .B: self.color.brightness = value
+            }
+        }
         Canvas { context, size in
             for i in 0 ... Int(size.width) {
                 context.drawRectangle(
@@ -96,21 +103,13 @@ struct ColorPickerHSB: View {
         .pointerStyle(.link)
         .onTapGesture { location in
             let x = location.x.fixBounds(max: self.width)
-            switch component {
-                case .H: self.color.hue        = x / width
-                case .S: self.color.saturation = x / width
-                case .B: self.color.brightness = x / width
-            }
+            setComponentValue(component, x / self.width)
         }
         .gesture(
             DragGesture(minimumDistance: 0)
                 .onChanged { gesture in
                     let x = gesture.location.x.fixBounds(max: self.width)
-                    switch component {
-                        case .H: self.color.hue        = x / width
-                        case .S: self.color.saturation = x / width
-                        case .B: self.color.brightness = x / width
-                    }
+                    setComponentValue(component, x / self.width)
                 }
         )
     }
