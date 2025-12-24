@@ -81,12 +81,12 @@ struct ColorPickerCustom: View {
         .buttonStyle(.plain)
         .pointerStyle(.link)
         .popover(isPresented: self.$isShowPopover) {
-            self.palette
+            self.popover
             self.opacityChanger
         }
     }
 
-    @ViewBuilder private var palette: some View {
+    @ViewBuilder private var popover: some View {
         let canvasW = Double(Self.CELL_SIZE * (Self.COLS + 1))
         let canvasH = Double(Self.CELL_SIZE * (Self.ROWS + 1))
         ZStack {

@@ -140,23 +140,27 @@ struct ColorPickerHSB: View {
     @ViewBuilder private func indicator(component: ColorComponent) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 0)
-                .stroke(.white, lineWidth: 4)
+                .stroke(.white, lineWidth: 3)
                 .frame(width: 12)
+                .shadow(
+                    color: .black.opacity(0.7),
+                    radius: 2.0
+                )
             Text({
                 switch component {
                     case .H: "H"
                     case .S: "S"
                     case .B: "B"
                     case .O: "O" }}())
-                .font(.system(size: 10, design: .monospaced))
+            .font(.system(size: 10, weight: .bold, design: .monospaced))
                 .foregroundStyle(.white)
+                .shadow(
+                    color: .black,
+                    radius: 1.0
+                )
         }
-        .shadow(
-            color: .black.opacity(0.5),
-            radius: 1.0
-        )
         .padding(.horizontal, -6)
-        .padding(.vertical  , -2)
+        .padding(.vertical  , -1)
         .offset(x: {
             switch component {
                 case .H: self.width * self.color.hue
