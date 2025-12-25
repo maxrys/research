@@ -7,8 +7,6 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
-    @State private var isOn: Bool = false
-
     var body: some Scene {
         WindowGroup {
             TabsCustom {
@@ -17,9 +15,6 @@ import SwiftUI
                 TabItemCustom(title: "Delete", systemIcon: "trash"                 ) { Text("Tab Delete content") }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-    }
-
-    init() {
     }
 
 }
