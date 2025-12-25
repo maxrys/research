@@ -18,7 +18,7 @@ struct ColorPickerOld: View {
     let openerRadius: CGFloat
 
     init(
-        color: Binding<ColorHSBValue>,
+        _ color: Binding<ColorHSBValue>,
         openerSize: CGSize = CGSize(width: 20, height: 20),
         openerRadius: CGFloat = 0
     ) {
@@ -166,7 +166,7 @@ struct ColorPickerOld: View {
 #Preview {
     @Previewable @State var pickerColor = ColorHSBValue(0.0, 1.0, 0.0)
     ColorPickerOld(
-        color: $pickerColor, openerRadius: 5
+        $pickerColor, openerRadius: 5
     ).onChange(of: pickerColor) { oldValue, newValue in
         print(newValue.encode() ?? "")
     }.padding(10)

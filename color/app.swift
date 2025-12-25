@@ -26,13 +26,13 @@ import SwiftUI
                 HStack {
 
                     ColorPickerCustom(
-                        color: self.$pickerColor
+                        self.$pickerColor
                     ).onChange(of: self.pickerColor) { _, value in
                         print(value.encode() ?? "")
                     }.padding(20)
 
                     ColorPickerOld(
-                        color: self.$pickerColor
+                        self.$pickerColor
                     ).onChange(of: self.pickerColor) { _, value in
                         print(value.encode() ?? "")
                     }.padding(20)

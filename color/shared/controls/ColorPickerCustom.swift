@@ -14,33 +14,36 @@ struct ColorPickerCustom: View {
         case O
     }
 
-    @Binding private var color: ColorHSBValue
+    @Binding private var colorExternal: ColorHSBValue
+
+    @State private var colorInternal: ColorHSBValue
     @State private var isShowPopover: Bool = false
 
     let width: CGFloat = 200
     let openerSize: CGSize
     let openerRadius: CGFloat
-    let isCanSlide: Bool
+    let isInstantUpdate: Bool
 
     private var colorView: Color {
         Color(
-            hue       : self.color.hue,
-            saturation: self.color.saturation,
-            brightness: self.color.brightness,
-            opacity   : self.color.opacity
+            hue       : self.colorInternal.hue,
+            saturation: self.colorInternal.saturation,
+            brightness: self.colorInternal.brightness,
+            opacity   : self.colorInternal.opacity
         )
     }
 
     init(
-        color: Binding<ColorHSBValue>,
+        _ value: Binding<ColorHSBValue>,
         openerSize: CGSize = CGSize(width: 20, height: 20),
         openerRadius: CGFloat = 0,
-        isCanSlide: Bool = true
+        isInstantUpdate: Bool = true
     ) {
-        self._color = color
+        self._colorExternal = value
+        self.colorInternal = value.wrappedValue
         self.openerSize = openerSize
         self.openerRadius = openerRadius
-        self.isCanSlide = isCanSlide
+        self.isInstantUpdate = isInstantUpdate
     }
 
     public var body: some View {
@@ -132,7 +135,7 @@ struct ColorPickerCustom: View {
                     w: 1,
                     h: size.height,
                     colorFill: Color(
-                        hue       : component == .H ? 1.0 / size.width * CGFloat(i) : self.color.hue,
+                        hue       : component == .H ? 1.0 / size.width * CGFloat(i) : self.colorInternal.hue,
                         saturation: component == .S ? 1.0 / size.width * CGFloat(i) : 1.0,
                         brightness: component == .B ? 1.0 / size.width * CGFloat(i) : 1.0
                     )
@@ -168,21 +171,21 @@ struct ColorPickerCustom: View {
         .padding(.vertical  , -1)
         .offset(x: {
             switch component {
-                case .H: self.width * self.color.hue
-                case .S: self.width * self.color.saturation
-                case .B: self.width * self.color.brightness
-                case .O: self.width * self.color.opacity
+                case .H: self.width * self.colorInternal.hue
+                case .S: self.width * self.colorInternal.saturation
+                case .B: self.width * self.colorInternal.brightness
+                case .O: self.width * self.colorInternal.opacity
             }
         }())
     }
 
     @ViewBuilder private func touchpad(component: ColorComponent) -> some View {
-        let setComponentValue: (ColorComponent, Double) -> Void = { component, value in
+        let setComponentValue: (ColorComponent, Double) -> Void = { component, x in
             switch component {
-                case .H: self.color.hue        = value
-                case .S: self.color.saturation = value
-                case .B: self.color.brightness = value
-                case .O: self.color.opacity    = value
+                case .H: self.colorInternal.hue        = x / self.width
+                case .S: self.colorInternal.saturation = x / self.width
+                case .B: self.colorInternal.brightness = x / self.width
+                case .O: self.colorInternal.opacity    = x / self.width
             }
         }
         Rectangle()
@@ -190,16 +193,20 @@ struct ColorPickerCustom: View {
             .contentShape(Rectangle())
             .pointerStyle(.link)
             .onTapGesture { location in
-                let x = location.x.fixBounds(max: self.width)
-                setComponentValue(component, x / self.width)
+                setComponentValue(component, location.x.fixBounds(max: self.width))
+                self.colorExternal = self.colorInternal
             }
             .gesture(
-                DragGesture(minimumDistance: 0).onChanged { gesture in
-                    if (self.isCanSlide) {
-                        let x = gesture.location.x.fixBounds(max: self.width)
-                        setComponentValue(component, x / self.width)
+                DragGesture(minimumDistance: 0)
+                    .onChanged { gesture in
+                        setComponentValue(component, gesture.location.x.fixBounds(max: self.width))
+                        if (self.isInstantUpdate) {
+                            self.colorExternal = self.colorInternal
+                        }
                     }
-                }
+                    .onEnded { gesture in
+                        self.colorExternal = self.colorInternal
+                    }
             )
     }
 
@@ -216,9 +223,9 @@ struct ColorPickerCustom: View {
     @Previewable @State var pickerColorG = ColorHSBValue(0.33, 1.0, 1.0)
     @Previewable @State var pickerColorB = ColorHSBValue(0.66, 1.0, 1.0)
     VStack(spacing: 10) {
-        ColorPickerCustom(color: $pickerColorR)
-        ColorPickerCustom(color: $pickerColorG)
-        ColorPickerCustom(color: $pickerColorB)
+        ColorPickerCustom($pickerColorR)
+        ColorPickerCustom($pickerColorG)
+        ColorPickerCustom($pickerColorB)
     }
     .padding(20)
     .onChange(of: pickerColorR) { _, value in print(value.encode() ?? "") }
