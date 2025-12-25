@@ -54,6 +54,7 @@ struct ColorPickerCustom: View {
                 .frame(width: openerSize.width, height: openerSize.height)
                 .overlay { self.zebraStroke }
                 .clipShape(                 RoundedRectangle(cornerRadius: self.openerRadius))
+                .contentShape(              RoundedRectangle(cornerRadius: self.openerRadius))
                 .contentShape(.focusEffect, RoundedRectangle(cornerRadius: self.openerRadius))
         }
         .buttonStyle(.plain)
