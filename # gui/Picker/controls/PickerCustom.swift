@@ -79,7 +79,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
     }
 
     @FocusState private var focuser: Focuser?
-    @State private var hovered: Key?
+    @State private var hoveredKey: Key?
 
     private var rootView: PickerCustom<Key>
 
@@ -113,7 +113,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
                 } label: {
                     var backgroundColor: Color {
                         if (self.rootView.selectedKey      == item.key) { return self.rootView.colorSet.itemSelectedBackground }
-                        if (self.hovered                   == item.key) { return self.rootView.colorSet.itemHoveredBackground }
+                        if (self.hoveredKey                == item.key) { return self.rootView.colorSet.itemHoveringBackground }
                         if (self.rootView.isPlainListStyle == false   ) { return self.rootView.colorSet.itemBackground }
                         return Color.clear
                     }
@@ -126,8 +126,8 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
                         .background(backgroundColor)
                         .clipShape(RoundedRectangle(cornerRadius: self.rootView.cornerRadius))
                         .contentShapePolyfill(RoundedRectangle(cornerRadius: self.rootView.cornerRadius))
-                        .onHover { isHovered in
-                            self.hovered = isHovered ? item.key : nil
+                        .onHover { isHovering in
+                            self.hoveredKey = isHovering ? item.key : nil
                         }
                 }
                 .pointerStyleLinkPolyfill()
@@ -175,7 +175,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
                     } label: {
                         var backgroundColor: Color {
                             if (self.rootView.selectedKey      == item.key) { return self.rootView.colorSet.itemSelectedBackground }
-                            if (self.hovered                   == item.key) { return self.rootView.colorSet.itemHoveredBackground }
+                            if (self.hoveredKey                == item.key) { return self.rootView.colorSet.itemHoveringBackground }
                             if (self.rootView.isPlainListStyle == false   ) { return self.rootView.colorSet.itemBackground }
                             return Color.clear
                         }
@@ -188,8 +188,8 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
                             .background(backgroundColor)
                             .clipShape(RoundedRectangle(cornerRadius: self.rootView.cornerRadius))
                             .contentShapePolyfill(RoundedRectangle(cornerRadius: self.rootView.cornerRadius))
-                            .onHover { isHovered in
-                                self.hovered = isHovered ? item.key : nil
+                            .onHover { isHovering in
+                                self.hoveredKey = isHovering ? item.key : nil
                             }
                     }
                     .pointerStyleLinkPolyfill()

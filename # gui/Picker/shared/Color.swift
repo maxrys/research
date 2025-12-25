@@ -15,7 +15,7 @@ extension Color {
         let background             = Color("color PickerCustom Background")
         let itemText               = Color("color PickerCustom Item Text")
         let itemBackground         = Color("color PickerCustom Item Background")
-        let itemHoveredBackground  = Color.accentColor.opacity(0.2)
+        let itemHoveringBackground = Color.accentColor.opacity(0.2)
         let itemSelectedBackground = Color.accentColor.opacity(0.5)
     }
 
