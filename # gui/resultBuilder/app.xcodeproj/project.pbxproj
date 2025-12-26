@@ -12,6 +12,7 @@
 		5075015E2EF94AD800624409 /* ResultBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5075015D2EF94AD100624409 /* ResultBuilder.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
 		50FEAD002EFDDD1900B9CAD3 /* ChildContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEACFF2EFDDD1700B9CAD3 /* ChildContainer.swift */; };
+		50FEAD062EFE814A00B9CAD3 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEAD052EFE814A00B9CAD3 /* Container.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
 		50FEACFF2EFDDD1700B9CAD3 /* ChildContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildContainer.swift; sourceTree = "<group>"; };
+		50FEAD052EFE814A00B9CAD3 /* Container.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +52,7 @@
 				50CE72302EE582F400FE3282 /* shared */,
 				5075015A2EF94A6D00624409 /* extensions */,
 				50993B6B2D33C4C900195667 /* app.swift */,
+				50FEAD052EFE814A00B9CAD3 /* Container.swift */,
 				5075014F2EF8798A00624409 /* ParentContainer.swift */,
 				50FEACFF2EFDDD1700B9CAD3 /* ChildContainer.swift */,
 				50993B692D33C4C900195667 /* Products */,
@@ -102,7 +105,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					50993B672D33C4C900195667 = {
 						CreatedOnToolsVersion = 16.2;
@@ -148,6 +151,7 @@
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				50FEAD002EFDDD1900B9CAD3 /* ChildContainer.swift in Sources */,
 				5075015C2EF94AA000624409 /* Array.swift in Sources */,
+				50FEAD062EFE814A00B9CAD3 /* Container.swift in Sources */,
 				5075015E2EF94AD800624409 /* ResultBuilder.swift in Sources */,
 				507501532EF879D400624409 /* ParentContainer.swift in Sources */,
 			);
@@ -190,7 +194,9 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 97CZR6J379;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -214,6 +220,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -253,7 +260,9 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 97CZR6J379;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -270,6 +279,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -284,10 +294,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 97CZR6J379;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -313,10 +325,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 97CZR6J379;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (

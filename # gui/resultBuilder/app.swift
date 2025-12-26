@@ -9,6 +9,12 @@ import SwiftUI
 
     var body: some Scene {
         WindowGroup {
+            Container {
+                AnyView(Text("Child 1 AnyView content"))
+                AnyView(Text("Child 2 AnyView content"))
+                AnyView(Text("Child 3 AnyView content"))
+            }.padding(20)
+
             ParentContainer {
                 ChildContainer(title: "Child 1") { Text("Child 1 AnyView content") }
                 ChildContainer(title: "Child 2") { Text("Child 2 AnyView content") }
