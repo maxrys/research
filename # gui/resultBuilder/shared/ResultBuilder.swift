@@ -15,8 +15,8 @@ import SwiftUI
 
 @resultBuilder struct ViewBuilderArrayAny {
 
-    static func buildBlock<Content: View>(_ components: Content...) -> [AnyView] {
-        components.map { AnyView($0) }
+    static func buildBlock(_ components: any View...) -> [any View] {
+        components
     }
 
 }

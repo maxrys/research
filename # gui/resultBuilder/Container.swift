@@ -36,5 +36,6 @@ struct Container: View {
         Text("Child 1 AnyView content")
         Text("Child 2 AnyView content")
         Text("Child 3 AnyView content")
+        Color.red.frame(width: 10, height: 10)
     }.padding(20)
 }
