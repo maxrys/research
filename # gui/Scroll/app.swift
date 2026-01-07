@@ -28,8 +28,8 @@ import SwiftUI
     }
 
     @ViewBuilder var gridCustom: some View {
-        let colsCount: GridCustom.Index = 30
-        let rowsCount: GridCustom.Index = 30
+        let colsCount: GridCustom.Count = 30
+        let rowsCount: GridCustom.Count = 30
         let cellSize: CGFloat = 100
         let cellSpacing: CGFloat = 20
         let source: GridCustom.DataSource = {

@@ -8,6 +8,7 @@ import SwiftUI
 struct GridCustom: View {
 
     typealias Index = UInt8
+    typealias Count = UInt8
     typealias DataSource = [
         Index: [Index: any CellProtocol]
     ]
@@ -21,8 +22,8 @@ struct GridCustom: View {
     @State private var cellsVisibility: [CellID: Bool] = [:]
 
     private let source: DataSource
-    private let colsCount: Index
-    private let rowsCount: Index
+    private let colsCount: Count
+    private let rowsCount: Count
     private let cellSize: CGFloat
     private let cellSpacing: CGFloat
     private let isSticky: Bool
@@ -34,8 +35,8 @@ struct GridCustom: View {
         isSticky: Bool
     ) {
         self.source = source
-        self.rowsCount = Index(self.source             .count.fixBounds(max: Int(Index.max))     )
-        self.colsCount = Index(self.source.first?.value.count.fixBounds(max: Int(Index.max)) ?? 0)
+        self.rowsCount = Count(self.source             .count.fixBounds(max: Int(Count.max))     )
+        self.colsCount = Count(self.source.first?.value.count.fixBounds(max: Int(Count.max)) ?? 0)
         self.cellSize = cellSize
         self.cellSpacing = cellSpacing
         self.isSticky = isSticky
@@ -168,8 +169,8 @@ struct GridCustom: View {
 }
 
 #Preview {
-    let colsCount: GridCustom.Index = 30
-    let rowsCount: GridCustom.Index = 30
+    let colsCount: GridCustom.Count = 30
+    let rowsCount: GridCustom.Count = 30
     let cellSize: CGFloat = 100
     let cellSpacing: CGFloat = 20
     let source: GridCustom.DataSource = {
