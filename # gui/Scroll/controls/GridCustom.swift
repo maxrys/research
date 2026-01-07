@@ -5,10 +5,11 @@
 
 import SwiftUI
 
-struct CustomGrid: View {
+struct GridCustom: View {
 
+    typealias Index = UInt8
     typealias DataSource = [
-        Int: [Int: any CellProtocol]
+        Index: [Index: any CellProtocol]
     ]
 
     @State private var scrollPosition: ScrollPosition = ScrollPosition()
@@ -20,8 +21,8 @@ struct CustomGrid: View {
     @State private var cellsVisibility: [CellID: Bool] = [:]
 
     private let source: DataSource
-    private let colsCount: UInt
-    private let rowsCount: UInt
+    private let colsCount: Index
+    private let rowsCount: Index
     private let cellSize: CGFloat
     private let cellSpacing: CGFloat
     private let isSticky: Bool
@@ -33,8 +34,8 @@ struct CustomGrid: View {
         isSticky: Bool
     ) {
         self.source = source
-        self.rowsCount = UInt(self.source.count)
-        self.colsCount = UInt(self.source.first?.value.count ?? 0)
+        self.rowsCount = Index(self.source             .count.fixBounds(max: Int(Index.max))     )
+        self.colsCount = Index(self.source.first?.value.count.fixBounds(max: Int(Index.max)) ?? 0)
         self.cellSize = cellSize
         self.cellSpacing = cellSpacing
         self.isSticky = isSticky
@@ -102,7 +103,7 @@ struct CustomGrid: View {
         LazyVGrid(columns: columns, spacing: self.cellSpacing) {
             ForEach(0 ..< self.rowsCount, id: \.self) { rowNum in
             ForEach(0 ..< self.colsCount, id: \.self) { colNum in
-                if var cell = self.source[Int(rowNum)]?[Int(colNum)] {
+                if var cell = self.source[rowNum]?[colNum] {
                     let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
                     AnyView(cell)
                         .zIndex(Double(self.rowsCount - rowNum))
@@ -167,12 +168,12 @@ struct CustomGrid: View {
 }
 
 #Preview {
-    let colsCount = 30
-    let rowsCount = 30
+    let colsCount: GridCustom.Index = 30
+    let rowsCount: GridCustom.Index = 30
     let cellSize: CGFloat = 100
     let cellSpacing: CGFloat = 20
-    let source: CustomGrid.DataSource = {
-        var result: CustomGrid.DataSource = [:]
+    let source: GridCustom.DataSource = {
+        var result: GridCustom.DataSource = [:]
         for rowNum in 0 ..< rowsCount {
         for colNum in 0 ..< colsCount {
             if (result[rowNum] == nil) { result[rowNum] = [:] }
@@ -185,7 +186,7 @@ struct CustomGrid: View {
         }}
         return result
     }()
-    CustomGrid(
+    GridCustom(
         data: source,
         cellSize: cellSize,
         cellSpacing: cellSpacing,

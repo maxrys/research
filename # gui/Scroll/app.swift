@@ -14,7 +14,7 @@ import SwiftUI
 
             TabView {
                 Tab("CustomGrid", systemImage: "1.square.fill") {
-                    self.customGrid
+                    self.gridCustom
                 }
                 Tab("SnapToGrid", systemImage: "2.square.fill") {
                     SnapToGrid()
@@ -27,13 +27,13 @@ import SwiftUI
         }.windowResizability(.contentSize)
     }
 
-    @ViewBuilder var customGrid: some View {
-        let colsCount = 30
-        let rowsCount = 30
+    @ViewBuilder var gridCustom: some View {
+        let colsCount: GridCustom.Index = 30
+        let rowsCount: GridCustom.Index = 30
         let cellSize: CGFloat = 100
         let cellSpacing: CGFloat = 20
-        let source: CustomGrid.DataSource = {
-            var result: CustomGrid.DataSource = [:]
+        let source: GridCustom.DataSource = {
+            var result: GridCustom.DataSource = [:]
             for rowNum in 0 ..< rowsCount {
             for colNum in 0 ..< colsCount {
                 if (result[rowNum] == nil) { result[rowNum] = [:] }
@@ -46,7 +46,7 @@ import SwiftUI
             }}
             return result
         }()
-        CustomGrid(
+        GridCustom(
             data: source,
             cellSize: cellSize,
             cellSpacing: cellSpacing,

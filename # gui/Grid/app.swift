@@ -63,7 +63,4 @@ import SwiftUI
             .background(.black)
     }
 
-    init() {
-    }
-
 }

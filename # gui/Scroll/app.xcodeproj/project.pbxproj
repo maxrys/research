@@ -7,22 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		502E60E62F0EF7FE00BFA95E /* Numeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502E60E52F0EF7FE00BFA95E /* Numeric.swift */; };
 		5058492F2E8D3B0200B9F421 /* SnapToElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5058492E2E8D3B0200B9F421 /* SnapToElement.swift */; };
 		505849332E8FBA1C00B9F421 /* SnapToGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505849322E8FBA1C00B9F421 /* SnapToGrid.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
-		50CE72472EEADC1600FE3282 /* CustomGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE72462EEADC1400FE3282 /* CustomGrid.swift */; };
+		50CE72472EEADC1600FE3282 /* GridCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE72462EEADC1400FE3282 /* GridCustom.swift */; };
 		50CE724A2EEAFC4500FE3282 /* types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE72492EEAFC4500FE3282 /* types.swift */; };
 		50CE724C2EEAFEF000FE3282 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE724B2EEAFEF000FE3282 /* Cell.swift */; };
 		50CE72522EEB01EC00FE3282 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE72512EEB01EC00FE3282 /* Timer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		502E60E52F0EF7FE00BFA95E /* Numeric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numeric.swift; sourceTree = "<group>"; };
 		5058492E2E8D3B0200B9F421 /* SnapToElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapToElement.swift; sourceTree = "<group>"; };
 		505849322E8FBA1C00B9F421 /* SnapToGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapToGrid.swift; sourceTree = "<group>"; };
 		50993B682D33C4C900195667 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
-		50CE72462EEADC1400FE3282 /* CustomGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomGrid.swift; sourceTree = "<group>"; };
+		50CE72462EEADC1400FE3282 /* GridCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCustom.swift; sourceTree = "<group>"; };
 		50CE72492EEAFC4500FE3282 /* types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = types.swift; sourceTree = "<group>"; };
 		50CE724B2EEAFEF000FE3282 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		50CE72512EEB01EC00FE3282 /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
@@ -63,7 +65,7 @@
 		50CE72482EEAF70F00FE3282 /* controls */ = {
 			isa = PBXGroup;
 			children = (
-				50CE72462EEADC1400FE3282 /* CustomGrid.swift */,
+				50CE72462EEADC1400FE3282 /* GridCustom.swift */,
 				50CE724B2EEAFEF000FE3282 /* Cell.swift */,
 			);
 			path = controls;
@@ -74,6 +76,7 @@
 			children = (
 				50CE72492EEAFC4500FE3282 /* types.swift */,
 				50CE72512EEB01EC00FE3282 /* Timer.swift */,
+				502E60E52F0EF7FE00BFA95E /* Numeric.swift */,
 			);
 			path = shared;
 			sourceTree = "<group>";
@@ -154,9 +157,10 @@
 				505849332E8FBA1C00B9F421 /* SnapToGrid.swift in Sources */,
 				50CE724C2EEAFEF000FE3282 /* Cell.swift in Sources */,
 				50CE72522EEB01EC00FE3282 /* Timer.swift in Sources */,
+				502E60E62F0EF7FE00BFA95E /* Numeric.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				50CE724A2EEAFC4500FE3282 /* types.swift in Sources */,
-				50CE72472EEADC1600FE3282 /* CustomGrid.swift in Sources */,
+				50CE72472EEADC1600FE3282 /* GridCustom.swift in Sources */,
 				5058492F2E8D3B0200B9F421 /* SnapToElement.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
