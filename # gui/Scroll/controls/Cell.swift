@@ -6,14 +6,14 @@
 import SwiftUI
 
 protocol CellProtocol: View {
-    var ID       : CellID  { get }
-    var size     : CGFloat { get }
-    var isVisible: Bool    { get set }
+    var ID       : CellID.Value { get }
+    var size     : CGFloat      { get }
+    var isVisible: Bool         { get set }
 }
 
 struct Cell: View, CellProtocol {
 
-    var ID: CellID
+    var ID: CellID.Value
     var size: CGFloat
     var isVisible: Bool
 

@@ -1,6 +1,6 @@
 
 /* ############################################################# */
-/* ### Copyright © 2025 Maxim Rysevets. All rights reserved. ### */
+/* ### Copyright © 2026 Maxim Rysevets. All rights reserved. ### */
 /* ############################################################# */
 
 import SwiftUI
@@ -11,13 +11,19 @@ struct GridCustom: View {
         GridAxisIndex: [GridAxisIndex: any CellProtocol]
     ]
 
+    enum GridType {
+        case stacks
+        case grid
+        case lazyVGrid
+    }
+
     @State private var scrollPosition: ScrollPosition = ScrollPosition()
     @State private var scrollPhase: ScrollPhase = .idle
     @State private var visibleFrame: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
     @State private var stickyGridDelayTimer: Timer.Custom!
     @State private var stickyGridTimer: Timer.Custom!
     @State private var cellsVisibilityDelayTimer: Timer.Custom!
-    @State private var cellsVisibility: [CellID: Bool] = [:]
+    @State private var cellsVisibility: [CellID.Value: Bool] = [:]
 
     private let source: DataSource
     private let colsCount: GridCellsByAxisCount
@@ -25,12 +31,14 @@ struct GridCustom: View {
     private let cellSize: CGFloat
     private let cellSpacing: CGFloat
     private let isSticky: Bool
+    private let gridType: GridType
 
     init(
         data source: DataSource,
         cellSize: CGFloat,
         cellSpacing: CGFloat,
-        isSticky: Bool
+        isSticky: Bool,
+        gridType: GridType = .lazyVGrid
     ) {
         self.source = source
         self.rowsCount = GridCellsByAxisCount(self.source             .count.fixBounds(max: Int(GridCellsByAxisCount.max))     )
@@ -38,6 +46,7 @@ struct GridCustom: View {
         self.cellSize = cellSize
         self.cellSpacing = cellSpacing
         self.isSticky = isSticky
+        self.gridType = gridType
     }
 
     private var gridBounds: CGSize {
@@ -48,13 +57,13 @@ struct GridCustom: View {
         return CGSize(width: gridSizeW, height: gridSizeH)
     }
 
-    private var cellBounds: [CellID: CGRect] {
-        var result: [CellID: CGRect] = [:]
+    private var cellBounds: [CellID.Value: CGRect] {
+        var result: [CellID.Value: CGRect] = [:]
         for rowNum in 0 ..< self.rowsCount {
         for colNum in 0 ..< self.colsCount {
+            let cellID = CellID(colNum: colNum, rowNum: rowNum).value
             let colNum = CGFloat(colNum)
             let rowNum = CGFloat(rowNum)
-            let cellID = CellID(UInt16(rowNum) * UInt16(self.colsCount) + UInt16(colNum))
             let cellFrameMinX = (self.cellSize * colNum) + (self.cellSpacing * (colNum + 1))
             let cellFrameMinY = (self.cellSize * rowNum) + (self.cellSpacing * (rowNum + 1))
             result[cellID] = CGRect(
@@ -96,23 +105,63 @@ struct GridCustom: View {
     }
 
     @ViewBuilder private var grid: some View {
-        let columns: [GridItem] = (0 ..< self.colsCount).map { _ in
-            GridItem(.fixed(self.cellSize), spacing: self.cellSpacing)
-        }
-        LazyVGrid(columns: columns, spacing: self.cellSpacing) {
-            ForEach(0 ..< self.rowsCount, id: \.self) { rowNum in
-            ForEach(0 ..< self.colsCount, id: \.self) { colNum in
-                if var cell = self.source[rowNum]?[colNum] {
-                    let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
-                    AnyView(cell)
-                        .zIndex(Double(self.rowsCount - rowNum))
-                        .id(cell.ID)
-                } else {
-                    Color.clear
-                        .frame(width: self.cellSize, height: self.cellSize)
+        switch self.gridType {
+
+            case .stacks: /* MARK: HStack + VStack */
+
+                VStack(spacing: self.cellSpacing) {
+                    ForEach(0 ..< self.rowsCount, id: \.self) { rowNum in HStack(spacing: self.cellSpacing) {
+                    ForEach(0 ..< self.colsCount, id: \.self) { colNum in
+                        if var cell = self.source[rowNum]?[colNum] {
+                            let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
+                            AnyView(cell)
+                                .hoverBehavior(.zIndex(to: 1))
+                                .id(cell.ID)
+                        } else {
+                            Color.clear
+                                .frame(width: self.cellSize, height: self.cellSize)
+                        }
+                    }}}
+                }.padding(self.cellSpacing)
+
+            case .grid: /* MARK: Grid */
+
+                Grid(alignment: .center, horizontalSpacing: self.cellSpacing, verticalSpacing: self.cellSpacing) {
+                    ForEach(0 ..< self.rowsCount, id: \.self) { rowNum in GridRow {
+                    ForEach(0 ..< self.colsCount, id: \.self) { colNum in
+                        if var cell = self.source[rowNum]?[colNum] {
+                            let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
+                            AnyView(cell)
+                                .hoverBehavior(.zIndex(to: 1))
+                                .id(cell.ID)
+                        } else {
+                            Color.clear
+                                .frame(width: self.cellSize, height: self.cellSize)
+                        }
+                    }}}
+                }.padding(self.cellSpacing)
+
+            case .lazyVGrid: /* MARK: LazyVGrid */
+
+                let columns: [GridItem] = (0 ..< self.colsCount).map { _ in
+                    GridItem(.fixed(self.cellSize), spacing: self.cellSpacing)
                 }
-            }}
-        }.padding(self.cellSpacing)
+                LazyVGrid(columns: columns, spacing: self.cellSpacing) {
+                    ForEach(0 ..< self.rowsCount, id: \.self) { rowNum in
+                    ForEach(0 ..< self.colsCount, id: \.self) { colNum in
+                        if var cell = self.source[rowNum]?[colNum] {
+                            let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
+                            AnyView(cell)
+                                .hoverBehavior(.zIndex(to: 1))
+                                .id(cell.ID)
+                        } else {
+                            Color.clear
+                                .frame(width: self.cellSize, height: self.cellSize)
+                        }
+                    }}
+                }.padding(self.cellSpacing)
+
+        }
     }
 
     private func cellsVisibilityUpdate() {
@@ -176,7 +225,7 @@ struct GridCustom: View {
         for rowNum in 0 ..< rowsCount {
         for colNum in 0 ..< colsCount {
             if (result[rowNum] == nil) { result[rowNum] = [:] }
-            let cellID = CellID(UInt16(rowNum) * UInt16(colsCount) + UInt16(colNum))
+            let cellID = CellID(colNum: colNum, rowNum: rowNum).value
             result[rowNum]![colNum] = Cell(
                 ID: cellID,
                 size: cellSize,

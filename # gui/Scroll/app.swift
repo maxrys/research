@@ -37,7 +37,7 @@ import SwiftUI
             for rowNum in 0 ..< rowsCount {
             for colNum in 0 ..< colsCount {
                 if (result[rowNum] == nil) { result[rowNum] = [:] }
-                let cellID = CellID(UInt16(rowNum) * UInt16(colsCount) + UInt16(colNum))
+                let cellID = CellID(colNum: colNum, rowNum: rowNum).value
                 result[rowNum]![colNum] = Cell(
                     ID: cellID,
                     size: cellSize,
