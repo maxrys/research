@@ -61,7 +61,7 @@ struct GridCustom: View {
         var result: [CellID.Value: CGRect] = [:]
         for rowNum in 0 ..< self.rowsCount {
         for colNum in 0 ..< self.colsCount {
-            let cellID = CellID(colNum: colNum, rowNum: rowNum).value
+            let cellID = CellID(rowNum: rowNum, colNum: colNum).value
             let colNum = CGFloat(colNum)
             let rowNum = CGFloat(rowNum)
             let cellFrameMinX = (self.cellSize * colNum) + (self.cellSpacing * (colNum + 1))
@@ -225,7 +225,7 @@ struct GridCustom: View {
         for rowNum in 0 ..< rowsCount {
         for colNum in 0 ..< colsCount {
             if (result[rowNum] == nil) { result[rowNum] = [:] }
-            let cellID = CellID(colNum: colNum, rowNum: rowNum).value
+            let cellID = CellID(rowNum: rowNum, colNum: colNum).value
             result[rowNum]![colNum] = Cell(
                 ID: cellID,
                 size: cellSize,

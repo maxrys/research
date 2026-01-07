@@ -30,14 +30,14 @@ import SwiftUI
     @ViewBuilder var gridCustom: some View {
         let colsCount: GridCellsByAxisCount = 30
         let rowsCount: GridCellsByAxisCount = 30
-        let cellSize: CGFloat = 100
-        let cellSpacing: CGFloat = 20
+        let cellSize: CGFloat = 50
+        let cellSpacing: CGFloat = 2
         let source: GridCustom.DataSource = {
             var result: GridCustom.DataSource = [:]
             for rowNum in 0 ..< rowsCount {
             for colNum in 0 ..< colsCount {
                 if (result[rowNum] == nil) { result[rowNum] = [:] }
-                let cellID = CellID(colNum: colNum, rowNum: rowNum).value
+                let cellID = CellID(rowNum: rowNum, colNum: colNum).value
                 result[rowNum]![colNum] = Cell(
                     ID: cellID,
                     size: cellSize,

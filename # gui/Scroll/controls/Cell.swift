@@ -22,7 +22,7 @@ struct Cell: View, CellProtocol {
             .fill(self.isVisible ? .blue : .red)
             .frame(width: self.size, height: self.size)
             .overlay(
-                Text("ID \(self.ID)")
+                Text("\(self.ID)")
                     .foregroundColor(.white)
             )
     }
