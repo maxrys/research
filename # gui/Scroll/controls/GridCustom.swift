@@ -7,10 +7,8 @@ import SwiftUI
 
 struct GridCustom: View {
 
-    typealias Index = UInt8
-    typealias Count = UInt8
     typealias DataSource = [
-        Index: [Index: any CellProtocol]
+        GridAxisIndex: [GridAxisIndex: any CellProtocol]
     ]
 
     @State private var scrollPosition: ScrollPosition = ScrollPosition()
@@ -22,8 +20,8 @@ struct GridCustom: View {
     @State private var cellsVisibility: [CellID: Bool] = [:]
 
     private let source: DataSource
-    private let colsCount: Count
-    private let rowsCount: Count
+    private let colsCount: GridCellsByAxisCount
+    private let rowsCount: GridCellsByAxisCount
     private let cellSize: CGFloat
     private let cellSpacing: CGFloat
     private let isSticky: Bool
@@ -35,8 +33,8 @@ struct GridCustom: View {
         isSticky: Bool
     ) {
         self.source = source
-        self.rowsCount = Count(self.source             .count.fixBounds(max: Int(Count.max))     )
-        self.colsCount = Count(self.source.first?.value.count.fixBounds(max: Int(Count.max)) ?? 0)
+        self.rowsCount = GridCellsByAxisCount(self.source             .count.fixBounds(max: Int(GridCellsByAxisCount.max))     )
+        self.colsCount = GridCellsByAxisCount(self.source.first?.value.count.fixBounds(max: Int(GridCellsByAxisCount.max)) ?? 0)
         self.cellSize = cellSize
         self.cellSpacing = cellSpacing
         self.isSticky = isSticky
@@ -169,8 +167,8 @@ struct GridCustom: View {
 }
 
 #Preview {
-    let colsCount: GridCustom.Count = 30
-    let rowsCount: GridCustom.Count = 30
+    let colsCount: GridCellsByAxisCount = 30
+    let rowsCount: GridCellsByAxisCount = 30
     let cellSize: CGFloat = 100
     let cellSpacing: CGFloat = 20
     let source: GridCustom.DataSource = {
