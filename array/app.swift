@@ -15,6 +15,9 @@ let array = [
     "value2",
 ]
 
+var arrayDynamic: [String] = [
+]
+
 let arrayComplex = [
     ComplexStruct(a: "value 1.1", b: "value 1.2"),
     ComplexStruct(a: "value 2.1", b: "value 2.2"),
@@ -73,6 +76,20 @@ let arrayTuples = [
         for (key, value) in arrayComplex.enumerated() {
             print("\(key):\(value)")
         }
+
+        print( array[safe: 0] as Any )
+        print( array[safe: 1] as Any )
+        print( array[safe: 2] as Any )
+        print( array[safe: 3] as Any )
+
+        arrayDynamic[safe: 0] = "value 1"
+        arrayDynamic[safe: 1] = "value 2"
+        arrayDynamic[safe: 5] = "value 6"
+        print( arrayDynamic )
+        arrayDynamic[safe: 0] = "value 1 (modified)"
+        arrayDynamic[safe: 1] = "value 2 (modified)"
+        arrayDynamic[safe: 5] = "value 6 (modified)"
+        print( arrayDynamic )
 
     }
 
