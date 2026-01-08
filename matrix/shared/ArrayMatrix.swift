@@ -15,16 +15,16 @@ extension Array {
 
         subscript(x: Index, y: Index) -> Element? {
             get {
-                self.data[safe: x]?[safe: y] ?? nil
+                self.data[x][y]
             }
             set {
-                if let _ = self.data[safe: x] {
-                    self.data[safe: x]![safe: y] = newValue
-                } else {
-                    self.data[safe: x] = [
-                        newValue
-                    ]
-                }
+                //if let _ = self.data[fill: x] {
+                //    self.data[fill: x]![fill: y] = newValue
+                //} else {
+                //    self.data[fill: x] = [
+                //        newValue
+                //    ]
+                //}
             }
         }
 
