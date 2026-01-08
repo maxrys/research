@@ -6,7 +6,15 @@
 extension Array {
 
     subscript(safe index: Index) -> Element? {
-        indices.contains(index) ? self[index] : nil
+        get {
+            indices.contains(index) ? self[index] : nil
+        }
+        set {
+            guard let newValue else { return }
+            if      (index <  self.count) { self[index] = newValue }
+            else if (index == self.count) { self.append(newValue) }
+            else if (index >  self.count) { /* do nothing */ }
+        }
     }
 
 }

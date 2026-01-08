@@ -18,6 +18,13 @@ extension Array {
                 self.data[safe: x]?[safe: y] ?? nil
             }
             set {
+                if let _ = self.data[safe: x] {
+                    self.data[safe: x]![safe: y] = newValue
+                } else {
+                    self.data[safe: x] = [
+                        newValue
+                    ]
+                }
             }
         }
 
