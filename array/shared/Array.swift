@@ -5,14 +5,9 @@
 
 extension Array {
 
-    public typealias KeyValuePair = (
-        key  : Int,
-        value: Element
-    )
-
-    @inlinable public var tuples: [(key: Int, value: Element)] {
+    @inlinable public var tuples: [(key: Index, value: Element)] {
         get {
-            var result: [(key: Int, value: Element)] = []
+            var result: [(key: Index, value: Element)] = []
             for i in 0 ..< self.count {
                 result.insert(
                     (key: i, value: self[i]), at: i
@@ -35,7 +30,7 @@ extension Array {
         }
     }
 
-    subscript(safe index: Int) -> Element? {
+    subscript(safe index: Index) -> Element? {
         get {
             indices.contains(index) ? self[index] : nil
         }
