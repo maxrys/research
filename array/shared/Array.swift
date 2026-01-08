@@ -35,10 +35,6 @@ extension Array {
         }
     }
 
-    subscript(safe index: UInt) -> Element? {
-        indices.contains(Int(index)) ? self[Int(index)] : nil
-    }
-
     subscript(safe index: Int) -> Element? {
         get {
             indices.contains(index) ? self[index] : nil
