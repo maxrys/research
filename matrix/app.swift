@@ -90,7 +90,7 @@ import SwiftUI
         let expected: [[String?]] = [
             ["r=0|c=0",    nil   , "r=0|c=2",    nil   , "r=0|c=4"],
             [   nil   , "r=1|c=1",    nil   , "r=1|c=3",          ],
-            ["r=2|c=0",    nil   , "r=2|c=2",    nil   ,          ],
+            ["r=2|c=0",    nil   , "r=2|c=2",                     ],
             [   nil   , "r=3|c=1",    nil   , "r=3|c=3",          ],
             ["r=4|c=0",                                           ],
         ]
