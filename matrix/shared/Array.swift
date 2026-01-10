@@ -5,7 +5,7 @@
 
 extension Array {
 
-    subscript(fill index: Index) -> Element? {
+    subscript<T>(safe index: Index) -> Element? where Element == T? {
         get {
             if (indices.contains(index))
                  { return self[index] }
@@ -17,7 +17,7 @@ extension Array {
             else if (index == self.count) { self.append(newValue) }
             else if (index >  self.count) {
                 for i in self.count ... index {
-                 // if (i != index) { self.append(nil) }
+                    if (i != index) { self.append(nil) }
                     if (i == index) { self.append(newValue) }
                 }
             }

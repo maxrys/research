@@ -13,8 +13,15 @@ import SwiftUI
     }
 
     init() {
+        self.test_arraySafe()
         self.test_arrayMatrix()
         self.test_arrayMatrix_withHoles()
+    }
+
+    func test_arraySafe() {
+        var array: [String?] = []
+        array[safe: 5] = "value 6"
+        print(array)
     }
 
     func test_arrayMatrix() {
