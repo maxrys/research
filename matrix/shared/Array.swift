@@ -5,7 +5,7 @@
 
 extension Array {
 
-    subscript<T>(safe index: Index) -> Element? where Element == T? {
+    subscript<T>(safe index: Index) -> T? where Element == T? {
         get {
             if (indices.contains(index))
                  { return self[index] }
