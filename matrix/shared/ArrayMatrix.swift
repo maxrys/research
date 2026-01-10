@@ -8,16 +8,14 @@ extension Array {
     final class Matrix {
 
         typealias Value = [
-            [Element?]
+            [Element?]?
         ]
 
         public private(set) var data: Value = []
 
         subscript(x: Index, y: Index) -> Element? {
             get {
-             // if let nested = self.data[safe: x] {
-             // }
-                return nil
+                self.data[safe: x]?[safe: y] ?? nil
             }
             set {
             }
