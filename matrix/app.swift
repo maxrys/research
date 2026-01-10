@@ -19,9 +19,37 @@ import SwiftUI
     }
 
     func test_arraySafe() {
-        var array: [String?] = []
-        array[safe: 5] = "value 6"
-        print(array)
+        var data    : [String?] = []
+        var expected: [String?] = []
+
+        data = []
+        data[safe: 0] = "value 1"
+        expected = ["value 1"]
+        print(data == expected)
+
+        data = []
+        data[safe: 2] = "value 3"
+        expected = [nil, nil, "value 3"]
+        print(data == expected)
+
+        data = []
+        data[safe: 2] = "value 3"
+        data[safe: 3] = "value 4"
+        expected = [nil, nil, "value 3", "value 4"]
+        print(data == expected)
+
+        data = []
+        data[safe: 2] = "value 3"
+        data[safe: 5] = "value 6"
+        expected = [nil, nil, "value 3", nil, nil, "value 6"]
+        print(data == expected)
+
+        data = []
+        data[safe: 2] = "value 3"
+        data[safe: 5] = "value 6"
+        data[safe: 0] = "value 1"
+        expected = ["value 1", nil, "value 3", nil, nil, "value 6"]
+        print(data == expected)
     }
 
     func test_arrayMatrix() {
