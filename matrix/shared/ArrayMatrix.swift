@@ -18,9 +18,8 @@ extension Array {
                 self.data[safe: x]?[safe: y] ?? nil
             }
             set {
-                if (self.data[safe: x] == nil) {
-                    self.data[safe: x] = [] }
-                self.data[safe: x]![safe: y] = newValue
+                if (self.data[safe: x] == nil) { self.data[safe: x] = [] }
+                if (self.data[safe: x] != nil) { self.data[safe: x]![safe: y] = newValue }
             }
         }
 
