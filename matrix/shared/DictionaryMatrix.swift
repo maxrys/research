@@ -8,9 +8,7 @@ extension Dictionary {
     final class Matrix {
 
         typealias Value = [
-            Key: [
-                Key: Element?
-            ]
+            Key: [Key: Element?]
         ]
 
         public private(set) var data: Value = [:]
@@ -20,13 +18,8 @@ extension Dictionary {
                 self.data[x]?[y] ?? nil
             }
             set {
-                if let _ = self.data[x] {
-                    self.data[x]![y] = newValue
-                } else {
-                    self.data[x] = [
-                        y: newValue
-                    ]
-                }
+                if (self.data[x] == nil) { self.data[x] = [:] }
+                if (self.data[x] != nil) { self.data[x]![y] = newValue }
             }
         }
 
