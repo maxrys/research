@@ -16,6 +16,7 @@ import SwiftUI
         self.test_arraySafe()
         self.test_arrayMatrix()
         self.test_arrayMatrix_withHoles()
+        self.test_arrayMatrix_random()
     }
 
     func test_arraySafe() {
@@ -100,6 +101,17 @@ import SwiftUI
         ]
 
         print(arrayMatrix.data == expected)
+    }
+
+    func test_arrayMatrix_random() {
+        let arrayMatrix = Array<Int>.Matrix()
+
+        for _ in 0 ... 0xffff {
+            let x = Int.random(in: 0 ... 0xff)
+            let y = Int.random(in: 0 ... 0xff)
+            let value = Bool.random() ? Int.random(in: 0 ... 0xff) : nil
+            arrayMatrix[x, y] = value
+        }
     }
 
 }
