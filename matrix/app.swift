@@ -16,7 +16,9 @@ import SwiftUI
         self.test_arraySafe()
         self.test_arrayMatrix()
         self.test_arrayMatrix_withHoles()
+        self.test_arrayMatrix_withHoles_isTrimOn()
         self.test_arrayMatrix_random()
+        self.test_arrayMatrix_random_isTrimOn()
     }
 
     func test_arraySafe() {
@@ -91,6 +93,7 @@ import SwiftUI
         arrayMatrix[3, 3] = "r=3|c=3"
         arrayMatrix[4, 0] = "r=4|c=0"
         arrayMatrix[4, 1] = nil
+        arrayMatrix[5, 0] = nil
 
         let expected: [[String?]] = [
             ["r=0|c=0",    nil   , "r=0|c=2",    nil   , "r=0|c=4"],
@@ -98,6 +101,35 @@ import SwiftUI
             ["r=2|c=0",    nil   , "r=2|c=2",    nil              ],
             [   nil   , "r=3|c=1",    nil   , "r=3|c=3",          ],
             ["r=4|c=0",    nil                                    ],
+            [   nil   ,                                           ]
+        ]
+
+        print(arrayMatrix.data == expected)
+    }
+
+    func test_arrayMatrix_withHoles_isTrimOn() {
+        let arrayMatrix = Array<String>.Matrix(isTrimOn: true)
+
+        arrayMatrix[0, 0] = "r=0|c=0"
+        arrayMatrix[0, 2] = "r=0|c=2"
+        arrayMatrix[0, 4] = "r=0|c=4"
+        arrayMatrix[1, 1] = "r=1|c=1"
+        arrayMatrix[1, 3] = "r=1|c=3"
+        arrayMatrix[2, 0] = "r=2|c=0"
+        arrayMatrix[2, 2] = "r=2|c=2"
+        arrayMatrix[2, 3] = nil
+        arrayMatrix[3, 1] = "r=3|c=1"
+        arrayMatrix[3, 3] = "r=3|c=3"
+        arrayMatrix[4, 0] = "r=4|c=0"
+        arrayMatrix[4, 1] = nil
+        arrayMatrix[5, 0] = nil
+
+        let expected: [[String?]] = [
+            ["r=0|c=0",    nil   , "r=0|c=2",    nil   , "r=0|c=4"],
+            [   nil   , "r=1|c=1",    nil   , "r=1|c=3",          ],
+            ["r=2|c=0",    nil   , "r=2|c=2",                     ],
+            [   nil   , "r=3|c=1",    nil   , "r=3|c=3",          ],
+            ["r=4|c=0",                                           ]
         ]
 
         print(arrayMatrix.data == expected)
@@ -105,6 +137,17 @@ import SwiftUI
 
     func test_arrayMatrix_random() {
         let arrayMatrix = Array<Int>.Matrix()
+
+        for _ in 0 ... 0xffff {
+            let x = Int.random(in: 0 ... 0xff)
+            let y = Int.random(in: 0 ... 0xff)
+            let value = Bool.random() ? Int.random(in: 0 ... 0xff) : nil
+            arrayMatrix[x, y] = value
+        }
+    }
+
+    func test_arrayMatrix_random_isTrimOn() {
+        let arrayMatrix = Array<Int>.Matrix(isTrimOn: true)
 
         for _ in 0 ... 0xffff {
             let x = Int.random(in: 0 ... 0xff)

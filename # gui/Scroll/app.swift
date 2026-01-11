@@ -16,8 +16,8 @@ import SwiftUI
                 Tab("CustomGrid:stacks"   , systemImage: "3.square.fill") { self.gridCustom(gridType: .stacks) }
                 Tab("CustomGrid:grid"     , systemImage: "1.square.fill") { self.gridCustom(gridType: .grid) }
                 Tab("CustomGrid:lazyVGrid", systemImage: "2.square.fill") { self.gridCustom(gridType: .lazyVGrid) }
-                Tab("SnapToGrid"   , systemImage: "4.square.fill") { SnapToGrid() }
-                Tab("SnapToElement", systemImage: "5.square.fill") { SnapToElement() }
+                Tab("SnapToGrid"          , systemImage: "4.square.fill") { SnapToGrid() }
+                Tab("SnapToElement"       , systemImage: "5.square.fill") { SnapToElement() }
             }
 
         }.windowResizability(.contentSize)

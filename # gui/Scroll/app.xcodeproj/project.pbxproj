@@ -48,9 +48,9 @@
 		50993B5F2D33C4C900195667 = {
 			isa = PBXGroup;
 			children = (
+				50993B742D33C4CD00195667 /* app.entitlements */,
 				50CE724E2EEAFF1F00FE3282 /* shared */,
 				50CE72482EEAF70F00FE3282 /* controls */,
-				50993B742D33C4CD00195667 /* app.entitlements */,
 				50993B6B2D33C4C900195667 /* app.swift */,
 				5058492E2E8D3B0200B9F421 /* SnapToElement.swift */,
 				505849322E8FBA1C00B9F421 /* SnapToGrid.swift */,
