@@ -12,7 +12,6 @@ extension Array {
             else { return nil }
         }
         set {
-            guard let newValue else { return }
             if      (index <  self.count) { self[index] = newValue }
             else if (index == self.count) { self.append(newValue) }
             else if (index >  self.count) {

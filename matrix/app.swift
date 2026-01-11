@@ -23,32 +23,34 @@ import SwiftUI
         var expected: [String?] = []
 
         data = []
+        data[safe: 0] = nil
+        expected = [nil]
+        print(data == expected)
+
+        data = []
         data[safe: 0] = "value 1"
         expected = ["value 1"]
         print(data == expected)
 
         data = []
-        data[safe: 2] = "value 3"
-        expected = [nil, nil, "value 3"]
+        data[safe: 4] = "value 5"
+        expected = [nil, nil, nil, nil, "value 5"]
         print(data == expected)
 
         data = []
-        data[safe: 2] = "value 3"
-        data[safe: 3] = "value 4"
-        expected = [nil, nil, "value 3", "value 4"]
+        data[safe: 4] = "value 5"
+        data[safe: 1] = "value 2"
+        data[safe: 6] = "value 7"
+        expected = [nil, "value 2", nil, nil, "value 5", nil, "value 7"]
         print(data == expected)
 
         data = []
-        data[safe: 2] = "value 3"
-        data[safe: 5] = "value 6"
-        expected = [nil, nil, "value 3", nil, nil, "value 6"]
-        print(data == expected)
-
-        data = []
-        data[safe: 2] = "value 3"
-        data[safe: 5] = "value 6"
-        data[safe: 0] = "value 1"
-        expected = ["value 1", nil, "value 3", nil, nil, "value 6"]
+        data[safe: 4] = "value 5"
+        data[safe: 1] = "value 2"
+        data[safe: 6] = "value 7"
+        data[safe: 4] = nil
+        data[safe: 6] = nil
+        expected = [nil, "value 2", nil, nil, nil, nil, nil]
         print(data == expected)
     }
 
@@ -83,16 +85,18 @@ import SwiftUI
         arrayMatrix[1, 3] = "r=1|c=3"
         arrayMatrix[2, 0] = "r=2|c=0"
         arrayMatrix[2, 2] = "r=2|c=2"
+        arrayMatrix[2, 3] = nil
         arrayMatrix[3, 1] = "r=3|c=1"
         arrayMatrix[3, 3] = "r=3|c=3"
         arrayMatrix[4, 0] = "r=4|c=0"
+        arrayMatrix[4, 1] = nil
 
         let expected: [[String?]] = [
             ["r=0|c=0",    nil   , "r=0|c=2",    nil   , "r=0|c=4"],
             [   nil   , "r=1|c=1",    nil   , "r=1|c=3",          ],
-            ["r=2|c=0",    nil   , "r=2|c=2",                     ],
+            ["r=2|c=0",    nil   , "r=2|c=2",    nil              ],
             [   nil   , "r=3|c=1",    nil   , "r=3|c=3",          ],
-            ["r=4|c=0",                                           ],
+            ["r=4|c=0",    nil                                    ],
         ]
 
         print(arrayMatrix.data == expected)
