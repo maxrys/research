@@ -18,25 +18,27 @@ extension Array {
             self.isTrimOn = isTrimOn
         }
 
-        subscript(x: Index, y: Index) -> Element? {
+        subscript(y: Index, x: Index) -> Element? {
             get {
-                self.data[safe: x]?[safe: y] ?? nil
+                self.data[safe: y]?[safe: x] ?? nil
             }
             set {
-                if (self.data[safe: x] == nil) { self.data[safe: x] = [] }
-                if (self.data[safe: x] != nil) { self.data[safe: x]![safe: y] = newValue }
+                if (self.data[safe: y] == nil) { self.data[safe: y] = [] }
+                if (self.data[safe: y] != nil) { self.data[safe: y]![safe: x] = newValue }
                 if (self.isTrimOn) {
-                    self.trim(x: x)
+                    self.trim(y: y)
                 }
             }
         }
 
-        private func trim(x: Index) {
-            if (self.data[safe: x] != nil) {
-                while (self.data[safe: x]!.count > 0 && self.data[safe: x]![self.data[safe: x]!.count-1] == nil) {
-                    self.data[safe: x]!.removeLast()
+        private func trim(y: Index) {
+            if (self.data[safe: y] != nil) {
+                while (self.data[safe: y]!.count > 0 &&
+                       self.data[safe: y]![self.data[safe: y]!.count-1] == nil) {
+                    self.data[safe: y]!.removeLast()
                 }
-                while (self.data.count > 0 && self.data[safe: self.data.count-1]?.count == 0) {
+                while (self.data.count > 0 &&
+                       self.data[safe: self.data.count-1]?.count == 0) {
                     self.data.removeLast()
                 }
             }
