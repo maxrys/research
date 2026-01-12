@@ -5,11 +5,11 @@
 
 class TestArray {
 
-    /* ####################### */
-    /* ### MARK: arraySafe ### */
-    /* ####################### */
+    /* ############################ */
+    /* ### MARK: arraySafeIndex ### */
+    /* ############################ */
 
-    static func test_arraySafe() {
+    static func test_arraySafeIndex() {
         var data    : [String?] = []
         var expected: [String?] = []
 
@@ -331,11 +331,11 @@ class TestArray {
         print(arrayMatrix.data == expected)
     }
 
-    /* #################### */
-    /* ### MARK: random ### */
-    /* #################### */
+    /* ######################### */
+    /* ### MARK: random seed ### */
+    /* ######################### */
 
-    static func test_arrayMatrix_random() {
+    static func test_arrayMatrix_randomSeed() {
         let arrayMatrix = Array<Int>.Matrix()
 
         for _ in 0 ... 0xffff {
@@ -348,7 +348,7 @@ class TestArray {
         print(true)
     }
 
-    static func test_arrayMatrix_random_isTrimOn() {
+    static func test_arrayMatrix_randomSeed_isTrimOn() {
         let arrayMatrix = Array<Int>.Matrix(isTrimOn: true)
 
         for _ in 0 ... 0xffff {

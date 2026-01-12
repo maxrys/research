@@ -13,11 +13,11 @@ import SwiftUI
     }
 
     init() {
-        print("### TEST_ARRAYSAFE:")                  ; TestArray.test_arraySafe()                  ; print("")
-        print("### TEST_ARRAYMATRIX:")                ; TestArray.test_arrayMatrix()                ; print("")
-        print("### TEST_ARRAYMATRIX_ISTRIMON:")       ; TestArray.test_arrayMatrix_isTrimOn()       ; print("")
-        print("### TEST_ARRAYMATRIX_RANDOM:")         ; TestArray.test_arrayMatrix_random()         ; print("")
-        print("### TEST_ARRAYMATRIX_RANDOM_ISTRIMON:"); TestArray.test_arrayMatrix_random_isTrimOn(); print("")
+        print("### ARRAY SAFE INDEX:")                     ; TestArray.test_arraySafeIndex()                 ; print("")
+        print("### ARRAY MATRIX:")                         ; TestArray.test_arrayMatrix()                    ; print("")
+        print("### ARRAY MATRIX (IS TRIM ON):")            ; TestArray.test_arrayMatrix_isTrimOn()           ; print("")
+        print("### ARRAY MATRIX RANDOM SEED:")             ; TestArray.test_arrayMatrix_randomSeed()         ; print("")
+        print("### ARRAY MATRIX RANDOM SEED (IS TRIM ON):"); TestArray.test_arrayMatrix_randomSeed_isTrimOn(); print("")
     }
 
 }
