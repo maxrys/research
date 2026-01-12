@@ -139,19 +139,22 @@ class TestArray {
 
         arrayMatrix = Array<String>.Matrix()
         arrayMatrix[0, 2] = nil
-        arrayMatrix[1, 1] = "1:1"
+        arrayMatrix[1, 2] = nil
+        arrayMatrix[2, 1] = "2:1"
         arrayMatrix[1, 2] = nil
         arrayMatrix[2, 2] = nil
+        arrayMatrix[3, 2] = nil
 
         expected = [
             [ nil ,  nil ,  nil ],
-            [ nil , "1:1",  nil ],
+            [ nil,   nil ,  nil ],
+            [ nil , "2:1",  nil ],
             [ nil,   nil ,  nil ],
         ]
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 2))
+        print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 3))
         print(arrayMatrix.data == expected)
     }
 
@@ -208,18 +211,21 @@ class TestArray {
 
         arrayMatrix = Array<String>.Matrix(isTrimOn: true)
         arrayMatrix[0, 2] = nil
-        arrayMatrix[1, 1] = "1:1"
+        arrayMatrix[1, 2] = nil
+        arrayMatrix[2, 1] = "2:1"
         arrayMatrix[1, 2] = nil
         arrayMatrix[2, 2] = nil
+        arrayMatrix[3, 2] = nil
 
         expected = [
               nil,
-            [ nil , "1:1"],
+            [            ],
+            [ nil , "2:1"],
         ]
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 1, minY: 0, maxY: 1))
+        print(arrayMatrix.bounds == (minX: 0, maxX: 1, minY: 0, maxY: 2))
         print(arrayMatrix.data == expected)
     }
 
