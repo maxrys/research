@@ -41,15 +41,12 @@ class TestArray {
         data[safe: 5] = "index:5"
         expected = [nil, "index:1", nil, "index:3", nil, "index:5"]
         print(data == expected)
-
         data[safe: 3] = nil
         expected = [nil, "index:1", nil, nil, nil, "index:5"]
         print(data == expected)
-
         data[safe: 5] = nil
         expected = [nil, "index:1", nil, nil, nil, nil]
         print(data == expected)
-
         data[safe: 1] = nil
         expected = [nil, nil, nil, nil, nil, nil]
         print(data == expected)

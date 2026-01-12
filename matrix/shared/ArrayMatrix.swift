@@ -23,11 +23,11 @@ extension Array {
 
         public var bounds: Bounds {
             var result: Bounds = (0, 0, 0, 0)
-            for (x, rows) in self.data.enumerated() {
-                result.maxY = Swift.max(result.maxY, x)
+            for (y, rows) in self.data.enumerated() {
+                result.maxY = Swift.max(result.maxY, y)
                 if let rows {
-                    for (y, _) in rows.enumerated() {
-                        result.maxX = Swift.max(result.maxX, y)
+                    for (x, _) in rows.enumerated() {
+                        result.maxX = Swift.max(result.maxX, x)
                     }
                 }
             }
@@ -46,21 +46,9 @@ extension Array {
                 if (self.data[safe: y] == nil) { self.data[safe: y] = [] }
                 if (self.data[safe: y] != nil) { self.data[safe: y]?[safe: x] = newValue }
                 if (self.isTrimOn) {
-                    self.trimByX(y: y)
-                    self.trimByY()
+                    while let row = self.data[safe: y], let value = row.last, value == nil               { self.data[y]?.removeLast() }
+                    while let row = self.data.last, row == nil || (row is Array && row?.isEmpty == true) { self.data    .removeLast() }
                 }
-            }
-        }
-
-        private func trimByX(y: Index) {
-            while let row = self.data[safe: y], let lastValue = row.last, lastValue == nil {
-                self.data[y]?.removeLast()
-            }
-        }
-
-        private func trimByY() {
-            while let rowLast = self.data.last, rowLast == nil || (rowLast is Array && rowLast?.isEmpty == true) {
-                self.data.removeLast()
             }
         }
 
