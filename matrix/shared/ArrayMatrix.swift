@@ -24,7 +24,7 @@ extension Array {
             }
             set {
                 if (self.data[safe: y] == nil) { self.data[safe: y] = [] }
-                if (self.data[safe: y] != nil) { self.data[safe: y]![safe: x] = newValue }
+                if (self.data[safe: y] != nil) { self.data[safe: y]?[safe: x] = newValue }
                 if (self.isTrimOn) {
                     self.trimByX(y: y)
                     self.trimByY()
