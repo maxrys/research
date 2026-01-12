@@ -20,7 +20,8 @@ extension Array {
 
         public let isTrimOn: Bool
 
-        public var bounds: Bounds {
+        public var bounds: Bounds? {
+            guard !self.data.isEmpty else { return nil }
             var result = Bounds(minY: 0, maxY: 0, minX: 0, maxX: 0)
             for (y, rows) in self.data.enumerated() {
                 result.maxY = Swift.max(result.maxY, y)

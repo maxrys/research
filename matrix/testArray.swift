@@ -73,12 +73,15 @@ class TestArray {
 
     static func test_arrayMatrix_forEach_bounds(source: Array<String>.Matrix) {
         print("")
-        let bounds = source.bounds
-        for y in bounds.minY ... bounds.maxY { print("y = \(y) | ", terminator: "")
-        for x in bounds.minX ... bounds.maxX {
-            if let value = source[y, x] { print("\(value) | ", terminator: "") }
-            else                        { print(     "nil | ", terminator: "") }
-        }; print(""); }
+        if let bounds = source.bounds {
+            for y in bounds.minY ... bounds.maxY { print("y = \(y) | ", terminator: "")
+            for x in bounds.minX ... bounds.maxX {
+                if let value = source[y, x] { print("\(value) | ", terminator: "") }
+                else                        { print(     "nil | ", terminator: "") }
+            }; print(""); }
+        } else {
+            print("no data")
+        }
         print("")
     }
 
@@ -327,7 +330,7 @@ class TestArray {
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 0, minX: 0, maxX: 0))
+        print(arrayMatrix.bounds == nil)
         print(arrayMatrix.data == expected)
     }
 

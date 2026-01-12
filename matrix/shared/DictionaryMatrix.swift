@@ -18,7 +18,8 @@ extension Dictionary {
             Key: [Key: Value]
         ] = [:]
 
-        public var bounds: Bounds {
+        public var bounds: Bounds? {
+            guard !self.data.isEmpty else { return nil }
             let anyMinY = self.data.keys.first              ?? 0
             let anyMinX = self.data.first?.value.first?.key ?? 0
             var result = Bounds(minY: anyMinY, maxY: 0, minX: anyMinX, maxX: 0)
