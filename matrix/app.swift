@@ -13,14 +13,14 @@ import SwiftUI
     }
 
     init() {
-        self.test_arraySafe()
-        self.test_arrayMatrix()
-        self.test_arrayMatrix_withHoles()
-        self.test_arrayMatrix_withHoles_isTrimOn()
-        self.test_arrayMatrix_bounds()
-        self.test_arrayMatrix_bounds_isTrimOn()
-        self.test_arrayMatrix_random()
-        self.test_arrayMatrix_random_isTrimOn()
+        print("### TEST_ARRAYSAFE:")                      ; self.test_arraySafe()                      ; print("")
+        print("### TEST_ARRAYMATRIX:")                    ; self.test_arrayMatrix()                    ; print("")
+        print("### TEST_ARRAYMATRIX_WITHHOLES:")          ; self.test_arrayMatrix_withHoles()          ; print("")
+        print("### TEST_ARRAYMATRIX_WITHHOLES_ISTRIMON:") ; self.test_arrayMatrix_withHoles_isTrimOn() ; print("")
+        print("### TEST_ARRAYMATRIX_BOUNDS:")             ; self.test_arrayMatrix_bounds()             ; print("")
+        print("### TEST_ARRAYMATRIX_BOUNDS_ISTRIMON:")    ; self.test_arrayMatrix_bounds_isTrimOn()    ; print("")
+        print("### TEST_ARRAYMATRIX_RANDOM:")             ; self.test_arrayMatrix_random()             ; print("")
+        print("### TEST_ARRAYMATRIX_RANDOM_ISTRIMON:")    ; self.test_arrayMatrix_random_isTrimOn()    ; print("")
     }
 
     /* ####################### */
@@ -67,17 +67,30 @@ import SwiftUI
     /* ### MARK: forEach ### */
     /* ##################### */
 
-    func test_arrayMatrix_forEach(data: Array<String>.Matrix) {
-        for (x, rows) in data.data.enumerated() {
-            print("x = \(x) | ", terminator: "")
+    func test_arrayMatrix_forEach(source: Array<String>.Matrix) {
+        print("")
+        for (y, rows) in source.data.enumerated() {
+            print("y = \(y) | ", terminator: "")
             if let rows {
-                for (_, col) in rows.enumerated() {
-                    if let col { print("\(col) | ", terminator: "") }
-                    else       { print(   "nil | ", terminator: "") }
+                for (_, value) in rows.enumerated() {
+                    if let value { print("\(value) | ", terminator: "") }
+                    else         { print(     "nil | ", terminator: "") }
                 }
             }
             print("")
         }
+        print("")
+    }
+
+    func test_arrayMatrix_forEach_bounds(source: Array<String>.Matrix) {
+        print("")
+        let bounds = source.bounds
+        for y in bounds.minY ... bounds.maxY { print("y = \(y) | ", terminator: "")
+        for x in bounds.minX ... bounds.maxX {
+            if let value = source[y, x] { print("\(value) | ", terminator: "") }
+            else                        { print(     "nil | ", terminator: "") }
+        }; print(""); }
+        print("")
     }
 
     /* ######################### */
@@ -131,7 +144,8 @@ import SwiftUI
             [ nil                            ]
         ]
 
-        self.test_arrayMatrix_forEach(data: arrayMatrix)
+        self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
     }
 
@@ -161,7 +175,8 @@ import SwiftUI
          /* [                                 ] */
         ]
 
-        self.test_arrayMatrix_forEach(data: arrayMatrix)
+        self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
     }
 
@@ -178,7 +193,8 @@ import SwiftUI
         expected = [
             [nil,  nil , nil,  nil , "0:4"],
         ]
-        self.test_arrayMatrix_forEach(data: arrayMatrix)
+        self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
         print(arrayMatrix.bounds == (minX: 0, maxX: 4, minY: 0, maxY: 0))
 
@@ -191,7 +207,8 @@ import SwiftUI
             nil,
             ["4:0"],
         ]
-        self.test_arrayMatrix_forEach(data: arrayMatrix)
+        self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
         print(arrayMatrix.bounds == (minX: 0, maxX: 0, minY: 0, maxY: 4))
 
@@ -204,7 +221,8 @@ import SwiftUI
              nil,
             [nil,  nil , nil,  nil , "4:4"],
         ]
-        self.test_arrayMatrix_forEach(data: arrayMatrix)
+        self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
         print(arrayMatrix.bounds == (minX: 0, maxX: 4, minY: 0, maxY: 4))
 
@@ -222,7 +240,8 @@ import SwiftUI
             [nil,  nil ,  nil,  nil,  nil],
             [nil,  nil ,  nil,  nil , nil],
         ]
-        self.test_arrayMatrix_forEach(data: arrayMatrix)
+        self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
         print(arrayMatrix.bounds == (minX: 0, maxX: 4, minY: 0, maxY: 4))
     }
@@ -236,7 +255,8 @@ import SwiftUI
         expected = [
             [nil,  nil , nil,  nil , "0:4"],
         ]
-        self.test_arrayMatrix_forEach(data: arrayMatrix)
+        self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
         print(arrayMatrix.bounds == (minX: 0, maxX: 4, minY: 0, maxY: 0))
 
@@ -249,7 +269,8 @@ import SwiftUI
             nil,
             ["4:0"],
         ]
-        self.test_arrayMatrix_forEach(data: arrayMatrix)
+        self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
         print(arrayMatrix.bounds == (minX: 0, maxX: 0, minY: 0, maxY: 4))
 
@@ -262,7 +283,8 @@ import SwiftUI
              nil,
             [nil,  nil , nil,  nil , "4:4"],
         ]
-        self.test_arrayMatrix_forEach(data: arrayMatrix)
+        self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
         print(arrayMatrix.bounds == (minX: 0, maxX: 4, minY: 0, maxY: 4))
 
@@ -278,7 +300,8 @@ import SwiftUI
              nil,
             [nil,  nil , "2:2"],
         ]
-        self.test_arrayMatrix_forEach(data: arrayMatrix)
+        self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
         print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 2))
     }
