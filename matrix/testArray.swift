@@ -19,29 +19,39 @@ class TestArray {
         print(data == expected)
 
         data = []
-        data[safe: 0] = "value 1"
-        expected = ["value 1"]
+        data[safe: 0] = "index:0"
+        expected = ["index:0"]
         print(data == expected)
 
         data = []
-        data[safe: 4] = "value 5"
-        expected = [nil, nil, nil, nil, "value 5"]
+        data[safe: 3] = "index:3"
+        expected = [nil, nil, nil, "index:3"]
         print(data == expected)
 
         data = []
-        data[safe: 4] = "value 5"
-        data[safe: 1] = "value 2"
-        data[safe: 6] = "value 7"
-        expected = [nil, "value 2", nil, nil, "value 5", nil, "value 7"]
+        data[safe: 3] = "index:3"
+        data[safe: 1] = "index:1"
+        data[safe: 5] = "index:5"
+        expected = [nil, "index:1", nil, "index:3", nil, "index:5"]
         print(data == expected)
 
         data = []
-        data[safe: 4] = "value 5"
-        data[safe: 1] = "value 2"
-        data[safe: 6] = "value 7"
-        data[safe: 4] = nil
-        data[safe: 6] = nil
-        expected = [nil, "value 2", nil, nil, nil, nil, nil]
+        data[safe: 3] = "index:3"
+        data[safe: 1] = "index:1"
+        data[safe: 5] = "index:5"
+        expected = [nil, "index:1", nil, "index:3", nil, "index:5"]
+        print(data == expected)
+
+        data[safe: 3] = nil
+        expected = [nil, "index:1", nil, nil, nil, "index:5"]
+        print(data == expected)
+
+        data[safe: 5] = nil
+        expected = [nil, "index:1", nil, nil, nil, nil]
+        print(data == expected)
+
+        data[safe: 1] = nil
+        expected = [nil, nil, nil, nil, nil, nil]
         print(data == expected)
     }
 
@@ -313,6 +323,5 @@ class TestArray {
             arrayMatrix[x, y] = value
         }
     }
-
 
 }
