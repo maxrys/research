@@ -46,10 +46,17 @@ extension Array {
                 if (self.data[safe: y] == nil) { self.data[safe: y] = [] }
                 if (self.data[safe: y] != nil) { self.data[safe: y]?[safe: x] = newValue }
                 if (self.isTrimOn) {
-                    while let row = self.data[safe: y], let value = row.last, value == nil               { self.data[y]?.removeLast() }
-                    while let row = self.data.last, row == nil || (row is Array && row?.isEmpty == true) { self.data    .removeLast() }
+                    /* trim "nil" in row: ["a", "b", "c" ... nil, nil, nil] */
+                    while let row = self.data[safe: y], let value = row.last, value == nil {
+                        self.data[y]?.removeLast()
+                    }
+                    /* empty array to "nil" in row: [] -> nil */
                     if let row = self.data[safe: y], row is Array && row.isEmpty == true {
                         self.data[y] = nil
+                    }
+                    /* trim "nil" in data: [ ["a", "b", "c"], ["d", "e", "f"] ... nil, nil, nil ] */
+                    while let row = self.data.last, row == nil || (row is Array && row?.isEmpty == true) {
+                        self.data.removeLast()
                     }
                 }
             }
