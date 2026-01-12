@@ -77,20 +77,43 @@ let arrayTuples = [
             print("\(key):\(value)")
         }
 
-        print( array[safe: 0] as Any )
-        print( array[safe: 1] as Any )
-        print( array[safe: 2] as Any )
-        print( array[safe: 3] as Any )
+        self.test_arraySafe()
+    }
 
-        arrayDynamic[safe: 0] = "value 1"
-        arrayDynamic[safe: 1] = "value 2"
-        arrayDynamic[safe: 5] = "value 6"
-        print( arrayDynamic )
-        arrayDynamic[safe: 0] = "value 1 (modified)"
-        arrayDynamic[safe: 1] = "value 2 (modified)"
-        arrayDynamic[safe: 5] = "value 6 (modified)"
-        print( arrayDynamic )
+    func test_arraySafe() {
+        var data    : [String?] = []
+        var expected: [String?] = []
 
+        data = []
+        data[safe: 0] = nil
+        expected = [nil]
+        print(data == expected)
+
+        data = []
+        data[safe: 0] = "value 1"
+        expected = ["value 1"]
+        print(data == expected)
+
+        data = []
+        data[safe: 4] = "value 5"
+        expected = [nil, nil, nil, nil, "value 5"]
+        print(data == expected)
+
+        data = []
+        data[safe: 4] = "value 5"
+        data[safe: 1] = "value 2"
+        data[safe: 6] = "value 7"
+        expected = [nil, "value 2", nil, nil, "value 5", nil, "value 7"]
+        print(data == expected)
+
+        data = []
+        data[safe: 4] = "value 5"
+        data[safe: 1] = "value 2"
+        data[safe: 6] = "value 7"
+        data[safe: 4] = nil
+        data[safe: 6] = nil
+        expected = [nil, "value 2", nil, nil, nil, nil, nil]
+        print(data == expected)
     }
 
 }

@@ -30,15 +30,21 @@ extension Array {
         }
     }
 
-    subscript(safe index: Index) -> Element? {
+    subscript<T>(safe index: Index) -> T? where Element == T? {
         get {
-            indices.contains(index) ? self[index] : nil
+            if (indices.contains(index))
+                 { return self[index] }
+            else { return nil }
         }
         set {
-            guard let newValue else { return }
             if      (index <  self.count) { self[index] = newValue }
             else if (index == self.count) { self.append(newValue) }
-            else if (index >  self.count) { /* do nothing */ }
+            else if (index >  self.count) {
+                for i in self.count ... index {
+                    if (i != index) { self.append(nil) }
+                    if (i == index) { self.append(newValue) }
+                }
+            }
         }
     }
 

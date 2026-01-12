@@ -26,21 +26,25 @@ extension Array {
                 if (self.data[safe: y] == nil) { self.data[safe: y] = [] }
                 if (self.data[safe: y] != nil) { self.data[safe: y]![safe: x] = newValue }
                 if (self.isTrimOn) {
-                    self.trim(y: y)
+                    self.trimByX(y: y)
+                    self.trimByY()
                 }
             }
         }
 
-        private func trim(y: Index) {
+        private func trimByX(y: Index) {
             if (self.data[safe: y] != nil) {
                 while (self.data[safe: y]!.count > 0 &&
                        self.data[safe: y]![self.data[safe: y]!.count-1] == nil) {
                     self.data[safe: y]!.removeLast()
                 }
-                while (self.data.count > 0 &&
-                       self.data[safe: self.data.count-1]?.count == 0) {
-                    self.data.removeLast()
-                }
+            }
+        }
+
+        private func trimByY() {
+            while (self.data.count > 0 &&
+                   self.data[safe: self.data.count-1]?.count == 0) {
+                self.data.removeLast()
             }
         }
 

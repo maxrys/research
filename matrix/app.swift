@@ -64,15 +64,15 @@ import SwiftUI
 
         for rowNum in 0 ..< rowCount {
         for colNum in 0 ..< colCount {
-            arrayMatrix[rowNum, colNum] = "y=\(rowNum)|x=\(colNum)"
+            arrayMatrix[rowNum, colNum] = "\(rowNum):\(colNum)"
         }}
 
         let expected: [[String?]] = [
-            ["y=0|x=0", "y=0|x=1", "y=0|x=2", "y=0|x=3", "y=0|x=4"],
-            ["y=1|x=0", "y=1|x=1", "y=1|x=2", "y=1|x=3", "y=1|x=4"],
-            ["y=2|x=0", "y=2|x=1", "y=2|x=2", "y=2|x=3", "y=2|x=4"],
-            ["y=3|x=0", "y=3|x=1", "y=3|x=2", "y=3|x=3", "y=3|x=4"],
-            ["y=4|x=0", "y=4|x=1", "y=4|x=2", "y=4|x=3", "y=4|x=4"],
+            ["0:0", "0:1", "0:2", "0:3", "0:4"],
+            ["1:0", "1:1", "1:2", "1:3", "1:4"],
+            ["2:0", "2:1", "2:2", "2:3", "2:4"],
+            ["3:0", "3:1", "3:2", "3:3", "3:4"],
+            ["4:0", "4:1", "4:2", "4:3", "4:4"],
         ]
 
         print(arrayMatrix.data == expected)
@@ -81,28 +81,39 @@ import SwiftUI
     func test_arrayMatrix_withHoles() {
         let arrayMatrix = Array<String>.Matrix()
 
-        arrayMatrix[0, 0] = "y=0|x=0"
-        arrayMatrix[0, 2] = "y=0|x=2"
-        arrayMatrix[0, 4] = "y=0|x=4"
-        arrayMatrix[1, 1] = "y=1|x=1"
-        arrayMatrix[1, 3] = "y=1|x=3"
-        arrayMatrix[2, 0] = "y=2|x=0"
-        arrayMatrix[2, 2] = "y=2|x=2"
+        arrayMatrix[0, 0] = "0:0"
+        arrayMatrix[0, 2] = "0:2"
+        arrayMatrix[0, 4] = "0:4"
+        arrayMatrix[1, 1] = "1:1"
+        arrayMatrix[1, 3] = "1:3"
+        arrayMatrix[2, 0] = "2:0"
+        arrayMatrix[2, 2] = "2:2"
         arrayMatrix[2, 3] = nil
-        arrayMatrix[3, 1] = "y=3|x=1"
-        arrayMatrix[3, 3] = "y=3|x=3"
-        arrayMatrix[4, 0] = "y=4|x=0"
+        arrayMatrix[3, 1] = "3:1"
+        arrayMatrix[3, 3] = "3:3"
+        arrayMatrix[4, 0] = "4:0"
         arrayMatrix[4, 1] = nil
         arrayMatrix[5, 0] = nil
 
         let expected: [[String?]] = [
-            ["y=0|x=0",    nil   , "y=0|x=2",    nil   , "y=0|x=4"],
-            [   nil   , "y=1|x=1",    nil   , "y=1|x=3",          ],
-            ["y=2|x=0",    nil   , "y=2|x=2",    nil              ],
-            [   nil   , "y=3|x=1",    nil   , "y=3|x=3",          ],
-            ["y=4|x=0",    nil                                    ],
-            [   nil   ,                                           ]
+            ["0:0",  nil , "0:2",  nil, "0:4"],
+            [ nil , "1:1",  nil , "1:3"      ],
+            ["2:0",  nil , "2:2",  nil       ],
+            [ nil , "3:1",  nil , "3:3"      ],
+            ["4:0",  nil                     ],
+            [ nil                            ]
         ]
+
+        for (x, rows) in arrayMatrix.data.enumerated() {
+            print("x = \(x) | ", terminator: "")
+            if let rows {
+                for (_, col) in rows.enumerated() {
+                    if let col { print("\(col) | ", terminator: "") }
+                    else       { print(   "nil | ", terminator: "") }
+                }
+            }
+            print("")
+        }
 
         print(arrayMatrix.data == expected)
     }
@@ -110,27 +121,38 @@ import SwiftUI
     func test_arrayMatrix_withHoles_isTrimOn() {
         let arrayMatrix = Array<String>.Matrix(isTrimOn: true)
 
-        arrayMatrix[0, 0] = "y=0|x=0"
-        arrayMatrix[0, 2] = "y=0|x=2"
-        arrayMatrix[0, 4] = "y=0|x=4"
-        arrayMatrix[1, 1] = "y=1|x=1"
-        arrayMatrix[1, 3] = "y=1|x=3"
-        arrayMatrix[2, 0] = "y=2|x=0"
-        arrayMatrix[2, 2] = "y=2|x=2"
+        arrayMatrix[0, 0] = "0:0"
+        arrayMatrix[0, 2] = "0:2"
+        arrayMatrix[0, 4] = "0:4"
+        arrayMatrix[1, 1] = "1:1"
+        arrayMatrix[1, 3] = "1:3"
+        arrayMatrix[2, 0] = "2:0"
+        arrayMatrix[2, 2] = "2:2"
         arrayMatrix[2, 3] = nil
-        arrayMatrix[3, 1] = "y=3|x=1"
-        arrayMatrix[3, 3] = "y=3|x=3"
-        arrayMatrix[4, 0] = "y=4|x=0"
+        arrayMatrix[3, 1] = "3:1"
+        arrayMatrix[3, 3] = "3:3"
+        arrayMatrix[4, 0] = "4:0"
         arrayMatrix[4, 1] = nil
         arrayMatrix[5, 0] = nil
 
         let expected: [[String?]] = [
-            ["y=0|x=0",    nil   , "y=0|x=2",    nil   , "y=0|x=4"],
-            [   nil   , "y=1|x=1",    nil   , "y=1|x=3",          ],
-            ["y=2|x=0",    nil   , "y=2|x=2",                     ],
-            [   nil   , "y=3|x=1",    nil   , "y=3|x=3",          ],
-            ["y=4|x=0",                                           ]
+            ["0:0",  nil , "0:2",  nil , "0:4"],
+            [ nil , "1:1",  nil , "1:3"       ],
+            ["2:0",  nil , "2:2"              ],
+            [ nil , "3:1",  nil , "3:3"       ],
+            ["4:0"                            ]
         ]
+
+        for (x, rows) in arrayMatrix.data.enumerated() {
+            print("x = \(x) | ", terminator: "")
+            if let rows {
+                for (_, col) in rows.enumerated() {
+                    if let col { print("\(col) | ", terminator: "") }
+                    else       { print(   "nil | ", terminator: "") }
+                }
+            }
+            print("")
+        }
 
         print(arrayMatrix.data == expected)
     }
