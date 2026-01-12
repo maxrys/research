@@ -146,10 +146,10 @@ class TestArray {
         arrayMatrix[3, 2] = nil
 
         expected = [
-            [ nil ,  nil ,  nil ],
-            [ nil,   nil ,  nil ],
-            [ nil , "2:1",  nil ],
-            [ nil,   nil ,  nil ],
+            [ nil,  nil ,  nil ],
+            [ nil,  nil ,  nil ],
+            [ nil, "2:1",  nil ],
+            [ nil,  nil ,  nil ],
         ]
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
@@ -164,7 +164,7 @@ class TestArray {
         expected = [
               nil,
               nil,
-            [ nil , "2:1" ],
+            [ nil, "2:1" ],
         ]
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
@@ -176,8 +176,8 @@ class TestArray {
         expected = [
               nil,
               nil,
-            [ nil , "2:1"        ],
-            [ nil ,  nil , "3:2" ],
+            [ nil, "2:1"        ],
+            [ nil,  nil , "3:2" ],
         ]
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
@@ -189,8 +189,8 @@ class TestArray {
         expected = [
               nil,
               nil,
-            [ nil , "2:1"      ],
-            [ nil ,  nil , nil ],
+            [ nil, "2:1"      ],
+            [ nil,  nil , nil ],
         ]
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
@@ -274,7 +274,7 @@ class TestArray {
         expected = [
               nil,
               nil,
-            [ nil , "2:1"],
+            [ nil, "2:1"],
         ]
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
@@ -289,7 +289,7 @@ class TestArray {
         expected = [
               nil,
               nil,
-            [ nil , "2:1" ],
+            [ nil, "2:1" ],
         ]
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
@@ -301,8 +301,8 @@ class TestArray {
         expected = [
               nil,
               nil,
-            [ nil , "2:1"        ],
-            [ nil ,  nil , "3:2" ],
+            [ nil, "2:1"        ],
+            [ nil,  nil , "3:2" ],
         ]
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
@@ -314,7 +314,7 @@ class TestArray {
         expected = [
               nil,
               nil,
-            [ nil , "2:1" ],
+            [ nil, "2:1" ],
         ]
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)

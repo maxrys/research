@@ -7,10 +7,6 @@ extension Array {
 
     final class Matrix {
 
-        typealias Value = [
-            [Element?]?
-        ]
-
         typealias Bounds = (
             minX: Index,
             maxX: Index,
@@ -18,7 +14,10 @@ extension Array {
             maxY: Index,
         )
 
-        public private(set) var data: Value = []
+        public private(set) var data: [
+            [Element?]?
+        ] = []
+
         public let isTrimOn: Bool
 
         public var bounds: Bounds {
