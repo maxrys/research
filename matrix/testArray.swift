@@ -104,33 +104,22 @@ class TestArray {
             ["4:0", "4:1", "4:2", "4:3", "4:4"],
         ]
 
+        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
     }
 
     static func test_arrayMatrix_withHoles() {
         let arrayMatrix = Array<String>.Matrix()
 
-        arrayMatrix[0, 0] = "0:0"
-        arrayMatrix[0, 2] = "0:2"
-        arrayMatrix[0, 4] = "0:4"
-        arrayMatrix[1, 1] = "1:1"
-        arrayMatrix[1, 3] = "1:3"
-        arrayMatrix[2, 0] = "2:0"
-        arrayMatrix[2, 2] = "2:2"
-        arrayMatrix[2, 3] = nil
-        arrayMatrix[3, 1] = "3:1"
-        arrayMatrix[3, 3] = "3:3"
-        arrayMatrix[4, 0] = "4:0"
-        arrayMatrix[4, 1] = nil
-        arrayMatrix[5, 0] = nil
+        arrayMatrix[0, 0] = "0:0"; arrayMatrix[0, 2] = nil;
+        arrayMatrix[1, 1] = "1:1"; arrayMatrix[1, 2] = nil;
+        arrayMatrix[2, 2] = nil;
 
         let expected: [[String?]?] = [
-            ["0:0",  nil , "0:2",  nil, "0:4"],
-            [ nil , "1:1",  nil , "1:3"      ],
-            ["2:0",  nil , "2:2",  nil       ],
-            [ nil , "3:1",  nil , "3:3"      ],
-            ["4:0",  nil                     ],
-            [ nil                            ]
+            ["0:0",  nil ,  nil ],
+            [ nil , "1:1",  nil ],
+            [ nil,   nil ,  nil ],
         ]
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
@@ -141,27 +130,13 @@ class TestArray {
     static func test_arrayMatrix_withHoles_isTrimOn() {
         let arrayMatrix = Array<String>.Matrix(isTrimOn: true)
 
-        arrayMatrix[0, 0] = "0:0"
-        arrayMatrix[0, 2] = "0:2"
-        arrayMatrix[0, 4] = "0:4"
-        arrayMatrix[1, 1] = "1:1"
-        arrayMatrix[1, 3] = "1:3"
-        arrayMatrix[2, 0] = "2:0"
-        arrayMatrix[2, 2] = "2:2"
-        arrayMatrix[2, 3] = nil
-        arrayMatrix[3, 1] = "3:1"
-        arrayMatrix[3, 3] = "3:3"
-        arrayMatrix[4, 0] = "4:0"
-        arrayMatrix[4, 1] = nil
-        arrayMatrix[5, 0] = nil
+        arrayMatrix[0, 0] = "0:0"; arrayMatrix[0, 2] = nil;
+        arrayMatrix[1, 1] = "1:1"; arrayMatrix[1, 2] = nil;
+        arrayMatrix[2, 2] = nil;
 
         let expected: [[String?]?] = [
-            ["0:0",  nil , "0:2",  nil , "0:4"],
-            [ nil , "1:1",  nil , "1:3"       ],
-            ["2:0",  nil , "2:2"  /* */       ],
-            [ nil , "3:1",  nil , "3:3"       ],
-            ["4:0"  /* */                     ],
-         /* [                                 ] */
+            ["0:0"       ],
+            [ nil , "1:1"],
         ]
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
