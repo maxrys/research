@@ -57,7 +57,7 @@ class TestDictionary {
         Self.test_dictMatrix_forEach       (source: dictMatrix)
         Self.test_dictMatrix_forEach_bounds(source: dictMatrix)
         print(dictMatrix.data == expected)
-        print(dictMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 2))
+        print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 2))
 
         /* ################################################################################ */
 
@@ -69,7 +69,7 @@ class TestDictionary {
         Self.test_dictMatrix_forEach       (source: dictMatrix)
         Self.test_dictMatrix_forEach_bounds(source: dictMatrix)
         print(dictMatrix.data == expected)
-        print(dictMatrix.bounds == (minX: 2, maxX: 2, minY: 0, maxY: 0))
+        print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 0, maxY: 0, minX: 2, maxX: 2))
 
         /* ################################################################################ */
 
@@ -81,7 +81,7 @@ class TestDictionary {
         Self.test_dictMatrix_forEach       (source: dictMatrix)
         Self.test_dictMatrix_forEach_bounds(source: dictMatrix)
         print(dictMatrix.data == expected)
-        print(dictMatrix.bounds == (minX: 0, maxX: 0, minY: 2, maxY: 2))
+        print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 0, maxX: 0))
 
         /* ################################################################################ */
 
@@ -94,7 +94,7 @@ class TestDictionary {
 
         Self.test_dictMatrix_forEach       (source: dictMatrix)
         Self.test_dictMatrix_forEach_bounds(source: dictMatrix)
-        print(dictMatrix.bounds == (minX: 1, maxX: 1, minY: 2, maxY: 2))
+        print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 1, maxX: 1))
         print(dictMatrix.data == expected)
 
         /* ################################################################################ */
@@ -107,7 +107,7 @@ class TestDictionary {
 
         Self.test_dictMatrix_forEach       (source: dictMatrix)
         Self.test_dictMatrix_forEach_bounds(source: dictMatrix)
-        print(dictMatrix.bounds == (minX: 1, maxX: 1, minY: 2, maxY: 2))
+        print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 1, maxX: 1))
         print(dictMatrix.data == expected)
 
         dictMatrix[3, 2] = "3:2"
@@ -118,7 +118,7 @@ class TestDictionary {
 
         Self.test_dictMatrix_forEach       (source: dictMatrix)
         Self.test_dictMatrix_forEach_bounds(source: dictMatrix)
-        print(dictMatrix.bounds == (minX: 1, maxX: 2, minY: 2, maxY: 3))
+        print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 3, minX: 1, maxX: 2))
         print(dictMatrix.data == expected)
 
         dictMatrix[3, 2] = nil
@@ -128,7 +128,7 @@ class TestDictionary {
 
         Self.test_dictMatrix_forEach       (source: dictMatrix)
         Self.test_dictMatrix_forEach_bounds(source: dictMatrix)
-        print(dictMatrix.bounds == (minX: 1, maxX: 1, minY: 2, maxY: 2))
+        print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 1, maxX: 1))
         print(dictMatrix.data == expected)
 
         dictMatrix[2, 1] = nil
@@ -136,7 +136,7 @@ class TestDictionary {
 
         Self.test_dictMatrix_forEach       (source: dictMatrix)
         Self.test_dictMatrix_forEach_bounds(source: dictMatrix)
-        print(dictMatrix.bounds == (minX: 0, maxX: 0, minY: 0, maxY: 0))
+        print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 0, maxY: 0, minX: 0, maxX: 0))
         print(dictMatrix.data == expected)
     }
 

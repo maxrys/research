@@ -7,21 +7,21 @@ extension Dictionary {
 
     final class Matrix where Key: UnsignedInteger & Comparable {
 
-        typealias Bounds = (
-            minX: Key,
-            maxX: Key,
-            minY: Key,
-            maxY: Key,
-        )
+        struct Bounds: Equatable {
+            var minY: Key
+            var maxY: Key
+            var minX: Key
+            var maxX: Key
+        }
 
         public private(set) var data: [
             Key: [Key: Value]
         ] = [:]
 
         public var bounds: Bounds {
-            let anyMinX = self.data.first?.value.first?.key ?? 0
             let anyMinY = self.data.keys.first              ?? 0
-            var result: Bounds = (anyMinX, 0, anyMinY, 0)
+            let anyMinX = self.data.first?.value.first?.key ?? 0
+            var result = Bounds(minY: anyMinY, maxY: 0, minX: anyMinX, maxX: 0)
             for (y, rows) in self.data {
                 result.minY = Swift.min(result.minY, y)
                 result.maxY = Swift.max(result.maxY, y)

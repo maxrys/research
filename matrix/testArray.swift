@@ -107,7 +107,7 @@ class TestArray {
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 2))
+        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 2))
 
         /* ################################################################################ */
 
@@ -119,7 +119,7 @@ class TestArray {
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 0))
+        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 0, minX: 0, maxX: 2))
 
         /* ################################################################################ */
 
@@ -133,7 +133,7 @@ class TestArray {
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 0, minY: 0, maxY: 2))
+        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 0))
 
         /* ################################################################################ */
 
@@ -154,7 +154,7 @@ class TestArray {
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 3))
+        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 3, minX: 0, maxX: 2))
         print(arrayMatrix.data == expected)
 
         /* ################################################################################ */
@@ -169,7 +169,7 @@ class TestArray {
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 1, minY: 0, maxY: 2))
+        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 1))
         print(arrayMatrix.data == expected)
 
         arrayMatrix[3, 2] = "3:2"
@@ -182,7 +182,7 @@ class TestArray {
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 3))
+        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 3, minX: 0, maxX: 2))
         print(arrayMatrix.data == expected)
 
         arrayMatrix[3, 2] = nil
@@ -195,7 +195,7 @@ class TestArray {
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 3))
+        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 3, minX: 0, maxX: 2))
         print(arrayMatrix.data == expected)
 
         arrayMatrix[2, 1] = nil
@@ -208,7 +208,7 @@ class TestArray {
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 3))
+        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 3, minX: 0, maxX: 2))
         print(arrayMatrix.data == expected)
     }
 
@@ -233,7 +233,7 @@ class TestArray {
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 2))
+        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 2))
 
         /* ################################################################################ */
 
@@ -245,7 +245,7 @@ class TestArray {
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 0))
+        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 0, minX: 0, maxX: 2))
 
         /* ################################################################################ */
 
@@ -259,7 +259,7 @@ class TestArray {
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.data == expected)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 0, minY: 0, maxY: 2))
+        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 0))
 
         /* ################################################################################ */
 
@@ -279,7 +279,7 @@ class TestArray {
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 1, minY: 0, maxY: 2))
+        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 1))
         print(arrayMatrix.data == expected)
 
         /* ################################################################################ */
@@ -294,7 +294,7 @@ class TestArray {
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 1, minY: 0, maxY: 2))
+        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 1))
         print(arrayMatrix.data == expected)
 
         arrayMatrix[3, 2] = "3:2"
@@ -307,7 +307,7 @@ class TestArray {
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 3))
+        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 3, minX: 0, maxX: 2))
         print(arrayMatrix.data == expected)
 
         arrayMatrix[3, 2] = nil
@@ -319,7 +319,7 @@ class TestArray {
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 1, minY: 0, maxY: 2))
+        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 1))
         print(arrayMatrix.data == expected)
 
         arrayMatrix[2, 1] = nil
@@ -327,7 +327,7 @@ class TestArray {
 
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == (minX: 0, maxX: 0, minY: 0, maxY: 0))
+        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 0, minX: 0, maxX: 0))
         print(arrayMatrix.data == expected)
     }
 

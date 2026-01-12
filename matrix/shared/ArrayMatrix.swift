@@ -7,12 +7,12 @@ extension Array {
 
     final class Matrix {
 
-        typealias Bounds = (
-            minX: Index,
-            maxX: Index,
-            minY: Index,
-            maxY: Index,
-        )
+        struct Bounds: Equatable {
+            var minY: Index
+            var maxY: Index
+            var minX: Index
+            var maxX: Index
+        }
 
         public private(set) var data: [
             [Element?]?
@@ -21,7 +21,7 @@ extension Array {
         public let isTrimOn: Bool
 
         public var bounds: Bounds {
-            var result: Bounds = (0, 0, 0, 0)
+            var result = Bounds(minY: 0, maxY: 0, minX: 0, maxX: 0)
             for (y, rows) in self.data.enumerated() {
                 result.maxY = Swift.max(result.maxY, y)
                 if let rows {
