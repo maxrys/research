@@ -219,7 +219,7 @@ class TestArray {
 
         expected = [
               nil,
-            [            ],
+              nil,
             [ nil , "2:1"],
         ]
 

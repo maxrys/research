@@ -48,6 +48,9 @@ extension Array {
                 if (self.isTrimOn) {
                     while let row = self.data[safe: y], let value = row.last, value == nil               { self.data[y]?.removeLast() }
                     while let row = self.data.last, row == nil || (row is Array && row?.isEmpty == true) { self.data    .removeLast() }
+                    if let row = self.data[safe: y], row is Array && row.isEmpty == true {
+                        self.data[y] = nil
+                    }
                 }
             }
         }
