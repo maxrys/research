@@ -13,14 +13,11 @@ import SwiftUI
     }
 
     init() {
-        print("### TEST_ARRAYSAFE:")                      ; TestArray.test_arraySafe()                      ; print("")
-        print("### TEST_ARRAYMATRIX:")                    ; TestArray.test_arrayMatrix()                    ; print("")
-        print("### TEST_ARRAYMATRIX_WITHHOLES:")          ; TestArray.test_arrayMatrix_withHoles()          ; print("")
-        print("### TEST_ARRAYMATRIX_WITHHOLES_ISTRIMON:") ; TestArray.test_arrayMatrix_withHoles_isTrimOn() ; print("")
-        print("### TEST_ARRAYMATRIX_BOUNDS:")             ; TestArray.test_arrayMatrix_bounds()             ; print("")
-        print("### TEST_ARRAYMATRIX_BOUNDS_ISTRIMON:")    ; TestArray.test_arrayMatrix_bounds_isTrimOn()    ; print("")
-        print("### TEST_ARRAYMATRIX_RANDOM:")             ; TestArray.test_arrayMatrix_random()             ; print("")
-        print("### TEST_ARRAYMATRIX_RANDOM_ISTRIMON:")    ; TestArray.test_arrayMatrix_random_isTrimOn()    ; print("")
+        print("### TEST_ARRAYSAFE:")                  ; TestArray.test_arraySafe()                  ; print("")
+        print("### TEST_ARRAYMATRIX:")                ; TestArray.test_arrayMatrix()                ; print("")
+        print("### TEST_ARRAYMATRIX_ISTRIMON:")       ; TestArray.test_arrayMatrix_isTrimOn()       ; print("")
+        print("### TEST_ARRAYMATRIX_RANDOM:")         ; TestArray.test_arrayMatrix_random()         ; print("")
+        print("### TEST_ARRAYMATRIX_RANDOM_ISTRIMON:"); TestArray.test_arrayMatrix_random_isTrimOn(); print("")
     }
 
 }
