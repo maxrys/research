@@ -17,6 +17,8 @@ import SwiftUI
         self.test_arrayMatrix()
         self.test_arrayMatrix_withHoles()
         self.test_arrayMatrix_withHoles_isTrimOn()
+        self.test_arrayMatrix_bounds()
+        self.test_arrayMatrix_bounds_isTrimOn()
         self.test_arrayMatrix_random()
         self.test_arrayMatrix_random_isTrimOn()
     }
@@ -55,6 +57,19 @@ import SwiftUI
         data[safe: 6] = nil
         expected = [nil, "value 2", nil, nil, nil, nil, nil]
         print(data == expected)
+    }
+
+    func test_arrayMatrix_for(data: Array<String>.Matrix) {
+        for (x, rows) in data.data.enumerated() {
+            print("x = \(x) | ", terminator: "")
+            if let rows {
+                for (_, col) in rows.enumerated() {
+                    if let col { print("\(col) | ", terminator: "") }
+                    else       { print(   "nil | ", terminator: "") }
+                }
+            }
+            print("")
+        }
     }
 
     func test_arrayMatrix() {
@@ -104,17 +119,7 @@ import SwiftUI
             [ nil                            ]
         ]
 
-        for (x, rows) in arrayMatrix.data.enumerated() {
-            print("x = \(x) | ", terminator: "")
-            if let rows {
-                for (_, col) in rows.enumerated() {
-                    if let col { print("\(col) | ", terminator: "") }
-                    else       { print(   "nil | ", terminator: "") }
-                }
-            }
-            print("")
-        }
-
+        self.test_arrayMatrix_for(data: arrayMatrix)
         print(arrayMatrix.data == expected)
     }
 
@@ -143,18 +148,14 @@ import SwiftUI
             ["4:0"                            ]
         ]
 
-        for (x, rows) in arrayMatrix.data.enumerated() {
-            print("x = \(x) | ", terminator: "")
-            if let rows {
-                for (_, col) in rows.enumerated() {
-                    if let col { print("\(col) | ", terminator: "") }
-                    else       { print(   "nil | ", terminator: "") }
-                }
-            }
-            print("")
-        }
-
+        self.test_arrayMatrix_for(data: arrayMatrix)
         print(arrayMatrix.data == expected)
+    }
+
+    func test_arrayMatrix_bounds() {
+    }
+
+    func test_arrayMatrix_bounds_isTrimOn() {
     }
 
     func test_arrayMatrix_random() {

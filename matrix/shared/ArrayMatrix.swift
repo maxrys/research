@@ -11,8 +11,28 @@ extension Array {
             [Element?]?
         ]
 
+        typealias Bounds = (
+            minX: Index,
+            maxX: Index,
+            minY: Index,
+            maxY: Index,
+        )
+
         public private(set) var data: Value = []
         public let isTrimOn: Bool
+
+        public var bounds: Bounds {
+            var result: Bounds = (0, 0, 0, 0)
+            for (x, rows) in self.data.enumerated() {
+                result.maxX = Swift.max(result.maxX, x)
+                if let rows {
+                    for (y, col) in rows.enumerated() {
+                        result.maxY = Swift.max(result.maxY, y)
+                    }
+                }
+            }
+            return result
+        }
 
         init(isTrimOn: Bool = false) {
             self.isTrimOn = isTrimOn
