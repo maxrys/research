@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		500895482DD9E62200414588 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500895472DD9E62200414588 /* Array.swift */; };
+		500A69A82F152EA500C3CCE7 /* testArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A69A72F152E9C00C3CCE7 /* testArray.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
 		50D23DED2F0FC06E00AA1400 /* ArrayMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D23DEB2F0FC06E00AA1400 /* ArrayMatrix.swift */; };
 		50D23DEE2F0FC06E00AA1400 /* DictionaryMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D23DEC2F0FC06E00AA1400 /* DictionaryMatrix.swift */; };
@@ -15,6 +16,7 @@
 
 /* Begin PBXFileReference section */
 		500895472DD9E62200414588 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		500A69A72F152E9C00C3CCE7 /* testArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testArray.swift; sourceTree = "<group>"; };
 		50993B682D33C4C900195667 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
@@ -39,6 +41,7 @@
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				50D23DE22F0FAF7200AA1400 /* shared */,
 				50993B6B2D33C4C900195667 /* app.swift */,
+				500A69A72F152E9C00C3CCE7 /* testArray.swift */,
 				50993B692D33C4C900195667 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -138,6 +141,7 @@
 				50D23DED2F0FC06E00AA1400 /* ArrayMatrix.swift in Sources */,
 				50D23DEE2F0FC06E00AA1400 /* DictionaryMatrix.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
+				500A69A82F152EA500C3CCE7 /* testArray.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
