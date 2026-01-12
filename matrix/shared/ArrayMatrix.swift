@@ -24,10 +24,10 @@ extension Array {
         public var bounds: Bounds {
             var result: Bounds = (0, 0, 0, 0)
             for (x, rows) in self.data.enumerated() {
-                result.maxX = Swift.max(result.maxX, x)
+                result.maxY = Swift.max(result.maxY, x)
                 if let rows {
-                    for (y, col) in rows.enumerated() {
-                        result.maxY = Swift.max(result.maxY, y)
+                    for (y, _) in rows.enumerated() {
+                        result.maxX = Swift.max(result.maxX, y)
                     }
                 }
             }
