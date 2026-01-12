@@ -33,7 +33,7 @@ extension Array {
         }
 
         private func trimByX(y: Index) {
-            while let row = self.data[safe: y], row.isEmpty == false, row.last! == nil {
+            while let row = self.data[safe: y], let lastValue = row.last, lastValue == nil {
                 self.data[y]?.removeLast()
             }
         }
