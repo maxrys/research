@@ -33,13 +33,13 @@ extension Array {
         }
 
         private func trimByX(y: Index) {
-            while let row = self.data[safe: y], !row.isEmpty, row.last! == nil {
-                self.data[y]!.removeLast()
+            while let row = self.data[safe: y], row.isEmpty == false, row.last! == nil {
+                self.data[y]?.removeLast()
             }
         }
 
         private func trimByY() {
-            while !self.data.isEmpty && self.data.last!?.isEmpty == true {
+            while let rowLast = self.data.last, rowLast?.isEmpty == true {
                 self.data.removeLast()
             }
         }
