@@ -156,6 +156,60 @@ class TestArray {
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 3))
         print(arrayMatrix.data == expected)
+
+        /* ################################################################################ */
+
+        arrayMatrix = Array<String>.Matrix()
+        arrayMatrix[2, 1] = "2:1"
+        expected = [
+              nil,
+              nil,
+            [ nil , "2:1" ],
+        ]
+
+        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        print(arrayMatrix.bounds == (minX: 0, maxX: 1, minY: 0, maxY: 2))
+        print(arrayMatrix.data == expected)
+
+        arrayMatrix[3, 2] = "3:2"
+        expected = [
+              nil,
+              nil,
+            [ nil , "2:1"        ],
+            [ nil ,  nil , "3:2" ],
+        ]
+
+        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 3))
+        print(arrayMatrix.data == expected)
+
+        arrayMatrix[3, 2] = nil
+        expected = [
+              nil,
+              nil,
+            [ nil , "2:1"      ],
+            [ nil ,  nil , nil ],
+        ]
+
+        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 3))
+        print(arrayMatrix.data == expected)
+
+        arrayMatrix[2, 1] = nil
+        expected = [
+              nil,
+              nil,
+            [ nil, nil      ],
+            [ nil, nil, nil ],
+        ]
+
+        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 3))
+        print(arrayMatrix.data == expected)
     }
 
     static func test_arrayMatrix_isTrimOn() {
@@ -226,6 +280,54 @@ class TestArray {
         Self.test_arrayMatrix_forEach       (source: arrayMatrix)
         Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
         print(arrayMatrix.bounds == (minX: 0, maxX: 1, minY: 0, maxY: 2))
+        print(arrayMatrix.data == expected)
+
+        /* ################################################################################ */
+
+        arrayMatrix = Array<String>.Matrix(isTrimOn: true)
+        arrayMatrix[2, 1] = "2:1"
+        expected = [
+              nil,
+              nil,
+            [ nil , "2:1" ],
+        ]
+
+        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        print(arrayMatrix.bounds == (minX: 0, maxX: 1, minY: 0, maxY: 2))
+        print(arrayMatrix.data == expected)
+
+        arrayMatrix[3, 2] = "3:2"
+        expected = [
+              nil,
+              nil,
+            [ nil , "2:1"        ],
+            [ nil ,  nil , "3:2" ],
+        ]
+
+        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        print(arrayMatrix.bounds == (minX: 0, maxX: 2, minY: 0, maxY: 3))
+        print(arrayMatrix.data == expected)
+
+        arrayMatrix[3, 2] = nil
+        expected = [
+              nil,
+              nil,
+            [ nil , "2:1" ],
+        ]
+
+        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        print(arrayMatrix.bounds == (minX: 0, maxX: 1, minY: 0, maxY: 2))
+        print(arrayMatrix.data == expected)
+
+        arrayMatrix[2, 1] = nil
+        expected = []
+
+        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        print(arrayMatrix.bounds == (minX: 0, maxX: 0, minY: 0, maxY: 0))
         print(arrayMatrix.data == expected)
     }
 
