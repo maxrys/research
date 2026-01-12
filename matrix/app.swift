@@ -274,8 +274,8 @@ import SwiftUI
         arrayMatrix[4, 4] = nil
         arrayMatrix[2, 2] = "2:2"
         expected = [
-            [nil,  nil ,  nil ],
-            [nil,  nil ,  nil ],
+             nil,
+             nil,
             [nil,  nil , "2:2"],
         ]
         self.test_arrayMatrix_forEach(data: arrayMatrix)

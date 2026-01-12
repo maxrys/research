@@ -59,7 +59,7 @@ extension Array {
         }
 
         private func trimByY() {
-            while let rowLast = self.data.last, rowLast?.isEmpty == true {
+            while let rowLast = self.data.last, rowLast == nil || (rowLast is Array && rowLast?.isEmpty == true) {
                 self.data.removeLast()
             }
         }
