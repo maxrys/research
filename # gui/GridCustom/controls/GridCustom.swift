@@ -100,52 +100,75 @@ struct GridCustom: View {
     }
 
     @ViewBuilder private var grid: some View {
-        switch self.gridType {
+        if let bounds = self.source.bounds {
 
-            case .stacks: /* MARK: HStack + VStack */
+            let colsCount = Int(bounds.maxX - bounds.minX + 1)
+            let rowsCount = Int(bounds.maxY - bounds.minY + 1)
 
-                VStack(spacing: self.cellSpacing) {
-                    ForEach(source.data.ordered(), id: \.key) { (rowNum, rows) in HStack(spacing: self.cellSpacing) {
-                    ForEach(rows       .ordered(), id: \.key) { (colNum, cell) in
-                        var cell = cell, _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
-                        AnyView(cell)
-                            .hoverBehavior(.zIndex(to: 1))
-                            .id(cell.ID)
-                    }}}
-                }.padding(self.cellSpacing)
+            switch self.gridType {
 
-            case .grid: /* MARK: Grid */
+                case .stacks: /* MARK: HStack + VStack */
 
-                Grid(alignment: .center, horizontalSpacing: self.cellSpacing, verticalSpacing: self.cellSpacing) {
-                    ForEach(source.data.ordered(), id: \.key) { (rowNum, rows) in GridRow {
-                    ForEach(rows       .ordered(), id: \.key) { (colNum, cell) in
-                        var cell = cell, _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
-                        AnyView(cell)
-                            .hoverBehavior(.zIndex(to: 1))
-                            .id(cell.ID)
-                    }}}
-                }.padding(self.cellSpacing)
+                    VStack(spacing: self.cellSpacing) {
+                        ForEach(0 ..< rowsCount, id: \.self) { rowNum in HStack(spacing: self.cellSpacing) {
+                        ForEach(0 ..< colsCount, id: \.self) { colNum in
+                            let rowNum = GridAxisIndex(rowNum)
+                            let colNum = GridAxisIndex(colNum)
+                            if var cell = self.source[rowNum, colNum] {
+                                let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
+                                AnyView(cell)
+                                    .hoverBehavior(.zIndex(to: 1))
+                                    .id(cell.ID)
+                            } else {
+                                Color.clear
+                                    .frame(width: self.cellSize, height: self.cellSize)
+                            }
+                        }}}
+                    }.padding(self.cellSpacing)
 
-            case .lazyVGrid: /* MARK: LazyVGrid */
+                case .grid: /* MARK: Grid */
 
-                if let bounds = self.source.bounds {
+                    Grid(alignment: .center, horizontalSpacing: self.cellSpacing, verticalSpacing: self.cellSpacing) {
+                        ForEach(0 ..< rowsCount, id: \.self) { rowNum in GridRow {
+                        ForEach(0 ..< colsCount, id: \.self) { colNum in
+                            let rowNum = GridAxisIndex(rowNum)
+                            let colNum = GridAxisIndex(colNum)
+                            if var cell = self.source[rowNum, colNum] {
+                                let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
+                                AnyView(cell)
+                                    .hoverBehavior(.zIndex(to: 1))
+                                    .id(cell.ID)
+                            } else {
+                                Color.clear
+                                    .frame(width: self.cellSize, height: self.cellSize)
+                            }
+                        }}}
+                    }.padding(self.cellSpacing)
 
-                    let colsCount = Int(bounds.maxX - bounds.minX + 1)
+                case .lazyVGrid: /* MARK: LazyVGrid */
                     let columns: [GridItem] = (0 ..< colsCount).map { _ in
                         GridItem(.fixed(self.cellSize), spacing: self.cellSpacing)
                     }
-
                     LazyVGrid(columns: columns, spacing: self.cellSpacing) {
-                        ForEach(source.data.ordered(), id: \.key) { (rowNum, rows) in
-                        ForEach(rows       .ordered(), id: \.key) { (colNum, cell) in
-                            var cell = cell, _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
-                            AnyView(cell)
-                                .id(cell.ID)
+                        ForEach(0 ..< rowsCount, id: \.self) { rowNum in
+                        ForEach(0 ..< colsCount, id: \.self) { colNum in
+                            let rowNum = GridAxisIndex(rowNum)
+                            let colNum = GridAxisIndex(colNum)
+                            if var cell = self.source[rowNum, colNum] {
+                                let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
+                                AnyView(cell)
+                                    .hoverBehavior(.zIndex(to: 1))
+                                    .id(cell.ID)
+                            } else {
+                                Color.clear
+                                    .frame(width: self.cellSize, height: self.cellSize)
+                            }
                         }}
                     }.padding(self.cellSpacing)
+            }
 
-                }
-
+        } else {
+            Text("no items")
         }
     }
 
