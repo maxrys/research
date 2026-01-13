@@ -19,10 +19,9 @@ extension Dictionary {
         ] = [:]
 
         public var bounds: Bounds? {
-            guard !self.data.isEmpty else { return nil }
-            let anyMinY = self.data.keys.first              ?? 0
-            let anyMinX = self.data.first?.value.first?.key ?? 0
-            var result = Bounds(minY: anyMinY, maxY: 0, minX: anyMinX, maxX: 0)
+            guard let firstMinY = self.data.first?.key              else { return nil }
+            guard let firstMinX = self.data.first?.value.first?.key else { return nil }
+            var result = Bounds(minY: firstMinY, maxY: 0, minX: firstMinX, maxX: 0)
             for (y, rows) in self.data {
                 result.minY = Swift.min(result.minY, y)
                 result.maxY = Swift.max(result.maxY, y)
