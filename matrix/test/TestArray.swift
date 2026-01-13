@@ -3,60 +3,62 @@
 /* ### Copyright © 2024—2026 Maxim Rysevets. All rights reserved. ### */
 /* ################################################################## */
 
-class TestArray {
+import Testing
+
+struct TestArray {
 
     /* ############################ */
     /* ### MARK: arraySafeIndex ### */
     /* ############################ */
 
-    static func test_arraySafeIndex() {
+    @Test func test_arraySafeIndex() async throws {
         var data    : [String?] = []
         var expected: [String?] = []
 
         data = []
         data[safe: 0] = nil
         expected = [nil]
-        print(data == expected)
+        #expect(data == expected)
 
         data = []
         data[safe: 0] = "index:0"
         expected = ["index:0"]
-        print(data == expected)
+        #expect(data == expected)
 
         data = []
         data[safe: 3] = "index:3"
         expected = [nil, nil, nil, "index:3"]
-        print(data == expected)
+        #expect(data == expected)
 
         data = []
         data[safe: 3] = "index:3"
         data[safe: 1] = "index:1"
         data[safe: 5] = "index:5"
         expected = [nil, "index:1", nil, "index:3", nil, "index:5"]
-        print(data == expected)
+        #expect(data == expected)
 
         data = []
         data[safe: 3] = "index:3"
         data[safe: 1] = "index:1"
         data[safe: 5] = "index:5"
         expected = [nil, "index:1", nil, "index:3", nil, "index:5"]
-        print(data == expected)
+        #expect(data == expected)
         data[safe: 3] = nil
         expected = [nil, "index:1", nil, nil, nil, "index:5"]
-        print(data == expected)
+        #expect(data == expected)
         data[safe: 5] = nil
         expected = [nil, "index:1", nil, nil, nil, nil]
-        print(data == expected)
+        #expect(data == expected)
         data[safe: 1] = nil
         expected = [nil, nil, nil, nil, nil, nil]
-        print(data == expected)
+        #expect(data == expected)
     }
 
     /* ##################### */
     /* ### MARK: forEach ### */
     /* ##################### */
 
-    static func test_arrayMatrix_forEach(source: Array<String>.Matrix) {
+    static func print_arrayMatrix_forEach(source: Array<String>.Matrix) {
         print("")
         for (y, rows) in source.data.enumerated() {
             print("y = \(y) | ", terminator: "")
@@ -71,7 +73,7 @@ class TestArray {
         print("")
     }
 
-    static func test_arrayMatrix_forEach_bounds(source: Array<String>.Matrix) {
+    static func print_arrayMatrix_forEach_bounds(source: Array<String>.Matrix) {
         print("")
         if let bounds = source.bounds {
             for y in bounds.minY ... bounds.maxY { print("y = \(y) | ", terminator: "")
@@ -89,7 +91,7 @@ class TestArray {
     /* ### MARK: arrayMatrix ### */
     /* ######################### */
 
-    static func test_arrayMatrix() {
+    @Test func test_arrayMatrix() async throws {
         var arrayMatrix: Array<String>.Matrix
         var expected: [[String?]?]
 
@@ -107,10 +109,10 @@ class TestArray {
             ["2:0", "2:1", "2:2"],
         ]
 
-        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
-        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.data == expected)
-        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 2))
+        Self.print_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        #expect(arrayMatrix.data == expected)
+        #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 2))
 
         /* ################################################################################ */
 
@@ -119,10 +121,10 @@ class TestArray {
         expected = [
             [nil, nil, "0:2"],
         ]
-        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
-        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.data == expected)
-        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 0, minX: 0, maxX: 2))
+        Self.print_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        #expect(arrayMatrix.data == expected)
+        #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 0, minX: 0, maxX: 2))
 
         /* ################################################################################ */
 
@@ -133,10 +135,10 @@ class TestArray {
               nil,
             ["2:0"],
         ]
-        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
-        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.data == expected)
-        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 0))
+        Self.print_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        #expect(arrayMatrix.data == expected)
+        #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 0))
 
         /* ################################################################################ */
 
@@ -155,10 +157,10 @@ class TestArray {
             [ nil,  nil ,  nil ],
         ]
 
-        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
-        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 3, minX: 0, maxX: 2))
-        print(arrayMatrix.data == expected)
+        Self.print_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 3, minX: 0, maxX: 2))
+        #expect(arrayMatrix.data == expected)
 
         /* ################################################################################ */
 
@@ -170,10 +172,10 @@ class TestArray {
             [ nil, "2:1" ],
         ]
 
-        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
-        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 1))
-        print(arrayMatrix.data == expected)
+        Self.print_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 1))
+        #expect(arrayMatrix.data == expected)
 
         arrayMatrix[3, 2] = "3:2"
         expected = [
@@ -183,10 +185,10 @@ class TestArray {
             [ nil,  nil , "3:2" ],
         ]
 
-        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
-        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 3, minX: 0, maxX: 2))
-        print(arrayMatrix.data == expected)
+        Self.print_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 3, minX: 0, maxX: 2))
+        #expect(arrayMatrix.data == expected)
 
         arrayMatrix[3, 2] = nil
         expected = [
@@ -196,10 +198,10 @@ class TestArray {
             [ nil,  nil , nil ],
         ]
 
-        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
-        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 3, minX: 0, maxX: 2))
-        print(arrayMatrix.data == expected)
+        Self.print_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 3, minX: 0, maxX: 2))
+        #expect(arrayMatrix.data == expected)
 
         arrayMatrix[2, 1] = nil
         expected = [
@@ -209,13 +211,14 @@ class TestArray {
             [ nil, nil, nil ],
         ]
 
-        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
-        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 3, minX: 0, maxX: 2))
-        print(arrayMatrix.data == expected)
+        Self.print_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 3, minX: 0, maxX: 2))
+        #expect(arrayMatrix.data == expected)
     }
 
-    static func test_arrayMatrix_isTrimOn() {
+    @Test func test_arrayMatrix_isTrimOn() async throws {
+
         var arrayMatrix: Array<String>.Matrix
         var expected: [[String?]?]
 
@@ -233,10 +236,10 @@ class TestArray {
             ["2:0", "2:1", "2:2"],
         ]
 
-        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
-        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.data == expected)
-        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 2))
+        Self.print_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        #expect(arrayMatrix.data == expected)
+        #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 2))
 
         /* ################################################################################ */
 
@@ -245,10 +248,10 @@ class TestArray {
         expected = [
             [nil, nil, "0:2"],
         ]
-        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
-        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.data == expected)
-        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 0, minX: 0, maxX: 2))
+        Self.print_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        #expect(arrayMatrix.data == expected)
+        #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 0, minX: 0, maxX: 2))
 
         /* ################################################################################ */
 
@@ -259,10 +262,10 @@ class TestArray {
               nil,
             ["2:0"],
         ]
-        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
-        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.data == expected)
-        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 0))
+        Self.print_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        #expect(arrayMatrix.data == expected)
+        #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 0))
 
         /* ################################################################################ */
 
@@ -280,10 +283,10 @@ class TestArray {
             [ nil, "2:1"],
         ]
 
-        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
-        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 1))
-        print(arrayMatrix.data == expected)
+        Self.print_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 1))
+        #expect(arrayMatrix.data == expected)
 
         /* ################################################################################ */
 
@@ -295,10 +298,10 @@ class TestArray {
             [ nil, "2:1" ],
         ]
 
-        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
-        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 1))
-        print(arrayMatrix.data == expected)
+        Self.print_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 1))
+        #expect(arrayMatrix.data == expected)
 
         arrayMatrix[3, 2] = "3:2"
         expected = [
@@ -308,10 +311,10 @@ class TestArray {
             [ nil,  nil , "3:2" ],
         ]
 
-        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
-        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 3, minX: 0, maxX: 2))
-        print(arrayMatrix.data == expected)
+        Self.print_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 3, minX: 0, maxX: 2))
+        #expect(arrayMatrix.data == expected)
 
         arrayMatrix[3, 2] = nil
         expected = [
@@ -320,25 +323,25 @@ class TestArray {
             [ nil, "2:1" ],
         ]
 
-        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
-        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 1))
-        print(arrayMatrix.data == expected)
+        Self.print_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 1))
+        #expect(arrayMatrix.data == expected)
 
         arrayMatrix[2, 1] = nil
         expected = []
 
-        Self.test_arrayMatrix_forEach       (source: arrayMatrix)
-        Self.test_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        print(arrayMatrix.bounds == nil)
-        print(arrayMatrix.data == expected)
+        Self.print_arrayMatrix_forEach       (source: arrayMatrix)
+        Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
+        #expect(arrayMatrix.bounds == nil)
+        #expect(arrayMatrix.data == expected)
     }
 
     /* ######################### */
     /* ### MARK: random seed ### */
     /* ######################### */
 
-    static func test_arrayMatrix_randomSeed() {
+    @Test func test_arrayMatrix_randomSeed() async throws {
         let arrayMatrix = Array<Int>.Matrix()
 
         for _ in 0 ... 0xffff {
@@ -347,11 +350,9 @@ class TestArray {
             let value = Bool.random() ? Int.random(in: 0 ... 0xff) : nil
             arrayMatrix[x, y] = value
         }
-
-        print(true)
     }
 
-    static func test_arrayMatrix_randomSeed_isTrimOn() {
+    @Test func test_arrayMatrix_randomSeed_isTrimOn() async throws {
         let arrayMatrix = Array<Int>.Matrix(isTrimOn: true)
 
         for _ in 0 ... 0xffff {
@@ -360,8 +361,6 @@ class TestArray {
             let value = Bool.random() ? Int.random(in: 0 ... 0xff) : nil
             arrayMatrix[x, y] = value
         }
-
-        print(true)
     }
 
 }

@@ -3,13 +3,15 @@
 /* ### Copyright © 2024—2026 Maxim Rysevets. All rights reserved. ### */
 /* ################################################################## */
 
-class TestDictionary {
+import Testing
+
+struct TestDictionary {
 
     /* ##################### */
     /* ### MARK: forEach ### */
     /* ##################### */
 
-    static func test_dictMatrix_forEach(source: Dictionary<UInt, String>.Matrix) {
+    static func print_dictMatrix_forEach(source: Dictionary<UInt, String>.Matrix) {
         print("")
         for (y, rows) in source.data.ordered() {
             print("y = \(y) | ", terminator: "")
@@ -21,7 +23,7 @@ class TestDictionary {
         print("")
     }
 
-    static func test_dictMatrix_forEach_bounds(source: Dictionary<UInt, String>.Matrix) {
+    static func print_dictMatrix_forEach_bounds(source: Dictionary<UInt, String>.Matrix) {
         print("")
         if let bounds = source.bounds {
             for y in bounds.minY ... bounds.maxY { print("y = \(y) | ", terminator: "")
@@ -35,11 +37,12 @@ class TestDictionary {
         print("")
     }
 
-    /* ############################## */
+    /* ######################## */
     /* ### MARK: dictMatrix ### */
-    /* ############################## */
+    /* ######################## */
 
-    static func test_dictMatrix() {
+    @Test func test_dictMatrix() async throws {
+
         var dictMatrix: Dictionary<UInt, String>.Matrix
         var expected: [UInt: [UInt: String]]
 
@@ -57,8 +60,8 @@ class TestDictionary {
             2: [0: "2:0", 1: "2:1", 2: "2:2"],
         ]
 
-        Self.test_dictMatrix_forEach       (source: dictMatrix)
-        Self.test_dictMatrix_forEach_bounds(source: dictMatrix)
+        Self.print_dictMatrix_forEach       (source: dictMatrix)
+        Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
         print(dictMatrix.data == expected)
         print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 2))
 
@@ -69,8 +72,8 @@ class TestDictionary {
         expected = [
             0: [2: "0:2"],
         ]
-        Self.test_dictMatrix_forEach       (source: dictMatrix)
-        Self.test_dictMatrix_forEach_bounds(source: dictMatrix)
+        Self.print_dictMatrix_forEach       (source: dictMatrix)
+        Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
         print(dictMatrix.data == expected)
         print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 0, maxY: 0, minX: 2, maxX: 2))
 
@@ -81,8 +84,8 @@ class TestDictionary {
         expected = [
             2: [0: "2:0"]
         ]
-        Self.test_dictMatrix_forEach       (source: dictMatrix)
-        Self.test_dictMatrix_forEach_bounds(source: dictMatrix)
+        Self.print_dictMatrix_forEach       (source: dictMatrix)
+        Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
         print(dictMatrix.data == expected)
         print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 0, maxX: 0))
 
@@ -95,8 +98,8 @@ class TestDictionary {
             2: [1: "2:1"]
         ]
 
-        Self.test_dictMatrix_forEach       (source: dictMatrix)
-        Self.test_dictMatrix_forEach_bounds(source: dictMatrix)
+        Self.print_dictMatrix_forEach       (source: dictMatrix)
+        Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
         print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 1, maxX: 1))
         print(dictMatrix.data == expected)
 
@@ -108,8 +111,8 @@ class TestDictionary {
             2: [1: "2:1"],
         ]
 
-        Self.test_dictMatrix_forEach       (source: dictMatrix)
-        Self.test_dictMatrix_forEach_bounds(source: dictMatrix)
+        Self.print_dictMatrix_forEach       (source: dictMatrix)
+        Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
         print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 1, maxX: 1))
         print(dictMatrix.data == expected)
 
@@ -119,8 +122,8 @@ class TestDictionary {
             3: [2: "3:2"],
         ]
 
-        Self.test_dictMatrix_forEach       (source: dictMatrix)
-        Self.test_dictMatrix_forEach_bounds(source: dictMatrix)
+        Self.print_dictMatrix_forEach       (source: dictMatrix)
+        Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
         print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 3, minX: 1, maxX: 2))
         print(dictMatrix.data == expected)
 
@@ -129,16 +132,16 @@ class TestDictionary {
             2: [1: "2:1"],
         ]
 
-        Self.test_dictMatrix_forEach       (source: dictMatrix)
-        Self.test_dictMatrix_forEach_bounds(source: dictMatrix)
+        Self.print_dictMatrix_forEach       (source: dictMatrix)
+        Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
         print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 1, maxX: 1))
         print(dictMatrix.data == expected)
 
         dictMatrix[2, 1] = nil
         expected = [:]
 
-        Self.test_dictMatrix_forEach       (source: dictMatrix)
-        Self.test_dictMatrix_forEach_bounds(source: dictMatrix)
+        Self.print_dictMatrix_forEach       (source: dictMatrix)
+        Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
         print(dictMatrix.bounds == nil)
         print(dictMatrix.data == expected)
     }
@@ -147,7 +150,7 @@ class TestDictionary {
     /* ### MARK: random seed ### */
     /* ######################### */
 
-    static func test_dictMatrix_randomSeed() {
+    @Test func test_dictMatrix_randomSeed() async throws {
         let dictMatrix = Dictionary<UInt, String>.Matrix()
 
         for _ in 0 ... 0xffff {
