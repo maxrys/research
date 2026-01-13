@@ -11,30 +11,37 @@ import SwiftUI
         Window("Main", id: "main") {
 
             TabView {
-                Tab("CustomGrid:stacks"   , systemImage: "3.square.fill") { self.gridCustom(gridType: .stacks) }
-                Tab("CustomGrid:grid"     , systemImage: "1.square.fill") { self.gridCustom(gridType: .grid) }
-                Tab("CustomGrid:lazyVGrid", systemImage: "2.square.fill") { self.gridCustom(gridType: .lazyVGrid) }
+                Tab("empty"    , systemImage: "1.square.fill") { self.gridCustom(bounds: .init(minY: 0, maxY: 0, minX: 0, maxX: 0)) }
+                Tab("single"   , systemImage: "2.square.fill") { self.gridCustom(bounds: .init(minY: 3, maxY: 3, minX: 4, maxX: 4)) }
+                Tab("sparse"   , systemImage: "3.square.fill") { self.gridCustom(isSparse: true) }
+                Tab("Stacks"   , systemImage: "4.square.fill") { self.gridCustom(gridType: .stacks) }
+                Tab("Grid"     , systemImage: "5.square.fill") { self.gridCustom(gridType: .grid) }
+                Tab("LazyVGrid", systemImage: "6.square.fill") { self.gridCustom(gridType: .lazyVGrid) }
             }
 
         }.windowResizability(.contentSize)
     }
 
-    @ViewBuilder func gridCustom(gridType: GridCustom.GridType) -> some View {
-        let colsCount = 30
-        let rowsCount = 30
+    @ViewBuilder func gridCustom(
+        bounds: GridCustom.DataSourceBounds = .init(minY: 0, maxY: 30, minX: 0, maxX: 30),
+        isSparse: Bool = false,
+        gridType: GridCustom.GridType = .grid
+    ) -> some View {
         let cellSize: CGFloat = 50
         let cellSpacing: CGFloat = 2
         let source: GridCustom.DataSource = {
             let result = GridCustom.DataSource()
-            for rowNum in 0 ..< rowsCount {
-            for colNum in 0 ..< colsCount {
-                let rowNum = GridAxisIndex(rowNum)
-                let colNum = GridAxisIndex(colNum)
-                result[rowNum, colNum] = Cell(
-                    ID: CellID(rowNum: rowNum, colNum: colNum).value,
-                    size: cellSize,
-                    isVisible: false
-                )
+            for rowNum in bounds.minY ... bounds.maxY {
+            for colNum in bounds.minX ... bounds.maxX {
+                if (isSparse == false || (isSparse == true && Bool.random())) {
+                    let rowNum = GridAxisIndex(rowNum)
+                    let colNum = GridAxisIndex(colNum)
+                    result[rowNum, colNum] = Cell(
+                        ID: CellID(rowNum: rowNum, colNum: colNum).value,
+                        size: cellSize,
+                        isVisible: false
+                    )
+                }
             }}
             return result
         }()
