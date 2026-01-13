@@ -7,8 +7,6 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
-    @State private var selectedTab = 0
-
     var body: some Scene {
         Window("Main", id: "main") {
 

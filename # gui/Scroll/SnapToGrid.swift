@@ -17,19 +17,16 @@ struct SnapToGrid: View {
     var body: some View {
         ScrollView([.horizontal, .vertical]) {
             VStack(spacing: self.iconSpacing) {
-                ForEach(0 ..< Self.GRID_ROWS, id: \.self) { rowNum in
-                    HStack(spacing: self.iconSpacing) {
-                        ForEach(0 ..< Self.GRID_COLS, id: \.self) { colNum in
-                            let id = rowNum * Self.GRID_COLS + colNum
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(.blue)
-                                .frame(width: self.iconSize, height: self.iconSize)
-                                .overlay(
-                                    Text("\(id)").foregroundColor(.white)
-                                )
-                        }
-                    }
-                }
+                ForEach(0 ..< Self.GRID_ROWS, id: \.self) { rowNum in HStack(spacing: self.iconSpacing) {
+                ForEach(0 ..< Self.GRID_COLS, id: \.self) { colNum in
+                    let id = rowNum * Self.GRID_COLS + colNum
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(.blue)
+                        .frame(width: self.iconSize, height: self.iconSize)
+                        .overlay(
+                            Text("\(id)").foregroundColor(.white)
+                        )
+                }}}
             }
         }
         .padding(self.iconSpacing)
