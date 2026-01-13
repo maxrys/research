@@ -55,20 +55,22 @@ struct GridCustom: View {
 
     private var cellBounds: [CellID.Value: CGRect] {
         var result: [CellID.Value: CGRect] = [:]
-        for (rowNum, rows) in self.source.data {
-        for (colNum, _) in rows {
-            let cellID = CellID(rowNum: rowNum, colNum: colNum).value
-            let colNum = CGFloat(colNum)
-            let rowNum = CGFloat(rowNum)
-            let cellFrameMinX = (self.cellSize * colNum) + (self.cellSpacing * (colNum + 1))
-            let cellFrameMinY = (self.cellSize * rowNum) + (self.cellSpacing * (rowNum + 1))
-            result[cellID] = CGRect(
-                x     : cellFrameMinX,
-                y     : cellFrameMinY,
-                width : self.cellSize,
-                height: self.cellSize
-            )
-        }}
+        if let bounds = self.source.bounds {
+            for rowNum in bounds.minY ... bounds.maxY {
+            for colNum in bounds.minX ... bounds.maxX {
+                let cellID = CellID(rowNum: rowNum, colNum: colNum).value
+                let colNum = CGFloat(colNum)
+                let rowNum = CGFloat(rowNum)
+                let cellFrameMinX = (self.cellSize * colNum) + (self.cellSpacing * (colNum + 1))
+                let cellFrameMinY = (self.cellSize * rowNum) + (self.cellSpacing * (rowNum + 1))
+                result[cellID] = CGRect(
+                    x     : cellFrameMinX,
+                    y     : cellFrameMinY,
+                    width : self.cellSize,
+                    height: self.cellSize
+                )
+            }}
+        }
         return result
     }
 
@@ -154,7 +156,6 @@ struct GridCustom: View {
                             if var cell = self.source[rowNum, colNum] {
                                 let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
                                 AnyView(cell)
-                                    .hoverBehavior(.zIndex(to: 1))
                                     .id(cell.ID)
                             } else {
                                 Color.clear
@@ -231,8 +232,9 @@ struct GridCustom: View {
         for colNum in 0 ..< colsCount {
             let rowNum = GridAxisIndex(rowNum)
             let colNum = GridAxisIndex(colNum)
+            let cellID = CellID(rowNum: rowNum, colNum: colNum).value
             result[rowNum, colNum] = Cell(
-                ID: CellID(rowNum: rowNum, colNum: colNum).value,
+                ID: cellID,
                 size: cellSize,
                 isVisible: false
             )

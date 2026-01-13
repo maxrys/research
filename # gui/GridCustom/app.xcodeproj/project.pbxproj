@@ -76,12 +76,12 @@
 		50CE724E2EEAFF1F00FE3282 /* shared */ = {
 			isa = PBXGroup;
 			children = (
+				50CE72492EEAFC4500FE3282 /* types.swift */,
 				502E60E72F0F038F00BFA95E /* CellID.swift */,
 				500A69AD2F16419900C3CCE7 /* Dictionary.swift */,
 				500A69AE2F16419900C3CCE7 /* DictionaryMatrix.swift */,
 				502E60E52F0EF7FE00BFA95E /* Numeric.swift */,
 				50CE72512EEB01EC00FE3282 /* Timer.swift */,
-				50CE72492EEAFC4500FE3282 /* types.swift */,
 				502E60E92F0F045F00BFA95E /* View.swift */,
 			);
 			path = shared;
