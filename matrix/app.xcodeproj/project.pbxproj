@@ -63,8 +63,8 @@
 			isa = PBXGroup;
 			children = (
 				500895472DD9E62200414588 /* Array.swift */,
-				500A69AB2F163D2C00C3CCE7 /* Dictionary.swift */,
 				50D23DEB2F0FC06E00AA1400 /* ArrayMatrix.swift */,
+				500A69AB2F163D2C00C3CCE7 /* Dictionary.swift */,
 				50D23DEC2F0FC06E00AA1400 /* DictionaryMatrix.swift */,
 			);
 			path = shared;
