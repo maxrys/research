@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		500A69AF2F16419900C3CCE7 /* DictionaryMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A69AE2F16419900C3CCE7 /* DictionaryMatrix.swift */; };
+		500A69B02F16419900C3CCE7 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A69AD2F16419900C3CCE7 /* Dictionary.swift */; };
 		502E60E62F0EF7FE00BFA95E /* Numeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502E60E52F0EF7FE00BFA95E /* Numeric.swift */; };
 		502E60E82F0F038F00BFA95E /* CellID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502E60E72F0F038F00BFA95E /* CellID.swift */; };
 		502E60EA2F0F045F00BFA95E /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502E60E92F0F045F00BFA95E /* View.swift */; };
@@ -18,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		500A69AD2F16419900C3CCE7 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
+		500A69AE2F16419900C3CCE7 /* DictionaryMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryMatrix.swift; sourceTree = "<group>"; };
 		502E60E52F0EF7FE00BFA95E /* Numeric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numeric.swift; sourceTree = "<group>"; };
 		502E60E72F0F038F00BFA95E /* CellID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellID.swift; sourceTree = "<group>"; };
 		502E60E92F0F045F00BFA95E /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -72,10 +76,12 @@
 		50CE724E2EEAFF1F00FE3282 /* shared */ = {
 			isa = PBXGroup;
 			children = (
-				50CE72492EEAFC4500FE3282 /* types.swift */,
 				502E60E72F0F038F00BFA95E /* CellID.swift */,
-				50CE72512EEB01EC00FE3282 /* Timer.swift */,
+				500A69AD2F16419900C3CCE7 /* Dictionary.swift */,
+				500A69AE2F16419900C3CCE7 /* DictionaryMatrix.swift */,
 				502E60E52F0EF7FE00BFA95E /* Numeric.swift */,
+				50CE72512EEB01EC00FE3282 /* Timer.swift */,
+				50CE72492EEAFC4500FE3282 /* types.swift */,
 				502E60E92F0F045F00BFA95E /* View.swift */,
 			);
 			path = shared;
@@ -111,7 +117,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					50993B672D33C4C900195667 = {
 						CreatedOnToolsVersion = 16.2;
@@ -161,6 +167,8 @@
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				50CE724A2EEAFC4500FE3282 /* types.swift in Sources */,
 				50CE72472EEADC1600FE3282 /* GridCustom.swift in Sources */,
+				500A69AF2F16419900C3CCE7 /* DictionaryMatrix.swift in Sources */,
+				500A69B02F16419900C3CCE7 /* Dictionary.swift in Sources */,
 				502E60E82F0F038F00BFA95E /* CellID.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -202,7 +210,9 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 97CZR6J379;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -226,6 +236,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -265,7 +276,9 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 97CZR6J379;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -282,6 +295,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -296,10 +310,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 97CZR6J379;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GCC_OPTIMIZATION_LEVEL = s;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -311,7 +328,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = maxrys.research;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -325,10 +342,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 97CZR6J379;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -340,7 +359,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = maxrys.research;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};

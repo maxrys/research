@@ -4,4 +4,3 @@
 /* ############################################################# */
 
 typealias GridAxisIndex = UInt8
-typealias GridCellsByAxisCount = UInt8

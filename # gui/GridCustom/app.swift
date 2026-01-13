@@ -20,18 +20,18 @@ import SwiftUI
     }
 
     @ViewBuilder func gridCustom(gridType: GridCustom.GridType) -> some View {
-        let colsCount: GridCellsByAxisCount = 30
-        let rowsCount: GridCellsByAxisCount = 30
+        let colsCount = 30
+        let rowsCount = 30
         let cellSize: CGFloat = 50
         let cellSpacing: CGFloat = 2
         let source: GridCustom.DataSource = {
-            var result: GridCustom.DataSource = [:]
+            let result = GridCustom.DataSource()
             for rowNum in 0 ..< rowsCount {
             for colNum in 0 ..< colsCount {
-                if (result[rowNum] == nil) { result[rowNum] = [:] }
-                let cellID = CellID(rowNum: rowNum, colNum: colNum).value
-                result[rowNum]![colNum] = Cell(
-                    ID: cellID,
+                let rowNum = GridAxisIndex(rowNum)
+                let colNum = GridAxisIndex(colNum)
+                result[rowNum, colNum] = Cell(
+                    ID: CellID(rowNum: rowNum, colNum: colNum).value,
                     size: cellSize,
                     isVisible: false
                 )
