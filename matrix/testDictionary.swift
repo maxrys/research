@@ -11,9 +11,9 @@ class TestDictionary {
 
     static func test_dictMatrix_forEach(source: Dictionary<UInt, String>.Matrix) {
         print("")
-        for (y, rows) in source.data {
+        for (y, rows) in source.data.ordered() {
             print("y = \(y) | ", terminator: "")
-            for (_, value) in rows {
+            for (_, value) in rows.ordered() {
                 print("\(value) | ", terminator: "")
             }
             print("")
