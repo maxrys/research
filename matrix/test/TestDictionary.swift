@@ -62,8 +62,8 @@ struct TestDictionary {
 
         Self.print_dictMatrix_forEach       (source: dictMatrix)
         Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
-        print(dictMatrix.data == expected)
-        print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 2))
+        #expect(dictMatrix.data == expected)
+        #expect(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 2))
 
         /* ################################################################################ */
 
@@ -74,8 +74,8 @@ struct TestDictionary {
         ]
         Self.print_dictMatrix_forEach       (source: dictMatrix)
         Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
-        print(dictMatrix.data == expected)
-        print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 0, maxY: 0, minX: 2, maxX: 2))
+        #expect(dictMatrix.data == expected)
+        #expect(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 0, maxY: 0, minX: 2, maxX: 2))
 
         /* ################################################################################ */
 
@@ -86,8 +86,8 @@ struct TestDictionary {
         ]
         Self.print_dictMatrix_forEach       (source: dictMatrix)
         Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
-        print(dictMatrix.data == expected)
-        print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 0, maxX: 0))
+        #expect(dictMatrix.data == expected)
+        #expect(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 0, maxX: 0))
 
         /* ################################################################################ */
 
@@ -100,8 +100,8 @@ struct TestDictionary {
 
         Self.print_dictMatrix_forEach       (source: dictMatrix)
         Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
-        print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 1, maxX: 1))
-        print(dictMatrix.data == expected)
+        #expect(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 1, maxX: 1))
+        #expect(dictMatrix.data == expected)
 
         /* ################################################################################ */
 
@@ -113,8 +113,8 @@ struct TestDictionary {
 
         Self.print_dictMatrix_forEach       (source: dictMatrix)
         Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
-        print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 1, maxX: 1))
-        print(dictMatrix.data == expected)
+        #expect(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 1, maxX: 1))
+        #expect(dictMatrix.data == expected)
 
         dictMatrix[3, 2] = "3:2"
         expected = [
@@ -124,8 +124,8 @@ struct TestDictionary {
 
         Self.print_dictMatrix_forEach       (source: dictMatrix)
         Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
-        print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 3, minX: 1, maxX: 2))
-        print(dictMatrix.data == expected)
+        #expect(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 3, minX: 1, maxX: 2))
+        #expect(dictMatrix.data == expected)
 
         dictMatrix[3, 2] = nil
         expected = [
@@ -134,16 +134,16 @@ struct TestDictionary {
 
         Self.print_dictMatrix_forEach       (source: dictMatrix)
         Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
-        print(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 1, maxX: 1))
-        print(dictMatrix.data == expected)
+        #expect(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 1, maxX: 1))
+        #expect(dictMatrix.data == expected)
 
         dictMatrix[2, 1] = nil
         expected = [:]
 
         Self.print_dictMatrix_forEach       (source: dictMatrix)
         Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
-        print(dictMatrix.bounds == nil)
-        print(dictMatrix.data == expected)
+        #expect(dictMatrix.bounds == nil)
+        #expect(dictMatrix.data == expected)
     }
 
     /* ######################### */
@@ -160,7 +160,7 @@ struct TestDictionary {
             dictMatrix[x, y] = value
         }
 
-        print(true)
+        #expect(true)
     }
 
 }

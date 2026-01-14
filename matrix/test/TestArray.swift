@@ -350,6 +350,8 @@ struct TestArray {
             let value = Bool.random() ? Int.random(in: 0 ... 0xff) : nil
             arrayMatrix[x, y] = value
         }
+
+        #expect(true)
     }
 
     @Test func test_arrayMatrix_randomSeed_isTrimOn() async throws {
@@ -361,6 +363,8 @@ struct TestArray {
             let value = Bool.random() ? Int.random(in: 0 ... 0xff) : nil
             arrayMatrix[x, y] = value
         }
+
+        #expect(true)
     }
 
 }
