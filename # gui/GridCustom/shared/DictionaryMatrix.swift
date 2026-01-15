@@ -18,10 +18,19 @@ extension Dictionary {
             Key: [Key: Value]
         ] = [:]
 
+        public var isEmpty: Bool {
+            return (self.data.first?.value.first?.key) == nil
+        }
+
         public var bounds: Bounds? {
-            guard let firstMinY = self.data.first?.key              else { return nil }
-            guard let firstMinX = self.data.first?.value.first?.key else { return nil }
-            var result = Bounds(minY: firstMinY, maxY: 0, minX: firstMinX, maxX: 0)
+            guard let firstY = self.data.first?             .key else { return nil }
+            guard let firstX = self.data.first?.value.first?.key else { return nil }
+            var result = Self.Bounds(
+                minY: firstY,
+                maxY: firstY,
+                minX: firstX,
+                maxX: firstX
+            )
             for (y, rows) in self.data {
                 result.minY = Swift.min(result.minY, y)
                 result.maxY = Swift.max(result.maxY, y)
