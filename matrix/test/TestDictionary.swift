@@ -4,6 +4,7 @@
 /* ################################################################## */
 
 import Testing
+import Foundation
 
 struct TestDictionary {
 
@@ -151,15 +152,19 @@ struct TestDictionary {
     /* ######################### */
 
     @Test func test_dictMatrix_randomSeed() async throws {
+        let count = 0xfffff
         let dictMatrix = Dictionary<UInt, String>.Matrix()
+        let time0 = Date()
 
-        for _ in 0 ... 0xffff {
+        for _ in 0 ... count {
             let x = UInt.random(in: 0 ... 0xff)
             let y = UInt.random(in: 0 ... 0xff)
             let value = Bool.random() ? "\(UInt.random(in: 0 ... 0xff))" : nil
             dictMatrix[x, y] = value
         }
 
+        let time1 = Date()
+        print("Speed: \(count) iterations per \(time1.timeIntervalSince(time0)) seconds")
         #expect(true)
     }
 
