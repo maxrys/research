@@ -14,7 +14,7 @@ struct TestDictionary {
 
     static func print_dictMatrix_forEach(source: Dictionary<UInt, String>.Matrix) {
         print("")
-        for (y, rows) in source.data.ordered() {
+        for (y, rows) in source.matrix.ordered() {
             print("y = \(y) | ", terminator: "")
             for (_, value) in rows.ordered() {
                 print("\(value) | ", terminator: "")
@@ -45,14 +45,17 @@ struct TestDictionary {
     @Test func test_dictMatrix() async throws {
 
         var dictMatrix: Dictionary<UInt, String>.Matrix
-        var expected: [UInt: [UInt: String]]
+        var expected: [Matrix2dKey.Index: [Matrix2dKey.Index: String]]
 
         /* ################################################################################ */
 
         dictMatrix = Dictionary<UInt, String>.Matrix()
         for rowNum in 0 ..< 3 {
         for colNum in 0 ..< 3 {
-            dictMatrix[UInt(rowNum), UInt(colNum)] = "\(rowNum):\(colNum)"
+            dictMatrix[
+                Matrix2dKey.Index(rowNum),
+                Matrix2dKey.Index(colNum)
+            ] = "\(rowNum):\(colNum)"
         }}
 
         expected = [
@@ -63,8 +66,8 @@ struct TestDictionary {
 
         Self.print_dictMatrix_forEach       (source: dictMatrix)
         Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
-        #expect(dictMatrix.data == expected)
         #expect(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 2))
+        #expect(dictMatrix.matrix == expected)
 
         /* ################################################################################ */
 
@@ -75,8 +78,8 @@ struct TestDictionary {
         ]
         Self.print_dictMatrix_forEach       (source: dictMatrix)
         Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
-        #expect(dictMatrix.data == expected)
         #expect(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 0, maxY: 0, minX: 2, maxX: 2))
+        #expect(dictMatrix.matrix == expected)
 
         /* ################################################################################ */
 
@@ -87,8 +90,8 @@ struct TestDictionary {
         ]
         Self.print_dictMatrix_forEach       (source: dictMatrix)
         Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
-        #expect(dictMatrix.data == expected)
         #expect(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 0, maxX: 0))
+        #expect(dictMatrix.matrix == expected)
 
         /* ################################################################################ */
 
@@ -102,7 +105,7 @@ struct TestDictionary {
         Self.print_dictMatrix_forEach       (source: dictMatrix)
         Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
         #expect(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 1, maxX: 1))
-        #expect(dictMatrix.data == expected)
+        #expect(dictMatrix.matrix == expected)
 
         /* ################################################################################ */
 
@@ -115,7 +118,7 @@ struct TestDictionary {
         Self.print_dictMatrix_forEach       (source: dictMatrix)
         Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
         #expect(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 1, maxX: 1))
-        #expect(dictMatrix.data == expected)
+        #expect(dictMatrix.matrix == expected)
 
         dictMatrix[3, 2] = "3:2"
         expected = [
@@ -126,7 +129,7 @@ struct TestDictionary {
         Self.print_dictMatrix_forEach       (source: dictMatrix)
         Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
         #expect(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 3, minX: 1, maxX: 2))
-        #expect(dictMatrix.data == expected)
+        #expect(dictMatrix.matrix == expected)
 
         dictMatrix[3, 2] = nil
         expected = [
@@ -136,7 +139,7 @@ struct TestDictionary {
         Self.print_dictMatrix_forEach       (source: dictMatrix)
         Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
         #expect(dictMatrix.bounds == Dictionary.Matrix.Bounds(minY: 2, maxY: 2, minX: 1, maxX: 1))
-        #expect(dictMatrix.data == expected)
+        #expect(dictMatrix.matrix == expected)
 
         dictMatrix[2, 1] = nil
         expected = [:]
@@ -144,7 +147,7 @@ struct TestDictionary {
         Self.print_dictMatrix_forEach       (source: dictMatrix)
         Self.print_dictMatrix_forEach_bounds(source: dictMatrix)
         #expect(dictMatrix.bounds == nil)
-        #expect(dictMatrix.data == expected)
+        #expect(dictMatrix.matrix == expected)
     }
 
     /* ######################### */
@@ -157,10 +160,13 @@ struct TestDictionary {
         let time0 = Date()
 
         for _ in 0 ... count {
-            let x = UInt.random(in: 0 ... 0xff)
             let y = UInt.random(in: 0 ... 0xff)
+            let x = UInt.random(in: 0 ... 0xff)
             let value = Bool.random() ? "\(UInt.random(in: 0 ... 0xff))" : nil
-            dictMatrix[x, y] = value
+            dictMatrix[
+                Matrix2dKey.Index(y),
+                Matrix2dKey.Index(x)
+            ] = value
         }
 
         let time1 = Date()

@@ -14,15 +14,15 @@
 		500A69BF2F16515800C3CCE7 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500895472DD9E62200414588 /* Array.swift */; };
 		500A69C02F16515C00C3CCE7 /* ArrayMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D23DEB2F0FC06E00AA1400 /* ArrayMatrix.swift */; };
 		500A69C12F16516100C3CCE7 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A69AB2F163D2C00C3CCE7 /* Dictionary.swift */; };
-		500A69C22F16516500C3CCE7 /* DictionaryMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D23DEC2F0FC06E00AA1400 /* DictionaryMatrix.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
 		50A5015E2F1A42B800C7BCA7 /* Matrix2Dkey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A5015D2F1A42B800C7BCA7 /* Matrix2Dkey.swift */; };
 		50A5015F2F1A42B800C7BCA7 /* Matrix2Dkey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A5015D2F1A42B800C7BCA7 /* Matrix2Dkey.swift */; };
 		50A501612F1A47CE00C7BCA7 /* Matrix3Dkey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A501602F1A47CE00C7BCA7 /* Matrix3Dkey.swift */; };
 		50A501622F1A47CE00C7BCA7 /* Matrix3Dkey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A501602F1A47CE00C7BCA7 /* Matrix3Dkey.swift */; };
 		50A501642F1A4C5B00C7BCA7 /* TestMatrixKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A501632F1A4C5B00C7BCA7 /* TestMatrixKey.swift */; };
+		50A501662F1A789300C7BCA7 /* DictionaryMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A501652F1A789300C7BCA7 /* DictionaryMatrix.swift */; };
+		50A501672F1A789300C7BCA7 /* DictionaryMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A501652F1A789300C7BCA7 /* DictionaryMatrix.swift */; };
 		50D23DED2F0FC06E00AA1400 /* ArrayMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D23DEB2F0FC06E00AA1400 /* ArrayMatrix.swift */; };
-		50D23DEE2F0FC06E00AA1400 /* DictionaryMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D23DEC2F0FC06E00AA1400 /* DictionaryMatrix.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,8 +37,8 @@
 		50A5015D2F1A42B800C7BCA7 /* Matrix2Dkey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix2Dkey.swift; sourceTree = "<group>"; };
 		50A501602F1A47CE00C7BCA7 /* Matrix3Dkey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix3Dkey.swift; sourceTree = "<group>"; };
 		50A501632F1A4C5B00C7BCA7 /* TestMatrixKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMatrixKey.swift; sourceTree = "<group>"; };
+		50A501652F1A789300C7BCA7 /* DictionaryMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryMatrix.swift; sourceTree = "<group>"; };
 		50D23DEB2F0FC06E00AA1400 /* ArrayMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayMatrix.swift; sourceTree = "<group>"; };
-		50D23DEC2F0FC06E00AA1400 /* DictionaryMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryMatrix.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,7 +97,7 @@
 				500895472DD9E62200414588 /* Array.swift */,
 				50D23DEB2F0FC06E00AA1400 /* ArrayMatrix.swift */,
 				500A69AB2F163D2C00C3CCE7 /* Dictionary.swift */,
-				50D23DEC2F0FC06E00AA1400 /* DictionaryMatrix.swift */,
+				50A501652F1A789300C7BCA7 /* DictionaryMatrix.swift */,
 			);
 			path = shared;
 			sourceTree = "<group>";
@@ -207,10 +207,10 @@
 			files = (
 				500A69C02F16515C00C3CCE7 /* ArrayMatrix.swift in Sources */,
 				500A69C12F16516100C3CCE7 /* Dictionary.swift in Sources */,
+				50A501672F1A789300C7BCA7 /* DictionaryMatrix.swift in Sources */,
 				500A69BF2F16515800C3CCE7 /* Array.swift in Sources */,
 				500A69B82F1650B600C3CCE7 /* TestArray.swift in Sources */,
 				50A501622F1A47CE00C7BCA7 /* Matrix3Dkey.swift in Sources */,
-				500A69C22F16516500C3CCE7 /* DictionaryMatrix.swift in Sources */,
 				50A5015E2F1A42B800C7BCA7 /* Matrix2Dkey.swift in Sources */,
 				50A501642F1A4C5B00C7BCA7 /* TestMatrixKey.swift in Sources */,
 				500A69BE2F16510100C3CCE7 /* TestDictionary.swift in Sources */,
@@ -221,10 +221,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50A501662F1A789300C7BCA7 /* DictionaryMatrix.swift in Sources */,
 				500895482DD9E62200414588 /* Array.swift in Sources */,
 				50D23DED2F0FC06E00AA1400 /* ArrayMatrix.swift in Sources */,
 				50A5015F2F1A42B800C7BCA7 /* Matrix2Dkey.swift in Sources */,
-				50D23DEE2F0FC06E00AA1400 /* DictionaryMatrix.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				50A501612F1A47CE00C7BCA7 /* Matrix3Dkey.swift in Sources */,
 				500A69AC2F163D2C00C3CCE7 /* Dictionary.swift in Sources */,

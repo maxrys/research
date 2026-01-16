@@ -111,8 +111,8 @@ struct TestArray {
 
         Self.print_arrayMatrix_forEach       (source: arrayMatrix)
         Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        #expect(arrayMatrix.data == expected)
         #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 2))
+        #expect(arrayMatrix.data == expected)
 
         /* ################################################################################ */
 
@@ -123,8 +123,8 @@ struct TestArray {
         ]
         Self.print_arrayMatrix_forEach       (source: arrayMatrix)
         Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        #expect(arrayMatrix.data == expected)
         #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 0, minX: 0, maxX: 2))
+        #expect(arrayMatrix.data == expected)
 
         /* ################################################################################ */
 
@@ -137,8 +137,8 @@ struct TestArray {
         ]
         Self.print_arrayMatrix_forEach       (source: arrayMatrix)
         Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        #expect(arrayMatrix.data == expected)
         #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 0))
+        #expect(arrayMatrix.data == expected)
 
         /* ################################################################################ */
 
@@ -238,8 +238,8 @@ struct TestArray {
 
         Self.print_arrayMatrix_forEach       (source: arrayMatrix)
         Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        #expect(arrayMatrix.data == expected)
         #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 2))
+        #expect(arrayMatrix.data == expected)
 
         /* ################################################################################ */
 
@@ -250,8 +250,8 @@ struct TestArray {
         ]
         Self.print_arrayMatrix_forEach       (source: arrayMatrix)
         Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        #expect(arrayMatrix.data == expected)
         #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 0, minX: 0, maxX: 2))
+        #expect(arrayMatrix.data == expected)
 
         /* ################################################################################ */
 
@@ -264,8 +264,8 @@ struct TestArray {
         ]
         Self.print_arrayMatrix_forEach       (source: arrayMatrix)
         Self.print_arrayMatrix_forEach_bounds(source: arrayMatrix)
-        #expect(arrayMatrix.data == expected)
         #expect(arrayMatrix.bounds == Array.Matrix.Bounds(minY: 0, maxY: 2, minX: 0, maxX: 0))
+        #expect(arrayMatrix.data == expected)
 
         /* ################################################################################ */
 
@@ -345,10 +345,10 @@ struct TestArray {
         let arrayMatrix = Array<Int>.Matrix()
 
         for _ in 0 ... 0xffff {
-            let x = Int.random(in: 0 ... 0xff)
             let y = Int.random(in: 0 ... 0xff)
+            let x = Int.random(in: 0 ... 0xff)
             let value = Bool.random() ? Int.random(in: 0 ... 0xff) : nil
-            arrayMatrix[x, y] = value
+            arrayMatrix[y, x] = value
         }
 
         #expect(true)
@@ -358,10 +358,10 @@ struct TestArray {
         let arrayMatrix = Array<Int>.Matrix(isTrimOn: true)
 
         for _ in 0 ... 0xffff {
-            let x = Int.random(in: 0 ... 0xff)
             let y = Int.random(in: 0 ... 0xff)
+            let x = Int.random(in: 0 ... 0xff)
             let value = Bool.random() ? Int.random(in: 0 ... 0xff) : nil
-            arrayMatrix[x, y] = value
+            arrayMatrix[y, x] = value
         }
 
         #expect(true)
