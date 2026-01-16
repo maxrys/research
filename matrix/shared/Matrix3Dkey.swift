@@ -25,7 +25,7 @@ struct Matrix3dKey: Equatable {
     }
 
     var value: Value {
-        (Value(self.y) << (Index.bitWidth * 2)) |
+        (Value(self.z) << (Index.bitWidth * 2)) |
         (Value(self.y) << (Index.bitWidth    )) |
         (Value(self.x)                        )
     }
