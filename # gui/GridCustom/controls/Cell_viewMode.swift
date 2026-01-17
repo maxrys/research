@@ -11,7 +11,7 @@ protocol CellProtocol: View {
     var isVisible: Bool         { get set }
 }
 
-struct Cell: View, CellProtocol {
+struct Cell_viewMode: View, CellProtocol {
 
     var ID: CellID.Value
     var size: CGFloat

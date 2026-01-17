@@ -53,7 +53,7 @@ struct GridCustom: View {
         return CGSize(width: gridSizeW, height: gridSizeH)
     }
 
-    private var cellBounds: [CellID.Value: CGRect] {
+    private var cellsFrame: [CellID.Value: CGRect] {
         var result: [CellID.Value: CGRect] = [:]
         if let bounds = self.source.bounds {
             for rowNum in bounds.minY ... bounds.maxY {
@@ -177,9 +177,8 @@ struct GridCustom: View {
                 count: 1,
                 interval: 0.1,
                 onExpire: {
-                    let cellBounds = self.cellBounds
-                    for (cellID, cellBounds) in cellBounds {
-                        self.cellsVisibility[cellID] = self.visibleFrame.intersects(cellBounds)
+                    for (cellID, cellFrame) in self.cellsFrame {
+                        self.cellsVisibility[cellID] = self.visibleFrame.intersects(cellFrame)
                     }
                 }
             )
@@ -233,10 +232,10 @@ struct GridCustom: View {
             let rowNum = GridAxisIndex(rowNum)
             let colNum = GridAxisIndex(colNum)
             let cellID = CellID(rowNum: rowNum, colNum: colNum).value
-            result[rowNum, colNum] = Cell(
+            result[rowNum, colNum] = Cell_viewMode(
                 ID: cellID,
                 size: cellSize,
-                isVisible: false
+                isVisible: true
             )
         }}
         return result

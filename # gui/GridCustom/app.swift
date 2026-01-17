@@ -37,7 +37,7 @@ import SwiftUI
                     if (isSparse == false || (isSparse == true && Bool.random())) {
                         let rowNum = GridAxisIndex(rowNum)
                         let colNum = GridAxisIndex(colNum)
-                        result[rowNum, colNum] = Cell(
+                        result[rowNum, colNum] = Cell_viewMode(
                             ID: CellID(rowNum: rowNum, colNum: colNum).value,
                             size: cellSize,
                             isVisible: false

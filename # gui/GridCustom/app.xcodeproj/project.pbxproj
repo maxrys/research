@@ -15,7 +15,7 @@
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
 		50CE72472EEADC1600FE3282 /* GridCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE72462EEADC1400FE3282 /* GridCustom.swift */; };
 		50CE724A2EEAFC4500FE3282 /* types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE72492EEAFC4500FE3282 /* types.swift */; };
-		50CE724C2EEAFEF000FE3282 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE724B2EEAFEF000FE3282 /* Cell.swift */; };
+		50CE724C2EEAFEF000FE3282 /* Cell_viewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE724B2EEAFEF000FE3282 /* Cell_viewMode.swift */; };
 		50CE72522EEB01EC00FE3282 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE72512EEB01EC00FE3282 /* Timer.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,7 +30,7 @@
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
 		50CE72462EEADC1400FE3282 /* GridCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCustom.swift; sourceTree = "<group>"; };
 		50CE72492EEAFC4500FE3282 /* types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = types.swift; sourceTree = "<group>"; };
-		50CE724B2EEAFEF000FE3282 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
+		50CE724B2EEAFEF000FE3282 /* Cell_viewMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell_viewMode.swift; sourceTree = "<group>"; };
 		50CE72512EEB01EC00FE3282 /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,7 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				50CE72462EEADC1400FE3282 /* GridCustom.swift */,
-				50CE724B2EEAFEF000FE3282 /* Cell.swift */,
+				50CE724B2EEAFEF000FE3282 /* Cell_viewMode.swift */,
 			);
 			path = controls;
 			sourceTree = "<group>";
@@ -160,7 +160,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50CE724C2EEAFEF000FE3282 /* Cell.swift in Sources */,
+				50CE724C2EEAFEF000FE3282 /* Cell_viewMode.swift in Sources */,
 				502E60EA2F0F045F00BFA95E /* View.swift in Sources */,
 				50CE72522EEB01EC00FE3282 /* Timer.swift in Sources */,
 				502E60E62F0EF7FE00BFA95E /* Numeric.swift in Sources */,
