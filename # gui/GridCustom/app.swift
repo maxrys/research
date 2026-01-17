@@ -35,10 +35,11 @@ import SwiftUI
                 for rowNum in bounds.minY ... bounds.maxY {
                 for colNum in bounds.minX ... bounds.maxX {
                     if (isSparse == false || (isSparse == true && Bool.random())) {
-                        let rowNum = GridAxisIndex(rowNum)
-                        let colNum = GridAxisIndex(colNum)
+                        let rowNum = CellID.Index(rowNum)
+                        let colNum = CellID.Index(colNum)
+                        let cellID = CellID(rowNum: rowNum, colNum: colNum)
                         result[rowNum, colNum] = Cell_viewMode(
-                            ID: CellID(rowNum: rowNum, colNum: colNum).value,
+                            ID: cellID.value,
                             size: cellSize,
                             isVisible: false
                         )

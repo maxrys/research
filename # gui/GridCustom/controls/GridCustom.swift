@@ -7,8 +7,8 @@ import SwiftUI
 
 struct GridCustom: View {
 
-    typealias DataSource       = Dictionary<GridAxisIndex, any CellProtocol>.Matrix
-    typealias DataSourceBounds = Dictionary<GridAxisIndex, any CellProtocol>.Matrix.Bounds
+    typealias DataSource       = Dictionary<CellID.Value, any CellProtocol>.Matrix
+    typealias DataSourceBounds = Dictionary<CellID.Value, any CellProtocol>.Matrix.Bounds
 
     enum GridType {
         case stacks
@@ -58,12 +58,12 @@ struct GridCustom: View {
         if let bounds = self.source.bounds {
             for rowNum in bounds.minY ... bounds.maxY {
             for colNum in bounds.minX ... bounds.maxX {
-                let cellID = CellID(rowNum: rowNum, colNum: colNum).value
-                let colNum = CGFloat(colNum)
-                let rowNum = CGFloat(rowNum)
-                let cellFrameMinX = (self.cellSize * colNum) + (self.cellSpacing * (colNum + 1))
-                let cellFrameMinY = (self.cellSize * rowNum) + (self.cellSpacing * (rowNum + 1))
-                result[cellID] = CGRect(
+                let cellFrameMinX = (self.cellSize * CGFloat(colNum)) + (self.cellSpacing * (CGFloat(colNum) + 1))
+                let cellFrameMinY = (self.cellSize * CGFloat(rowNum)) + (self.cellSpacing * (CGFloat(rowNum) + 1))
+                let rowNum = CellID.Index(rowNum)
+                let colNum = CellID.Index(colNum)
+                let cellID = CellID(rowNum: rowNum, colNum: colNum)
+                result[cellID.value] = CGRect(
                     x     : cellFrameMinX,
                     y     : cellFrameMinY,
                     width : self.cellSize,
@@ -111,8 +111,8 @@ struct GridCustom: View {
                     VStack(spacing: self.cellSpacing) {
                         ForEach(bounds.minY ... bounds.maxY, id: \.self) { rowNum in HStack(spacing: self.cellSpacing) {
                         ForEach(bounds.minX ... bounds.maxX, id: \.self) { colNum in
-                            let rowNum = GridAxisIndex(rowNum)
-                            let colNum = GridAxisIndex(colNum)
+                            let rowNum = CellID.Index(rowNum)
+                            let colNum = CellID.Index(colNum)
                             if var cell = self.source[rowNum, colNum] {
                                 let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
                                 AnyView(cell)
@@ -130,8 +130,8 @@ struct GridCustom: View {
                     Grid(alignment: .center, horizontalSpacing: self.cellSpacing, verticalSpacing: self.cellSpacing) {
                         ForEach(bounds.minY ... bounds.maxY, id: \.self) { rowNum in GridRow {
                         ForEach(bounds.minX ... bounds.maxX, id: \.self) { colNum in
-                            let rowNum = GridAxisIndex(rowNum)
-                            let colNum = GridAxisIndex(colNum)
+                            let rowNum = CellID.Index(rowNum)
+                            let colNum = CellID.Index(colNum)
                             if var cell = self.source[rowNum, colNum] {
                                 let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
                                 AnyView(cell)
@@ -151,8 +151,8 @@ struct GridCustom: View {
                     LazyVGrid(columns: columns, spacing: self.cellSpacing) {
                         ForEach(bounds.minY ... bounds.maxY, id: \.self) { rowNum in
                         ForEach(bounds.minX ... bounds.maxX, id: \.self) { colNum in
-                            let rowNum = GridAxisIndex(rowNum)
-                            let colNum = GridAxisIndex(colNum)
+                            let rowNum = CellID.Index(rowNum)
+                            let colNum = CellID.Index(colNum)
                             if var cell = self.source[rowNum, colNum] {
                                 let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
                                 AnyView(cell)
@@ -177,8 +177,8 @@ struct GridCustom: View {
                 count: 1,
                 interval: 0.1,
                 onExpire: {
-                    for (cellID, cellFrame) in self.cellsFrame {
-                        self.cellsVisibility[cellID] = self.visibleFrame.intersects(cellFrame)
+                    for (cellIDValue, cellFrame) in self.cellsFrame {
+                        self.cellsVisibility[cellIDValue] = self.visibleFrame.intersects(cellFrame)
                     }
                 }
             )
@@ -229,11 +229,11 @@ struct GridCustom: View {
         let result = GridCustom.DataSource()
         for rowNum in 0 ..< rowsCount {
         for colNum in 0 ..< colsCount {
-            let rowNum = GridAxisIndex(rowNum)
-            let colNum = GridAxisIndex(colNum)
-            let cellID = CellID(rowNum: rowNum, colNum: colNum).value
+            let rowNum = CellID.Index(rowNum)
+            let colNum = CellID.Index(colNum)
+            let cellID = CellID(rowNum: rowNum, colNum: colNum)
             result[rowNum, colNum] = Cell_viewMode(
-                ID: cellID,
+                ID: cellID.value,
                 size: cellSize,
                 isVisible: true
             )

@@ -92,12 +92,12 @@
 		50D23DE22F0FAF7200AA1400 /* shared */ = {
 			isa = PBXGroup;
 			children = (
-				50A5015D2F1A42B800C7BCA7 /* Matrix2Dkey.swift */,
-				50A501602F1A47CE00C7BCA7 /* Matrix3Dkey.swift */,
 				500895472DD9E62200414588 /* Array.swift */,
 				50D23DEB2F0FC06E00AA1400 /* ArrayMatrix.swift */,
 				500A69AB2F163D2C00C3CCE7 /* Dictionary.swift */,
 				50A501652F1A789300C7BCA7 /* DictionaryMatrix.swift */,
+				50A5015D2F1A42B800C7BCA7 /* Matrix2Dkey.swift */,
+				50A501602F1A47CE00C7BCA7 /* Matrix3Dkey.swift */,
 			);
 			path = shared;
 			sourceTree = "<group>";
