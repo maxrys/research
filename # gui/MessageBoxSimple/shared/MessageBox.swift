@@ -1,7 +1,7 @@
 
-/* ################################################################## */
-/* ### Copyright © 2024—2025 Maxim Rysevets. All rights reserved. ### */
-/* ################################################################## */
+/* ############################################################# */
+/* ### Copyright © 2026 Maxim Rysevets. All rights reserved. ### */
+/* ############################################################# */
 
 import SwiftUI
 
@@ -51,7 +51,7 @@ struct Message: Hashable {
         case time(Double)
     }
 
-    static var LIFE_TIME: Double = 3.0
+    static let LIFE_TIME: Double = 3.0
 
     let type: MessageType
     let title: String
@@ -69,7 +69,7 @@ struct MessageBox: View {
 
     typealias MessageCollection = [UInt: (
         message: Message,
-        expirationTimer: RealTimer?
+        expirationTimer: Timer.Custom?
     )]
 
     @ObservedObject private var messages = ValueState<MessageCollection>([:])
@@ -96,7 +96,7 @@ struct MessageBox: View {
                             .background(item.message.type.colorDescriptionBackground)
                     }
                 }
-                .color(Color(MessageType.ColorNames.text.rawValue))
+                .foregroundPolyfill(Color(MessageType.ColorNames.text.rawValue))
                 .frame(maxWidth: .infinity)
             }
         }
@@ -109,26 +109,29 @@ struct MessageBox: View {
                 return
             }
         }
+
         self.messageCurrentID.value += 1
         let id = self.messageCurrentID.value
-        let expirationTimer = RealTimer(
-            tag: id,
-            onTick: self.onTimerTick
-        )
-        self.messages.value[id] = (
-            message: message,
-            expirationTimer: expirationTimer
-        )
-        if case .time(let time) = lifeTime {
-            expirationTimer.start(
-                tickInterval: time
-            )
-        }
-    }
 
-    func onTimerTick(offset: Double, timer: RealTimer) {
-        timer.stopAndReset()
-        self.messages.value[timer.tag] = nil
+        switch lifeTime {
+            case .infinity:
+                self.messages.value[id] = (
+                    message: message,
+                    expirationTimer: nil
+                )
+            case .time(let time):
+                self.messages.value[id] = (
+                    message: message,
+                    expirationTimer: Timer.Custom(
+                        tag: id,
+                        duration: .fixed(1),
+                        interval: time,
+                        onExpire: { _ in
+                            self.messages.value[id] = nil
+                        }
+                    )
+                )
+        }
     }
 
 }
