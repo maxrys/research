@@ -40,8 +40,8 @@
 		503D1AEE2F310151005B8A98 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
-				50583D9E2DFEF3BC00013BD0 /* View.swift */,
 				50583DA12DFF046200013BD0 /* Timer.swift */,
+				50583D9E2DFEF3BC00013BD0 /* View.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -49,8 +49,8 @@
 		50583DA02DFEF3C700013BD0 /* shared */ = {
 			isa = PBXGroup;
 			children = (
-				501939E22E0FEAFE00711283 /* ValueState.swift */,
 				50583D942DFBFA4F00013BD0 /* MessageBox.swift */,
+				501939E22E0FEAFE00711283 /* ValueState.swift */,
 			);
 			path = shared;
 			sourceTree = "<group>";
@@ -313,7 +313,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = maxrys.research;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -344,7 +344,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = maxrys.research;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};
