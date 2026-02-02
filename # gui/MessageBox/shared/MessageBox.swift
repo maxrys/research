@@ -77,7 +77,7 @@ struct MessageBox: View {
 
     typealias MessagesCollection = [UInt: (
         message: Message,
-        expirationTimer: RealTimer?
+        expirationTimer: Timer.Custom?
     )]
 
     static let EVENT_NAME_FOR_MESSAGE_INSERT = "messageInsert"
@@ -122,17 +122,33 @@ struct MessageBox: View {
                 }
                 Self.counter += 1
                 let id = Self.counter
-                let expirationTimer = RealTimer(
-                    tag: id,
-                    onTick: self.onTimerTick
-                )
-                self.messages[id] = (
-                    message: message,
-                    expirationTimer: expirationTimer
-                )
                 switch message.lifeTime {
-                    case .time(let time): expirationTimer.start(tickInterval: time)
-                    case .infinity      : return
+                    case .time(let count):
+                        self.messages[id] = (
+                            message: message,
+                            expirationTimer: Timer.Custom(
+                                tag: id,
+                                duration: .fixed(UInt(count)),
+                                interval: 1,
+                                onTick: { timer in
+                                    timer.stopAndReset()
+                                    self.messages[timer.tag] = nil
+                                }
+                            )
+                        )
+                    case .infinity:
+                        self.messages[id] = (
+                            message: message,
+                            expirationTimer: Timer.Custom(
+                                tag: id,
+                                duration: .infinity,
+                                interval: 1,
+                                onTick: { timer in
+                                    timer.stopAndReset()
+                                    self.messages[timer.tag] = nil
+                                }
+                            )
+                        )
                 }
             }
         }
@@ -148,11 +164,6 @@ struct MessageBox: View {
                 lifeTime: lifeTime
             )
         )
-    }
-
-    func onTimerTick(offset: Double, timer: RealTimer) {
-        timer.stopAndReset()
-        self.messages[timer.tag] = nil
     }
 
 }
