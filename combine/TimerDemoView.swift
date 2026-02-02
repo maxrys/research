@@ -5,30 +5,36 @@
 
 import SwiftUI
 
-@Observable final class TimerDemoViewState {
-    var offset: Double = 0
+@Observable final class ValueState<T> {
+    var value: T
+    init(_ value: T) {
+        self.value = value
+    }
 }
 
 struct TimerDemoView: View {
 
-    var state: TimerDemoViewState
-    var timer: RealTimer!
+    var offset: ValueState<UInt>
+    var timer: Timer.Custom!
 
     var body: some View {
-        Text("current offset: \(self.state.offset)")
-        Button { self.timer.start() } label: { Text("start") }
-        Button { self.timer.stop()  } label: { Text("stop") }
+        Text("current offset: \(self.offset.value)")
+        Button { self.timer.startOrRenew() } label: { Text("start or renew") }
+        Button { self.timer.stopAndReset() } label: { Text("stop and reset") }
     }
 
     init() {
-        self.state = TimerDemoViewState()
-        self.timer = RealTimer(
+        self.offset = ValueState<UInt>(0)
+        self.timer = Timer.Custom(
+            immediately: false,
+            duration: .infinity,
+            interval: 0.1,
             onTick: self.onTimerTick
         )
     }
 
-    func onTimerTick(offset: Double) {
-        self.state.offset = offset
+    func onTimerTick(timer: Timer.Custom) {
+        self.offset.value = timer.i
     }
 
 }

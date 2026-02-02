@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		503D1AE72F30F582005B8A98 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503D1AE62F30F582005B8A98 /* Timer.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
-		50CE42A82D9827F000758517 /* RealTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE42A72D9827F000758517 /* RealTimer.swift */; };
 		50F569302D97FA3700847267 /* TimerDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5692F2D97FA3500847267 /* TimerDemoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		503D1AE62F30F582005B8A98 /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		50993B682D33C4C900195667 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
-		50CE42A72D9827F000758517 /* RealTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealTimer.swift; sourceTree = "<group>"; };
 		50F5692F2D97FA3500847267 /* TimerDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDemoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -37,7 +37,7 @@
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				50993B6B2D33C4C900195667 /* app.swift */,
 				50F5692F2D97FA3500847267 /* TimerDemoView.swift */,
-				50CE42A72D9827F000758517 /* RealTimer.swift */,
+				503D1AE62F30F582005B8A98 /* Timer.swift */,
 				50993B692D33C4C900195667 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -123,9 +123,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50CE42A82D9827F000758517 /* RealTimer.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				50F569302D97FA3700847267 /* TimerDemoView.swift in Sources */,
+				503D1AE72F30F582005B8A98 /* Timer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
