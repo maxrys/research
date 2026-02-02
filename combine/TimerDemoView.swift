@@ -5,13 +5,6 @@
 
 import SwiftUI
 
-@Observable final class ValueState<T> {
-    var value: T
-    init(_ value: T) {
-        self.value = value
-    }
-}
-
 struct TimerDemoView: View {
 
     var offset: ValueState<UInt>
@@ -27,8 +20,8 @@ struct TimerDemoView: View {
         self.offset = ValueState<UInt>(0)
         self.timer = Timer.Custom(
             immediately: false,
-            duration: .infinity,
-            interval: 0.1,
+            repeats: .infinity,
+            delay: 0.1,
             onTick: self.onTimerTick
         )
     }
