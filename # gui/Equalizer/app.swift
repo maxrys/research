@@ -39,8 +39,8 @@ typealias Size = CGFloat
     init() {
         self.eqState.levels = Array(repeating: 0.0, count: self.eqLevelsCount)
         self.timer = Timer.Custom(
-            duration: .infinity,
-            interval: self.timeInterval,
+            repeats: .infinity,
+            delay: self.timeInterval,
             onTick: self.onTimerTick
         )
     }
