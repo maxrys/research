@@ -7,16 +7,6 @@ import SwiftUI
 
 typealias Size = CGFloat
 
-extension Numeric {
-
-    func fixBounds(min: Self = 0, max: Self) -> Self where Self: Comparable {
-        if self < min {return min}
-        if self > max {return max}
-        return self
-    }
-
-}
-
 @Observable final class EqState {
 
     var canvasVisibleAreaMinX: Size = 0
@@ -32,7 +22,7 @@ extension Numeric {
     private let eqLevelWidth: Size = 10.0
     private let eqHeight: Size = 150
     private let timeInterval: Double = 1 / 24
-    private var timer: Timer!
+    private var timer: Timer.Custom!
 
     var body: some Scene {
         Window("Main", id: "main") {
@@ -47,23 +37,15 @@ extension Numeric {
     }
 
     init() {
-        self.eqState.levels = Array(
-            repeating: 0.0,
-            count: self.eqLevelsCount
-        )
-        self.timer = Timer(
-            timeInterval: self.timeInterval,
-            repeats: true,
-            block: self.onTimerTick
-        )
-        self.timer.tolerance = 0.0
-        RunLoop.current.add(
-            self.timer,
-            forMode: .common
+        self.eqState.levels = Array(repeating: 0.0, count: self.eqLevelsCount)
+        self.timer = Timer.Custom(
+            duration: .infinity,
+            interval: self.timeInterval,
+            onTick: self.onTimerTick
         )
     }
 
-    func onTimerTick(_ : Timer) {
+    func onTimerTick(timer: Timer.Custom) {
         for index in 0 ..< self.eqState.levels.count {
             self.eqState.levels[index] = Size.random(
                 in: 0 ... 1
