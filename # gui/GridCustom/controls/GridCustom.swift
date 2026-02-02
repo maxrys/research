@@ -192,9 +192,9 @@ struct GridCustom: View {
     private func cellsVisibilityUpdate() {
         self.cellsVisibilityDelayTimer?.stopAndReset()
         self.cellsVisibilityDelayTimer = Timer.Custom(
-            count: 1,
+            duration: .fixed(1),
             interval: 0.1,
-            onExpire: {
+            onExpire: { _ in
                 self.cellsVisibility = [:]
                 for (cellIDValue, cellFrame) in self.cellsFrame {
                     self.cellsVisibility[cellIDValue] = cellFrame.intersects(self.visibleFrame)
@@ -208,24 +208,26 @@ struct GridCustom: View {
         self.stickyGridTimer?.stopAndReset()
         if (self.scrollPhase == .idle) {
             self.stickyGridDelayTimer = Timer.Custom(
-                count: 1,
+                duration: .fixed(1),
                 interval: 0.4,
-                onExpire: {
+                onExpire: { _ in
                     let cellFrameSize = self.cellSize + self.cellSpacing
-                    let toX = (self.visibleFrame.minX / cellFrameSize).rounded() * cellFrameSize
-                    let toY = (self.visibleFrame.minY / cellFrameSize).rounded() * cellFrameSize
-                    if (toX != self.visibleFrame.minX || toY != self.visibleFrame.minY) {
-                        let stepsCount: UInt16 = 10
-                        let stepX = (toX - self.visibleFrame.minX) / CGFloat(stepsCount)
-                        let stepY = (toY - self.visibleFrame.minY) / CGFloat(stepsCount)
+                    let fromX = self.visibleFrame.minX
+                    let fromY = self.visibleFrame.minY
+                    let toX = (fromX / cellFrameSize).rounded() * cellFrameSize
+                    let toY = (fromY / cellFrameSize).rounded() * cellFrameSize
+                    if (toX != fromX || toY != fromY) {
+                        let stepsCount: UInt = 5
+                        let stepX = (toX - fromX) / CGFloat(stepsCount)
+                        let stepY = (toY - fromY) / CGFloat(stepsCount)
                         self.stickyGridTimer = Timer.Custom(
-                            count: stepsCount,
+                            duration: .fixed(stepsCount),
                             interval: 0.01,
-                            onTick: { i in
+                            onTick: { timer in
                                 Task {
                                     self.scrollPosition.scrollTo(
-                                        x: self.visibleFrame.minX + (CGFloat(i) * stepX),
-                                        y: self.visibleFrame.minY + (CGFloat(i) * stepY)
+                                        x: fromX + (CGFloat(timer.i + 1) * stepX),
+                                        y: fromY + (CGFloat(timer.i + 1) * stepY),
                                     )
                                 }
                             }

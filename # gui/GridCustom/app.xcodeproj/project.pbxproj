@@ -43,11 +43,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		503D1AE82F30FD40005B8A98 /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				500A69AD2F16419900C3CCE7 /* Dictionary.swift */,
+				500A69AE2F16419900C3CCE7 /* DictionaryMatrix.swift */,
+				502E60E52F0EF7FE00BFA95E /* Numeric.swift */,
+				50CE72512EEB01EC00FE3282 /* Timer.swift */,
+				502E60E92F0F045F00BFA95E /* View.swift */,
+			);
+			path = extension;
+			sourceTree = "<group>";
+		};
 		50993B5F2D33C4C900195667 = {
 			isa = PBXGroup;
 			children = (
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				50CE724E2EEAFF1F00FE3282 /* shared */,
+				503D1AE82F30FD40005B8A98 /* extension */,
 				50CE72482EEAF70F00FE3282 /* controls */,
 				50993B6B2D33C4C900195667 /* app.swift */,
 				50993B692D33C4C900195667 /* Products */,
@@ -75,11 +88,6 @@
 			isa = PBXGroup;
 			children = (
 				50A501682F1AEB7E00C7BCA7 /* CellID.swift */,
-				500A69AD2F16419900C3CCE7 /* Dictionary.swift */,
-				500A69AE2F16419900C3CCE7 /* DictionaryMatrix.swift */,
-				502E60E52F0EF7FE00BFA95E /* Numeric.swift */,
-				50CE72512EEB01EC00FE3282 /* Timer.swift */,
-				502E60E92F0F045F00BFA95E /* View.swift */,
 			);
 			path = shared;
 			sourceTree = "<group>";
