@@ -51,7 +51,7 @@ struct Message: Hashable {
         case time(Double)
     }
 
-    static var LIFE_TIME: Double = 1.0
+    static var LIFE_TIME: Double = 3.0
 
     let type: MessageType
     let title: String
@@ -123,13 +123,13 @@ struct MessageBox: View {
                 Self.counter += 1
                 let id = Self.counter
                 switch message.lifeTime {
-                    case .time(let count):
+                    case .time(let delay):
                         self.messages[id] = (
                             message: message,
                             expirationTimer: Timer.Custom(
                                 tag: id,
-                                duration: .fixed(UInt(count)),
-                                interval: 1,
+                                repeats: .count(1),
+                                delay: delay,
                                 onTick: { timer in
                                     timer.stopAndReset()
                                     self.messages[timer.tag] = nil
@@ -139,15 +139,7 @@ struct MessageBox: View {
                     case .infinity:
                         self.messages[id] = (
                             message: message,
-                            expirationTimer: Timer.Custom(
-                                tag: id,
-                                duration: .infinity,
-                                interval: 1,
-                                onTick: { timer in
-                                    timer.stopAndReset()
-                                    self.messages[timer.tag] = nil
-                                }
-                            )
+                            expirationTimer: nil
                         )
                 }
             }
