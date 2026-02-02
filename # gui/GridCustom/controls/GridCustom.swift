@@ -192,8 +192,8 @@ struct GridCustom: View {
     private func cellsVisibilityUpdate() {
         self.cellsVisibilityDelayTimer?.stopAndReset()
         self.cellsVisibilityDelayTimer = Timer.Custom(
-            duration: .fixed(1),
-            interval: 0.1,
+            repeats: .count(1),
+            delay: 0.1,
             onExpire: { _ in
                 self.cellsVisibility = [:]
                 for (cellIDValue, cellFrame) in self.cellsFrame {
@@ -208,8 +208,8 @@ struct GridCustom: View {
         self.stickyGridTimer?.stopAndReset()
         if (self.scrollPhase == .idle) {
             self.stickyGridDelayTimer = Timer.Custom(
-                duration: .fixed(1),
-                interval: 0.4,
+                repeats: .count(1),
+                delay: 0.4,
                 onExpire: { _ in
                     let cellFrameSize = self.cellSize + self.cellSpacing
                     let fromX = self.visibleFrame.minX
@@ -221,8 +221,8 @@ struct GridCustom: View {
                         let stepX = (toX - fromX) / CGFloat(stepsCount)
                         let stepY = (toY - fromY) / CGFloat(stepsCount)
                         self.stickyGridTimer = Timer.Custom(
-                            duration: .fixed(stepsCount),
-                            interval: 0.01,
+                            repeats: .count(stepsCount),
+                            delay: 0.01,
                             onTick: { timer in
                                 Task {
                                     self.scrollPosition.scrollTo(
