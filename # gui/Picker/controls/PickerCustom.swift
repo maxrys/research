@@ -19,6 +19,10 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
     fileprivate let cornerRadius: CGFloat = 10
     fileprivate let borderWidth: CGFloat = 4
 
+    fileprivate var keyToIndex: [Key: Int] = [:]
+    fileprivate var indexToKey: [Int: Key] = [:]
+    fileprivate var itemsOrdered: [(key: Key, value: String)] = []
+
     init(
         selected: Binding<Key>,
         items: [Key: String],
@@ -31,6 +35,11 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
         self.isPlainListStyle = isPlainListStyle
         self.flexibility = flexibility
         self.colorSet = colorSet
+        self.itemsOrdered = self.items.ordered()
+        self.itemsOrdered.enumerated().forEach { index, keyValuePair in
+            self.keyToIndex[keyValuePair.key] = index
+            self.indexToKey[index] = keyValuePair.key
+        }
     }
 
     public var body: some View {
@@ -84,17 +93,6 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
 
     private var rootView: PickerCustom<Key>
 
-    private var itemsOrdered: [(key: Key, value: String)] {
-        self.rootView.items.ordered()
-    }
-
-    private var KeyToIndex: [Key: Int] {
-        self.itemsOrdered.enumerated().reduce(into: [Key: Int]()) { result, info in
-            let (index, item) = info
-            result[item.key] = index
-        }
-    }
-
     init(rootView: PickerCustom<Key>) {
         self.rootView = rootView
     }
@@ -107,7 +105,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
 
     private var list: some View {
         VStack(spacing: 10) {
-            ForEach(Array(self.itemsOrdered.enumerated()), id: \.element.key) { index, item in
+            ForEach(Array(self.rootView.itemsOrdered.enumerated()), id: \.element.key) { index, item in
                 Button {
                     self.rootView.selectedKey = item.key
                     self.rootView.isOpened = false
@@ -139,7 +137,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
         }
         .padding(10)
         .onAppear {
-            let index = self.KeyToIndex[self.rootView.selectedKey] ?? 0
+            let index = self.rootView.keyToIndex[self.rootView.selectedKey] ?? 0
             self.focuser = .item(index: index)
         }
         .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow.rawValue) {
@@ -159,7 +157,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
         .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return.rawValue) {
             if case .item(let index) = self.focuser {
                 if (index >= 0 && index <= self.rootView.items.count - 1) {
-                    self.rootView.selectedKey = self.itemsOrdered[index].key
+                    self.rootView.selectedKey = self.rootView.itemsOrdered[index].key
                 }
             }
             self.rootView.isOpened = false
@@ -169,7 +167,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
     private var listWithScroll: some View {
         ScrollViewReader { scrollProxy in
             List {
-                ForEach(Array(self.itemsOrdered.enumerated()), id: \.element.key) { index, item in
+                ForEach(Array(self.rootView.itemsOrdered.enumerated()), id: \.element.key) { index, item in
                     Button {
                         self.rootView.selectedKey = item.key
                         self.rootView.isOpened = false
@@ -201,7 +199,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
             }
             .listStyle(.sidebar)
             .onAppear {
-                let index = self.KeyToIndex[self.rootView.selectedKey] ?? 0
+                let index = self.rootView.keyToIndex[self.rootView.selectedKey] ?? 0
                 self.focuser = .item(index: index)
             }
             .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow.rawValue) {
@@ -223,7 +221,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
             .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return.rawValue) {
                 if case .item(let index) = self.focuser {
                     if (index >= 0 && index <= self.rootView.items.count - 1) {
-                        self.rootView.selectedKey = self.itemsOrdered[index].key
+                        self.rootView.selectedKey = self.rootView.itemsOrdered[index].key
                     }
                 }
                 self.rootView.isOpened = false
