@@ -17,6 +17,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
     fileprivate let flexibility: Flexibility
     fileprivate let colorSet: ColorSet
     fileprivate let cornerRadius: CGFloat = 10
+    fileprivate let borderWidth: CGFloat = 4
 
     init(
         selected: Binding<Key>,
@@ -59,10 +60,10 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                 .padding(.vertical  , 5)
                 .flexibility(self.flexibility)
                 .foregroundPolyfill(self.colorSet.text)
-                .background {
+                .background(
                     RoundedRectangle(cornerRadius: self.cornerRadius)
-                        .stroke(self.colorSet.border, lineWidth: 4)
-                        .background(self.colorSet.background) }
+                        .stroke(self.colorSet.border, lineWidth: self.borderWidth)
+                        .background(self.colorSet.background))
                 .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
                 .contentShapePolyfill(RoundedRectangle(cornerRadius: self.cornerRadius))
         }
@@ -238,14 +239,14 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
 /* ########################## PREVIEW ########################## */
 /* ############################################################# */
 
-func generatePreviewItems_intKey(count: Int) -> [UInt: String] {
+fileprivate func generatePreviewItems_intKey(count: Int) -> [UInt: String] {
     (1000 ..< 1000 + count).reduce(into: [UInt: String]()) { result, i in
         if (i == 1005) { result[UInt(i)] = "Value \(i) long long long long long long" }
         else           { result[UInt(i)] = "Value \(i)" }
     }
 }
 
-func generatePreviewItems_strKey(count: Int) -> [String: String] {
+fileprivate func generatePreviewItems_strKey(count: Int) -> [String: String] {
     (1000 ..< 1100).reduce(into: [String: String]()) { result, i in
         if (i == 1005) { result["ID:\(i)"] = "Value \(i) long long long long long long" }
         else           { result["ID:\(i)"] = "Value \(i)" }
@@ -280,7 +281,9 @@ func generatePreviewItems_strKey(count: Int) -> [String: String] {
             PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 30))
         }
 
-    }.frame(minWidth: 250, minHeight: 600)
+    }
+    .frame(minWidth: 250, minHeight: 600)
+    .background(Color.gray)
 }
 
 @available(macOS 14.0, *) #Preview {
@@ -311,7 +314,9 @@ func generatePreviewItems_strKey(count: Int) -> [String: String] {
             PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 30), isPlainListStyle: true)
         }
 
-    }.frame(minWidth: 250, minHeight: 600)
+    }
+    .frame(minWidth: 250, minHeight: 600)
+    .background(Color.gray)
 }
 
 
@@ -326,4 +331,5 @@ func generatePreviewItems_strKey(count: Int) -> [String: String] {
     }
     .padding(20)
     .frame(width: 200)
+    .background(Color.gray)
 }
