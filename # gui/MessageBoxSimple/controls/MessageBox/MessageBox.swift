@@ -5,66 +5,6 @@
 
 import SwiftUI
 
-enum MessageType {
-
-    enum ColorNames: String {
-        case text                         = "color MessageBox Text"
-        case infoTitleBackground          = "color MessageBox Info Title Background"
-        case infoDescriptionBackground    = "color MessageBox Info Description Background"
-        case okTitleBackground            = "color MessageBox Ok Title Background"
-        case okDescriptionBackground      = "color MessageBox Ok Description Background"
-        case warningTitleBackground       = "color MessageBox Warning Title Background"
-        case warningDescriptionBackground = "color MessageBox Warning Description Background"
-        case errorTitleBackground         = "color MessageBox Error Title Background"
-        case errorDescriptionBackground   = "color MessageBox Error Description Background"
-    }
-
-    case info
-    case ok
-    case warning
-    case error
-
-    var colorTitleBackground: Color {
-        switch self {
-            case .info   : Color(Self.ColorNames.infoTitleBackground.rawValue)
-            case .ok     : Color(Self.ColorNames.okTitleBackground.rawValue)
-            case .warning: Color(Self.ColorNames.warningTitleBackground.rawValue)
-            case .error  : Color(Self.ColorNames.errorTitleBackground.rawValue)
-        }
-    }
-
-    var colorDescriptionBackground: Color {
-        switch self {
-            case .info   : Color(Self.ColorNames.infoDescriptionBackground.rawValue)
-            case .ok     : Color(Self.ColorNames.okDescriptionBackground.rawValue)
-            case .warning: Color(Self.ColorNames.warningDescriptionBackground.rawValue)
-            case .error  : Color(Self.ColorNames.errorDescriptionBackground.rawValue)
-        }
-    }
-
-}
-
-struct Message: Hashable {
-
-    enum LifeTime {
-        case infinity
-        case time(Double)
-    }
-
-    static let LIFE_TIME: Double = 3.0
-
-    let type: MessageType
-    let title: String
-    let description: String
-
-    init(type: MessageType, title: String, description: String = "") {
-        self.type = type
-        self.title = title
-        self.description = description
-    }
-
-}
-
 struct MessageBox: View {
 
     typealias MessageCollection = [UInt: (
@@ -96,7 +36,7 @@ struct MessageBox: View {
                             .background(item.message.type.colorDescriptionBackground)
                     }
                 }
-                .foregroundPolyfill(Color(MessageType.ColorNames.text.rawValue))
+                .foregroundPolyfill(Color.messageBox.text)
                 .frame(maxWidth: .infinity)
             }
         }
