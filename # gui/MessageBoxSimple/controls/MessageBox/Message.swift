@@ -12,8 +12,6 @@ struct Message: Hashable {
         case time(Double)
     }
 
-    static let LIFE_TIME: Double = 3.0
-
     let type: MessageType
     let title: String
     let description: String
