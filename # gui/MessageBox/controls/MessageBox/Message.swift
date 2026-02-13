@@ -34,12 +34,14 @@ struct Message {
         return CACurrentMediaTime() > expiresAt
     }
 
-    var expiredInPercent: Double {
+    var progress: Double {
         guard let expiresAt = self.expiresAt else { return 0 }
         let maxValue = expiresAt            - self.startedAt
         let curValue = CACurrentMediaTime() - self.startedAt
         guard maxValue > 0 else { return 0 }
-        return (curValue / maxValue).fixBounds(min: 0.0, max: 1.0)
+        return (curValue / maxValue).fixBounds(
+            min: 0.0, max: 1.0
+        )
     }
 
 }

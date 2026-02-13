@@ -28,3 +28,10 @@ final class MessageBoxState: ObservableObject {
     }
 
 }
+
+
+final class MessageBoxProgressState: ObservableObject {
+
+    @Published var progress: [UInt: Double] = [:]
+
+}
