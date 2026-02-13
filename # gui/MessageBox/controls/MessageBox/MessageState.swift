@@ -7,57 +7,24 @@ import SwiftUI
 
 final class MessageBoxState: ObservableObject {
 
-    typealias MessageCollection = [UInt: (
-        message: Message,
-        expirationTimer: Timer.Custom?
-    )]
+    @Published var messages: [UInt: Message] = [:]
 
-    static let LIFE_TIME_DEFAULT: Double = 3.0
+    var newID: UInt = 0
 
-    @Published var messages: MessageCollection = [:]
-
-    var maxID: UInt = 0
-
-    func insert(
-        type: MessageType,
-        title: String,
-        description: String = "",
-        lifeTime: Message.LifeTime = .time(MessageBoxState.LIFE_TIME_DEFAULT)
-    ) {
-
-        let message = Message(
+    func insert(type: MessageType, title: String, description: String = "", expiresAt: CFTimeInterval? = nil) {
+        let newMessage = Message(
             type: type,
             title: title,
-            description: description
+            description: description,
+            expiresAt: expiresAt
         )
-
-        for current in self.messages {
-            if (message == current.value.message) {
+        for (_, messsage) in self.messages {
+            if (newMessage ≈≈ messsage) {
                 return
             }
         }
-
-        self.maxID += 1
-
-        switch lifeTime {
-            case .infinity:
-                self.messages[self.maxID] = (
-                    message: message,
-                    expirationTimer: nil
-                )
-            case .time(let time):
-                self.messages[self.maxID] = (
-                    message: message,
-                    expirationTimer: Timer.Custom(
-                        tag: self.maxID,
-                        repeats: .count(1),
-                        delay: time,
-                        onExpire: { _ in
-                            self.messages[self.maxID] = nil
-                        }
-                    )
-                )
-        }
+        self.newID += 1
+        self.messages[self.newID] = newMessage
     }
 
 }

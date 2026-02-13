@@ -87,8 +87,8 @@
 			children = (
 				50583D942DFBFA4F00013BD0 /* MessageType.swift */,
 				50B277402F3F1098005F7475 /* Message.swift */,
-				50B277422F3F10B7005F7475 /* MessageBox.swift */,
 				50B277482F3F1C39005F7475 /* MessageState.swift */,
+				50B277422F3F10B7005F7475 /* MessageBox.swift */,
 				50B277462F3F112C005F7475 /* MessageColors.swift */,
 				50B277442F3F10FE005F7475 /* Media.xcassets */,
 			);

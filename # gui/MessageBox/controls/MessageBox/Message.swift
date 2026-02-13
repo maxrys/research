@@ -5,21 +5,26 @@
 
 import SwiftUI
 
-struct Message: Hashable {
+infix operator ≈≈ : ComparisonPrecedence
 
-    enum LifeTime {
-        case infinity
-        case time(Double)
-    }
+struct Message {
 
     let type: MessageType
     let title: String
     let description: String
+    let expiresAt: CFTimeInterval?
 
-    init(type: MessageType, title: String, description: String = "") {
+    init(type: MessageType, title: String, description: String = "", expiresAt: CFTimeInterval? = nil) {
         self.type = type
         self.title = title
         self.description = description
+        self.expiresAt = expiresAt
+    }
+
+    static func ≈≈ (lhs: Self, rhs: Self) -> Bool {
+        lhs.type        == rhs.type  &&
+        lhs.title       == rhs.title &&
+        lhs.description == rhs.description
     }
 
 }
