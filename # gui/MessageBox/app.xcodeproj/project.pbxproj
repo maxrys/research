@@ -17,6 +17,7 @@
 		50B277452F3F10FE005F7475 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50B277442F3F10FE005F7475 /* Media.xcassets */; };
 		50B277472F3F112C005F7475 /* MessageColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B277462F3F112C005F7475 /* MessageColors.swift */; };
 		50B277492F3F1C39005F7475 /* MessageState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B277482F3F1C39005F7475 /* MessageState.swift */; };
+		50B2774B2F3FC25A005F7475 /* Numeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B2774A2F3FC25A005F7475 /* Numeric.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		50B277442F3F10FE005F7475 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		50B277462F3F112C005F7475 /* MessageColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageColors.swift; sourceTree = "<group>"; };
 		50B277482F3F1C39005F7475 /* MessageState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageState.swift; sourceTree = "<group>"; };
+		50B2774A2F3FC25A005F7475 /* Numeric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numeric.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +50,7 @@
 		503D1AEE2F310151005B8A98 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				50B2774A2F3FC25A005F7475 /* Numeric.swift */,
 				50583DA12DFF046200013BD0 /* Timer.swift */,
 				50583D9E2DFEF3BC00013BD0 /* View.swift */,
 			);
@@ -174,6 +177,7 @@
 				50583D952DFBFA5200013BD0 /* MessageType.swift in Sources */,
 				50583DA22DFF046200013BD0 /* Timer.swift in Sources */,
 				50B277412F3F1098005F7475 /* Message.swift in Sources */,
+				50B2774B2F3FC25A005F7475 /* Numeric.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				50B277492F3F1C39005F7475 /* MessageState.swift in Sources */,
 				50B277472F3F112C005F7475 /* MessageColors.swift in Sources */,

@@ -16,31 +16,61 @@ struct MessageBox: View {
 
     @ObservedObject private var state = MessageBoxState()
 
+    var timer: Timer.Custom!
+
+    var sortedMessages: [(key: UInt, value: Message)] {
+        self.state.messages.sorted(by: { (lhs, rhs) in
+            lhs.key < rhs.key
+        })
+    }
+
+    init() {
+        self.timer = Timer.Custom(repeats: .infinity, delay: 1, onTick: self.onTimerTick)
+    }
+
+    func onTimerTick(timer: Timer.Custom) {
+        for (ID, message) in self.state.messages {
+            if (message.isExpired) {
+                self.state.messages[ID] = nil
+            }
+        }
+    }
+
     var body: some View {
-        VStack (spacing: 0) {
-            ForEach(self.state.messages.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }), id: \.key) { ID, message in
-                VStack(spacing: 0) {
+        GeometryReader { geometry in
+            VStack (spacing: 0) {
+                ForEach(self.sortedMessages, id: \.key) { ID, message in
+                    VStack(alignment: .leading, spacing: 0) {
 
-                    Text(message.title)
-                        .font(.system(size: 14, weight: .bold))
-                        .multilineTextAlignment(.center)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .padding(13)
-                        .frame(maxWidth: .infinity)
-                        .foregroundPolyfill(Color.messageBox.text)
-                        .background(message.type.colorTitleBackground)
-
-                    if (!message.description.isEmpty) {
-                        Text(message.description)
-                            .font(.system(size: 13))
+                        Text(message.title)
+                            .font(.system(size: 14, weight: .bold))
                             .multilineTextAlignment(.center)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(13)
                             .frame(maxWidth: .infinity)
                             .foregroundPolyfill(Color.messageBox.text)
-                            .background(message.type.colorDescriptionBackground)
-                    }
+                            .background(message.type.colorTitleBackground)
 
+                        if (!message.description.isEmpty) {
+                            Text(message.description)
+                                .font(.system(size: 13))
+                                .multilineTextAlignment(.center)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding(13)
+                                .frame(maxWidth: .infinity)
+                                .foregroundPolyfill(Color.messageBox.text)
+                                .background(message.type.colorDescriptionBackground)
+                        }
+
+                        /* expiration progress */
+
+                        if let _ = message.expiresAt {
+                            Color.black.opacity(0.3)
+                                .frame(width: geometry.size.width * message.expiredInPercent, height: 3)
+                                .padding(.top, -3)
+                        }
+
+                    }
                 }
             }
         }
