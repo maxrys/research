@@ -15,7 +15,6 @@ struct MessageBox: View {
     static let LIFE_TIME_DEFAULT: CFTimeInterval = 3.0
 
     @ObservedObject private var state = MessageBoxState()
-    @ObservedObject private var progress = MessageBoxProgressState()
 
     var timer: Timer.Custom!
 
@@ -26,15 +25,19 @@ struct MessageBox: View {
     }
 
     init() {
-        self.timer = Timer.Custom(repeats: .infinity, delay: 0.5, onTick: self.onTimerTick)
+        self.timer = Timer.Custom(
+            repeats: .infinity,
+            delay: 0.5,
+            onTick: self.onTimerTick
+        )
     }
 
     func onTimerTick(timer: Timer.Custom) {
         for (ID, message) in self.state.messages {
-            self.progress.progress[ID] = message.progress
             if (message.isExpired) {
-                self.state.messages[ID] = nil
-            }
+                   self.state.messages[ID] = nil
+                   self.state.progress[ID] = nil }
+            else { self.state.progress[ID] = message.progress }
         }
     }
 
@@ -66,7 +69,7 @@ struct MessageBox: View {
 
                         if let _ = message.expiresAt {
                             Color.black.opacity(0.3)
-                                .frame(width: geometry.size.width * (self.progress.progress[ID] ?? 0), height: 3)
+                                .frame(width: geometry.size.width * (self.state.progress[ID] ?? 0), height: 3)
                                 .padding(.top, -3)
                         }
 

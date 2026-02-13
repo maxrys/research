@@ -8,6 +8,7 @@ import SwiftUI
 final class MessageBoxState: ObservableObject {
 
     @Published var messages: [UInt: Message] = [:]
+    @Published var progress: [UInt: Double ] = [:]
 
     var newID: UInt = 0
 
@@ -26,12 +27,5 @@ final class MessageBoxState: ObservableObject {
         self.newID += 1
         self.messages[self.newID] = newMessage
     }
-
-}
-
-
-final class MessageBoxProgressState: ObservableObject {
-
-    @Published var progress: [UInt: Double] = [:]
 
 }
