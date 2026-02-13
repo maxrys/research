@@ -7,21 +7,11 @@ import SwiftUI
 
 struct MessageBox: View {
 
-    typealias MessageCollection = [
-        UInt: (
-            message: Message,
-            expirationTimer: Timer.Custom?
-        )
-    ]
-
-    static let LIFE_TIME_DEFAULT: Double = 3.0
-
-    @ObservedObject private var messages = ValueState<MessageCollection>([:])
-    @ObservedObject private var messageCurrentID = ValueState<UInt>(0)
+    @ObservedObject private var state = MessageBoxState()
 
     var body: some View {
         VStack (spacing: 0) {
-            ForEach(self.messages.value.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }), id: \.key) { id, item in
+            ForEach(self.state.messages.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }), id: \.key) { id, item in
                 VStack(spacing: 0) {
 
                     Text(item.message.title)
@@ -53,43 +43,14 @@ struct MessageBox: View {
         type: MessageType,
         title: String,
         description: String = "",
-        lifeTime: Message.LifeTime = .time(Self.LIFE_TIME_DEFAULT)
+        lifeTime: Message.LifeTime = .time(MessageBoxState.LIFE_TIME_DEFAULT)
     ) {
-
-        let message = Message(
+        self.state.insert(
             type: type,
             title: title,
-            description: description
+            description: description,
+            lifeTime: lifeTime
         )
-
-        for current in self.messages.value {
-            if (message == current.value.message) {
-                return
-            }
-        }
-
-        self.messageCurrentID.value += 1
-        let id = self.messageCurrentID.value
-
-        switch lifeTime {
-            case .infinity:
-                self.messages.value[id] = (
-                    message: message,
-                    expirationTimer: nil
-                )
-            case .time(let time):
-                self.messages.value[id] = (
-                    message: message,
-                    expirationTimer: Timer.Custom(
-                        tag: id,
-                        repeats: .count(1),
-                        delay: time,
-                        onExpire: { _ in
-                            self.messages.value[id] = nil
-                        }
-                    )
-                )
-        }
     }
 
 }
