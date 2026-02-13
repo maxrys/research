@@ -16,14 +16,15 @@ import SwiftUI
         else                         { return window }
     }
 
-    let messageBox = MessageBox()
-
     init() {
+        EventsDispatcher.shared.on(MessageBox.EVENT_NAME_FOR_MESSAGE_INSERT) { _ in
+            print("message: messageInsert")
+        }
     }
 
     @ViewBuilder func buttonInsert(text: String, type: MessageType, title: String, description: String = "") -> some View {
         Button {
-            self.messageBox.insert(
+            MessageBox.insert(
                 type: type,
                 title: title,
                 description: description
@@ -53,9 +54,8 @@ import SwiftUI
 
             /* MARK: message box */
             HStack(spacing: 10) {
-                ScrollView(.vertical) {
-                    self.messageBox
-                }
+                ScrollView(.vertical) { MessageBox() }
+                ScrollView(.vertical) { MessageBox() }
             }
             .padding(10)
             .frame(maxWidth: 300, maxHeight: .infinity, alignment: .top)
