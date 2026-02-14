@@ -1,6 +1,6 @@
 
 /* ############################################################# */
-/* ### Copyright © 2025 Maxim Rysevets. All rights reserved. ### */
+/* ### Copyright © 2026 Maxim Rysevets. All rights reserved. ### */
 /* ############################################################# */
 
 import SwiftUI
@@ -13,6 +13,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
     @State fileprivate var isOpened = false
 
     fileprivate let items: [Key: String]
+    fileprivate let sortedBy: Dictionary<Key, String>.SortedBy
     fileprivate let isPlainListStyle: Bool
     fileprivate let flexibility: Flexibility
     fileprivate let colorSet: ColorSet
@@ -21,22 +22,24 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
     fileprivate var keyToIndex: [Key: Int] = [:]
     fileprivate var indexToKey: [Int: Key] = [:]
-    fileprivate var itemsOrdered: [(key: Key, value: String)] = []
+    fileprivate var itemsSorted: [(key: Key, value: String)] = []
 
     init(
         selected: Binding<Key>,
         items: [Key: String],
+        sortedBy: Dictionary<Key, String>.SortedBy = .keyAsc,
         isPlainListStyle: Bool = false,
         flexibility: Flexibility = .none,
         colorSet: ColorSet = Color.picker
     ) {
         self._selectedKey = selected
         self.items = items
+        self.sortedBy = sortedBy
         self.isPlainListStyle = isPlainListStyle
         self.flexibility = flexibility
         self.colorSet = colorSet
-        self.itemsOrdered = self.items.ordered()
-        self.itemsOrdered.enumerated().forEach { index, keyValuePair in
+        self.itemsSorted = self.items.sortedBy(order: self.sortedBy)
+        self.itemsSorted.enumerated().forEach { index, keyValuePair in
             self.keyToIndex[keyValuePair.key] = index
             self.indexToKey[index] = keyValuePair.key
         }
@@ -105,7 +108,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
 
     private var list: some View {
         VStack(spacing: 10) {
-            ForEach(Array(self.rootView.itemsOrdered.enumerated()), id: \.element.key) { index, item in
+            ForEach(Array(self.rootView.itemsSorted.enumerated()), id: \.element.key) { index, item in
                 Button {
                     self.rootView.selectedKey = item.key
                     self.rootView.isOpened = false
@@ -157,7 +160,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
         .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return.rawValue) {
             if case .item(let index) = self.focuser {
                 if (index >= 0 && index <= self.rootView.items.count - 1) {
-                    self.rootView.selectedKey = self.rootView.itemsOrdered[index].key
+                    self.rootView.selectedKey = self.rootView.itemsSorted[index].key
                 }
             }
             self.rootView.isOpened = false
@@ -167,7 +170,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
     private var listWithScroll: some View {
         ScrollViewReader { scrollProxy in
             List {
-                ForEach(Array(self.rootView.itemsOrdered.enumerated()), id: \.element.key) { index, item in
+                ForEach(Array(self.rootView.itemsSorted.enumerated()), id: \.element.key) { index, item in
                     Button {
                         self.rootView.selectedKey = item.key
                         self.rootView.isOpened = false
@@ -221,7 +224,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
             .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return.rawValue) {
                 if case .item(let index) = self.focuser {
                     if (index >= 0 && index <= self.rootView.items.count - 1) {
-                        self.rootView.selectedKey = self.rootView.itemsOrdered[index].key
+                        self.rootView.selectedKey = self.rootView.itemsSorted[index].key
                     }
                 }
                 self.rootView.isOpened = false
@@ -250,6 +253,15 @@ fileprivate func generatePreviewItems_strKey(count: Int) -> [String: String] {
         else           { result["ID:\(i)"] = "Value \(i)" }
     }
 }
+
+fileprivate func generatePreviewItems_forSort() -> [String: String] {[
+    "key1": "Значение Б",
+    "key3": "Значение Я",
+    "key5": "Значение Ё",
+    "key6": "Value A",
+    "key4": "Value Z",
+    "key2": "Value I",
+]}
 
 @available(macOS 14.0, *) #Preview {
     @Previewable @State var selectedKeyInt: UInt = 0
@@ -325,6 +337,20 @@ fileprivate func generatePreviewItems_strKey(count: Int) -> [String: String] {
         PickerCustom<UInt>(selected: $selected, items: generatePreviewItems_intKey(count: 30), flexibility: .none)
         PickerCustom<UInt>(selected: $selected, items: generatePreviewItems_intKey(count: 30), flexibility: .size(100))
         PickerCustom<UInt>(selected: $selected, items: generatePreviewItems_intKey(count: 30), flexibility: .infinity)
+    }
+    .padding(20)
+    .frame(width: 200)
+    .background(Color.gray)
+}
+
+@available(macOS 14.0, *) #Preview {
+    @Previewable @State var selected: String = ""
+    VStack {
+        Text("Sort:").font(.headline)
+        PickerCustom<String>(selected: $selected, items: generatePreviewItems_forSort(), sortedBy: .keyAsc)
+        PickerCustom<String>(selected: $selected, items: generatePreviewItems_forSort(), sortedBy: .keyDsc)
+        PickerCustom<String>(selected: $selected, items: generatePreviewItems_forSort(), sortedBy: .valueAsc)
+        PickerCustom<String>(selected: $selected, items: generatePreviewItems_forSort(), sortedBy: .valueDsc)
     }
     .padding(20)
     .frame(width: 200)

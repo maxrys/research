@@ -95,7 +95,7 @@ import SwiftUI
                 VStack {
                     Text("Picker").font(.headline)
                     Picker("", selection: self.$selectedKeyInt) {
-                        ForEach(self.generatePreviewItems_intKey(count: 30).ordered(), id: \.key) { key, value in
+                        ForEach(self.generatePreviewItems_intKey(count: 30).sortedBy(order: .valueAsc), id: \.key) { key, value in
                             Text(value)
                         }
                     }
