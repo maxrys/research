@@ -40,7 +40,8 @@ struct Message {
         let curValue = CACurrentMediaTime() - self.startedAt
         guard maxValue > 0 else { return 0 }
         return (curValue / maxValue).fixBounds(
-            min: 0.0, max: 1.0
+            min: 0.0,
+            max: 1.0
         )
     }
 
