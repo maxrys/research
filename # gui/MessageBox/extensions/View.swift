@@ -17,4 +17,14 @@ extension View {
         else                                   { self.foregroundColor(color) }
     }
 
+    @ViewBuilder func overlayPolyfill<Content: View>(
+        alignment: Alignment,
+        @ViewBuilder content: @escaping () -> Content
+    ) -> some View {
+        ZStack(alignment: alignment) {
+            self
+            content()
+        }
+    }
+
 }

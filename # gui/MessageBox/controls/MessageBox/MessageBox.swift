@@ -3,6 +3,7 @@
 /* ### Copyright © 2026 Maxim Rysevets. All rights reserved. ### */
 /* ############################################################# */
 
+import os
 import SwiftUI
 
 struct MessageBox: View {
@@ -33,6 +34,7 @@ struct MessageBox: View {
     }
 
     func onTimerTick(timer: Timer.Custom) {
+        Logger.customLog("Timer onTimerTick \(timer.i)")
         for (ID, message) in self.state.messages {
             if (message.isExpired) {
                    self.state.messages[ID] = nil
