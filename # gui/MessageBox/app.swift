@@ -18,34 +18,44 @@ import SwiftUI
 
     let messageBox = MessageBox()
 
-    init() {
-    }
-
-    @ViewBuilder func buttonInsert(text: String, type: MessageType, title: String, description: String = "") -> some View {
-        Button {
-            self.messageBox.insert(
-                type: type,
-                title: title,
-                description: description
-            )
-        } label: {
-            Text(text).frame(maxWidth: .infinity)
-        }
-    }
-
     @ViewBuilder var mainScene: some View {
         HStack(spacing: 0) {
 
+            let loremIpsum = NSLocalizedString("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor", comment: "")
+
             /* MARK: buttons */
             VStack(spacing: 10) {
-                self.buttonInsert(text: "Send Info Message"            , type: .info   , title:    "Info message")
-                self.buttonInsert(text: "Send Ok Message"              , type: .ok     , title:      "Ok message")
-                self.buttonInsert(text: "Send Warning Message"         , type: .warning, title: "Warning message")
-                self.buttonInsert(text: "Send Error Message"           , type: .error  , title:   "Error message")
-                self.buttonInsert(text: "Send Info Message + Descr."   , type: .info   , title:    "Info message", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
-                self.buttonInsert(text: "Send Ok Message + Descr."     , type: .ok     , title:      "Ok message", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
-                self.buttonInsert(text: "Send Warning Message + Descr.", type: .warning, title: "Warning message", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
-                self.buttonInsert(text: "Send Error Message + Descr."  , type: .error  , title:   "Error message", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+
+                Text("3 (default) sec.").font(.headline)
+                self.ButtonInsert(text: "Info Message"            , type: .info   , title:    "Info Message")
+                self.ButtonInsert(text: "Ok Message"              , type: .ok     , title:      "Ok Message")
+                self.ButtonInsert(text: "Warning Message"         , type: .warning, title: "Warning Message")
+                self.ButtonInsert(text: "Error Message"           , type: .error  , title:   "Error Message")
+                self.ButtonInsert(text: "Info Message + Descr."   , type: .info   , title:    "Info Message", description: loremIpsum)
+                self.ButtonInsert(text: "Ok Message + Descr."     , type: .ok     , title:      "Ok Message", description: loremIpsum)
+                self.ButtonInsert(text: "Warning Message + Descr.", type: .warning, title: "Warning Message", description: loremIpsum)
+                self.ButtonInsert(text: "Error Message + Descr."  , type: .error  , title:   "Error Message", description: loremIpsum)
+
+                Text("10 sec.").font(.headline)
+                self.ButtonInsert(text: "Info Message"            , type: .info   , title:    "Info Message", lifeTime: .time(10))
+                self.ButtonInsert(text: "Ok Message"              , type: .ok     , title:      "Ok Message", lifeTime: .time(10))
+                self.ButtonInsert(text: "Warning Message"         , type: .warning, title: "Warning Message", lifeTime: .time(10))
+                self.ButtonInsert(text: "Error Message"           , type: .error  , title:   "Error Message", lifeTime: .time(10))
+                self.ButtonInsert(text: "Info Message + Descr."   , type: .info   , title:    "Info Message", description: loremIpsum, lifeTime: .time(10))
+                self.ButtonInsert(text: "Ok Message + Descr."     , type: .ok     , title:      "Ok Message", description: loremIpsum, lifeTime: .time(10))
+                self.ButtonInsert(text: "Warning Message + Descr.", type: .warning, title: "Warning Message", description: loremIpsum, lifeTime: .time(10))
+                self.ButtonInsert(text: "Error Message + Descr."  , type: .error  , title:   "Error Message", description: loremIpsum, lifeTime: .time(10))
+
+                Text("Infinity sec.").font(.headline)
+                self.ButtonInsert(text: "Info Message"            , type: .info   , title:    "Info Message", lifeTime: .infinity)
+                self.ButtonInsert(text: "Ok Message"              , type: .ok     , title:      "Ok Message", lifeTime: .infinity)
+                self.ButtonInsert(text: "Warning Message"         , type: .warning, title: "Warning Message", lifeTime: .infinity)
+                self.ButtonInsert(text: "Error Message"           , type: .error  , title:   "Error Message", lifeTime: .infinity)
+                self.ButtonInsert(text: "Info Message + Descr."   , type: .info   , title:    "Info Message", description: loremIpsum, lifeTime: .infinity)
+                self.ButtonInsert(text: "Ok Message + Descr."     , type: .ok     , title:      "Ok Message", description: loremIpsum, lifeTime: .infinity)
+                self.ButtonInsert(text: "Warning Message + Descr.", type: .warning, title: "Warning Message", description: loremIpsum, lifeTime: .infinity)
+                self.ButtonInsert(text: "Error Message + Descr."  , type: .error  , title:   "Error Message", description: loremIpsum, lifeTime: .infinity)
+
             }
             .padding(10)
             .frame(maxWidth: 240, maxHeight: .infinity)
@@ -60,6 +70,25 @@ import SwiftUI
             .padding(10)
             .frame(maxWidth: 300, maxHeight: .infinity, alignment: .top)
 
+        }
+    }
+
+    @ViewBuilder func ButtonInsert(
+        text: String,
+        type: MessageType,
+        title: String,
+        description: String = "",
+        lifeTime: MessageBox.LifeTime = .time(MessageBox.LIFE_TIME_DEFAULT)
+    ) -> some View {
+        Button {
+            self.messageBox.insert(
+                type: type,
+                title: title,
+                description: description,
+                lifeTime: lifeTime
+            )
+        } label: {
+            Text(text).frame(maxWidth: .infinity)
         }
     }
 
