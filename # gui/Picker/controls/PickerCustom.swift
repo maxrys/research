@@ -10,7 +10,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
     typealias ColorSet = Color.PickerColorSet
 
     @Binding fileprivate var selectedKey: Key
-    @State fileprivate var isOpened: Bool = false
+    @State fileprivate var isOpened = false
 
     fileprivate let items: [Key: String]
     fileprivate let isPlainListStyle: Bool
@@ -59,7 +59,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
         }
     }
 
-    @ViewBuilder var opener: some View {
+    @ViewBuilder private var opener: some View {
         Button {
             self.isOpened = true
         } label: {
@@ -316,7 +316,6 @@ fileprivate func generatePreviewItems_strKey(count: Int) -> [String: String] {
     .frame(minWidth: 250, minHeight: 600)
     .background(Color.gray)
 }
-
 
 @available(macOS 14.0, *) #Preview {
     @Previewable @State var selected: UInt = 0
