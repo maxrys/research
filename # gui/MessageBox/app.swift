@@ -47,14 +47,14 @@ import SwiftUI
                 self.ButtonInsert(text:   "Error Message + Descr.", type: .error  , title:   "Error Message", description: loremIpsum, lifeTime: .time(10))
 
                 Text("Infinity sec.").font(.headline)
-                self.ButtonInsert(text:    "Info Message"         , type: .info   , title:    "Info Message",                          lifeTime: .infinity)
-                self.ButtonInsert(text:      "Ok Message"         , type: .ok     , title:      "Ok Message",                          lifeTime: .infinity)
-                self.ButtonInsert(text: "Warning Message"         , type: .warning, title: "Warning Message",                          lifeTime: .infinity)
-                self.ButtonInsert(text:   "Error Message"         , type: .error  , title:   "Error Message",                          lifeTime: .infinity)
-                self.ButtonInsert(text:    "Info Message + Descr.", type: .info   , title:    "Info Message", description: loremIpsum, lifeTime: .infinity)
-                self.ButtonInsert(text:      "Ok Message + Descr.", type: .ok     , title:      "Ok Message", description: loremIpsum, lifeTime: .infinity)
-                self.ButtonInsert(text: "Warning Message + Descr.", type: .warning, title: "Warning Message", description: loremIpsum, lifeTime: .infinity)
-                self.ButtonInsert(text:   "Error Message + Descr.", type: .error  , title:   "Error Message", description: loremIpsum, lifeTime: .infinity)
+                self.ButtonInsert(text:    "Info Message"         , type: .info   , title:    "Info Message",                          isClosable: true, lifeTime: .infinity)
+                self.ButtonInsert(text:      "Ok Message"         , type: .ok     , title:      "Ok Message",                          isClosable: true, lifeTime: .infinity)
+                self.ButtonInsert(text: "Warning Message"         , type: .warning, title: "Warning Message",                          isClosable: true, lifeTime: .infinity)
+                self.ButtonInsert(text:   "Error Message"         , type: .error  , title:   "Error Message",                          isClosable: true, lifeTime: .infinity)
+                self.ButtonInsert(text:    "Info Message + Descr.", type: .info   , title:    "Info Message", description: loremIpsum, isClosable: true, lifeTime: .infinity)
+                self.ButtonInsert(text:      "Ok Message + Descr.", type: .ok     , title:      "Ok Message", description: loremIpsum, isClosable: true, lifeTime: .infinity)
+                self.ButtonInsert(text: "Warning Message + Descr.", type: .warning, title: "Warning Message", description: loremIpsum, isClosable: true, lifeTime: .infinity)
+                self.ButtonInsert(text:   "Error Message + Descr.", type: .error  , title:   "Error Message", description: loremIpsum, isClosable: true, lifeTime: .infinity)
 
             }
             .padding(10)
@@ -78,6 +78,7 @@ import SwiftUI
         type: MessageType,
         title: String,
         description: String = "",
+        isClosable: Bool = false,
         lifeTime: MessageBox.LifeTime = .time(MessageBox.LIFE_TIME_DEFAULT)
     ) -> some View {
         Button {
@@ -85,6 +86,7 @@ import SwiftUI
                 type: type,
                 title: title,
                 description: description,
+                isClosable: isClosable,
                 lifeTime: lifeTime
             )
         } label: {

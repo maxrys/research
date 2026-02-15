@@ -12,13 +12,21 @@ struct Message {
     let type: MessageType
     let title: String
     let description: String
+    let isClosable: Bool
     let startedAt: CFTimeInterval
     let expiresAt: CFTimeInterval?
 
-    init(type: MessageType, title: String, description: String = "", expiresAt: CFTimeInterval? = nil) {
+    init(
+        type: MessageType,
+        title: String,
+        description: String = "",
+        isClosable: Bool = false,
+        expiresAt: CFTimeInterval? = nil
+    ) {
         self.type = type
         self.title = title
         self.description = description
+        self.isClosable = isClosable
         self.expiresAt = expiresAt
         self.startedAt = CACurrentMediaTime()
     }

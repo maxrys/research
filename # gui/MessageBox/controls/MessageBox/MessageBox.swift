@@ -19,7 +19,7 @@ struct MessageBox: View {
 
     var timer: Timer.Custom!
 
-    var sortedMessages: [(key: UInt, value: Message)] {
+    var sortedMessages: [(key: MessageID, value: Message)] {
         self.state.messages.sorted(by: { (lhs, rhs) in
             lhs.key < rhs.key
         })
@@ -49,29 +49,20 @@ struct MessageBox: View {
                 ForEach(self.sortedMessages, id: \.key) { ID, message in
                     VStack(alignment: .leading, spacing: 0) {
 
-                        Text(message.title)
-                            .font(.system(size: 14, weight: .bold))
-                            .multilineTextAlignment(.center)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .padding(13)
-                            .frame(maxWidth: .infinity)
-                            .foregroundPolyfill(Color.messageBox.text)
-                            .background(message.type.colorTitleBackground)
+                        self.Title(message)
+                            .overlayPolyfill(alignment: .trailing) {
+                                if (message.isClosable) {
+                                    self.ButtonClose(ID)
+                                        .padding(.trailing, 10)
+                                }
+                            }
 
                         if (!message.description.isEmpty) {
-                            Text(message.description)
-                                .font(.system(size: 13))
-                                .multilineTextAlignment(.center)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .padding(13)
-                                .frame(maxWidth: .infinity)
-                                .foregroundPolyfill(Color.messageBox.text)
-                                .background(message.type.colorDescriptionBackground)
+                            self.Description(message)
                         }
 
                         if let _ = message.expiresAt {
-                            Color.black.opacity(0.3)
-                                .frame(width: geometry.size.width * (self.state.progress[ID] ?? 0), height: 3)
+                            self.Progress(width: geometry.size.width * (self.state.progress[ID] ?? 0))
                                 .padding(.top, -3)
                         }
 
@@ -81,15 +72,60 @@ struct MessageBox: View {
         }
     }
 
+    @ViewBuilder func Title(_ message: Message) -> some View {
+        Text(message.title)
+            .font(.system(size: 14, weight: .bold))
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(13)
+            .frame(maxWidth: .infinity)
+            .foregroundPolyfill(Color.messageBox.text)
+            .background(message.type.colorTitleBackground)
+    }
+
+    @ViewBuilder func Description(_ message: Message) -> some View {
+        Text(message.description)
+            .font(.system(size: 13))
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(13)
+            .frame(maxWidth: .infinity)
+            .foregroundPolyfill(Color.messageBox.text)
+            .background(message.type.colorDescriptionBackground)
+    }
+
+    @ViewBuilder func Progress(width: CGFloat) -> some View {
+        Color.black.opacity(0.3)
+            .frame(width: width, height: 3)
+    }
+
+    @ViewBuilder func ButtonClose(_ ID: MessageID) -> some View {
+        Button {
+            self.state.messages[ID] = nil
+            self.state.progress[ID] = nil
+        } label: {
+            Circle()
+                .fill(Color.white.opacity(0.2))
+                .frame(width: 20, height: 20)
+                .overlayPolyfill {
+                    Image(systemName: "xmark")
+                        .foregroundPolyfill(.white.opacity(0.5))
+                }
+        }
+        .buttonStyle(.plain)
+        .pointerStyleLinkPolyfill()
+    }
+
     public func insert(
         type: MessageType,
         title: String,
         description: String = "",
+        isClosable: Bool = false,
         lifeTime: Self.LifeTime = .time(Self.LIFE_TIME_DEFAULT)
     ) {
         switch lifeTime {
-            case .time(let time): self.state.insert(type: type, title: title, description: description, expiresAt: CACurrentMediaTime() + time)
-            case .infinity      : self.state.insert(type: type, title: title, description: description)
+            case .time(let time): self.state.insert(type: type, title: title, description: description, isClosable: isClosable, expiresAt: CACurrentMediaTime() + time)
+            case .infinity      : self.state.insert(type: type, title: title, description: description, isClosable: isClosable)
         }
     }
 

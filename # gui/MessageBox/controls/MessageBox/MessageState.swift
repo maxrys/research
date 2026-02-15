@@ -5,18 +5,27 @@
 
 import SwiftUI
 
+typealias MessageID = UInt
+
 final class MessageBoxState: ObservableObject {
 
-    @Published var messages: [UInt: Message] = [:]
-    @Published var progress: [UInt: Double ] = [:]
+    @Published var messages: [MessageID: Message] = [:]
+    @Published var progress: [MessageID: Double ] = [:]
 
-    var newID: UInt = 0
+    var newID: MessageID = 0
 
-    func insert(type: MessageType, title: String, description: String = "", expiresAt: CFTimeInterval? = nil) {
+    func insert(
+        type: MessageType,
+        title: String,
+        description: String = "",
+        isClosable: Bool = false,
+        expiresAt: CFTimeInterval? = nil
+    ) {
         let newMessage = Message(
             type: type,
             title: title,
             description: description,
+            isClosable: isClosable,
             expiresAt: expiresAt
         )
         for (_, messsage) in self.messages {
