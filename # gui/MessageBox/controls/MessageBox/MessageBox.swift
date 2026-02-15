@@ -104,15 +104,13 @@ struct MessageBox: View {
             self.state.messages[ID] = nil
             self.state.progress[ID] = nil
         } label: {
-            Rectangle()
-                .fill(Color.white.opacity(0.1))
+            Color.white.opacity(0.1)
                 .frame(width: 15, height: 15)
                 .overlayPolyfill {
                     Image(systemName: "xmark")
                         .font(.system(size: 10))
                         .foregroundPolyfill(.white.opacity(0.5))
                 }
-                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .pointerStyleLinkPolyfill()
