@@ -64,9 +64,7 @@ import SwiftUI
 
             /* MARK: message box */
             HStack(spacing: 10) {
-                ScrollView(.vertical) {
-                    self.messageBox
-                }
+                self.messageBox
             }
             .padding(10)
             .frame(maxWidth: 300, maxHeight: .infinity, alignment: .top)
