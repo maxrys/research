@@ -12,7 +12,7 @@ final class MessageBoxState: ObservableObject {
 
     typealias MessageProgressPair = (message: Message, progress: Double)
 
-    static let TIMER_DELAY_TIME: Double = 0.5
+    static let TIMER_DELAY_TIME: Double = 1 / 24
 
     @Published private var data: [
         MessageID: MessageProgressPair
@@ -23,6 +23,7 @@ final class MessageBoxState: ObservableObject {
 
     init() {
         self.timer = Timer.Custom(
+            immediately: false,
             repeats: .infinity,
             delay: Self.TIMER_DELAY_TIME,
             onTick: self.onTimerTick
@@ -30,14 +31,14 @@ final class MessageBoxState: ObservableObject {
     }
 
     private func onTimerTick(timer: Timer.Custom) {
-        Logger.customLog("Timer onTimerTick \(timer.i)")
         var isTimerRequired = false
         for (ID, pair) in self.data {
             if (!pair.message.isPersistent) {
-                isTimerRequired = true
-                self.data[ID]?.progress = pair.message.progress
                 if (pair.message.isExpired) {
                     self.delete(ID)
+                } else {
+                    self.data[ID]?.progress = pair.message.progress
+                    isTimerRequired = true
                 }
             }
         }
