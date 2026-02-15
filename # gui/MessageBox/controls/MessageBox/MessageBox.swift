@@ -15,56 +15,30 @@ struct MessageBox: View {
 
     static let LIFE_TIME_DEFAULT: CFTimeInterval = 3.0
 
-    @ObservedObject private var state = MessageBoxState()
-
-    var timer: Timer.Custom!
-
-    var sortedMessages: [(key: MessageID, value: Message)] {
-        self.state.messages.sorted(by: { (lhs, rhs) in
-            lhs.key < rhs.key
-        })
-    }
-
-    init() {
-        self.timer = Timer.Custom(
-            repeats: .infinity,
-            delay: 0.5,
-            onTick: self.onTimerTick
-        )
-    }
-
-    func onTimerTick(timer: Timer.Custom) {
-        Logger.customLog("Timer onTimerTick \(timer.i)")
-        for (ID, message) in self.state.messages {
-            if (message.isExpired) {
-                   self.state.messages[ID] = nil
-                   self.state.progress[ID] = nil }
-            else { self.state.progress[ID] = message.progress }
-        }
-    }
+    @ObservedObject private var data = MessageBoxState()
 
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
                 VStack (spacing: 0) {
-                    ForEach(self.sortedMessages, id: \.key) { ID, message in
+                    ForEach(self.data.sortedMessages, id: \.key) { ID, pair in
                         VStack(alignment: .leading, spacing: 0) {
                             
-                            self.Title(message)
+                            self.Title(pair.message)
                                 .overlayPolyfill(alignment: .topTrailing) {
-                                    if (message.isClosable) {
+                                    if (pair.message.isClosable) {
                                         self.ButtonClose(ID)
                                     }
                                 }
-                            
-                            if (!message.description.isEmpty) {
-                                self.Description(message)
+
+                            if (!pair.message.description.isEmpty) {
+                                self.Description(pair.message)
                             }
-                            
+
                         }.overlayPolyfill(alignment: .bottomLeading) {
-                            if let _ = message.expiresAt {
+                            if let _ = pair.message.expiresAt {
                                 self.Progress(
-                                    width: geometry.size.width * (self.state.progress[ID] ?? 0)
+                                    width: geometry.size.width * pair.progress
                                 )
                             }
                         }
@@ -103,8 +77,7 @@ struct MessageBox: View {
 
     @ViewBuilder private func ButtonClose(_ ID: MessageID) -> some View {
         Button {
-            self.state.messages[ID] = nil
-            self.state.progress[ID] = nil
+            self.data.delete(ID)
         } label: {
             Color.white.opacity(0.1)
                 .frame(width: 15, height: 15)
@@ -126,8 +99,8 @@ struct MessageBox: View {
         lifeTime: Self.LifeTime = .time(Self.LIFE_TIME_DEFAULT)
     ) {
         switch lifeTime {
-            case .time(let time): self.state.insert(type: type, title: title, description: description, isClosable: isClosable, expiresAt: CACurrentMediaTime() + time)
-            case .infinity      : self.state.insert(type: type, title: title, description: description, isClosable: isClosable)
+            case .time(let time): self.data.insert(type: type, title: title, description: description, isClosable: isClosable, expiresAt: CACurrentMediaTime() + time)
+            case .infinity      : self.data.insert(type: type, title: title, description: description, isClosable: isClosable)
         }
     }
 
