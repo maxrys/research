@@ -60,7 +60,7 @@ struct ToggleCustom: View {
                         color: .black.opacity(0.5),
                         radius: 2.0
                     )
-            }.contentShapePolyfill(Capsule())
+            }.contentShape(Capsule())
         }
         .buttonStyle(.plain)
         .pointerStyleLinkPolyfill()

@@ -7,12 +7,6 @@ import SwiftUI
 
 extension View {
 
-    @ViewBuilder func contentShapePolyfill<S: Shape>(_ shape: S = Capsule()) -> some View {
-        if #available(macOS 12.0, *)
-             { self.contentShape(shape) }
-        else { self }
-    }
-
     @ViewBuilder func pointerStyleLinkPolyfill(isEnabled: Bool = true) -> some View {
         if (isEnabled) {
             if #available(macOS 15.0, *) {
