@@ -37,6 +37,10 @@ struct Message {
         lhs.description == rhs.description
     }
 
+    var isPersistent: Bool {
+        self.expiresAt == nil
+    }
+
     var isExpired: Bool {
         guard let expiresAt = self.expiresAt else { return false }
         return CACurrentMediaTime() > expiresAt
