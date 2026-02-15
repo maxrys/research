@@ -21,7 +21,8 @@ import SwiftUI
     @ViewBuilder var mainScene: some View {
         HStack(spacing: 0) {
 
-            let loremIpsum = NSLocalizedString("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor", comment: "")
+            let longTitle       = NSLocalizedString("Long long long long long long long long long long long long long long long long long long long long long Title"      , comment: "")
+            let longDescription = NSLocalizedString("Long long long long long long long long long long long long long long long long long long long long long Description", comment: "")
 
             /* MARK: buttons */
             VStack(spacing: 10) {
@@ -31,30 +32,30 @@ import SwiftUI
                 self.ButtonInsert(text:      "Ok Message"         , type: .ok     , title:      "Ok Message")
                 self.ButtonInsert(text: "Warning Message"         , type: .warning, title: "Warning Message")
                 self.ButtonInsert(text:   "Error Message"         , type: .error  , title:   "Error Message")
-                self.ButtonInsert(text:    "Info Message + Descr.", type: .info   , title:    "Info Message", description: loremIpsum)
-                self.ButtonInsert(text:      "Ok Message + Descr.", type: .ok     , title:      "Ok Message", description: loremIpsum)
-                self.ButtonInsert(text: "Warning Message + Descr.", type: .warning, title: "Warning Message", description: loremIpsum)
-                self.ButtonInsert(text:   "Error Message + Descr.", type: .error  , title:   "Error Message", description: loremIpsum)
+                self.ButtonInsert(text:    "Info Message + Descr.", type: .info   , title:    "Info Message", description: longDescription)
+                self.ButtonInsert(text:      "Ok Message + Descr.", type: .ok     , title:      "Ok Message", description: longDescription)
+                self.ButtonInsert(text: "Warning Message + Descr.", type: .warning, title: "Warning Message", description: longDescription)
+                self.ButtonInsert(text:   "Error Message + Descr.", type: .error  , title:   "Error Message", description: longDescription)
 
                 Text("10 sec.").font(.headline)
-                self.ButtonInsert(text:    "Info Message"         , type: .info   , title:    "Info Message",                          lifeTime: .time(10))
-                self.ButtonInsert(text:      "Ok Message"         , type: .ok     , title:      "Ok Message",                          lifeTime: .time(10))
-                self.ButtonInsert(text: "Warning Message"         , type: .warning, title: "Warning Message",                          lifeTime: .time(10))
-                self.ButtonInsert(text:   "Error Message"         , type: .error  , title:   "Error Message",                          lifeTime: .time(10))
-                self.ButtonInsert(text:    "Info Message + Descr.", type: .info   , title:    "Info Message", description: loremIpsum, lifeTime: .time(10))
-                self.ButtonInsert(text:      "Ok Message + Descr.", type: .ok     , title:      "Ok Message", description: loremIpsum, lifeTime: .time(10))
-                self.ButtonInsert(text: "Warning Message + Descr.", type: .warning, title: "Warning Message", description: loremIpsum, lifeTime: .time(10))
-                self.ButtonInsert(text:   "Error Message + Descr.", type: .error  , title:   "Error Message", description: loremIpsum, lifeTime: .time(10))
+                self.ButtonInsert(text:    "Info Message"         , type: .info   , title:    "Info Message",                               lifeTime: .time(10))
+                self.ButtonInsert(text:      "Ok Message"         , type: .ok     , title:      "Ok Message",                               lifeTime: .time(10))
+                self.ButtonInsert(text: "Warning Message"         , type: .warning, title: "Warning Message",                               lifeTime: .time(10))
+                self.ButtonInsert(text:   "Error Message"         , type: .error  , title:   "Error Message",                               lifeTime: .time(10))
+                self.ButtonInsert(text:    "Info Message + Descr.", type: .info   , title:    "Info Message", description: longDescription, lifeTime: .time(10))
+                self.ButtonInsert(text:      "Ok Message + Descr.", type: .ok     , title:      "Ok Message", description: longDescription, lifeTime: .time(10))
+                self.ButtonInsert(text: "Warning Message + Descr.", type: .warning, title: "Warning Message", description: longDescription, lifeTime: .time(10))
+                self.ButtonInsert(text:   "Error Message + Descr.", type: .error  , title:   "Error Message", description: longDescription, lifeTime: .time(10))
 
                 Text("Infinity sec.").font(.headline)
-                self.ButtonInsert(text:    "Info Message"         , type: .info   , title:    "Info Message",                          isClosable: true, lifeTime: .infinity)
-                self.ButtonInsert(text:      "Ok Message"         , type: .ok     , title:      "Ok Message",                          isClosable: true, lifeTime: .infinity)
-                self.ButtonInsert(text: "Warning Message"         , type: .warning, title: "Warning Message",                          isClosable: true, lifeTime: .infinity)
-                self.ButtonInsert(text:   "Error Message"         , type: .error  , title:   "Error Message",                          isClosable: true, lifeTime: .infinity)
-                self.ButtonInsert(text:    "Info Message + Descr.", type: .info   , title:    "Info Message", description: loremIpsum, isClosable: true, lifeTime: .infinity)
-                self.ButtonInsert(text:      "Ok Message + Descr.", type: .ok     , title:      "Ok Message", description: loremIpsum, isClosable: true, lifeTime: .infinity)
-                self.ButtonInsert(text: "Warning Message + Descr.", type: .warning, title: "Warning Message", description: loremIpsum, isClosable: true, lifeTime: .infinity)
-                self.ButtonInsert(text:   "Error Message + Descr.", type: .error  , title:   "Error Message", description: loremIpsum, isClosable: true, lifeTime: .infinity)
+                self.ButtonInsert(text:    "Info Message"         , type: .info   , title: longTitle,                               isClosable: true, lifeTime: .infinity)
+                self.ButtonInsert(text:      "Ok Message"         , type: .ok     , title: longTitle,                               isClosable: true, lifeTime: .infinity)
+                self.ButtonInsert(text: "Warning Message"         , type: .warning, title: longTitle,                               isClosable: true, lifeTime: .infinity)
+                self.ButtonInsert(text:   "Error Message"         , type: .error  , title: longTitle,                               isClosable: true, lifeTime: .infinity)
+                self.ButtonInsert(text:    "Info Message + Descr.", type: .info   , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
+                self.ButtonInsert(text:      "Ok Message + Descr.", type: .ok     , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
+                self.ButtonInsert(text: "Warning Message + Descr.", type: .warning, title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
+                self.ButtonInsert(text:   "Error Message + Descr.", type: .error  , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
 
             }
             .padding(10)

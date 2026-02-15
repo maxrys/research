@@ -50,10 +50,9 @@ struct MessageBox: View {
                     VStack(alignment: .leading, spacing: 0) {
 
                         self.Title(message)
-                            .overlayPolyfill(alignment: .trailing) {
+                            .overlayPolyfill(alignment: .topTrailing) {
                                 if (message.isClosable) {
                                     self.ButtonClose(ID)
-                                        .padding(.trailing, 10)
                                 }
                             }
 
@@ -61,18 +60,19 @@ struct MessageBox: View {
                             self.Description(message)
                         }
 
+                    }.overlayPolyfill(alignment: .bottomLeading) {
                         if let _ = message.expiresAt {
-                            self.Progress(width: geometry.size.width * (self.state.progress[ID] ?? 0))
-                                .padding(.top, -3)
+                            self.Progress(
+                                width: geometry.size.width * (self.state.progress[ID] ?? 0)
+                            )
                         }
-
                     }
                 }
             }
         }
     }
 
-    @ViewBuilder func Title(_ message: Message) -> some View {
+    @ViewBuilder private func Title(_ message: Message) -> some View {
         Text(message.title)
             .font(.system(size: 14, weight: .bold))
             .multilineTextAlignment(.center)
@@ -83,7 +83,7 @@ struct MessageBox: View {
             .background(message.type.colorTitleBackground)
     }
 
-    @ViewBuilder func Description(_ message: Message) -> some View {
+    @ViewBuilder private func Description(_ message: Message) -> some View {
         Text(message.description)
             .font(.system(size: 13))
             .multilineTextAlignment(.center)
@@ -94,23 +94,25 @@ struct MessageBox: View {
             .background(message.type.colorDescriptionBackground)
     }
 
-    @ViewBuilder func Progress(width: CGFloat) -> some View {
+    @ViewBuilder private func Progress(width: CGFloat) -> some View {
         Color.black.opacity(0.3)
             .frame(width: width, height: 3)
     }
 
-    @ViewBuilder func ButtonClose(_ ID: MessageID) -> some View {
+    @ViewBuilder private func ButtonClose(_ ID: MessageID) -> some View {
         Button {
             self.state.messages[ID] = nil
             self.state.progress[ID] = nil
         } label: {
-            Circle()
-                .fill(Color.white.opacity(0.2))
-                .frame(width: 20, height: 20)
+            Rectangle()
+                .fill(Color.white.opacity(0.1))
+                .frame(width: 15, height: 15)
                 .overlayPolyfill {
                     Image(systemName: "xmark")
+                        .font(.system(size: 10))
                         .foregroundPolyfill(.white.opacity(0.5))
                 }
+                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .pointerStyleLinkPolyfill()
@@ -138,17 +140,18 @@ struct MessageBox: View {
 /* ############################################################# */
 
 #Preview {
-    let loremIpsum = NSLocalizedString("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor", comment: "")
+    let longTitle       = NSLocalizedString("Long long long long long long long long long long long long long long long long long long long long long Title"      , comment: "")
+    let longDescription = NSLocalizedString("Long long long long long long long long long long long long long long long long long long long long long Description", comment: "")
     let messageBox: MessageBox = {
         let box = MessageBox()
             box.insert(type: .info   , title: NSLocalizedString("Info"   , comment: ""), lifeTime: .infinity)
             box.insert(type: .ok     , title: NSLocalizedString("Ok"     , comment: ""), lifeTime: .infinity)
             box.insert(type: .warning, title: NSLocalizedString("Warning", comment: ""), lifeTime: .infinity)
             box.insert(type: .error  , title: NSLocalizedString("Error"  , comment: ""), lifeTime: .infinity)
-            box.insert(type: .info   , title: loremIpsum, description: loremIpsum, lifeTime: .time(3))
-            box.insert(type: .ok     , title: loremIpsum, description: loremIpsum, lifeTime: .time(4))
-            box.insert(type: .warning, title: loremIpsum, description: loremIpsum, lifeTime: .time(5))
-            box.insert(type: .error  , title: loremIpsum, description: loremIpsum, lifeTime: .time(6))
+            box.insert(type: .info   , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
+            box.insert(type: .ok     , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
+            box.insert(type: .warning, title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
+            box.insert(type: .error  , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
         return box
     }()
     ScrollView {
