@@ -12,12 +12,12 @@ final class MessageBoxState: ObservableObject {
 
     typealias MessageProgressPair = (message: Message, progress: Double)
 
-    @Published var data: [
+    @Published private var data: [
         MessageID: MessageProgressPair
     ] = [:]
 
-    var timer: Timer.Custom!
-    var newID: MessageID = 0
+    private var timer: Timer.Custom!
+    private var newID: MessageID = 0
 
     init() {
         self.timer = Timer.Custom(
@@ -27,7 +27,7 @@ final class MessageBoxState: ObservableObject {
         )
     }
 
-    func onTimerTick(timer: Timer.Custom) {
+    private func onTimerTick(timer: Timer.Custom) {
         Logger.customLog("Timer onTimerTick \(timer.i)")
         for (ID, pair) in self.data {
             self.data[ID]?.progress = pair.message.progress
@@ -37,19 +37,18 @@ final class MessageBoxState: ObservableObject {
         }
     }
 
-    var sortedMessages: [(key: MessageID, value: MessageProgressPair)] {
-        self.data.sorted(by: { (lhs, rhs) in
-            lhs.key < rhs.key
-        })
+    public var messages: [(key: MessageID, value: Message)] {
+        self.data.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }).map { dictItem in (
+             key  : dictItem.key,
+             value: dictItem.value.message
+        )}
     }
 
-    func insert(
-        type: MessageType,
-        title: String,
-        description: String = "",
-        isClosable: Bool = false,
-        expiresAt: CFTimeInterval? = nil
-    ) {
+    public func progress(_ ID: MessageID) -> Double {
+        self.data[ID]?.progress ?? 0
+    }
+
+    public func insert(type: MessageType, title: String, description: String = "", isClosable: Bool = false, expiresAt: CFTimeInterval? = nil) {
         let newMessage = Message(
             type: type,
             title: title,
@@ -68,7 +67,7 @@ final class MessageBoxState: ObservableObject {
         )
     }
 
-    func delete(_ ID: MessageID) {
+    public func delete(_ ID: MessageID) {
         self.data[ID] = nil
     }
 

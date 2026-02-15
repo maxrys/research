@@ -21,24 +21,24 @@ struct MessageBox: View {
         GeometryReader { geometry in
             ScrollView {
                 VStack (spacing: 0) {
-                    ForEach(self.data.sortedMessages, id: \.key) { ID, pair in
+                    ForEach(self.data.messages, id: \.key) { ID, message in
                         VStack(alignment: .leading, spacing: 0) {
                             
-                            self.Title(pair.message)
+                            self.Title(message)
                                 .overlayPolyfill(alignment: .topTrailing) {
-                                    if (pair.message.isClosable) {
+                                    if (message.isClosable) {
                                         self.ButtonClose(ID)
                                     }
                                 }
 
-                            if (!pair.message.description.isEmpty) {
-                                self.Description(pair.message)
+                            if (!message.description.isEmpty) {
+                                self.Description(message)
                             }
 
                         }.overlayPolyfill(alignment: .bottomLeading) {
-                            if let _ = pair.message.expiresAt {
+                            if let _ = message.expiresAt {
                                 self.Progress(
-                                    width: geometry.size.width * pair.progress
+                                    width: geometry.size.width * data.progress(ID)
                                 )
                             }
                         }
