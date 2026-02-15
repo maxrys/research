@@ -8,7 +8,7 @@ import SwiftUI
 
 typealias MessageID = UInt
 
-final class MessageBoxState: ObservableObject {
+final class MessageStorage: ObservableObject {
 
     typealias MessageProgressPair = (message: Message, progress: Double)
 

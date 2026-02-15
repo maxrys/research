@@ -15,7 +15,7 @@ struct MessageBox: View {
 
     static let LIFE_TIME_DEFAULT: CFTimeInterval = 3.0
 
-    @ObservedObject private var data = MessageBoxState()
+    @ObservedObject private var data = MessageStorage()
 
     var body: some View {
         GeometryReader { geometry in
