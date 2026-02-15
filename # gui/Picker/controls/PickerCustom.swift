@@ -75,9 +75,9 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                 .background(
                     RoundedRectangle(cornerRadius: self.cornerRadius)
                         .stroke(self.colorSet.border, lineWidth: self.borderWidth)
-                        .background(self.colorSet.background))
-                .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
-                .contentShapePolyfill(RoundedRectangle(cornerRadius: self.cornerRadius))
+                        .background(self.colorSet.background)
+                        .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius)))
+                .contentShapePolyfill(RoundedRectangle(cornerRadius: self.cornerRadius), kind: .focusEffect)
         }
         .buttonStyle(.plain)
         .pointerStyleLinkPolyfill()
@@ -125,8 +125,9 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
                         .padding(.vertical  , 5)
                         .frame(maxWidth: .infinity, alignment: self.rootView.isPlainListStyle ? .leading : .center)
                         .foregroundPolyfill(self.rootView.colorSet.itemText)
-                        .background(backgroundColor)
-                        .clipShape(RoundedRectangle(cornerRadius: self.rootView.cornerRadius))
+                        .background(
+                            RoundedRectangle(cornerRadius: self.rootView.cornerRadius)
+                                .fill(backgroundColor))
                         .contentShapePolyfill(RoundedRectangle(cornerRadius: self.rootView.cornerRadius))
                         .onHover { isHovering in
                             self.hoveredKey = isHovering ? item.key : nil
@@ -187,8 +188,9 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
                             .padding(.vertical  , 5)
                             .frame(maxWidth: .infinity, alignment: self.rootView.isPlainListStyle ? .leading : .center)
                             .foregroundPolyfill(self.rootView.colorSet.itemText)
-                            .background(backgroundColor)
-                            .clipShape(RoundedRectangle(cornerRadius: self.rootView.cornerRadius))
+                            .background(
+                                RoundedRectangle(cornerRadius: self.rootView.cornerRadius)
+                                    .fill(backgroundColor))
                             .contentShapePolyfill(RoundedRectangle(cornerRadius: self.rootView.cornerRadius))
                             .onHover { isHovering in
                                 self.hoveredKey = isHovering ? item.key : nil
