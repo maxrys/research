@@ -21,7 +21,7 @@ import SwiftUI
     @ViewBuilder var mainScene: some View {
         HStack(spacing: 0) {
 
-            let longTitle       = NSLocalizedString("Long long long long long long long long long long long long long long long long long long long long long Title"      , comment: "")
+            let longTitle       = NSLocalizedString("Long long long long long long long long long long long long long long Title", comment: "")
             let longDescription = NSLocalizedString("Long long long long long long long long long long long long long long long long long long long long long Description", comment: "")
 
             /* MARK: buttons */

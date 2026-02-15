@@ -140,7 +140,7 @@ struct MessageBox: View {
 /* ############################################################# */
 
 #Preview {
-    let longTitle       = NSLocalizedString("Long long long long long long long long long long long long long long long long long long long long long Title"      , comment: "")
+    let longTitle       = NSLocalizedString("Long long long long long long long long long long long long long long Title", comment: "")
     let longDescription = NSLocalizedString("Long long long long long long long long long long long long long long long long long long long long long Description", comment: "")
     let messageBox: MessageBox = {
         let box = MessageBox()
@@ -156,5 +156,5 @@ struct MessageBox: View {
     }()
     ScrollView {
         messageBox
-    }.frame(maxWidth: 300)
+    }.frame(width: 300, height: 700)
 }
