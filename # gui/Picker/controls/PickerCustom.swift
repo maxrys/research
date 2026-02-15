@@ -77,7 +77,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                         .stroke(self.colorSet.border, lineWidth: self.borderWidth)
                         .background(self.colorSet.background)
                         .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius)))
-                .contentShapePolyfill(RoundedRectangle(cornerRadius: self.cornerRadius), kind: .focusEffect)
+                .contentShapePolyfill(RoundedRectangle(cornerRadius: self.cornerRadius))
         }
         .buttonStyle(.plain)
         .pointerStyleLinkPolyfill()

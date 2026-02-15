@@ -20,11 +20,10 @@ extension View {
         else                                   { self.foregroundColor(color) }
     }
 
-    @ViewBuilder func contentShapePolyfill<S: Shape>(_ shape: S = Capsule(), kind: ContentShapeKinds? = nil) -> some View {
-        if #available(macOS 12.0, *) {
-            if let kind { self.contentShape(kind, shape) }
-            else        { self.contentShape(      shape) }
-        } else { self }
+    @ViewBuilder func contentShapePolyfill<S: Shape>(_ shape: S = Capsule()) -> some View {
+        if #available(macOS 12.0, *)
+             { self.contentShape(shape) }
+        else { self }
     }
 
     @ViewBuilder func onKeyPressPolyfill(character: String, action: @escaping () -> Void) -> some View {
