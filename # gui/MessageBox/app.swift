@@ -69,7 +69,7 @@ import SwiftUI
             .padding(10)
             .frame(maxWidth: 300, maxHeight: .infinity, alignment: .top)
 
-        }
+        }.frame(height: 850)
     }
 
     @ViewBuilder func ButtonInsert(

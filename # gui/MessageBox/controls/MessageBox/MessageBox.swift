@@ -45,26 +45,28 @@ struct MessageBox: View {
 
     var body: some View {
         GeometryReader { geometry in
-            VStack (spacing: 0) {
-                ForEach(self.sortedMessages, id: \.key) { ID, message in
-                    VStack(alignment: .leading, spacing: 0) {
-
-                        self.Title(message)
-                            .overlayPolyfill(alignment: .topTrailing) {
-                                if (message.isClosable) {
-                                    self.ButtonClose(ID)
+            ScrollView {
+                VStack (spacing: 0) {
+                    ForEach(self.sortedMessages, id: \.key) { ID, message in
+                        VStack(alignment: .leading, spacing: 0) {
+                            
+                            self.Title(message)
+                                .overlayPolyfill(alignment: .topTrailing) {
+                                    if (message.isClosable) {
+                                        self.ButtonClose(ID)
+                                    }
                                 }
+                            
+                            if (!message.description.isEmpty) {
+                                self.Description(message)
                             }
-                        
-                        if (!message.description.isEmpty) {
-                            self.Description(message)
-                        }
-
-                    }.overlayPolyfill(alignment: .bottomLeading) {
-                        if let _ = message.expiresAt {
-                            self.Progress(
-                                width: geometry.size.width * (self.state.progress[ID] ?? 0)
-                            )
+                            
+                        }.overlayPolyfill(alignment: .bottomLeading) {
+                            if let _ = message.expiresAt {
+                                self.Progress(
+                                    width: geometry.size.width * (self.state.progress[ID] ?? 0)
+                                )
+                            }
                         }
                     }
                 }
