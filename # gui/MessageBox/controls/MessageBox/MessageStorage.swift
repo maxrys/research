@@ -5,6 +5,7 @@
 
 import os
 import SwiftUI
+import Combine
 
 typealias MessageID = UInt
 
