@@ -115,19 +115,17 @@ struct MessageBox: View {
 #Preview {
     let longTitle       = NSLocalizedString("Long long long long long long long long long long long long long long Title", comment: "")
     let longDescription = NSLocalizedString("Long long long long long long long long long long long long long long long long long long long long long Description", comment: "")
-    let messageBox: MessageBox = {
-        let box = MessageBox()
-            box.insert(type: .info   , title: NSLocalizedString("Info"   , comment: ""), lifeTime: .infinity)
-            box.insert(type: .ok     , title: NSLocalizedString("Ok"     , comment: ""), lifeTime: .infinity)
-            box.insert(type: .warning, title: NSLocalizedString("Warning", comment: ""), lifeTime: .infinity)
-            box.insert(type: .error  , title: NSLocalizedString("Error"  , comment: ""), lifeTime: .infinity)
-            box.insert(type: .info   , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
-            box.insert(type: .ok     , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
-            box.insert(type: .warning, title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
-            box.insert(type: .error  , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
-        return box
-    }()
-    ScrollView {
-        messageBox
-    }.frame(width: 300, height: 700)
+    let messageBox      = MessageBox()
+    messageBox
+        .frame(width: 300, height: 700)
+        .onAppear {
+            messageBox.insert(type: .info   , title: NSLocalizedString("Info"   , comment: ""), lifeTime: .time(10))
+            messageBox.insert(type: .ok     , title: NSLocalizedString("Ok"     , comment: ""), lifeTime: .time(20))
+            messageBox.insert(type: .warning, title: NSLocalizedString("Warning", comment: ""), lifeTime: .time(30))
+            messageBox.insert(type: .error  , title: NSLocalizedString("Error"  , comment: ""), lifeTime: .time(40))
+            messageBox.insert(type: .info   , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
+            messageBox.insert(type: .ok     , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
+            messageBox.insert(type: .warning, title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
+            messageBox.insert(type: .error  , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
+        }
 }
