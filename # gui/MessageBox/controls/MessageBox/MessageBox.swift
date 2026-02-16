@@ -16,36 +16,47 @@ struct MessageBox: View {
     static let LIFE_TIME_DEFAULT: CFTimeInterval = 3.0
 
     @ObservedObject private var data = MessageStorage()
+    @State private var width: CGFloat = 0
 
     var body: some View {
-        GeometryReader { geometry in
-            ScrollView {
-                VStack (spacing: 0) {
-                    ForEach(self.data.messages, id: \.key) { ID, message in
-                        VStack(alignment: .leading, spacing: 0) {
-                            
-                            self.Title(message)
-                                .overlayPolyfill(alignment: .topTrailing) {
-                                    if (message.isClosable) {
-                                        self.ButtonClose(ID)
-                                    }
-                                }
-
-                            if (!message.description.isEmpty) {
-                                self.Description(message)
-                            }
-
-                        }.overlayPolyfill(alignment: .bottomLeading) {
-                            if let _ = message.expiresAt {
-                                self.Progress(
-                                    width: geometry.size.width * data.progress(ID)
-                                )
+        VStack (spacing: 0) {
+            ForEach(self.data.messages, id: \.key) { ID, message in
+                VStack(alignment: .leading, spacing: 0) {
+                    
+                    self.Title(message)
+                        .overlayPolyfill(alignment: .topTrailing) {
+                            if (message.isClosable) {
+                                self.ButtonClose(ID)
                             }
                         }
+
+                    if (!message.description.isEmpty) {
+                        self.Description(message)
+                    }
+
+                }.overlayPolyfill(alignment: .bottomLeading) {
+                    if let _ = message.expiresAt {
+                        self.Progress(
+                            width: self.width * data.progress(ID)
+                        )
                     }
                 }
             }
+            self.WidthMetter
         }
+    }
+
+    @ViewBuilder private var WidthMetter: some View {
+        Color.clear
+            .frame(height: 0)
+            .background(
+                GeometryReader { geometry in
+                    Color.clear
+                        .onAppear {
+                            self.width = geometry.size.width
+                        }
+                }
+            )
     }
 
     @ViewBuilder private func Title(_ message: Message) -> some View {

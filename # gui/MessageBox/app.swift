@@ -16,17 +16,21 @@ import SwiftUI
         else                         { return window }
     }
 
-    let messageBox = MessageBox()
+    private let messageBox = MessageBox()
+    private let columns = [
+        GridItem(.fixed(300), spacing: 10, alignment: .center),
+        GridItem(.fixed(300), spacing: 10, alignment: .center),
+        GridItem(.fixed(300), spacing: 10, alignment: .center),
+        GridItem(.adaptive(minimum: 200, maximum: 400), alignment: .top),
+    ]
 
     @ViewBuilder var mainScene: some View {
-        HStack(spacing: 0) {
+        LazyVGrid(columns: columns, spacing: 0) {
 
             let longTitle       = NSLocalizedString("Long long long long long long long long long long long long long long Title", comment: "")
             let longDescription = NSLocalizedString("Long long long long long long long long long long long long long long long long long long long long long Description", comment: "")
 
-            /* MARK: buttons */
             VStack(spacing: 10) {
-
                 Text("3 (default) sec.").font(.headline)
                 self.ButtonInsert(text:    "Info Message"         , type: .info   , title:    "Info Message")
                 self.ButtonInsert(text:      "Ok Message"         , type: .ok     , title:      "Ok Message")
@@ -36,7 +40,9 @@ import SwiftUI
                 self.ButtonInsert(text:      "Ok Message + Descr.", type: .ok     , title:      "Ok Message", description: longDescription)
                 self.ButtonInsert(text: "Warning Message + Descr.", type: .warning, title: "Warning Message", description: longDescription)
                 self.ButtonInsert(text:   "Error Message + Descr.", type: .error  , title:   "Error Message", description: longDescription)
+            }
 
+            VStack(spacing: 10) {
                 Text("10 sec.").font(.headline)
                 self.ButtonInsert(text:    "Info Message"         , type: .info   , title:    "Info Message",                               lifeTime: .time(10))
                 self.ButtonInsert(text:      "Ok Message"         , type: .ok     , title:      "Ok Message",                               lifeTime: .time(10))
@@ -46,7 +52,9 @@ import SwiftUI
                 self.ButtonInsert(text:      "Ok Message + Descr.", type: .ok     , title:      "Ok Message", description: longDescription, lifeTime: .time(10))
                 self.ButtonInsert(text: "Warning Message + Descr.", type: .warning, title: "Warning Message", description: longDescription, lifeTime: .time(10))
                 self.ButtonInsert(text:   "Error Message + Descr.", type: .error  , title:   "Error Message", description: longDescription, lifeTime: .time(10))
+            }
 
+            VStack(spacing: 10) {
                 Text("Infinity sec.").font(.headline)
                 self.ButtonInsert(text:    "Info Message"         , type: .info   , title: longTitle,                               isClosable: true, lifeTime: .infinity)
                 self.ButtonInsert(text:      "Ok Message"         , type: .ok     , title: longTitle,                               isClosable: true, lifeTime: .infinity)
@@ -56,20 +64,24 @@ import SwiftUI
                 self.ButtonInsert(text:      "Ok Message + Descr.", type: .ok     , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
                 self.ButtonInsert(text: "Warning Message + Descr.", type: .warning, title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
                 self.ButtonInsert(text:   "Error Message + Descr.", type: .error  , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
-
             }
-            .padding(10)
-            .frame(maxWidth: 240, maxHeight: .infinity)
-            .background(Color.gray)
 
-            /* MARK: message box */
-            HStack(spacing: 10) {
+            VStack(spacing: 10) {
                 self.messageBox
+                Spacer()
             }
             .padding(10)
-            .frame(maxWidth: 300, maxHeight: .infinity, alignment: .top)
+            .frame(minHeight: 100)
+            .frame(maxWidth: .infinity)
+            .frame(alignment: .top)
+            .background(Color.white)
 
-        }.frame(height: 850)
+        }
+        .padding(10)
+        .frame(height: 400)
+        .frame(minWidth: 1200)
+        .frame(maxWidth: 1300)
+        .background(Color.gray)
     }
 
     @ViewBuilder func ButtonInsert(
