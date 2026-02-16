@@ -68,7 +68,6 @@ import SwiftUI
 
             VStack(spacing: 10) {
                 self.messageBox
-                Spacer()
             }
             .padding(10)
             .frame(minHeight: 100)

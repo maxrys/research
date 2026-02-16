@@ -13,9 +13,9 @@ struct MessageBox: View {
         case infinity
     }
 
-    private struct WidthKey: @MainActor PreferenceKey {
-        @MainActor static var defaultValue: CGFloat = 0
-        static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+    private struct SizeKey: @MainActor PreferenceKey {
+        @MainActor static var defaultValue = CGSize(width: 0, height: 0)
+        static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
             value = nextValue()
         }
     }
@@ -23,7 +23,7 @@ struct MessageBox: View {
     static let LIFE_TIME_DEFAULT: CFTimeInterval = 3.0
 
     @ObservedObject private var data = MessageStorage()
-    @State private var width: CGFloat = 0
+    @State private var size = CGSize(width: 0, height: 0)
 
     var body: some View {
         VStack (spacing: 0) {
@@ -44,26 +44,27 @@ struct MessageBox: View {
                 }.overlayPolyfill(alignment: .bottomLeading) {
                     if let _ = message.expiresAt {
                         self.Progress(
-                            width: self.width * data.progress(ID)
+                            width: self.size.width * data.progress(ID)
                         )
                     }
                 }
             }
-            self.WidthMetter
+            self.SizeMetter
         }
     }
 
-    @ViewBuilder private var WidthMetter: some View {
+    @ViewBuilder private var SizeMetter: some View {
         Color.clear
+            .frame(height: 0)
             .background(
                 GeometryReader { geometry in
                     Color.clear
-                        .preference(key: WidthKey.self, value: geometry.size.width)
+                        .preference(key: SizeKey.self, value: geometry.size)
+                        .onPreferenceChange(SizeKey.self) { value in
+                            self.size = value
+                        }
                 }
             )
-            .onPreferenceChange(WidthKey.self) { value in
-                self.width = value
-            }
     }
 
     @ViewBuilder private func Title(_ message: Message) -> some View {
