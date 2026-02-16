@@ -13,6 +13,13 @@ struct MessageBox: View {
         case infinity
     }
 
+    private struct WidthKey: @MainActor PreferenceKey {
+        @MainActor static var defaultValue: CGFloat = 0
+        static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+            value = nextValue()
+        }
+    }
+
     static let LIFE_TIME_DEFAULT: CFTimeInterval = 3.0
 
     @ObservedObject private var data = MessageStorage()
@@ -48,15 +55,15 @@ struct MessageBox: View {
 
     @ViewBuilder private var WidthMetter: some View {
         Color.clear
-            .frame(height: 0)
             .background(
                 GeometryReader { geometry in
                     Color.clear
-                        .onAppear {
-                            self.width = geometry.size.width
-                        }
+                        .preference(key: WidthKey.self, value: geometry.size.width)
                 }
             )
+            .onPreferenceChange(WidthKey.self) { value in
+                self.width = value
+            }
     }
 
     @ViewBuilder private func Title(_ message: Message) -> some View {
