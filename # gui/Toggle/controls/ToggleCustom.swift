@@ -13,9 +13,9 @@ struct ToggleCustom: View {
     var height: CGFloat = 16
     var innerPadding: CGFloat = 3
 
-    private var text: String
-    private var isFlexible: Bool
-    private var onChange: (Bool) -> Void
+    private let text: String
+    private let isFlexible: Bool
+    private let onChange: (Bool) -> Void
 
     init(text: String = "", isFlexible: Bool = false, isOn: Binding<Bool>, onChange: @escaping (Bool) -> Void = { isOn in }) {
         self.text = text
@@ -24,24 +24,24 @@ struct ToggleCustom: View {
         self.onChange = onChange
     }
 
-    var body: some View {
+    public var body: some View {
         if (self.isFlexible) {
             HStack {
                 Text(self.text)
                     .font(.system(size: 16))
                 Spacer()
-                self.switcher
+                self.SwitcherView()
             }.frame(maxWidth: .infinity)
         } else {
             HStack {
                 Text(self.text)
                     .font(.system(size: 16))
-                self.switcher
+                self.SwitcherView()
             }
         }
     }
 
-    @ViewBuilder var switcher: some View {
+    @ViewBuilder private func SwitcherView() -> some View {
         Button {
             self.onChange(!self.isOn)
             withAnimation(.easeInOut(duration: 0.1)) {

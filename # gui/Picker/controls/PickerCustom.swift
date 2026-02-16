@@ -47,10 +47,10 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
     public var body: some View {
         if (self.items.isEmpty) {
-            self.opener
+            self.OpenerView()
                 .disabled(true)
         } else {
-            self.opener
+            self.OpenerView()
                 .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow  .rawValue) { self.isOpened = true }
                 .onKeyPressPolyfill(character: KeyEquivalentPolyfill.downArrow.rawValue) { self.isOpened = true }
                 .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return   .rawValue) { self.isOpened = true }
@@ -62,7 +62,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
         }
     }
 
-    @ViewBuilder private var opener: some View {
+    @ViewBuilder private func OpenerView() -> some View {
         Button {
             self.isOpened = true
         } label: {
@@ -94,7 +94,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
     @FocusState private var focuser: Focuser?
     @State private var hoveredKey: Key?
 
-    private var rootView: PickerCustom<Key>
+    private let rootView: PickerCustom<Key>
 
     init(rootView: PickerCustom<Key>) {
         self.rootView = rootView
@@ -102,11 +102,11 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
 
     public var body: some View {
         if (self.rootView.items.count > 8)
-             { self.listWithScroll }
-        else { self.list }
+             { self.ListWithScroll() }
+        else { self.ListView() }
     }
 
-    private var list: some View {
+    @ViewBuilder private func ListView() -> some View {
         VStack(spacing: 10) {
             ForEach(Array(self.rootView.itemsSorted.enumerated()), id: \.element.key) { index, item in
                 Button {
@@ -168,7 +168,7 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
         }
     }
 
-    private var listWithScroll: some View {
+    @ViewBuilder private func ListWithScroll() -> some View {
         ScrollViewReader { scrollProxy in
             List {
                 ForEach(Array(self.rootView.itemsSorted.enumerated()), id: \.element.key) { index, item in

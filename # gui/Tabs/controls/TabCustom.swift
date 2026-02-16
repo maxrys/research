@@ -47,7 +47,7 @@ struct TabCustom: View {
                     .white.opacity(0.5)
             )
             .overlay(alignment: .bottom) {
-                self.shadow
+                self.ShadowView()
                     .offset(y: 5)
             }
 
@@ -62,7 +62,7 @@ struct TabCustom: View {
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    @ViewBuilder private var shadow: some View {
+    @ViewBuilder private func ShadowView() -> some View {
         Rectangle()
             .fill(
                 LinearGradient(

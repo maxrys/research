@@ -82,7 +82,7 @@ struct GridCustom: View {
     }
 
     public var body: some View {
-        ScrollView([.horizontal, .vertical]) { self.grid }
+        ScrollView([.horizontal, .vertical]) { self.GridView() }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .scrollDisabled(self.isScrollDisabled)
             .scrollPosition(self.$scrollPosition)
@@ -121,7 +121,7 @@ struct GridCustom: View {
          // }
     }
 
-    @ViewBuilder private var grid: some View {
+    @ViewBuilder private func GridView() -> some View {
         if let bounds = self.source.bounds {
             switch self.gridType {
 
