@@ -34,7 +34,7 @@ final class MessageStorage: ObservableObject {
     private func onTimerTick(timer: Timer.Custom) {
         var isTimerRequired = false
         for (ID, pair) in self.data {
-            switch pair.message.lifecycle {
+            switch pair.message.status {
                 case .expired:
                     self.delete(ID)
                 case .inProgress(let progress):
@@ -74,12 +74,12 @@ final class MessageStorage: ObservableObject {
             }
         }
         self.newID += 1
-        switch newMessage.lifecycle {
+        switch newMessage.status {
             case .persistent              : self.data[self.newID] = (message: newMessage, progress: 0)
             case .inProgress(let progress): self.data[self.newID] = (message: newMessage, progress: progress)
             case .expired                 : break
         }
-        if case .inProgress = newMessage.lifecycle {
+        if case .inProgress = newMessage.status {
             if (self.timer.isStoped) {
                 self.timer.startOrRenew()
             }

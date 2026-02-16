@@ -37,7 +37,7 @@ struct Message {
         lhs.description == rhs.description
     }
 
-    var lifecycle: MessageLifecycle {
+    var status: MessageStatus {
         if let expiresAt = self.expiresAt {
             if (CACurrentMediaTime() > expiresAt) {
                 return .expired

@@ -6,7 +6,7 @@
 
 import SwiftUI
 
-enum MessageLifecycle {
+enum MessageStatus {
 
     case persistent
     case inProgress(Double)
