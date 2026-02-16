@@ -13,58 +13,37 @@ struct MessageBox: View {
         case infinity
     }
 
-    private struct SizeKey: @MainActor PreferenceKey {
-        @MainActor static var defaultValue = CGSize(width: 0, height: 0)
-        static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
-            value = nextValue()
-        }
-    }
-
     static let LIFE_TIME_DEFAULT: CFTimeInterval = 3.0
 
     @ObservedObject private var data = MessageStorage()
-    @State private var size = CGSize(width: 0, height: 0)
 
     var body: some View {
-        VStack (spacing: 0) {
-            ForEach(self.data.messages, id: \.key) { ID, message in
-                VStack(alignment: .leading, spacing: 0) {
-                    
-                    self.Title(message)
-                        .overlayPolyfill(alignment: .topTrailing) {
-                            if (message.isClosable) {
-                                self.ButtonClose(ID)
+        GeometryReaderPolyfill(isIgnoreHeight: true) { size in
+            VStack (spacing: 0) {
+                ForEach(self.data.messages, id: \.key) { ID, message in
+                    VStack(alignment: .leading, spacing: 0) {
+
+                        self.Title(message)
+                            .overlayPolyfill(alignment: .topTrailing) {
+                                if (message.isClosable) {
+                                    self.ButtonClose(ID)
+                                }
                             }
+
+                        if (!message.description.isEmpty) {
+                            self.Description(message)
                         }
 
-                    if (!message.description.isEmpty) {
-                        self.Description(message)
-                    }
-
-                }.overlayPolyfill(alignment: .bottomLeading) {
-                    if let _ = message.expiresAt {
-                        self.Progress(
-                            width: self.size.width * data.progress(ID)
-                        )
+                    }.overlayPolyfill(alignment: .bottomLeading) {
+                        if let _ = message.expiresAt {
+                            self.Progress(
+                                width: size.width * data.progress(ID)
+                            )
+                        }
                     }
                 }
             }
-            self.SizeMetter
         }
-    }
-
-    @ViewBuilder private var SizeMetter: some View {
-        Color.clear
-            .frame(height: 0)
-            .background(
-                GeometryReader { geometry in
-                    Color.clear
-                        .preference(key: SizeKey.self, value: geometry.size)
-                        .onPreferenceChange(SizeKey.self) { value in
-                            self.size = value
-                        }
-                }
-            )
     }
 
     @ViewBuilder private func Title(_ message: Message) -> some View {
