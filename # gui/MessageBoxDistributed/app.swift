@@ -17,7 +17,7 @@ import SwiftUI
     ]
 
     init() {
-        EventsDispatcher.shared.on(MessageBox.EVENT_NAME_FOR_MESSAGE_INSERT) { message in
+        Events.shared.on(MessageBox.EVENT_NAME_FOR_MESSAGE_INSERT) { message in
             Logger.customLog("message insert: \(message)")
         }
     }

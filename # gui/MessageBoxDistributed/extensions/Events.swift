@@ -6,9 +6,9 @@
 import Foundation
 import Combine
 
-class EventsDispatcher {
+class Events {
 
-    @MainActor static let shared = EventsDispatcher()
+    @MainActor static let shared = Events()
 
     private var cancellableBag = Set<AnyCancellable>()
     private var publisherBag: [
@@ -18,7 +18,7 @@ class EventsDispatcher {
         String: [(Any) -> Void]
     ] = [:]
 
-    func publisher( _ type: String) -> NotificationCenter.Publisher? {
+    public func publisher( _ type: String) -> NotificationCenter.Publisher? {
         if (self.publisherBag[type] == nil) {
             self.publisherBag[type] = NotificationCenter.default.publisher(for: Notification.Name(type))
             self.publisherBag[type]!.sink(receiveValue: { notification in
@@ -31,14 +31,14 @@ class EventsDispatcher {
         return self.publisherBag[type]!
     }
 
-    func send(_ type: String, object: Any) {
+    public func send(_ type: String, object: Any) {
         NotificationCenter.default.post(
             name: Notification.Name(type),
             object: object
         )
     }
 
-    func on(_ type: String, handler: @escaping (Any) -> Void) {
+    public func on(_ type: String, handler: @escaping (Any) -> Void) {
         if (self.handlers[type] == nil) { self.handlers[type] = [] }
         self.handlers[type]!.append(handler)
     }
