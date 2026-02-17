@@ -106,7 +106,7 @@ struct MessageBox: View {
         .pointerStyleLinkPolyfill()
     }
 
-    public func insert(
+    static public func insert(
         type: MessageType,
         title: String,
         description: String = "",
@@ -130,17 +130,16 @@ struct MessageBox: View {
 #Preview {
     let longTitle       = NSLocalizedString("Long long long long long long long long long long long long long long Title", comment: "")
     let longDescription = NSLocalizedString("Long long long long long long long long long long long long long long long long long long long long long Description", comment: "")
-    let messageBox      = MessageBox()
-    messageBox
+    MessageBox()
         .frame(width: 300, height: 700)
         .onAppear {
-            messageBox.insert(type: .info   , title: NSLocalizedString("Info"   , comment: ""), lifeTime: .time(10))
-            messageBox.insert(type: .ok     , title: NSLocalizedString("Ok"     , comment: ""), lifeTime: .time(20))
-            messageBox.insert(type: .warning, title: NSLocalizedString("Warning", comment: ""), lifeTime: .time(30))
-            messageBox.insert(type: .error  , title: NSLocalizedString("Error"  , comment: ""), lifeTime: .time(40))
-            messageBox.insert(type: .info   , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
-            messageBox.insert(type: .ok     , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
-            messageBox.insert(type: .warning, title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
-            messageBox.insert(type: .error  , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
+            MessageBox.insert(type: .info   , title: NSLocalizedString("Info"   , comment: ""), lifeTime: .time(10))
+            MessageBox.insert(type: .ok     , title: NSLocalizedString("Ok"     , comment: ""), lifeTime: .time(20))
+            MessageBox.insert(type: .warning, title: NSLocalizedString("Warning", comment: ""), lifeTime: .time(30))
+            MessageBox.insert(type: .error  , title: NSLocalizedString("Error"  , comment: ""), lifeTime: .time(40))
+            MessageBox.insert(type: .info   , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
+            MessageBox.insert(type: .ok     , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
+            MessageBox.insert(type: .warning, title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
+            MessageBox.insert(type: .error  , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
         }
 }

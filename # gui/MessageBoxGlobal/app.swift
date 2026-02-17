@@ -94,7 +94,7 @@ import SwiftUI
         lifeTime: MessageBox.LifeTime = .time(MessageBox.LIFE_TIME_DEFAULT)
     ) -> some View {
         Button {
-            self.messageBox.insert(
+            MessageBox.insert(
                 type: type,
                 title: title,
                 description: description,
