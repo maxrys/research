@@ -60,13 +60,13 @@
 		503D1AEE2F310151005B8A98 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				50DCD7FF2F446C7500E067C3 /* EventsDispatcher.swift */,
+				50DCD8002F446C7500E067C3 /* EventsDispatcherDistributed.swift */,
 				50DCD7EA2F43231C00E067C3 /* GeometryReader.swift */,
 				50B2774C2F407D29005F7475 /* Logger.swift */,
 				50B2774A2F3FC25A005F7475 /* Numeric.swift */,
 				50583DA12DFF046200013BD0 /* Timer.swift */,
 				50583D9E2DFEF3BC00013BD0 /* View.swift */,
-				50DCD7FF2F446C7500E067C3 /* EventsDispatcher.swift */,
-				50DCD8002F446C7500E067C3 /* EventsDispatcherDistributed.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -94,12 +94,12 @@
 		50B2773E2F3F100C005F7475 /* controls */ = {
 			isa = PBXGroup;
 			children = (
-				50B2773F2F3F1088005F7475 /* MessageBoxDistributed */,
+				50B2773F2F3F1088005F7475 /* MessageBox */,
 			);
 			path = controls;
 			sourceTree = "<group>";
 		};
-		50B2773F2F3F1088005F7475 /* MessageBoxDistributed */ = {
+		50B2773F2F3F1088005F7475 /* MessageBox */ = {
 			isa = PBXGroup;
 			children = (
 				50583D942DFBFA4F00013BD0 /* MessageType.swift */,
@@ -110,7 +110,7 @@
 				50B277462F3F112C005F7475 /* MessageColors.swift */,
 				50B277442F3F10FE005F7475 /* Media.xcassets */,
 			);
-			path = MessageBoxDistributed;
+			path = MessageBox;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
