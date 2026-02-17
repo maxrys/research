@@ -16,16 +16,19 @@ import SwiftUI
         GridItem(.adaptive(minimum: 200, maximum: 400), alignment: .top),
     ]
 
-    init() {
-        Events.shared.on(MessageBox.EVENT_NAME_FOR_MESSAGE_INSERT) { message in
-            Logger.customLog("message insert: \(message)")
-        }
-    }
-
     public var body: some Scene {
         let window = WindowGroup {
             self.mainScene
                 .environment(\.layoutDirection, .leftToRight)
+                .onReceive(
+                    NotificationCenter.default.publisher(
+                        for: Notification.Name(MessageBox.EVENT_NAME_FOR_MESSAGE_INSERT)
+                    )
+                ) { publisher in
+                    if let message = publisher.object as? Message {
+                        Logger.customLog("message insert: \(message)")
+                    }
+                }
         }
         if #available(macOS 13.0, *) { return window.windowResizability(.contentSize) }
         else                         { return window }

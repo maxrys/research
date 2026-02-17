@@ -45,7 +45,11 @@ struct MessageBox: View {
                 }
             }
         }
-        .onReceive(Events.shared.publisher(Self.EVENT_NAME_FOR_MESSAGE_INSERT)!) { publisher in
+        .onReceive(
+            NotificationCenter.default.publisher(
+                for: Notification.Name(Self.EVENT_NAME_FOR_MESSAGE_INSERT)
+            )
+        ) { publisher in
             if let message = publisher.object as? Message {
                 self.data.insert(
                     type: message.type,
@@ -109,8 +113,8 @@ struct MessageBox: View {
         lifeTime: Self.LifeTime = .time(Self.LIFE_TIME_DEFAULT)
     ) {
         switch lifeTime {
-            case .time(let time): Events.shared.send(Self.EVENT_NAME_FOR_MESSAGE_INSERT, object: Message(type: type, title: title, description: description, isClosable: isClosable, expiresAt: CACurrentMediaTime() + time))
-            case .infinity      : Events.shared.send(Self.EVENT_NAME_FOR_MESSAGE_INSERT, object: Message(type: type, title: title, description: description, isClosable: isClosable))
+            case .time(let time): NotificationCenter.default.post(name: Notification.Name(Self.EVENT_NAME_FOR_MESSAGE_INSERT), object: Message(type: type, title: title, description: description, isClosable: isClosable, expiresAt: CACurrentMediaTime() + time))
+            case .infinity      : NotificationCenter.default.post(name: Notification.Name(Self.EVENT_NAME_FOR_MESSAGE_INSERT), object: Message(type: type, title: title, description: description, isClosable: isClosable))
         }
     }
 
