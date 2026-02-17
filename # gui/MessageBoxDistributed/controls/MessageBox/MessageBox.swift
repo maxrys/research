@@ -46,19 +46,21 @@ struct MessageBox: View {
             }
         }
         .onReceive(
-            NotificationCenter.default.publisher(
+            DistributedNotificationCenter.default.publisher(
                 for: Notification.Name(Self.EVENT_NAME_FOR_MESSAGE_INSERT)
             )
         ) { publisher in
-            if let message = publisher.object as? Message {
-                Logger.customLog("message insert: \(message)")
-                self.data.insert(
-                    type: message.type,
-                    title: message.title,
-                    description: message.description,
-                    isClosable: message.isClosable,
-                    expiresAt: message.expiresAt
-                )
+            if let messageJSON = publisher.object as? String {
+                if let message = Message(decode: messageJSON) {
+                    Logger.customLog("message insert: \(message)")
+                    self.data.insert(
+                        type: message.type,
+                        title: message.title,
+                        description: message.description,
+                        isClosable: message.isClosable,
+                        expiresAt: message.expiresAt
+                    )
+                }
             }
         }
     }
@@ -114,8 +116,8 @@ struct MessageBox: View {
         lifeTime: Self.LifeTime = .time(Self.LIFE_TIME_DEFAULT)
     ) {
         switch lifeTime {
-            case .time(let time): NotificationCenter.default.post(name: Notification.Name(Self.EVENT_NAME_FOR_MESSAGE_INSERT), object: Message(type: type, title: title, description: description, isClosable: isClosable, expiresAt: CACurrentMediaTime() + time))
-            case .infinity      : NotificationCenter.default.post(name: Notification.Name(Self.EVENT_NAME_FOR_MESSAGE_INSERT), object: Message(type: type, title: title, description: description, isClosable: isClosable))
+            case .time(let time): DistributedNotificationCenter.default().postNotificationName(Notification.Name(Self.EVENT_NAME_FOR_MESSAGE_INSERT), object: Message(type: type, title: title, description: description, isClosable: isClosable, expiresAt: CACurrentMediaTime() + time).encode(), deliverImmediately: true)
+            case .infinity      : DistributedNotificationCenter.default().postNotificationName(Notification.Name(Self.EVENT_NAME_FOR_MESSAGE_INSERT), object: Message(type: type, title: title, description: description, isClosable: isClosable                                        ).encode(), deliverImmediately: true)
         }
     }
 
