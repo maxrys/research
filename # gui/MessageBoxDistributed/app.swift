@@ -3,6 +3,7 @@
 /* ### Copyright © 2024—2025 Maxim Rysevets. All rights reserved. ### */
 /* ################################################################## */
 
+import os
 import SwiftUI
 
 @main struct ThisApp: App {
@@ -14,6 +15,12 @@ import SwiftUI
         GridItem(.fixed(300), spacing: 10, alignment: .center),
         GridItem(.adaptive(minimum: 200, maximum: 400), alignment: .top),
     ]
+
+    init() {
+        EventsDispatcher.shared.on(MessageBox.EVENT_NAME_FOR_MESSAGE_INSERT) { _ in
+            Logger.customLog("message: messageInsert")
+        }
+    }
 
     public var body: some Scene {
         let window = WindowGroup {
