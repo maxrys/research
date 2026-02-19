@@ -1,13 +1,13 @@
 
 /* ############################################################# */
-/* ### Copyright © 2025 Maxim Rysevets. All rights reserved. ### */
+/* ### Copyright © 2026 Maxim Rysevets. All rights reserved. ### */
 /* ############################################################# */
 
 import SwiftUI
 
 extension Color {
 
-    struct ButtonColorSet {
+    struct ButtonCustomColorSet {
 
         enum Style {
 
@@ -15,7 +15,7 @@ extension Color {
             case danger
             case custom
 
-            var text: Color {
+            public var text: Color {
                 switch self {
                     case .accent: Color.white
                     case .danger: Color.white
@@ -23,10 +23,10 @@ extension Color {
                 }
             }
 
-            var background: Color {
+            public var background: Color {
                 switch self {
                     case .accent: Color.accentColor
-                    case .danger: Color.red
+                    case .danger: Color("color ButtonCustom Background Danger")
                     case .custom: Color("color ButtonCustom Background")
                 }
             }
