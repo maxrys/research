@@ -5,8 +5,6 @@
 
 import SwiftUI
 
-/* Button */
-
 extension Color {
 
     struct ButtonColorSet {
