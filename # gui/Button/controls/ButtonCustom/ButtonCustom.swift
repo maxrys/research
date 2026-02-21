@@ -39,7 +39,8 @@ struct ButtonCustom: View {
                 .font(.system(size: 12, weight: .regular))
                 .foregroundPolyfill(self.style.text)
                 .padding(.horizontal, 9)
-                .padding(.vertical  , 5)
+                .padding(.top       , 4)
+                .padding(.bottom    , 5)
                 .background(
                     RoundedRectangle(cornerRadius: 7)
                         .fillGradientPolyfill(self.style.background)
@@ -66,14 +67,24 @@ struct ButtonCustom: View {
 /* ############################################################# */
 
 #Preview {
-    VStack {
-        ButtonCustom()
-        ButtonCustom(flexibility: .none)
-        ButtonCustom(flexibility: .size(100))
-        ButtonCustom(flexibility: .infinity)
-        ButtonCustom(style: .accent)
-        ButtonCustom(style: .danger)
-        ButtonCustom(style: .custom)
+    VStack(spacing: 20) {
+
+        VStack {
+            Text("flexibility").font(.headline)
+            ButtonCustom()
+            ButtonCustom(flexibility: .none)
+            ButtonCustom(flexibility: .size(100))
+            ButtonCustom(flexibility: .infinity)
+        }
+
+        VStack {
+            Text("style").font(.headline)
+            ButtonCustom(style: .accent)
+            ButtonCustom(style: .danger)
+            ButtonCustom(style: .custom(text: nil, background: nil))
+            ButtonCustom(style: .custom(text: .white, background: .orange))
+        }
+
     }
     .frame(width: 200)
     .padding(20)
