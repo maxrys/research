@@ -22,7 +22,7 @@ struct GridCustom: View {
     @State private var stickyGridDelayTimer: Timer.Custom!
     @State private var stickyGridTimer: Timer.Custom!
     @State private var cellsVisibilityDelayTimer: Timer.Custom!
-    @State private var cellsVisibility: [CellID.Value: Bool] = [:]
+    @State private var cellsVisibility: Set<CellID.Value> = []
 
     private let source: DataSource
     private let cellSize: CGFloat
@@ -104,16 +104,13 @@ struct GridCustom: View {
             }
          // .onChange(of: self.cellsVisibility) { _, _ in
          //     #if DEBUG
-         //         var matrix = Dictionary<CellID.Value, Bool>.Matrix()
-         //         for (cellIDValue, isVisible) in self.cellsVisibility {
-         //             matrix[cellIDValue] = isVisible
-         //         }
-         //         if let bounds = matrix.bounds {
-         //             for Y in bounds.minY ... bounds.maxY { print("")
-         //             for X in bounds.minX ... bounds.maxX {
-         //                 if let isVisible = matrix[Y, X]
-         //                      { print(isVisible ? "[ + ]" : "[   ]", terminator: "") }
-         //                 else { print(            "[ . ]",           terminator: "") }
+         //         if let bounds = self.source.bounds {
+         //             for rowNum in bounds.minY ... bounds.maxY { print("")
+         //             for colNum in bounds.minX ... bounds.maxX {
+         //                 let cellID = CellID(rowNum: rowNum, colNum: colNum)
+         //                 if (self.cellsVisibility.contains(cellID.value))
+         //                      { print("+", terminator: "") }
+         //                 else { print("-", terminator: "") }
          //             }}
          //         }
          //         print("")
@@ -133,7 +130,7 @@ struct GridCustom: View {
                             let rowNum = CellID.Index(rowNum)
                             let colNum = CellID.Index(colNum)
                             if var cell = self.source[rowNum, colNum] {
-                                let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
+                                let _ = { cell.isVisible = self.cellsVisibility.contains(cell.ID) }()
                                 AnyView(cell)
                                     .hoverBehavior(.zIndex(to: 1))
                                     .id(cell.ID)
@@ -152,7 +149,7 @@ struct GridCustom: View {
                             let rowNum = CellID.Index(rowNum)
                             let colNum = CellID.Index(colNum)
                             if var cell = self.source[rowNum, colNum] {
-                                let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
+                                let _ = { cell.isVisible = self.cellsVisibility.contains(cell.ID) }()
                                 AnyView(cell)
                                     .hoverBehavior(.zIndex(to: 1))
                                     .id(cell.ID)
@@ -173,7 +170,7 @@ struct GridCustom: View {
                             let rowNum = CellID.Index(rowNum)
                             let colNum = CellID.Index(colNum)
                             if var cell = self.source[rowNum, colNum] {
-                                let _ = { cell.isVisible = self.cellsVisibility[cell.ID] ?? false }()
+                                let _ = { cell.isVisible = self.cellsVisibility.contains(cell.ID) }()
                                 AnyView(cell)
                                     .id(cell.ID)
                             } else {
@@ -195,9 +192,11 @@ struct GridCustom: View {
             repeats: .count(1),
             delay: 0.1,
             onExpire: { _ in
-                self.cellsVisibility = [:]
+                self.cellsVisibility.removeAll()
                 for (cellIDValue, cellFrame) in self.cellsFrame {
-                    self.cellsVisibility[cellIDValue] = cellFrame.intersects(self.visibleFrame)
+                    if (cellFrame.intersects(self.visibleFrame)) {
+                        self.cellsVisibility.insert(cellIDValue)
+                    }
                 }
             }
         )
