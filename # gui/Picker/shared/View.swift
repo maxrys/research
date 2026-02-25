@@ -5,6 +5,24 @@
 
 import SwiftUI
 
+public enum Flexibility {
+
+    case none
+    case size(CGFloat)
+    case infinity
+
+}
+
+public enum KeyEquivalentPolyfill: String {
+
+    case upArrow    = "\u{f700}"
+    case downArrow  = "\u{f701}"
+    case leftArrow  = "\u{f702}"
+    case rightArrow = "\u{f703}"
+    case `return`   = "\u{000d}"
+
+}
+
 extension View {
 
     @ViewBuilder func flexibility(_ value: Flexibility = .none) -> some View {
