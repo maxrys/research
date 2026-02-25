@@ -21,10 +21,10 @@ import SwiftUI
 
                 VStack {
                     Text("style").font(.headline)
-                    ButtonCustom(style: .accent)
-                    ButtonCustom(style: .danger)
-                    ButtonCustom(style: .custom(text: nil, background: nil))
-                    ButtonCustom(style: .custom(text: .white, background: .orange))
+                    ButtonCustom(colorStyle: .accent)
+                    ButtonCustom(colorStyle: .danger)
+                    ButtonCustom(colorStyle: .custom(text: nil, background: nil))
+                    ButtonCustom(colorStyle: .custom(text: .white, background: .orange))
                 }
 
             }
