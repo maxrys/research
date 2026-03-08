@@ -5,9 +5,6 @@
 
 import SwiftUI
 
-protocol TabCustom_Item_Protocol: View {
-}
-
 struct TabCustom: View {
 
     @Environment(\.colorScheme) private var colorScheme

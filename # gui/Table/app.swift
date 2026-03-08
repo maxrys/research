@@ -12,12 +12,19 @@ import SwiftUI
     var body: some Scene {
         WindowGroup {
             TableCustom(
-                selectedRows: self.$selectedRows,
-                columns: [
-                    (title: NSLocalizedString("Values", comment: ""), settings: GridItem(.flexible(), spacing: 0, alignment: .leading)),
-                    (title: ""                                      , settings: GridItem(.fixed(30) , spacing: 0)),
-                ],
-                data: {
+                selected: self.$selectedRows,
+                head: {
+                    TableCustom_HeadCell(
+                        size: .flexible(),
+                        spacing: 0,
+                        alignment: .leading
+                    ) { Text(NSLocalizedString("Values", comment: "")) }
+                    TableCustom_HeadCell(
+                        size: .fixed(30),
+                        spacing: 0
+                    ) { EmptyView() }
+                },
+                body: {
                     Text("Value 1"); Image(systemName: "1.square")
                     Text("Value 2"); Image(systemName: "2.square")
                     Text("Value 3"); Image(systemName: "3.square")

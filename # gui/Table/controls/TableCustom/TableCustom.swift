@@ -7,27 +7,22 @@ import SwiftUI
 
 struct TableCustom: View {
 
-    typealias Columns = [(
-        title   : String,
-        settings: GridItem
-    )]
-
     @Environment(\.colorScheme) private var colorScheme
     @Binding var selectedRows: Set<Int>
     @State private var lastSelectedRow: Int = 0
     @State private var appIsFocused: Bool = true
 
-    private let columns: Columns
-    private let data: [any View]
+    private let headCells: [TableCustom_HeadCell]
+    private let bodyCells: [any View]
 
     init(
-        selectedRows: Binding<Set<Int>>,
-        columns: Columns,
-        @ViewBuilderArray<View> data: () -> [any View]
+        selected selectedRows: Binding<Set<Int>>,
+        @ViewBuilderArray<TableCustom_HeadCell> head headCells: () -> [TableCustom_HeadCell],
+        @ViewBuilderArray<View>                 body bodyCells: () -> [any View]
     ) {
         self._selectedRows = selectedRows
-        self.columns = columns
-        self.data = data()
+        self.headCells = headCells()
+        self.bodyCells = bodyCells()
     }
 
     private func rowTextColor(_ isSelected: Bool) -> Color {
@@ -50,22 +45,26 @@ struct TableCustom: View {
 
     public var body: some View {
         VStack {
-
-            let gridColumns: [GridItem] = (0 ... columns.count - 1).map { index in
-                self.columns[index].settings
-            }
-
             VStack(spacing: 0) {
+
+                let gridColumns: [GridItem] = (0 ... self.headCells.count - 1).compactMap { index in
+                    if let cell = self.headCells[safe: index] {
+                        return GridItem(cell.size, spacing: cell.spacing, alignment: cell.alignment)
+                    } else {
+                        return nil
+                    }
+                }
 
                 /* MARK: Head */
 
                 LazyVGrid(columns: gridColumns, spacing: 0) {
-                    ForEach(self.columns.indices, id: \.self) { index in
-                        Text("\(self.columns[index].title)")
-                            .font(.system(size: 11))
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 7)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: self.columns[index].settings.alignment ?? .center)
+                    ForEach(self.headCells.indices, id: \.self) { index in
+                        if let cell = self.headCells[safe: index] {
+                            cell.font(.system(size: 11))
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 7)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: cell.alignment ?? .center)
+                        }
                     }
                 }.background(Color.tableCustom.headBackground)
 
@@ -77,16 +76,16 @@ struct TableCustom: View {
 
                 ScrollView {
                     LazyVGrid(columns: gridColumns, spacing: 0) {
-                        ForEach(0 ..< self.data.count, id: \.self) { index in
-                            if let view = self.data[safe: index] {
-                                let rowIndex = index / self.columns.count
-                                let colIndex = index % self.columns.count
+                        ForEach(0 ..< self.bodyCells.count, id: \.self) { index in
+                            if let cell = self.bodyCells[safe: index] {
+                                let rowIndex = index / self.headCells.count
+                                let colIndex = index % self.headCells.count
                                 let isSelected = self.selectedRows.contains(rowIndex)
                                 let isEven = rowIndex % 2 == 0
-                                AnyView(view)
+                                AnyView(cell)
                                     .padding(.horizontal, 8)
                                     .padding(.vertical, 4)
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: self.columns[colIndex].settings.alignment ?? .center)
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: self.headCells[colIndex].alignment ?? .center)
                                     .foregroundPolyfill(self.rowTextColor(isSelected))
                                     .background(self.rowBackgroundColor(isSelected, isEven))
                                     .onTapGesture { self.onClickRow(rowIndex) }
@@ -101,7 +100,7 @@ struct TableCustom: View {
         .focusable()
         .onKeyPressForSelectAll() {
             Task {
-                self.selectedRows = Set(0 ..< self.data.count)
+                self.selectedRows = Set(0 ..< self.bodyCells.count)
             }
         }
         .onAppBecomeForeground {
@@ -140,12 +139,19 @@ struct TableCustom: View {
 struct TableCustom_Previews: PreviewProvider {
     static var previews: some View {
         TableCustom(
-            selectedRows: Binding.constant([4]),
-            columns: [
-                (title: NSLocalizedString("Values", comment: ""), settings: GridItem(.flexible(), spacing: 0, alignment: .leading)),
-                (title: ""                                      , settings: GridItem(.fixed(30) , spacing: 0)),
-            ],
-            data: {
+            selected: Binding.constant([4]),
+            head: {
+                TableCustom_HeadCell(
+                    size: .flexible(),
+                    spacing: 0,
+                    alignment: .leading
+                ) { Text(NSLocalizedString("Values", comment: "")) }
+                TableCustom_HeadCell(
+                    size: .fixed(30),
+                    spacing: 0
+                ) { EmptyView() }
+            },
+            body: {
                 Text("Value 1"); Image(systemName: "1.square")
                 Text("Value 2"); Image(systemName: "2.square")
                 Text("Value 3"); Image(systemName: "3.square")
