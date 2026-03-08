@@ -11,6 +11,7 @@ import SwiftUI
         Window("Main", id: "main") {
             VStack {
                 ClassicDemo()
+                AlernativeDemo()
                 ProtocolDemo()
             }.frame(width: 200)
         }

@@ -12,18 +12,10 @@ struct ProtocolDemo: View, ColorStatusProtocol {
     public var body: some View {
         VStack {
             Text("Protocol model").font(.headline)
-            self.Message("color Status Ok"     , self.colorStatusOk)
-            self.Message("color Status Warning", self.colorStatusError)
-            self.Message("color Status Error"  , self.colorStatusWarning)
+            Message("color Status Ok"     , self.colorStatusOk)
+            Message("color Status Warning", self.colorStatusError)
+            Message("color Status Error"  , self.colorStatusWarning)
         }
-    }
-
-    @ViewBuilder private func Message(_ text: String, _ background: Color) -> some View {
-        Text(text)
-            .padding(10)
-            .frame(maxWidth: .infinity)
-            .foregroundStyle(.white)
-            .background(background)
     }
 
 }

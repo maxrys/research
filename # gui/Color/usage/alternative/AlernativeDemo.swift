@@ -5,14 +5,14 @@
 
 import SwiftUI
 
-struct ClassicDemo: View {
+struct AlernativeDemo: View {
 
     public var body: some View {
         VStack {
-            Text("Classic model").font(.headline)
-            Message("color Status Ok"     , Color.status.ok)
-            Message("color Status Warning", Color.status.warning)
-            Message("color Status Error"  , Color.status.error)
+            Text("Alternative model").font(.headline)
+            Message("color Status Ok"     , Color.statusAlt.ok)
+            Message("color Status Warning", Color.statusAlt.warning)
+            Message("color Status Error"  , Color.statusAlt.error)
         }
     }
 
