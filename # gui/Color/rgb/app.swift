@@ -7,13 +7,6 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
-    @State var pickerColor = ColorHSBValue(
-        0.0, 1.0, 0.0
-    )
-
-    init() {
-    }
-
     @ViewBuilder func colorBox(hex: UInt) -> some View {
         Color(fromUInt: hex)
             .frame(width: 20, height: 20)
@@ -22,22 +15,6 @@ import SwiftUI
     var body: some Scene {
         Window("Main", id: "main") {
             ScrollView(.vertical) {
-
-                HStack {
-
-                    ColorPickerCustom(
-                        self.$pickerColor
-                    ).onChange(of: self.pickerColor) { _, value in
-                        print(value.encode() ?? "")
-                    }.padding(20)
-
-                    ColorPickerPalette(
-                        self.$pickerColor
-                    ).onChange(of: self.pickerColor) { _, value in
-                        print(value.encode() ?? "")
-                    }.padding(20)
-
-                }
 
                 /* ############# */
                 /* ### MARK: Hex */

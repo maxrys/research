@@ -65,19 +65,19 @@ struct ColorPickerPalette: View {
                 opacity   : self.color.opacity.fixBounds(min: 0.01, max: 1.0)
             )
             .frame(width: openerSize.width, height: openerSize.height)
-            .overlay { self.zebraStroke }
+            .overlay { self.ZebraStroke() }
             .clipShape(                 RoundedRectangle(cornerRadius: self.openerRadius))
             .contentShape(.focusEffect, RoundedRectangle(cornerRadius: self.openerRadius))
         }
         .buttonStyle(.plain)
         .pointerStyle(.link)
         .popover(isPresented: self.$isShowPopover) {
-            self.popover
-            self.opacityChanger
+            self.PopoverView()
+            self.OpacityChangerView()
         }
     }
 
-    @ViewBuilder private var zebraStroke: some View {
+    @ViewBuilder private func ZebraStroke() -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: self.openerRadius)
                 .stroke(.black, lineWidth: 1)
@@ -87,7 +87,7 @@ struct ColorPickerPalette: View {
         }
     }
 
-    @ViewBuilder private var popover: some View {
+    @ViewBuilder private func PopoverView() -> some View {
         let canvasW = Double(Self.CELL_SIZE * (Self.COLS + 1))
         let canvasH = Double(Self.CELL_SIZE * (Self.ROWS + 1))
         ZStack {
@@ -133,7 +133,7 @@ struct ColorPickerPalette: View {
         }
     }
 
-    @ViewBuilder private var opacityChanger: some View {
+    @ViewBuilder private func OpacityChangerView() -> some View {
         VStack(spacing: 10) {
             Slider(
                 value: Binding<Double>(
