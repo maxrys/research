@@ -7,23 +7,35 @@ import SwiftUI
 
 struct TableCustom: View {
 
+    enum SelectionType {
+        case single
+        case multiple
+        case none
+    }
+
     @Environment(\.colorScheme) private var colorScheme
-    @Binding var selectedRows: Set<Int>
+    @Binding private var selectedRows: Set<Int>
     @State private var lastSelectedRow: Int = 0
     @State private var appIsFocused: Bool = true
 
     private let isVisibleHeader: Bool
+    private let isFocusable: Bool
+    private let selectionType: SelectionType
     private let headCells: [TableCustom_HeadCell]
     private let bodyCells: [any View]
 
     init(
         selected selectedRows: Binding<Set<Int>>,
         isVisibleHeader: Bool = true,
+        isFocusable: Bool = true,
+        selectionType: SelectionType = .multiple,
         @ViewBuilderArray<TableCustom_HeadCell> head headCells: () -> [TableCustom_HeadCell],
         @ViewBuilderArray<View>                 body bodyCells: () -> [any View]
     ) {
         self._selectedRows = selectedRows
         self.isVisibleHeader = isVisibleHeader
+        self.isFocusable = isFocusable
+        self.selectionType = selectionType
         self.headCells = headCells()
         self.bodyCells = bodyCells()
     }
@@ -55,6 +67,7 @@ struct TableCustom: View {
                 }.background(Color.tableCustom.headBackground)
 
                 self.Delimiter()
+
             }}
 
             /* MARK: Body */
@@ -70,7 +83,7 @@ struct TableCustom: View {
                             AnyView(cell)
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 4)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: self.headCells[colIndex].alignment ?? .center)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: self.headCells[safe: colIndex]?.alignment ?? .center)
                                 .foregroundPolyfill(Color.tableCustom.rowTextColor(isSelected, self.appIsFocused))
                                 .background(Color.tableCustom.rowBackgroundColor(isSelected, isEven, self.appIsFocused))
                                 .onTapGesture { self.onClickRow(rowIndex) }
@@ -80,7 +93,7 @@ struct TableCustom: View {
             }.background(Color.tableCustom.bodyBackground)
 
         }
-        .focusable()
+        .focusable(self.isFocusable)
         .onKeyPressForSelectAll() {
             Task {
                 self.selectedRows = Set(0 ..< self.bodyCells.count)
@@ -105,20 +118,24 @@ struct TableCustom: View {
     }
 
     public func onClickRow(_ rowIndex: Int) {
-        if (NSEvent.isPressedCommandButton) {
-            self.selectedRows.toggle(rowIndex)
+        switch (self.selectionType) {
+            case .single:
+                self.selectedRows.removeAll()
+                self.selectedRows.insert(rowIndex)
+            case .multiple:
+                if      (NSEvent.isPressedCommandButton) { self.selectedRows.toggle(rowIndex) }
+                else if (NSEvent.isPressedShiftButton) {
+                    let lastSelectedRow = self.selectedRows.isEmpty ? 0 : self.lastSelectedRow
+                    if (lastSelectedRow >= rowIndex) { self.selectedRows.formUnion(rowIndex ... lastSelectedRow) }
+                    else                             { self.selectedRows.formUnion(lastSelectedRow ... rowIndex) }
+                } else {
+                    self.selectedRows.removeAll()
+                    self.selectedRows.insert(rowIndex)
+                }
+                self.lastSelectedRow = rowIndex
+            default:
+                break
         }
-        else if (NSEvent.isPressedShiftButton) {
-            let lastSelectedRow = self.selectedRows.isEmpty ? 0 : self.lastSelectedRow
-            if (lastSelectedRow >= rowIndex)
-                 { self.selectedRows.formUnion(rowIndex ... lastSelectedRow) }
-            else { self.selectedRows.formUnion(lastSelectedRow ... rowIndex) }
-        }
-        else {
-            self.selectedRows.removeAll()
-            self.selectedRows.insert(rowIndex)
-        }
-        self.lastSelectedRow = rowIndex
     }
 
 }
@@ -134,6 +151,7 @@ struct TableCustom_Previews: PreviewProvider {
         TableCustom(
             selected: Binding.constant([4]),
             isVisibleHeader: true,
+            isFocusable: true,
             head: {
                 TableCustom_HeadCell(
                     size: .flexible(),

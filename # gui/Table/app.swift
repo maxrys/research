@@ -14,6 +14,8 @@ import SwiftUI
             TableCustom(
                 selected: self.$selectedRows,
                 isVisibleHeader: true,
+                isFocusable: true,
+                selectionType: .multiple,
                 head: {
                     TableCustom_HeadCell(
                         size: .flexible(),
