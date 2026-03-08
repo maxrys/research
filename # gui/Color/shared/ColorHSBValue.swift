@@ -1,6 +1,6 @@
 
 /* ############################################################# */
-/* ### Copyright © 2025 Maxim Rysevets. All rights reserved. ### */
+/* ### Copyright © 2026 Maxim Rysevets. All rights reserved. ### */
 /* ############################################################# */
 
 import Foundation
@@ -12,7 +12,7 @@ struct ColorHSBValue: Equatable, Codable {
     public var brightness: Double
     public var opacity: Double
 
-    public var isDark: Bool {
+    public var isTinted: Bool {
         self.brightness < 0.5
     }
 

@@ -14,8 +14,8 @@
 		5071B94B2EC348C40068DB06 /* Numeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5071B93B2EC31CBD0068DB06 /* Numeric.swift */; };
 		50778CCD2D5CE19900C5A42E /* GraphicsContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50778CCC2D5CE19900C5A42E /* GraphicsContext.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
-		50EE8B862EC86B15002DFEA5 /* ColorPickerOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EE8B852EC86B12002DFEA5 /* ColorPickerOld.swift */; };
-		50EE8B872EC86B15002DFEA5 /* ColorPickerOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EE8B852EC86B12002DFEA5 /* ColorPickerOld.swift */; };
+		50EE8B862EC86B15002DFEA5 /* ColorPickerPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EE8B852EC86B12002DFEA5 /* ColorPickerPalette.swift */; };
+		50EE8B872EC86B15002DFEA5 /* ColorPickerPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EE8B852EC86B12002DFEA5 /* ColorPickerPalette.swift */; };
 		50EE8B8E2ECC8AE4002DFEA5 /* ColorHSBValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EE8B8D2ECC8AE3002DFEA5 /* ColorHSBValue.swift */; };
 		50EE8B8F2ECC8AE4002DFEA5 /* ColorHSBValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EE8B8D2ECC8AE3002DFEA5 /* ColorHSBValue.swift */; };
 		50FEACFD2EFB35B700B9CAD3 /* ColorPickerCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEACFC2EFB35AB00B9CAD3 /* ColorPickerCustom.swift */; };
@@ -41,7 +41,7 @@
 		50993B682D33C4C900195667 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
-		50EE8B852EC86B12002DFEA5 /* ColorPickerOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerOld.swift; sourceTree = "<group>"; };
+		50EE8B852EC86B12002DFEA5 /* ColorPickerPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerPalette.swift; sourceTree = "<group>"; };
 		50EE8B8D2ECC8AE3002DFEA5 /* ColorHSBValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHSBValue.swift; sourceTree = "<group>"; };
 		50FEACFC2EFB35AB00B9CAD3 /* ColorPickerCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerCustom.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -100,7 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				50FEACFC2EFB35AB00B9CAD3 /* ColorPickerCustom.swift */,
-				50EE8B852EC86B12002DFEA5 /* ColorPickerOld.swift */,
+				50EE8B852EC86B12002DFEA5 /* ColorPickerPalette.swift */,
 			);
 			path = controls;
 			sourceTree = "<group>";
@@ -211,7 +211,7 @@
 			files = (
 				5071B9442EC347110068DB06 /* Tests.swift in Sources */,
 				5071B94B2EC348C40068DB06 /* Numeric.swift in Sources */,
-				50EE8B862EC86B15002DFEA5 /* ColorPickerOld.swift in Sources */,
+				50EE8B862EC86B15002DFEA5 /* ColorPickerPalette.swift in Sources */,
 				5071B94A2EC348BF0068DB06 /* Color.swift in Sources */,
 				50EE8B8E2ECC8AE4002DFEA5 /* ColorHSBValue.swift in Sources */,
 				50FEACFE2EFB35B700B9CAD3 /* ColorPickerCustom.swift in Sources */,
@@ -226,7 +226,7 @@
 				50EE8B8F2ECC8AE4002DFEA5 /* ColorHSBValue.swift in Sources */,
 				50FEACFD2EFB35B700B9CAD3 /* ColorPickerCustom.swift in Sources */,
 				5071B93C2EC31CBD0068DB06 /* Numeric.swift in Sources */,
-				50EE8B872EC86B15002DFEA5 /* ColorPickerOld.swift in Sources */,
+				50EE8B872EC86B15002DFEA5 /* ColorPickerPalette.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				5071B9322EC318F30068DB06 /* Color.swift in Sources */,
 			);

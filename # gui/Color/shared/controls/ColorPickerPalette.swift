@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-struct ColorPickerOld: View {
+struct ColorPickerPalette: View {
 
     static let COLS = 40
     static let ROWS = 40
@@ -165,7 +165,7 @@ struct ColorPickerOld: View {
 
 #Preview {
     @Previewable @State var pickerColor = ColorHSBValue(0.0, 1.0, 0.0)
-    ColorPickerOld(
+    ColorPickerPalette(
         $pickerColor, openerRadius: 5
     ).onChange(of: pickerColor) { oldValue, newValue in
         print(newValue.encode() ?? "")

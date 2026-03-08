@@ -31,7 +31,7 @@ import SwiftUI
                         print(value.encode() ?? "")
                     }.padding(20)
 
-                    ColorPickerOld(
+                    ColorPickerPalette(
                         self.$pickerColor
                     ).onChange(of: self.pickerColor) { _, value in
                         print(value.encode() ?? "")
