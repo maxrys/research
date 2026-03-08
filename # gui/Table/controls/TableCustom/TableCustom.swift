@@ -25,24 +25,6 @@ struct TableCustom: View {
         self.bodyCells = bodyCells()
     }
 
-    private func rowTextColor(_ isSelected: Bool) -> Color {
-        if (isSelected == true && self.appIsFocused == true) { return Color.white }
-        if (isSelected != true && self.appIsFocused == true) { return Color.label }
-        if (isSelected == true && self.appIsFocused != true) { return Color.label }
-        if (isSelected != true && self.appIsFocused != true) { return Color.label }
-        return Color.clear
-    }
-
-    private func rowBackgroundColor(_ isSelected: Bool, _ isEven: Bool) -> Color {
-        if (isSelected != true && isEven != true                             ) { return Color.tableCustom.bodyRowBackground }
-        if (isSelected != true && isEven == true                             ) { return Color.tableCustom.bodyRowEvenBackground }
-        if (isSelected == true && isEven != true && self.appIsFocused == true) { return Color.selectedContentBackground.opacity(0.9) }
-        if (isSelected == true && isEven == true && self.appIsFocused == true) { return Color.selectedContentBackground }
-        if (isSelected == true && isEven != true && self.appIsFocused != true) { return Color.selectedContentUnactiveBackground.opacity(0.9) }
-        if (isSelected == true && isEven == true && self.appIsFocused != true) { return Color.selectedContentUnactiveBackground }
-        return Color.clear
-    }
-
     public var body: some View {
         VStack {
             VStack(spacing: 0) {
@@ -86,8 +68,8 @@ struct TableCustom: View {
                                     .padding(.horizontal, 8)
                                     .padding(.vertical, 4)
                                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: self.headCells[colIndex].alignment ?? .center)
-                                    .foregroundPolyfill(self.rowTextColor(isSelected))
-                                    .background(self.rowBackgroundColor(isSelected, isEven))
+                                    .foregroundPolyfill(Color.tableCustom.rowTextColor(isSelected, self.appIsFocused))
+                                    .background(Color.tableCustom.rowBackgroundColor(isSelected, isEven, self.appIsFocused))
                                     .onTapGesture { self.onClickRow(rowIndex) }
                             }
                         }
