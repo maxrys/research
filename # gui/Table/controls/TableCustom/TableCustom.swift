@@ -12,71 +12,72 @@ struct TableCustom: View {
     @State private var lastSelectedRow: Int = 0
     @State private var appIsFocused: Bool = true
 
+    private let isVisibleHeader: Bool
     private let headCells: [TableCustom_HeadCell]
     private let bodyCells: [any View]
 
     init(
         selected selectedRows: Binding<Set<Int>>,
+        isVisibleHeader: Bool = true,
         @ViewBuilderArray<TableCustom_HeadCell> head headCells: () -> [TableCustom_HeadCell],
         @ViewBuilderArray<View>                 body bodyCells: () -> [any View]
     ) {
         self._selectedRows = selectedRows
+        self.isVisibleHeader = isVisibleHeader
         self.headCells = headCells()
         self.bodyCells = bodyCells()
     }
 
+    private var gridColumns: [GridItem] {
+        (0 ... self.headCells.count - 1).compactMap { index in
+            guard let cell = self.headCells[safe: index] else { return nil }
+            return GridItem(cell.size, spacing: cell.spacing, alignment: cell.alignment)
+        }
+    }
+
     public var body: some View {
-        VStack {
-            VStack(spacing: 0) {
+        VStack(spacing: 0) {
 
-                let gridColumns: [GridItem] = (0 ... self.headCells.count - 1).compactMap { index in
-                    if let cell = self.headCells[safe: index] {
-                        return GridItem(cell.size, spacing: cell.spacing, alignment: cell.alignment)
-                    } else {
-                        return nil
-                    }
-                }
+            /* MARK: Head */
 
-                /* MARK: Head */
+            if (self.isVisibleHeader) { VStack(spacing: 0) {
 
                 LazyVGrid(columns: gridColumns, spacing: 0) {
                     ForEach(self.headCells.indices, id: \.self) { index in
                         if let cell = self.headCells[safe: index] {
-                            cell.font(.system(size: 11))
-                                .padding(.horizontal, 10)
+                            cell.padding(.horizontal, 10)
                                 .padding(.vertical, 7)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: cell.alignment ?? .center)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity,
+                                    alignment: cell.alignment ?? .center
+                                )
                         }
                     }
                 }.background(Color.tableCustom.headBackground)
 
-                Color(self.colorScheme == .dark ? .white : .black)
-                    .frame(height: 1)
-                    .opacity(0.2)
+                self.Delimiter()
+            }}
 
-                /* MARK: Body */
+            /* MARK: Body */
 
-                ScrollView {
-                    LazyVGrid(columns: gridColumns, spacing: 0) {
-                        ForEach(0 ..< self.bodyCells.count, id: \.self) { index in
-                            if let cell = self.bodyCells[safe: index] {
-                                let rowIndex = index / self.headCells.count
-                                let colIndex = index % self.headCells.count
-                                let isSelected = self.selectedRows.contains(rowIndex)
-                                let isEven = rowIndex % 2 == 0
-                                AnyView(cell)
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 4)
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: self.headCells[colIndex].alignment ?? .center)
-                                    .foregroundPolyfill(Color.tableCustom.rowTextColor(isSelected, self.appIsFocused))
-                                    .background(Color.tableCustom.rowBackgroundColor(isSelected, isEven, self.appIsFocused))
-                                    .onTapGesture { self.onClickRow(rowIndex) }
-                            }
+            ScrollView {
+                LazyVGrid(columns: gridColumns, spacing: 0) {
+                    ForEach(0 ..< self.bodyCells.count, id: \.self) { index in
+                        if let cell = self.bodyCells[safe: index] {
+                            let rowIndex = index / self.headCells.count
+                            let colIndex = index % self.headCells.count
+                            let isSelected = self.selectedRows.contains(rowIndex)
+                            let isEven = rowIndex % 2 == 0
+                            AnyView(cell)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: self.headCells[colIndex].alignment ?? .center)
+                                .foregroundPolyfill(Color.tableCustom.rowTextColor(isSelected, self.appIsFocused))
+                                .background(Color.tableCustom.rowBackgroundColor(isSelected, isEven, self.appIsFocused))
+                                .onTapGesture { self.onClickRow(rowIndex) }
                         }
                     }
-                }.background(Color.tableCustom.bodyBackground)
-
-            }
+                }
+            }.background(Color.tableCustom.bodyBackground)
 
         }
         .focusable()
@@ -91,6 +92,16 @@ struct TableCustom: View {
         .onAppBecomeBackground {
             self.appIsFocused = false
         }
+    }
+
+    @ViewBuilder private func Delimiter() -> some View {
+        Color(
+            self.colorScheme == .dark ?
+                .white :
+                .black
+        )
+        .frame(height: 1)
+        .opacity(0.2)
     }
 
     public func onClickRow(_ rowIndex: Int) {
@@ -122,12 +133,13 @@ struct TableCustom_Previews: PreviewProvider {
     static var previews: some View {
         TableCustom(
             selected: Binding.constant([4]),
+            isVisibleHeader: true,
             head: {
                 TableCustom_HeadCell(
                     size: .flexible(),
                     spacing: 0,
                     alignment: .leading
-                ) { Text(NSLocalizedString("Values", comment: "")) }
+                ) { Text(NSLocalizedString("Values", comment: "")).font(.system(size: 11)) }
                 TableCustom_HeadCell(
                     size: .fixed(30),
                     spacing: 0

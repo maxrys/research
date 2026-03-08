@@ -13,12 +13,13 @@ import SwiftUI
         WindowGroup {
             TableCustom(
                 selected: self.$selectedRows,
+                isVisibleHeader: true,
                 head: {
                     TableCustom_HeadCell(
                         size: .flexible(),
                         spacing: 0,
                         alignment: .leading
-                    ) { Text(NSLocalizedString("Values", comment: "")) }
+                    ) { Text(NSLocalizedString("Values", comment: "")).font(.system(size: 11)) }
                     TableCustom_HeadCell(
                         size: .fixed(30),
                         spacing: 0

@@ -8,6 +8,7 @@ import SwiftUI
 extension Color {
 
     struct TableCustomColorsSet {
+
         public let headBackground        = Color("color TableCustom Head Background")
         public let bodyBackground        = Color("color TableCustom Body Background")
         public let bodyRowBackground     = Color("color TableCustom Body Row Background")
@@ -30,6 +31,7 @@ extension Color {
             if (isSelected == true && isEven == true && appIsFocused != true) { return .selectedContentUnactiveBackground }
             return .clear
         }
+
     }
 
     static let tableCustom = TableCustomColorsSet()
