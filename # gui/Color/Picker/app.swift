@@ -15,7 +15,7 @@ import SwiftUI
         Window("Main", id: "main") {
             HStack {
 
-                ColorPickerCustom(
+                ColorPickerHSBO(
                     self.$colorValue
                 ).onChange(of: self.colorValue) { _, value in
                     print(value.encode() ?? "")
