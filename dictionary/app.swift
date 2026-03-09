@@ -125,7 +125,7 @@ var dictIntKeysEmpty: [Int: String] = [:]
         var time1 = CACurrentMediaTime()
 
         time0 = CACurrentMediaTime()
-        for _ in 0...100000 {
+        for _ in 0 ... 100000 {
             let _ = dictIntKeys.previous(before: 1)
             let _ = dictIntKeys.previous(before: 2)
             let _ = dictIntKeys.previous(before: 3)
@@ -134,7 +134,7 @@ var dictIntKeysEmpty: [Int: String] = [:]
         print("\(time0 - time1)")
 
         time0 = CACurrentMediaTime()
-        for _ in 0...100000 {
+        for _ in 0 ... 100000 {
             let _ = dictIntKeys.previousSlow(before: 1)
             let _ = dictIntKeys.previousSlow(before: 2)
             let _ = dictIntKeys.previousSlow(before: 3)

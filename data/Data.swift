@@ -67,14 +67,14 @@ extension Data {
 
         let charToValue = { (_ char:Character) -> UInt8? in
             switch char {
-                case "0"..."9": return char.asciiValue! - 48      // "0" == 48
-                case "A"..."F": return char.asciiValue! - 65 + 10 // "A" == 65
-                case "a"..."f": return char.asciiValue! - 97 + 10 // "a" == 97
-                default       : return nil
+                case "0" ... "9": return char.asciiValue! - 48      // "0" == 48
+                case "A" ... "F": return char.asciiValue! - 65 + 10 // "A" == 65
+                case "a" ... "f": return char.asciiValue! - 97 + 10 // "a" == 97
+                default         : return nil
             }
         }
 
-        for i in 0..<hex.count / 2 {
+        for i in 0 ..< hex.count / 2 {
             let value1 = charToValue(hex[hex.index(hex.startIndex, offsetBy: i * 2 + 0)])
             let value2 = charToValue(hex[hex.index(hex.startIndex, offsetBy: i * 2 + 1)])
             guard value1 != nil else {return nil}

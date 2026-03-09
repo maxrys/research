@@ -174,8 +174,13 @@ struct GridCustom: View {
                                 AnyView(cell)
                                     .id(cell.ID)
                             } else {
+                                let cellID = CellID(
+                                    rowNum: rowNum,
+                                    colNum: colNum
+                                )
                                 Color.clear
                                     .frame(width: self.cellSize, height: self.cellSize)
+                                    .id(cellID.value)
                             }
                         }}
                     }.padding(self.cellSpacing)

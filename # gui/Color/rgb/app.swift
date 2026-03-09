@@ -105,6 +105,7 @@ import SwiftUI
                         ForEach(0 ... 100, id: \.self) { i in
                             Color(hue: hue / 360, saturation: saturation, brightness: Double(i) * 0.01)
                                 .frame(width: 20, height: 20)
+                                .id(i)
                         }
                     }
 
@@ -116,6 +117,7 @@ import SwiftUI
                         ForEach(0 ... 100, id: \.self) { i in
                             color.brightnessSet(Double(i) * 0.01)
                                 .frame(width: 20, height: 20)
+                                .id(i)
                         }
                     }
 
@@ -127,6 +129,7 @@ import SwiftUI
                         ForEach((0 ... 100).reversed(), id: \.self) { i in
                             color.brightnessShift(-(Double(i) * 0.01))
                                 .frame(width: 20, height: 20)
+                                .id(i)
                         }
                     }
 

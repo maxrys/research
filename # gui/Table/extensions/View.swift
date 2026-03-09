@@ -36,31 +36,6 @@ extension View {
         } else { self }
     }
 
-    @ViewBuilder func pointerStyleLinkPolyfill(isEnabled: Bool = true) -> some View {
-        if (isEnabled) {
-            if #available(macOS 15.0, *) {
-                self.pointerStyle(.link)
-            } else {
-                self.onHover { isInView in
-                    if (isInView) { NSCursor.pointingHand.push() }
-                    else          { NSCursor.pop() }
-                }
-            }
-        } else {
-            self
-        }
-    }
-
-    @ViewBuilder func overlayPolyfill<Content: View>(
-        alignment: Alignment = .center,
-        @ViewBuilder content: @escaping () -> Content
-    ) -> some View {
-        ZStack(alignment: alignment) {
-            self
-            content()
-        }
-    }
-
     @ViewBuilder func onAppBecomeBackground(_ action: @escaping () -> Void) -> some View {
         self.onReceive(
             NotificationCenter.default.publisher(for: NSApplication.didResignActiveNotification),

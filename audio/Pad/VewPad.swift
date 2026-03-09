@@ -28,9 +28,9 @@ struct ViewPad: View {
 
     var body: some View {
         Grid(alignment: .bottomLeading, horizontalSpacing: 3, verticalSpacing: 3) {
-            ForEach((1...self.rows).reversed(), id: \.self) { y in
+            ForEach((1 ... self.rows).reversed(), id: \.self) { y in
                 GridRow {
-                    ForEach(1...self.cols, id: \.self) { x in
+                    ForEach(1 ... self.cols, id: \.self) { x in
                         ViewPadCell(
                             label: "\(x):\(y)",
                             onChange: self.onChange,

@@ -42,8 +42,8 @@ extension AVAudioPCMBuffer {
             let channelR = avBuffer.floatChannelData![1]
             for i in 0 ..< size {
                 let sample: Float = Float(String(format: "%.3f", 0.001 * Float(i)))!
-                if (channels >= 1) { channelL[Int(i) * avBuffer.stride] = (-1.0...1.0).contains(+sample) ? +sample : 0 }
-                if (channels == 2) { channelR[Int(i) * avBuffer.stride] = (-1.0...1.0).contains(-sample) ? -sample : 0 }
+                if (channels >= 1) { channelL[Int(i) * avBuffer.stride] = (-1.0 ... 1.0).contains(+sample) ? +sample : 0 }
+                if (channels == 2) { channelR[Int(i) * avBuffer.stride] = (-1.0 ... 1.0).contains(-sample) ? -sample : 0 }
             }
             return avBuffer
         }
