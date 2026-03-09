@@ -32,7 +32,7 @@ struct TableCustom: View {
         isScrollable: Bool = true,
         selectionType: SelectionType = .multiple,
         @ViewBuilderArray<TableCustom_HeadCell> head headCells: () -> [TableCustom_HeadCell],
-        body bodyCells: [any View]
+        bodyAsArray bodyCells: [any View]
     ) {
         self._selectedRows = selectedRows
         self.isVisibleHeader = isVisibleHeader
@@ -50,7 +50,7 @@ struct TableCustom: View {
         isScrollable: Bool = true,
         selectionType: SelectionType = .multiple,
         @ViewBuilderArray<TableCustom_HeadCell> head headCells: () -> [TableCustom_HeadCell],
-        @ViewBuilderArray<View>                 body bodyCells: () -> [any View]
+        @ViewBuilderArray<View> bodyAsViews bodyCells: () -> [any View]
     ) {
         self._selectedRows = selectedRows
         self.isVisibleHeader = isVisibleHeader
@@ -187,7 +187,7 @@ struct TableCustom_Previews1: PreviewProvider {
                     spacing: 0
                 ) { EmptyView() }
             },
-            body: [
+            bodyAsArray: [
                 AnyView(Text("Value 1")), AnyView(Image(systemName: "1.square")),
                 AnyView(Text("Value 2")), AnyView(Image(systemName: "2.square")),
                 AnyView(Text("Value 3")), AnyView(Image(systemName: "3.square")),
@@ -217,7 +217,7 @@ struct TableCustom_Previews2: PreviewProvider {
                     spacing: 0
                 ) { EmptyView() }
             },
-            body: {
+            bodyAsViews: {
                 Text("Value 1"); Image(systemName: "1.square")
                 Text("Value 2"); Image(systemName: "2.square")
                 Text("Value 3"); Image(systemName: "3.square")

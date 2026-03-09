@@ -39,7 +39,7 @@ import SwiftUI
                             spacing: 1
                         ) { EmptyView() }
                     },
-                    body: [
+                    bodyAsArray: [
                         AnyView(Text("Value 1.1")), AnyView(Text("Value 1.2")), AnyView(Text("Value 1.3")), AnyView(Image(systemName: "1.square")),
                         AnyView(Text("Value 2.1")), AnyView(Text("Value 2.2")), AnyView(Text("Value 2.3")), AnyView(Image(systemName: "2.square")),
                         AnyView(Text("Value 3.1")), AnyView(Text("Value 3.2")), AnyView(Text("Value 3.3")), AnyView(Image(systemName: "3.square")),
@@ -74,7 +74,7 @@ import SwiftUI
                             spacing: 1
                         ) { EmptyView() }
                     },
-                    body: {
+                    bodyAsViews: {
                         Text("Value 1.1"); Text("Value 1.2"); Text("Value 1.3"); Image(systemName: "1.square")
                         Text("Value 2.1"); Text("Value 2.2"); Text("Value 2.3"); Image(systemName: "2.square")
                         Text("Value 3.1"); Text("Value 3.2"); Text("Value 3.3"); Image(systemName: "3.square")
