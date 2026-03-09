@@ -120,7 +120,6 @@
 				TargetAttributes = {
 					502555322D526A29005F475E = {
 						CreatedOnToolsVersion = 16.2;
-						TestTargetID = 50993B672D33C4C900195667;
 					};
 					50993B672D33C4C900195667 = {
 						CreatedOnToolsVersion = 16.2;
@@ -201,7 +200,6 @@
 		502555392D526A29005F475E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 97CZR6J379;
@@ -211,14 +209,12 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/app";
 			};
 			name = Debug;
 		};
 		5025553A2D526A29005F475E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 97CZR6J379;
@@ -228,7 +224,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/app";
 			};
 			name = Release;
 		};

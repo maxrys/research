@@ -14,7 +14,7 @@ extension Data {
                 return nil
             }
             var result: UInt64 = 0
-            for i in 0 ..< self.count {
+            for i in self.indices {
                 result = result | Swift.UInt64(self[i])
                 if i != self.count - 1 {
                     result = result << 8
@@ -26,7 +26,7 @@ extension Data {
 
     init(fromUInt16 data: [UInt16]) {
         self.init(count: data.count * 2)
-        for i in 0 ..< data.count {
+        for i in data.indices {
             self[i * 2 + 1] = UInt8(data[i]      & 0b11111111)
             self[i * 2 + 0] = UInt8(data[i] >> 8 & 0b11111111)
         }
@@ -34,7 +34,7 @@ extension Data {
 
     init(fromUInt32 data: [UInt32]) {
         self.init(count: data.count * 4)
-        for i in 0 ..< data.count {
+        for i in data.indices {
             self[i * 4 + 3] = UInt8(data[i]       & 0b11111111)
             self[i * 4 + 2] = UInt8(data[i] >>  8 & 0b11111111)
             self[i * 4 + 1] = UInt8(data[i] >> 16 & 0b11111111)
@@ -44,7 +44,7 @@ extension Data {
 
     init(fromUInt64 data: [UInt64]) {
         self.init(count: data.count * 8)
-        for i in 0 ..< data.count {
+        for i in data.indices {
             self[i * 8 + 7] = UInt8(data[i]       & 0b11111111)
             self[i * 8 + 6] = UInt8(data[i] >>  8 & 0b11111111)
             self[i * 8 + 5] = UInt8(data[i] >> 16 & 0b11111111)
