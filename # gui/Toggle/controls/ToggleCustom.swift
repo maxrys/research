@@ -1,7 +1,7 @@
 
-/* ################################################################## */
-/* ### Copyright © 2024—2025 Maxim Rysevets. All rights reserved. ### */
-/* ################################################################## */
+/* ############################################################# */
+/* ### Copyright © 2026 Maxim Rysevets. All rights reserved. ### */
+/* ############################################################# */
 
 import SwiftUI
 
@@ -9,41 +9,50 @@ struct ToggleCustom: View {
 
     @Binding private var isOn: Bool
 
-    var width: CGFloat = 40
-    var height: CGFloat = 16
-    var innerPadding: CGFloat = 3
-
-    private let text: String
+    private let text: String?
     private let isFlexible: Bool
-    private let onChange: (Bool) -> Void
+    private let size: CGSize
+    private let innerPadding: CGFloat
 
-    init(text: String = "", isFlexible: Bool = false, isOn: Binding<Bool>, onChange: @escaping (Bool) -> Void = { isOn in }) {
+    init(
+        text: String? = nil,
+        isOn: Binding<Bool>,
+        isFlexible: Bool = false,
+        size: CGSize = CGSize(width: 50, height: 22),
+        innerPadding: CGFloat = 3
+    ) {
         self.text = text
         self._isOn = isOn
         self.isFlexible = isFlexible
-        self.onChange = onChange
+        self.size = size
+        self.innerPadding = innerPadding
     }
 
     public var body: some View {
-        if (self.isFlexible) {
-            HStack {
-                Text(self.text)
-                    .font(.system(size: 16))
-                Spacer()
-                self.SwitcherView()
-            }.frame(maxWidth: .infinity)
-        } else {
-            HStack {
-                Text(self.text)
-                    .font(.system(size: 16))
-                self.SwitcherView()
+        if let text = self.text {
+            if (self.isFlexible) {
+                HStack {
+                    self.TextView(text); Spacer()
+                    self.SwitcherView()
+                }.frame(maxWidth: .infinity)
+            } else {
+                HStack {
+                    self.TextView(text)
+                    self.SwitcherView()
+                }
             }
+        } else {
+            self.SwitcherView()
         }
+    }
+
+    @ViewBuilder private func TextView(_ text: String) -> some View {
+        Text(text)
+            .font(.system(size: 14))
     }
 
     @ViewBuilder private func SwitcherView() -> some View {
         Button {
-            self.onChange(!self.isOn)
             withAnimation(.easeInOut(duration: 0.1)) {
                 self.isOn.toggle()
             }
@@ -51,16 +60,19 @@ struct ToggleCustom: View {
             ZStack(alignment: self.isOn ? .trailing : .leading) {
                 Capsule()
                     .fill(self.isOn ? .green : .black.opacity(0.3))
-                    .frame(width: self.width, height: self.height)
+                    .frame(width: self.size.width, height: self.size.height)
                 Capsule()
                     .fill(.white)
-                    .frame(width: (self.height * 1.5) - (self.innerPadding * 2), height: self.height - (self.innerPadding * 2))
+                    .frame(
+                        width: (self.size.height * 1.5) - (self.innerPadding * 2),
+                        height: self.size.height        - (self.innerPadding * 2)
+                    )
                     .padding(self.innerPadding)
                     .shadow(
                         color: .black.opacity(0.5),
                         radius: 2.0
                     )
-            }.contentShape(Capsule())
+            }
         }
         .buttonStyle(.plain)
         .pointerStyleLinkPolyfill()
@@ -76,11 +88,11 @@ struct ToggleCustom: View {
 
 @available(macOS 14.0, *) #Preview {
     @Previewable @State var isOn: Bool = false
-    HStack {
-        ToggleCustom(
-            text: "Test",
-            isOn: $isOn
-        ).frame(width: 100, height: 50)
+    VStack(alignment: .trailing) {
+        ToggleCustom(text: "Test", isOn: $isOn, isFlexible: true)
+        ToggleCustom(text: "Test", isOn: $isOn, isFlexible: false)
+        ToggleCustom(isOn: $isOn)
     }
+    .frame(width: 200)
     .padding(20)
 }

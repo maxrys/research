@@ -11,18 +11,14 @@ import SwiftUI
 
     var body: some Scene {
         WindowGroup {
-            VStack(alignment: .leading) {
-
-                ToggleCustom(text: "Custom Toggle", isFlexible: true, isOn: self.$isOn) { isOn in }
-                ToggleCustom(text: "Custom Toggle", isFlexible: true, isOn: self.$isOn) { isOn in }
-                ToggleCustom(text: "Custom Toggle", isFlexible: true, isOn: self.$isOn) { isOn in }
-
-            }.frame(maxWidth: 300)
+            VStack(alignment: .trailing) {
+                ToggleCustom(text: "Test", isOn: $isOn, isFlexible: true)
+                ToggleCustom(text: "Test", isOn: $isOn, isFlexible: false)
+                ToggleCustom(isOn: $isOn)
+            }
+            .frame(width: 200)
+            .padding(20)
         }
-    }
-
-    init() {
-
     }
 
 }
