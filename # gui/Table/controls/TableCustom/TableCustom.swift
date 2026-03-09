@@ -30,14 +30,14 @@ struct TableCustom: View {
         isFocusable: Bool = true,
         selectionType: SelectionType = .multiple,
         @ViewBuilderArray<TableCustom_HeadCell> head headCells: () -> [TableCustom_HeadCell],
-        @ViewBuilderArray<View>                 body bodyCells: () -> [any View]
+        body bodyCells: [any View]
     ) {
         self._selectedRows = selectedRows
         self.isVisibleHeader = isVisibleHeader
         self.isFocusable = isFocusable
         self.selectionType = selectionType
         self.headCells = headCells()
-        self.bodyCells = bodyCells()
+        self.bodyCells = bodyCells
     }
 
     private var gridColumns: [GridItem] {
@@ -57,7 +57,8 @@ struct TableCustom: View {
                 LazyVGrid(columns: gridColumns, spacing: 0) {
                     ForEach(self.headCells.indices, id: \.self) { index in
                         if let cell = self.headCells[safe: index] {
-                            cell.padding(.horizontal, 10)
+                            cell.id(index)
+                                .padding(.horizontal, 10)
                                 .padding(.vertical, 7)
                                 .frame(maxWidth: .infinity, maxHeight: .infinity,
                                     alignment: cell.alignment ?? .center
@@ -74,13 +75,13 @@ struct TableCustom: View {
 
             ScrollView {
                 LazyVGrid(columns: gridColumns, spacing: 0) {
-                    ForEach(0 ..< self.bodyCells.count, id: \.self) { index in
+                    ForEach(self.bodyCells.indices, id: \.self) { index in
                         if let cell = self.bodyCells[safe: index] {
                             let rowIndex = index / self.headCells.count
                             let colIndex = index % self.headCells.count
                             let isSelected = self.selectedRows.contains(rowIndex)
                             let isEven = rowIndex % 2 == 0
-                            AnyView(cell)
+                            AnyView(cell).id(index)
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 4)
                                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: self.headCells[safe: colIndex]?.alignment ?? .center)
@@ -163,13 +164,13 @@ struct TableCustom_Previews: PreviewProvider {
                     spacing: 0
                 ) { EmptyView() }
             },
-            body: {
-                Text("Value 1"); Image(systemName: "1.square")
-                Text("Value 2"); Image(systemName: "2.square")
-                Text("Value 3"); Image(systemName: "3.square")
-                Text("Value 4"); Image(systemName: "4.square")
-                Text("Value 5"); Image(systemName: "5.square")
-            }
+            body: [
+                AnyView(Text("Value 1")), AnyView(Image(systemName: "1.square")),
+                AnyView(Text("Value 2")), AnyView(Image(systemName: "2.square")),
+                AnyView(Text("Value 3")), AnyView(Image(systemName: "3.square")),
+                AnyView(Text("Value 4")), AnyView(Image(systemName: "4.square")),
+                AnyView(Text("Value 5")), AnyView(Image(systemName: "5.square")),
+            ]
         )
         .padding(20)
         .frame(width: 250)
