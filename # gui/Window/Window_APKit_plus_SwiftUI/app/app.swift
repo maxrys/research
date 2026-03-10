@@ -5,7 +5,16 @@
 
 import Cocoa
 
-class ThisApp: NSObject, NSApplicationDelegate, NSWindowDelegate {
+@main final class App: NSObject, NSApplicationDelegate, NSWindowDelegate {
+
+    @MainActor private static var appDelegate: App!
+
+    static func main() {
+        let app = NSApplication.shared
+        Self.appDelegate = App()
+        app.delegate = Self.appDelegate
+        app.run()
+    }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSWindow.makeAndShowFromSwiftUIView(ID: "main", title: "Main Window" , isVisible: true , delegate: self, view: MainView())
