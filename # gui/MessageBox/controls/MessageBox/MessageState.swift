@@ -6,11 +6,7 @@
 import SwiftUI
 import Combine
 
-typealias MessageID = UInt
-
 final class MessageState: ObservableObject {
-
-    typealias MessageProgressPair = (message: Message, progress: Double)
 
     static let TIMER_DELAY_TIME: Double = 1 / 24
 

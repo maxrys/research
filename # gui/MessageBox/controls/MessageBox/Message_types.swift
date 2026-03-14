@@ -5,6 +5,9 @@
 
 import SwiftUI
 
+typealias MessageID = UInt
+typealias MessageProgressPair = (message: Message, progress: Double)
+
 enum MessageType: Codable {
 
     case info
