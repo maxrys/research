@@ -19,7 +19,7 @@
 		50B277492F3F1C39005F7475 /* MessageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B277482F3F1C39005F7475 /* MessageStorage.swift */; };
 		50B2774B2F3FC25A005F7475 /* Numeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B2774A2F3FC25A005F7475 /* Numeric.swift */; };
 		50B2774D2F407D29005F7475 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B2774C2F407D29005F7475 /* Logger.swift */; };
-		50DCD7DA2F425F4C00E067C3 /* MessageLifecycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DCD7D92F425F4C00E067C3 /* MessageLifecycle.swift */; };
+		50DCD7DA2F425F4C00E067C3 /* MessageStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DCD7D92F425F4C00E067C3 /* MessageStatus.swift */; };
 		50DCD7EB2F43231F00E067C3 /* GeometryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DCD7EA2F43231C00E067C3 /* GeometryReader.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,7 +38,7 @@
 		50B277482F3F1C39005F7475 /* MessageStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStorage.swift; sourceTree = "<group>"; };
 		50B2774A2F3FC25A005F7475 /* Numeric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numeric.swift; sourceTree = "<group>"; };
 		50B2774C2F407D29005F7475 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		50DCD7D92F425F4C00E067C3 /* MessageLifecycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageLifecycle.swift; sourceTree = "<group>"; };
+		50DCD7D92F425F4C00E067C3 /* MessageStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStatus.swift; sourceTree = "<group>"; };
 		50DCD7EA2F43231C00E067C3 /* GeometryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryReader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,7 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				50583D942DFBFA4F00013BD0 /* MessageType.swift */,
-				50DCD7D92F425F4C00E067C3 /* MessageLifecycle.swift */,
+				50DCD7D92F425F4C00E067C3 /* MessageStatus.swift */,
 				50B277402F3F1098005F7475 /* Message.swift */,
 				50B277482F3F1C39005F7475 /* MessageStorage.swift */,
 				50B277422F3F10B7005F7475 /* MessageBox.swift */,
@@ -190,7 +190,7 @@
 				50B2774B2F3FC25A005F7475 /* Numeric.swift in Sources */,
 				50B2774D2F407D29005F7475 /* Logger.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
-				50DCD7DA2F425F4C00E067C3 /* MessageLifecycle.swift in Sources */,
+				50DCD7DA2F425F4C00E067C3 /* MessageStatus.swift in Sources */,
 				50B277492F3F1C39005F7475 /* MessageStorage.swift in Sources */,
 				50B277472F3F112C005F7475 /* MessageColors.swift in Sources */,
 				50B277432F3F10B7005F7475 /* MessageBox.swift in Sources */,
