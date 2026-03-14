@@ -55,7 +55,13 @@ final class MessageState: ObservableObject {
         }
     }
 
-    public func insert(type: MessageType, title: String, description: String = "", isClosable: Bool = false, expiresAt: CFTimeInterval? = nil) {
+    public func insert(
+        type: MessageType,
+        title: String,
+        description: String = "",
+        isClosable: Bool = false,
+        expiresAt: CFTimeInterval? = nil
+    ) {
         let newMessage = Message(
             type: type,
             title: title,
