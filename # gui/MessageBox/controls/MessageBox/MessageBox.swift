@@ -3,7 +3,6 @@
 /* ### Copyright © 2026 Maxim Rysevets. All rights reserved. ### */
 /* ############################################################# */
 
-import os
 import SwiftUI
 
 struct MessageBox: View {
@@ -15,12 +14,12 @@ struct MessageBox: View {
 
     static let LIFE_TIME_DEFAULT: CFTimeInterval = 3.0
 
-    @ObservedObject private var data = MessageStorage()
+    @ObservedObject private var state = MessageState()
 
     var body: some View {
         GeometryReaderPolyfill(isIgnoreHeight: true) { size in
             VStack (spacing: 0) {
-                ForEach(self.data.messages, id: \.key) { ID, message in
+                ForEach(self.state.messages, id: \.key) { ID, message in
                     VStack(alignment: .leading, spacing: 0) {
 
                         self.TitleView(message)
@@ -37,7 +36,7 @@ struct MessageBox: View {
                     }.overlayPolyfill(alignment: .bottomLeading) {
                         if let _ = message.expiresAt {
                             self.ProgressView(
-                                width: size.width * data.progress(ID)
+                                width: size.width * self.state.progress(ID)
                             )
                         }
                     }
@@ -75,7 +74,7 @@ struct MessageBox: View {
 
     @ViewBuilder private func ButtonCloseView(_ ID: MessageID) -> some View {
         Button {
-            self.data.delete(ID)
+            self.state.delete(ID)
         } label: {
             Color.white.opacity(0.1)
                 .frame(width: 15, height: 15)
@@ -97,8 +96,8 @@ struct MessageBox: View {
         lifeTime: Self.LifeTime = .time(Self.LIFE_TIME_DEFAULT)
     ) {
         switch lifeTime {
-            case .time(let time): self.data.insert(type: type, title: title, description: description, isClosable: isClosable, expiresAt: CACurrentMediaTime() + time)
-            case .infinity      : self.data.insert(type: type, title: title, description: description, isClosable: isClosable)
+            case .time(let time): self.state.insert(type: type, title: title, description: description, isClosable: isClosable, expiresAt: CACurrentMediaTime() + time)
+            case .infinity      : self.state.insert(type: type, title: title, description: description, isClosable: isClosable)
         }
     }
 
