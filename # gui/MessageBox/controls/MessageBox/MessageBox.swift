@@ -7,14 +7,13 @@ import SwiftUI
 
 struct MessageBox: View {
 
-    enum LifeTime {
-        case time(Double)
-        case infinity
+    @ObservedObject private var state: MessageState
+
+    init(_ state: MessageState? = nil) {
+        if let state
+             { self.state = state }
+        else { self.state = MessageState() }
     }
-
-    static let LIFE_TIME_DEFAULT: CFTimeInterval = 3.0
-
-    @ObservedObject private var state = MessageState()
 
     var body: some View {
         GeometryReaderPolyfill(isIgnoreHeight: true) { size in
@@ -93,12 +92,15 @@ struct MessageBox: View {
         title: String,
         description: String = "",
         isClosable: Bool = false,
-        lifeTime: Self.LifeTime = .time(Self.LIFE_TIME_DEFAULT)
+        lifeTime: MessageLifeTime = .time(MessageLifeTime.LIFE_TIME_DEFAULT)
     ) {
-        switch lifeTime {
-            case .time(let time): self.state.insert(type: type, title: title, description: description, isClosable: isClosable, expiresAt: CACurrentMediaTime() + time)
-            case .infinity      : self.state.insert(type: type, title: title, description: description, isClosable: isClosable)
-        }
+        self.state.insert(
+            type: type,
+            title: title,
+            description: description,
+            isClosable: isClosable,
+            lifeTime: lifeTime
+        )
     }
 
 }
@@ -109,10 +111,11 @@ struct MessageBox: View {
 /* ########################## PREVIEW ########################## */
 /* ############################################################# */
 
+fileprivate let PREVIEW_LONG_TITLE       = NSLocalizedString("Long long long long long long long long long long long long long long Title", comment: "")
+fileprivate let PREVIEW_LONG_DESCRIPTION = NSLocalizedString("Long long long long long long long long long long long long long long long long long long long long long Description", comment: "")
+
 #Preview {
-    let longTitle       = NSLocalizedString("Long long long long long long long long long long long long long long Title", comment: "")
-    let longDescription = NSLocalizedString("Long long long long long long long long long long long long long long long long long long long long long Description", comment: "")
-    let messageBox      = MessageBox()
+    let messageBox = MessageBox()
     messageBox
         .frame(width: 300, height: 700)
         .onAppear {
@@ -120,9 +123,25 @@ struct MessageBox: View {
             messageBox.insert(type: .ok     , title: NSLocalizedString("Ok"     , comment: ""), lifeTime: .time(20))
             messageBox.insert(type: .warning, title: NSLocalizedString("Warning", comment: ""), lifeTime: .time(30))
             messageBox.insert(type: .error  , title: NSLocalizedString("Error"  , comment: ""), lifeTime: .time(40))
-            messageBox.insert(type: .info   , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
-            messageBox.insert(type: .ok     , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
-            messageBox.insert(type: .warning, title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
-            messageBox.insert(type: .error  , title: longTitle, description: longDescription, isClosable: true, lifeTime: .infinity)
+            messageBox.insert(type: .info   , title: PREVIEW_LONG_TITLE, description: PREVIEW_LONG_DESCRIPTION, isClosable: true, lifeTime: .infinity)
+            messageBox.insert(type: .ok     , title: PREVIEW_LONG_TITLE, description: PREVIEW_LONG_DESCRIPTION, isClosable: true, lifeTime: .infinity)
+            messageBox.insert(type: .warning, title: PREVIEW_LONG_TITLE, description: PREVIEW_LONG_DESCRIPTION, isClosable: true, lifeTime: .infinity)
+            messageBox.insert(type: .error  , title: PREVIEW_LONG_TITLE, description: PREVIEW_LONG_DESCRIPTION, isClosable: true, lifeTime: .infinity)
+        }
+}
+
+#Preview {
+    let state = MessageState()
+    MessageBox(state)
+        .frame(width: 300, height: 700)
+        .onAppear {
+            state.insert(type: .info   , title: NSLocalizedString("Info"   , comment: ""), lifeTime: .time(10))
+            state.insert(type: .ok     , title: NSLocalizedString("Ok"     , comment: ""), lifeTime: .time(20))
+            state.insert(type: .warning, title: NSLocalizedString("Warning", comment: ""), lifeTime: .time(30))
+            state.insert(type: .error  , title: NSLocalizedString("Error"  , comment: ""), lifeTime: .time(40))
+            state.insert(type: .info   , title: PREVIEW_LONG_TITLE, description: PREVIEW_LONG_DESCRIPTION, isClosable: true, lifeTime: .infinity)
+            state.insert(type: .ok     , title: PREVIEW_LONG_TITLE, description: PREVIEW_LONG_DESCRIPTION, isClosable: true, lifeTime: .infinity)
+            state.insert(type: .warning, title: PREVIEW_LONG_TITLE, description: PREVIEW_LONG_DESCRIPTION, isClosable: true, lifeTime: .infinity)
+            state.insert(type: .error  , title: PREVIEW_LONG_TITLE, description: PREVIEW_LONG_DESCRIPTION, isClosable: true, lifeTime: .infinity)
         }
 }

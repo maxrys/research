@@ -11,12 +11,11 @@
 		50583D9F2DFEF3BC00013BD0 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50583D9E2DFEF3BC00013BD0 /* View.swift */; };
 		50583DA22DFF046200013BD0 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50583DA12DFF046200013BD0 /* Timer.swift */; };
 		506421E62F65F7D40020F6C8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 506421E42F65F7330020F6C8 /* Assets.xcassets */; };
-		506421E72F65F7D40020F6C8 /* MessageStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506421E02F65F7330020F6C8 /* MessageStatus.swift */; };
-		506421E82F65F7D40020F6C8 /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506421DF2F65F7330020F6C8 /* MessageType.swift */; };
 		506421E92F65F7D40020F6C8 /* MessageBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506421E22F65F7330020F6C8 /* MessageBox.swift */; };
 		506421EA2F65F7D40020F6C8 /* MessageState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506421DE2F65F7330020F6C8 /* MessageState.swift */; };
 		506421EB2F65F7D40020F6C8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506421E12F65F7330020F6C8 /* Message.swift */; };
 		506421EC2F65F7D40020F6C8 /* MessageColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506421E32F65F7330020F6C8 /* MessageColors.swift */; };
+		506421F42F6614580020F6C8 /* Message_enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506421F32F6614500020F6C8 /* Message_enums.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
 		50B2774B2F3FC25A005F7475 /* Numeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B2774A2F3FC25A005F7475 /* Numeric.swift */; };
 		50B2774D2F407D29005F7475 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B2774C2F407D29005F7475 /* Logger.swift */; };
@@ -28,12 +27,11 @@
 		50583D9E2DFEF3BC00013BD0 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		50583DA12DFF046200013BD0 /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		506421DE2F65F7330020F6C8 /* MessageState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageState.swift; sourceTree = "<group>"; };
-		506421DF2F65F7330020F6C8 /* MessageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageType.swift; sourceTree = "<group>"; };
-		506421E02F65F7330020F6C8 /* MessageStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStatus.swift; sourceTree = "<group>"; };
 		506421E12F65F7330020F6C8 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		506421E22F65F7330020F6C8 /* MessageBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBox.swift; sourceTree = "<group>"; };
 		506421E32F65F7330020F6C8 /* MessageColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageColors.swift; sourceTree = "<group>"; };
 		506421E42F65F7330020F6C8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		506421F32F6614500020F6C8 /* Message_enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message_enums.swift; sourceTree = "<group>"; };
 		50993B682D33C4C900195667 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
@@ -68,9 +66,8 @@
 		506421E52F65F7330020F6C8 /* MessageBox */ = {
 			isa = PBXGroup;
 			children = (
+				506421F32F6614500020F6C8 /* Message_enums.swift */,
 				506421DE2F65F7330020F6C8 /* MessageState.swift */,
-				506421DF2F65F7330020F6C8 /* MessageType.swift */,
-				506421E02F65F7330020F6C8 /* MessageStatus.swift */,
 				506421E12F65F7330020F6C8 /* Message.swift */,
 				506421E22F65F7330020F6C8 /* MessageBox.swift */,
 				506421E32F65F7330020F6C8 /* MessageColors.swift */,
@@ -184,14 +181,13 @@
 			files = (
 				50583D9F2DFEF3BC00013BD0 /* View.swift in Sources */,
 				50DCD7EB2F43231F00E067C3 /* GeometryReader.swift in Sources */,
-				506421E72F65F7D40020F6C8 /* MessageStatus.swift in Sources */,
-				506421E82F65F7D40020F6C8 /* MessageType.swift in Sources */,
 				506421E92F65F7D40020F6C8 /* MessageBox.swift in Sources */,
 				506421EA2F65F7D40020F6C8 /* MessageState.swift in Sources */,
 				506421EB2F65F7D40020F6C8 /* Message.swift in Sources */,
 				506421EC2F65F7D40020F6C8 /* MessageColors.swift in Sources */,
 				50583DA22DFF046200013BD0 /* Timer.swift in Sources */,
 				50B2774B2F3FC25A005F7475 /* Numeric.swift in Sources */,
+				506421F42F6614580020F6C8 /* Message_enums.swift in Sources */,
 				50B2774D2F407D29005F7475 /* Logger.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 			);

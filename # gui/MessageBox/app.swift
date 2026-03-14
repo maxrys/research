@@ -90,7 +90,7 @@ import SwiftUI
         title: String,
         description: String = "",
         isClosable: Bool = false,
-        lifeTime: MessageBox.LifeTime = .time(MessageBox.LIFE_TIME_DEFAULT)
+        lifeTime: MessageLifeTime = .time(MessageLifeTime.LIFE_TIME_DEFAULT)
     ) -> some View {
         Button {
             self.messageBox.insert(

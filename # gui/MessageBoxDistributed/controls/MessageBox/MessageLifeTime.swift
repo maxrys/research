@@ -1,15 +1,15 @@
 
-
 /* ############################################################# */
 /* ### Copyright © 2026 Maxim Rysevets. All rights reserved. ### */
 /* ############################################################# */
 
-import SwiftUI
+import Foundation
 
-enum MessageStatus {
+enum MessageLifeTime {
 
-    case persistent
-    case inProgress(Double)
-    case expired
+    static let LIFE_TIME_DEFAULT: CFTimeInterval = 3.0
+
+    case time(Double)
+    case infinity
 
 }

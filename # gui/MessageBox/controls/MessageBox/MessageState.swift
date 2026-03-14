@@ -59,7 +59,17 @@ final class MessageState: ObservableObject {
         }
     }
 
-    public func insert(type: MessageType, title: String, description: String = "", isClosable: Bool = false, expiresAt: CFTimeInterval? = nil) {
+    public func insert(
+        type: MessageType,
+        title: String,
+        description: String = "",
+        isClosable: Bool = false,
+        lifeTime: MessageLifeTime = .time(MessageLifeTime.LIFE_TIME_DEFAULT)
+    ) {
+        var expiresAt: CFTimeInterval? = nil
+        if case .time(let time) = lifeTime {
+            expiresAt = CACurrentMediaTime() + time
+        }
         let newMessage = Message(
             type: type,
             title: title,
