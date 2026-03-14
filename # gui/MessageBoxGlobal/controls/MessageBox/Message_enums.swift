@@ -31,3 +31,20 @@ enum MessageType: Codable {
     }
 
 }
+
+enum MessageStatus {
+
+    case persistent
+    case inProgress(Double)
+    case expired
+
+}
+
+enum MessageLifeTime {
+
+    static let LIFE_TIME_DEFAULT: CFTimeInterval = 3.0
+
+    case time(Double)
+    case infinity
+
+}

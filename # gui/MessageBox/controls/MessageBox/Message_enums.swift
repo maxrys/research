@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-enum MessageType {
+enum MessageType: Codable {
 
     case info
     case ok
