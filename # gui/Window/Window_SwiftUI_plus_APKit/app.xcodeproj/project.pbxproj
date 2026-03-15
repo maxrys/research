@@ -7,19 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5032DA3E2F676D0400D7453E /* NSWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5032DA3C2F676CB800D7453E /* NSWindow.swift */; };
+		5032DA3F2F676D0400D7453E /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5032DA3D2F676CB800D7453E /* Timer.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
 		50C06B182F262695008EE619 /* ChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C06B172F262693008EE619 /* ChildView.swift */; };
 		50C06B292F263933008EE619 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C06B282F263933008EE619 /* MainView.swift */; };
-		50C06B312F26A54C008EE619 /* NSWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C06B2F2F26A542008EE619 /* NSWindow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5032DA3C2F676CB800D7453E /* NSWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSWindow.swift; sourceTree = "<group>"; };
+		5032DA3D2F676CB800D7453E /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		50993B682D33C4C900195667 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
 		50C06B172F262693008EE619 /* ChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildView.swift; sourceTree = "<group>"; };
 		50C06B282F263933008EE619 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		50C06B2F2F26A542008EE619 /* NSWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSWindow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +66,8 @@
 		50C06B302F26A542008EE619 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
-				50C06B2F2F26A542008EE619 /* NSWindow.swift */,
+				5032DA3C2F676CB800D7453E /* NSWindow.swift */,
+				5032DA3D2F676CB800D7453E /* Timer.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -143,8 +146,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				50C06B182F262695008EE619 /* ChildView.swift in Sources */,
+				5032DA3E2F676D0400D7453E /* NSWindow.swift in Sources */,
+				5032DA3F2F676D0400D7453E /* Timer.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
-				50C06B312F26A54C008EE619 /* NSWindow.swift in Sources */,
 				50C06B292F263933008EE619 /* MainView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

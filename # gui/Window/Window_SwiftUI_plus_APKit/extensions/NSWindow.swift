@@ -11,22 +11,32 @@ extension NSWindow {
         String: NSWindow
     ] = [:]
 
-    static func show(ID: String) { self.customWindows[ID]?.makeKeyAndOrderFront(nil) }
-    static func hide(ID: String) { self.customWindows[ID]?.orderOut(nil) }
+    static public func get(_ ID: String) -> NSWindow? {
+        if let window = self.customWindows[ID] { return window }
+        for window in NSApplication.shared.windows {
+            if let foundID = window.identifier {
+                if foundID.rawValue == ID {
+                    return window
+                }
+            }
+        }
+        return nil
+    }
 
     static func makeAndShowFromSwiftUIView(
         ID: String,
         title: String,
         styleMask: NSWindow.StyleMask = [.titled, .closable, .miniaturizable, .resizable],
-        level: NSWindow.Level = .normal,
         isVisible: Bool = true,
+        level: NSWindow.Level = .normal,
+        size: CGSize = CGSize(width: 1000, height: 1000),
         isReleasedWhenClosed: Bool = false,
         delegate: any NSWindowDelegate,
         view: some View
-    ) {
-        if let existingWindow = Self.customWindows[ID] {
-            existingWindow.makeKeyAndOrderFront(nil)
-            return
+    ) -> Bool {
+        if let window = Self.customWindows[ID] {
+            window.show()
+            return true
         }
 
         let hostingView = NSHostingView(
@@ -34,16 +44,17 @@ extension NSWindow {
         )
 
         Self.customWindows[ID] = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 1000, height: 1000),
+            contentRect: NSRect(x: 0, y: 0, width: size.width, height: size.height),
             styleMask: styleMask,
             backing: .buffered,
             defer: false
         )
 
         guard let window = Self.customWindows[ID] else {
-            return
+            return false
         }
 
+        window.identifier = NSUserInterfaceItemIdentifier(ID)
         window.delegate = delegate
         window.contentView = hostingView
         window.isReleasedWhenClosed = isReleasedWhenClosed
@@ -51,19 +62,47 @@ extension NSWindow {
         window.level = level
 
         if (isVisible) {
-            Self.show(ID: ID)
+            window.show()
             window.center()
         } else {
-            Self.hide(ID: ID)
+            window.hide()
         }
-
-        hostingView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            hostingView.leadingAnchor .constraint(equalTo: window.contentView!.leadingAnchor),
-            hostingView.trailingAnchor.constraint(equalTo: window.contentView!.trailingAnchor),
-            hostingView.topAnchor     .constraint(equalTo: window.contentView!.topAnchor),
-            hostingView.bottomAnchor  .constraint(equalTo: window.contentView!.bottomAnchor),
-        ])
+        return true
     }
+
+    static func show(_ ID: String) { Self.get(ID)?.makeKeyAndOrderFront(nil) }
+    static func hide(_ ID: String) { Self.get(ID)?.orderOut(nil) }
+    static func hideWithAnimation(_ ID: String) {
+        if let window = Self.get(ID) {
+            if (window.isVisible) {
+                let steps: UInt = 10
+                _ = Timer.Custom(
+                    repeats: .count(steps),
+                    delay: 0.01,
+                    onTick: { timer in
+                        let opacity = CGFloat(steps - timer.i - 1) * 0.1
+                        window.alphaValue = opacity
+                    },
+                    onExpire: { _ in
+                        window.close()
+                    }
+                )
+            }
+        }
+    }
+
+    func show() { self.makeKeyAndOrderFront(nil) }
+    func hide() { self.orderOut(nil) }
+
+    func hideTitleButtons(isVisible: Bool = true) {
+        self.standardWindowButton(.closeButton      )?.isHidden = !isVisible
+        self.standardWindowButton(.miniaturizeButton)?.isHidden = !isVisible
+        self.standardWindowButton(.zoomButton       )?.isHidden = !isVisible
+    }
+
+    var ID: String? {
+        self.identifier?.rawValue
+    }
+
 
 }

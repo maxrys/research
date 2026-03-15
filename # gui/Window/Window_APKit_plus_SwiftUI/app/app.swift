@@ -8,7 +8,7 @@ import Cocoa
 @main final class App: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
     static public let MAIN_WINDOW_ID = "main"
-    static public let MAIN_WINDOW_TITLE = "Custom Window"
+    static public let MAIN_WINDOW_TITLE = "Main Window"
 
     @MainActor public static var appDelegate: App!
 

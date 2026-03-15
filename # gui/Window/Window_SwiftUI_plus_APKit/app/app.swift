@@ -7,23 +7,20 @@ import SwiftUI
 
 final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
+    static public let MAIN_WINDOW_ID = "main"
+    static public let MAIN_WINDOW_TITLE = "Main Window"
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        NSWindow.makeAndShowFromSwiftUIView(ID: "id=1", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=1"))
-        NSWindow.makeAndShowFromSwiftUIView(ID: "id=2", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=2"))
-        NSWindow.makeAndShowFromSwiftUIView(ID: "id=3", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=3"))
+        _ = NSWindow.makeAndShowFromSwiftUIView(ID: "id=1", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=1"))
+        _ = NSWindow.makeAndShowFromSwiftUIView(ID: "id=2", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=2"))
+        _ = NSWindow.makeAndShowFromSwiftUIView(ID: "id=3", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=3"))
     }
 
-    func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
-        return true
-    }
-
-    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        return false
-    }
-
+    func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool { return true }
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { return false }
     func applicationShouldHandleReopen(_ app: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         // if (!flag) {
-            NSWindow.show(ID: "main")
+            NSWindow.show(Self.MAIN_WINDOW_ID)
         // }
         return true
     }
@@ -36,7 +33,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
     var body: some Scene {
 
-        Window("Main Window", id: "main") {
+        Window(AppDelegate.MAIN_WINDOW_TITLE, id: AppDelegate.MAIN_WINDOW_ID) {
             MainView()
         }.windowResizability(.contentSize).restorationBehavior(.disabled)
 
