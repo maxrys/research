@@ -7,6 +7,9 @@ import Cocoa
 
 @main final class App: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
+    static public let MAIN_WINDOW_ID = "main"
+    static public let MAIN_WINDOW_TITLE = "Custom Window"
+
     @MainActor public static var appDelegate: App!
 
     static func main() {
@@ -18,21 +21,15 @@ import Cocoa
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         _ = NSWindow.makeAndShowFromSwiftUIView(
-            ID: "main",
-            title: "Custom Window",
+            ID: Self.MAIN_WINDOW_ID,
+            title: Self.MAIN_WINDOW_TITLE,
             delegate: self,
             view: MainView()
         )
     }
 
-    func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
-        return true
-    }
-
-    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        return false
-    }
-
+    func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool { return true }
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { return false }
     func applicationShouldHandleReopen(_ app: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         if (!flag) {
             NSWindow.show("main")

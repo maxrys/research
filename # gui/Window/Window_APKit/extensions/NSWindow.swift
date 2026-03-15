@@ -11,6 +11,18 @@ extension NSWindow {
         String: NSWindow
     ] = [:]
 
+    static public func get(_ ID: String) -> NSWindow? {
+        if let window = self.customWindows[ID] { return window }
+        for window in NSApplication.shared.windows {
+            if let foundID = window.identifier {
+                if foundID.rawValue == ID {
+                    return window
+                }
+            }
+        }
+        return nil
+    }
+
     static func makeAndShowFromSwiftUIView(
         ID: String,
         title: String,
@@ -54,14 +66,39 @@ extension NSWindow {
         return true
     }
 
-    static func show(_ ID: String) { self.customWindows[ID]?.makeKeyAndOrderFront(nil) }
-    static func hide(_ ID: String) { self.customWindows[ID]?.orderOut(nil) }
+    static func show(_ ID: String) { Self.get(ID)?.makeKeyAndOrderFront(nil) }
+    static func hide(_ ID: String) { Self.get(ID)?.orderOut(nil) }
+    static func hideWithAnimation(_ ID: String) {
+        if let window = Self.get(ID) {
+            if (window.isVisible) {
+                let steps: UInt = 10
+                _ = Timer.Custom(
+                    repeats: .count(steps),
+                    delay: 0.01,
+                    onTick: { timer in
+                        let opacity = CGFloat(steps - timer.i - 1) * 0.1
+                        window.alphaValue = opacity
+                    },
+                    onExpire: { _ in
+                        window.close()
+                    }
+                )
+            }
+        }
+    }
 
     func show() { self.makeKeyAndOrderFront(nil) }
     func hide() { self.orderOut(nil) }
 
+    func hideTitleButtons(isVisible: Bool = true) {
+        self.standardWindowButton(.closeButton      )?.isHidden = !isVisible
+        self.standardWindowButton(.miniaturizeButton)?.isHidden = !isVisible
+        self.standardWindowButton(.zoomButton       )?.isHidden = !isVisible
+    }
+
     var ID: String? {
         self.identifier?.rawValue
     }
+
 
 }

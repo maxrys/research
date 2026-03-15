@@ -7,11 +7,21 @@ import Cocoa
 
 class MainView: NSViewController {
 
-    private lazy var button: NSButton = {
+    private lazy var buttonHideWindow: NSButton = {
         let result = NSButton(
-            title: "Push me",
+            title: "Hide Window with animation",
             target: self,
-            action: #selector(onButtonClicked(_:))
+            action: #selector(onClickButtonHideWindow(_:))
+        )
+        result.translatesAutoresizingMaskIntoConstraints = false
+        return result
+    }()
+
+    private lazy var buttonHideTitleIcons: NSButton = {
+        let result = NSButton(
+            title: "Hide Title Icons",
+            target: self,
+            action: #selector(onClickButtonHideTitleIcons(_:))
         )
         result.translatesAutoresizingMaskIntoConstraints = false
         return result
@@ -21,15 +31,20 @@ class MainView: NSViewController {
         super.viewDidLoad()
         view.wantsLayer = true
         view.layer!.backgroundColor = NSColor.windowBackgroundColor.cgColor
-        view.addSubview(button)
+        view.addSubview(self.buttonHideWindow)
+        view.addSubview(self.buttonHideTitleIcons)
         NSLayoutConstraint.activate([
-            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            self.buttonHideWindow.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            self.buttonHideWindow.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
     }
 
-    @objc private func onButtonClicked(_ sender: NSButton) {
-        print("OK")
+    @objc private func onClickButtonHideWindow(_ sender: NSButton) {
+        NSWindow.hideWithAnimation(App.MAIN_WINDOW_ID)
+    }
+
+    @objc private func onClickButtonHideTitleIcons(_ sender: NSButton) {
+        NSWindow.get(App.MAIN_WINDOW_ID)?.hideTitleButtons(isVisible: false)
     }
 
 }
