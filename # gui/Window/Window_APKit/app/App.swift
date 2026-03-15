@@ -7,7 +7,7 @@ import Cocoa
 
 @main final class App: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
-    @MainActor private static var appDelegate: App!
+    @MainActor public static var appDelegate: App!
 
     static func main() {
         let app = NSApplication.shared
@@ -17,7 +17,7 @@ import Cocoa
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        NSWindow.makeAndShowFromSwiftUIView(
+        _ = NSWindow.makeAndShowFromSwiftUIView(
             ID: "main",
             title: "Custom Window",
             delegate: self,
@@ -35,7 +35,7 @@ import Cocoa
 
     func applicationShouldHandleReopen(_ app: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         if (!flag) {
-            NSWindow.show(ID: "main")
+            NSWindow.show("main")
         }
         return true
     }
