@@ -20,7 +20,7 @@ import Cocoa
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        _ = NSWindow.makeAndShowFromSwiftUIView(ID: "main", title: Self.MAIN_WINDOW_TITLE, isVisible: true, delegate: self, view: MainView())
+        _ = NSWindow.makeAndShowFromSwiftUIView(ID: Self.MAIN_WINDOW_ID, title: Self.MAIN_WINDOW_TITLE, isVisible: true, delegate: self, view: MainView())
         _ = NSWindow.makeAndShowFromSwiftUIView(ID: "id=1", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=1"))
         _ = NSWindow.makeAndShowFromSwiftUIView(ID: "id=2", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=2"))
         _ = NSWindow.makeAndShowFromSwiftUIView(ID: "id=3", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=3"))
@@ -29,9 +29,12 @@ import Cocoa
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool { return true }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { return false }
     func applicationShouldHandleReopen(_ app: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        // if (!flag) {
-            NSWindow.show(Self.MAIN_WINDOW_ID)
-        // }
+     // if (!flag) {
+            if let window = NSWindow.get(Self.MAIN_WINDOW_ID) {
+                window.alphaValue = 1.0
+                window.show()
+            }
+     // }
         return true
     }
 

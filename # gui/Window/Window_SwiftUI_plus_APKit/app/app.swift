@@ -19,9 +19,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool { return true }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { return false }
     func applicationShouldHandleReopen(_ app: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        // if (!flag) {
-            NSWindow.show(Self.MAIN_WINDOW_ID)
-        // }
+     // if (!flag) {
+             if let window = NSWindow.get(Self.MAIN_WINDOW_ID) {
+                 window.alphaValue = 1.0
+                 window.show()
+             }
+     // }
         return true
     }
 

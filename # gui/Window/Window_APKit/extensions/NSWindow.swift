@@ -100,5 +100,4 @@ extension NSWindow {
         self.identifier?.rawValue
     }
 
-
 }
