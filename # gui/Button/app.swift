@@ -7,7 +7,7 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
-    var body: some Scene {
+    public var body: some Scene {
         WindowGroup {
             VStack(spacing: 20) {
 

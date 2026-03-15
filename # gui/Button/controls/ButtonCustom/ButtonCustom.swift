@@ -38,7 +38,7 @@ struct ButtonCustom: View {
         self.onClick = onClick
     }
 
-    var body: some View {
+    public var body: some View {
         Button { self.onClick() } label: {
             Text(self.text)
                 .lineLimit(1)
