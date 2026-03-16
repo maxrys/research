@@ -32,10 +32,7 @@ import Cocoa
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { return false }
     func applicationShouldHandleReopen(_ app: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         if (!flag) {
-            if let window = NSWindow.get(Self.MAIN_WINDOW_ID) {
-                window.alphaValue = 1.0
-                window.show()
-            }
+            NSWindow.get(Self.MAIN_WINDOW_ID)?.show()
         }
         return true
     }
