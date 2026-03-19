@@ -8,6 +8,7 @@ import SwiftUI
 @main struct ThisApp: App {
 
     @State var selectedRows: Set<Int> = []
+    @State var selectedRowsInBigTable: Set<Int> = []
 
     var body: some Scene {
         WindowGroup {
@@ -83,6 +84,26 @@ import SwiftUI
                     }
                 )
 
+                TableCustom(
+                    selected: self.$selectedRowsInBigTable,
+                    isVisibleHeader: true,
+                    isFocusable: true,
+                    selectionType: .multiple,
+                    head: {
+                        TableCustom_HeadCell(
+                            size: .flexible(),
+                            spacing: 1,
+                        ) { Text(NSLocalizedString("Column 1", comment: "")).font(.system(size: 11)) }
+                        TableCustom_HeadCell(
+                            size: .flexible(),
+                            spacing: 1,
+                        ) { Text(NSLocalizedString("Column 2", comment: "")).font(.system(size: 11)) }
+                    },
+                    bodyAsArray: (0 ... 1000).flatMap { index in [
+                        AnyView(Text("\(index)")),
+                        AnyView(Text("\(index)")),
+                    ]}
+                )
 
             }.padding(20)
         }
