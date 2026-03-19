@@ -18,6 +18,7 @@
 		5075015C2EF94AA000624409 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5075015B2EF94A7E00624409 /* Array.swift */; };
 		5075015E2EF94AD800624409 /* ResultBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5075015D2EF94AD100624409 /* ResultBuilder.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
+		50BAFD4F2F6BEC1B004A057F /* NSWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAFD4E2F6BEC1B004A057F /* NSWindow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		50993B682D33C4C900195667 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
+		50BAFD4E2F6BEC1B004A057F /* NSWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSWindow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				5075015B2EF94A7E00624409 /* Array.swift */,
 				50309B532F5DD76A008CA064 /* Color.swift */,
 				50309B552F5DD798008CA064 /* NSEvent.swift */,
+				50BAFD4E2F6BEC1B004A057F /* NSWindow.swift */,
 				50309B572F5DD7D5008CA064 /* Set.swift */,
 				50309B592F5DD827008CA064 /* View.swift */,
 			);
@@ -188,6 +191,7 @@
 				50309B562F5DD798008CA064 /* NSEvent.swift in Sources */,
 				50309B512F5DD689008CA064 /* TableCustom.swift in Sources */,
 				50309B5A2F5DD827008CA064 /* View.swift in Sources */,
+				50BAFD4F2F6BEC1B004A057F /* NSWindow.swift in Sources */,
 				50309B582F5DD7D5008CA064 /* Set.swift in Sources */,
 				50309B542F5DD76A008CA064 /* Color.swift in Sources */,
 			);

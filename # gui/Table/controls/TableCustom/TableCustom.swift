@@ -19,6 +19,7 @@ struct TableCustom: View {
     @State private var appIsFocused: Bool = true
 
     private let isVisibleHeader: Bool
+    private let windowID: String?
     private let isFocusable: Bool
     private let isScrollable: Bool
     private let selectionType: SelectionType
@@ -33,6 +34,7 @@ struct TableCustom: View {
 
     init(
         selected selectedRows: Binding<Set<Int>>,
+        windowID: String? = nil,
         isVisibleHeader: Bool = true,
         isFocusable: Bool = true,
         isScrollable: Bool = true,
@@ -43,6 +45,7 @@ struct TableCustom: View {
         bodyAsArray bodyCells: [any View]
     ) {
         self._selectedRows = selectedRows
+        self.windowID = windowID
         self.isVisibleHeader = isVisibleHeader
         self.isFocusable = isFocusable
         self.isScrollable = isScrollable
@@ -55,6 +58,7 @@ struct TableCustom: View {
 
     init(
         selected selectedRows: Binding<Set<Int>>,
+        windowID: String? = nil,
         isVisibleHeader: Bool = true,
         isFocusable: Bool = true,
         isScrollable: Bool = true,
@@ -65,6 +69,7 @@ struct TableCustom: View {
         @ViewBuilderArray<View> bodyAsViews bodyCells: () -> [any View]
     ) {
         self._selectedRows = selectedRows
+        self.windowID = windowID
         self.isVisibleHeader = isVisibleHeader
         self.isFocusable = isFocusable
         self.isScrollable = isScrollable
@@ -135,12 +140,10 @@ struct TableCustom: View {
                 self.selectedRows = Set(0 ..< self.rowsCount)
             }
         }
-        .onAppBecomeForeground {
-            self.appIsFocused = true
-        }
-        .onAppBecomeBackground {
-            self.appIsFocused = false
-        }
+        .onWinBecomeForeground { window in if (self.windowID != nil && window.ID == self.windowID) { self.appIsFocused = true } }
+        .onWinBecomeBackground { window in if (self.windowID != nil && window.ID == self.windowID) { self.appIsFocused = false } }
+        .onAppBecomeForeground {           if (self.windowID == nil                              ) { self.appIsFocused = true } }
+        .onAppBecomeBackground {           if (self.windowID == nil                              ) { self.appIsFocused = false } }
     }
 
     @ViewBuilder private func Delimiter() -> some View {
@@ -183,61 +186,73 @@ struct TableCustom: View {
 /* ############################################################# */
 
 struct TableCustom_Previews1: PreviewProvider {
+    struct ViewWithState: View {
+        @State private var selected: Set<Int> = [4]
+        var body: some View {
+            TableCustom(
+                selected: self.$selected,
+                isVisibleHeader: true,
+                isFocusable: true,
+                head: {
+                    TableCustom_HeadCell(
+                        size: .flexible(),
+                        spacing: 0,
+                        alignment: .leading
+                    ) { Text(NSLocalizedString("Values", comment: "")).font(.system(size: 11)) }
+                    TableCustom_HeadCell(
+                        size: .fixed(30),
+                        spacing: 0
+                    ) { EmptyView() }
+                },
+                bodyAsArray: [
+                    AnyView(Text("Value 1")), AnyView(Image(systemName: "1.circle")),
+                    AnyView(Text("Value 2")), AnyView(Image(systemName: "2.circle")),
+                    AnyView(Text("Value 3")), AnyView(Image(systemName: "3.circle")),
+                    AnyView(Text("Value 4")), AnyView(Image(systemName: "4.circle")),
+                    AnyView(Text("Value 5")), AnyView(Image(systemName: "5.circle")),
+                ]
+            )
+            .padding(20)
+            .frame(width: 250)
+        }
+    }
     static var previews: some View {
-        TableCustom(
-            selected: Binding.constant([4]),
-            isVisibleHeader: true,
-            isFocusable: true,
-            head: {
-                TableCustom_HeadCell(
-                    size: .flexible(),
-                    spacing: 0,
-                    alignment: .leading
-                ) { Text(NSLocalizedString("Values", comment: "")).font(.system(size: 11)) }
-                TableCustom_HeadCell(
-                    size: .fixed(30),
-                    spacing: 0
-                ) { EmptyView() }
-            },
-            bodyAsArray: [
-                AnyView(Text("Value 1")), AnyView(Image(systemName: "1.circle")),
-                AnyView(Text("Value 2")), AnyView(Image(systemName: "2.circle")),
-                AnyView(Text("Value 3")), AnyView(Image(systemName: "3.circle")),
-                AnyView(Text("Value 4")), AnyView(Image(systemName: "4.circle")),
-                AnyView(Text("Value 5")), AnyView(Image(systemName: "5.circle")),
-            ]
-        )
-        .padding(20)
-        .frame(width: 250)
+        ViewWithState()
     }
 }
 
 struct TableCustom_Previews2: PreviewProvider {
+    struct ViewWithState: View {
+        @State private var selected: Set<Int> = [4]
+        var body: some View {
+            TableCustom(
+                selected: self.$selected,
+                isVisibleHeader: true,
+                isFocusable: true,
+                head: {
+                    TableCustom_HeadCell(
+                        size: .flexible(),
+                        spacing: 0,
+                        alignment: .leading
+                    ) { Text(NSLocalizedString("Values", comment: "")).font(.system(size: 11)) }
+                    TableCustom_HeadCell(
+                        size: .fixed(30),
+                        spacing: 0
+                    ) { EmptyView() }
+                },
+                bodyAsViews: {
+                    Text("Value 1"); Image(systemName: "1.circle")
+                    Text("Value 2"); Image(systemName: "2.circle")
+                    Text("Value 3"); Image(systemName: "3.circle")
+                    Text("Value 4"); Image(systemName: "4.circle")
+                    Text("Value 5"); Image(systemName: "5.circle")
+                }
+            )
+            .padding(20)
+            .frame(width: 250)
+        }
+    }
     static var previews: some View {
-        TableCustom(
-            selected: Binding.constant([4]),
-            isVisibleHeader: true,
-            isFocusable: true,
-            head: {
-                TableCustom_HeadCell(
-                    size: .flexible(),
-                    spacing: 0,
-                    alignment: .leading
-                ) { Text(NSLocalizedString("Values", comment: "")).font(.system(size: 11)) }
-                TableCustom_HeadCell(
-                    size: .fixed(30),
-                    spacing: 0
-                ) { EmptyView() }
-            },
-            bodyAsViews: {
-                Text("Value 1"); Image(systemName: "1.square")
-                Text("Value 2"); Image(systemName: "2.square")
-                Text("Value 3"); Image(systemName: "3.square")
-                Text("Value 4"); Image(systemName: "4.square")
-                Text("Value 5"); Image(systemName: "5.square")
-            }
-        )
-        .padding(20)
-        .frame(width: 250)
+        ViewWithState()
     }
 }
