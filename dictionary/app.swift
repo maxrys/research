@@ -41,9 +41,9 @@ var dictIntKeysEmpty: [Int: String] = [:]
 
     var body: some Scene {
         Window("Main", id: "main") { ScrollView {
-            
+
             // ordered
-            
+
             ForEach(dictIntKeys.ordered(), id: \.key) { key, value in
                 Text("\(key) = \(value)")
             }
@@ -51,7 +51,7 @@ var dictIntKeysEmpty: [Int: String] = [:]
             ForEach(dictStrKeys.ordered(), id: \.key) { key, value in
                 Text("\(key) = \(value)")
             }
-            
+
             ForEach(dictComplex.ordered(), id: \.key) { key, value in
                 Text("\(key) = \(value)")
             }
