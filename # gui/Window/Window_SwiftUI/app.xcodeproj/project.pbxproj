@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
 		50C06B182F262695008EE619 /* ChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C06B172F262693008EE619 /* ChildView.swift */; };
-		50C06B292F263933008EE619 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C06B282F263933008EE619 /* MainView.swift */; };
+		50C06B292F263933008EE619 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C06B282F263933008EE619 /* MainScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,7 +17,7 @@
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
 		50C06B172F262693008EE619 /* ChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildView.swift; sourceTree = "<group>"; };
-		50C06B282F263933008EE619 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		50C06B282F263933008EE619 /* MainScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,7 +36,7 @@
 			children = (
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				50993B6B2D33C4C900195667 /* app.swift */,
-				50C06B282F263933008EE619 /* MainView.swift */,
+				50C06B282F263933008EE619 /* MainScene.swift */,
 				50C06B172F262693008EE619 /* ChildView.swift */,
 				50993B692D33C4C900195667 /* Products */,
 			);
@@ -125,7 +125,7 @@
 			files = (
 				50C06B182F262695008EE619 /* ChildView.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
-				50C06B292F263933008EE619 /* MainView.swift in Sources */,
+				50C06B292F263933008EE619 /* MainScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

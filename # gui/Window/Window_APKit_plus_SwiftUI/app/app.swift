@@ -20,7 +20,7 @@ import Cocoa
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        _ = NSWindow.makeAndShowFromSwiftUIView(ID: Self.MAIN_WINDOW_ID, title: Self.MAIN_WINDOW_TITLE, isVisible: true, delegate: self, view: MainView())
+        _ = NSWindow.makeAndShowFromSwiftUIView(ID: Self.MAIN_WINDOW_ID, title: Self.MAIN_WINDOW_TITLE, isVisible: true, delegate: self, view: MainScene())
         _ = NSWindow.makeAndShowFromSwiftUIView(ID: "id=1", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=1"))
         _ = NSWindow.makeAndShowFromSwiftUIView(ID: "id=2", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=2"))
         _ = NSWindow.makeAndShowFromSwiftUIView(ID: "id=3", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=3"))

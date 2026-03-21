@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-struct MainView: View {
+struct MainScene: View {
 
     var body: some View {
         VStack {
@@ -22,5 +22,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView()
+    MainScene()
 }

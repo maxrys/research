@@ -24,7 +24,7 @@ import Cocoa
             ID: Self.MAIN_WINDOW_ID,
             title: Self.MAIN_WINDOW_TITLE,
             delegate: self,
-            view: MainView()
+            view: MainScene()
         )
     }
 

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		50114E742E0DBF3D00024326 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50114E732E0DBF3A00024326 /* App.swift */; };
-		50114E7B2E0DC0DF00024326 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50114E7A2E0DC0DE00024326 /* MainView.swift */; };
+		50114E7B2E0DC0DF00024326 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50114E7A2E0DC0DE00024326 /* MainScene.swift */; };
 		5032DA392F67656D00D7453E /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5032DA382F67656D00D7453E /* Timer.swift */; };
 		50C06B252F26363C008EE619 /* NSWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C06B232F26363C008EE619 /* NSWindow.swift */; };
 /* End PBXBuildFile section */
@@ -16,7 +16,7 @@
 /* Begin PBXFileReference section */
 		50114E602E0DB40100024326 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
 		50114E732E0DBF3A00024326 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
-		50114E7A2E0DC0DE00024326 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		50114E7A2E0DC0DE00024326 /* MainScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
 		5032DA382F67656D00D7453E /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		50C06B232F26363C008EE619 /* NSWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSWindow.swift; sourceTree = "<group>"; };
 		50C06B272F2637FB008EE619 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,7 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				50114E732E0DBF3A00024326 /* App.swift */,
-				50114E7A2E0DC0DE00024326 /* MainView.swift */,
+				50114E7A2E0DC0DE00024326 /* MainScene.swift */,
 			);
 			path = app;
 			sourceTree = "<group>";
@@ -132,7 +132,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50114E7B2E0DC0DF00024326 /* MainView.swift in Sources */,
+				50114E7B2E0DC0DF00024326 /* MainScene.swift in Sources */,
 				50C06B252F26363C008EE619 /* NSWindow.swift in Sources */,
 				50114E742E0DBF3D00024326 /* App.swift in Sources */,
 				5032DA392F67656D00D7453E /* Timer.swift in Sources */,

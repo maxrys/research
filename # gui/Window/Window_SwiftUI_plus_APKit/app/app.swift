@@ -34,7 +34,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var body: some Scene {
 
         Window(AppDelegate.MAIN_WINDOW_TITLE, id: AppDelegate.MAIN_WINDOW_ID) {
-            MainView()
+            MainScene()
         }.windowResizability(.contentSize).restorationBehavior(.disabled)
 
     }

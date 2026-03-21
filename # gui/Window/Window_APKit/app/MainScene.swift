@@ -5,7 +5,7 @@
 
 import Cocoa
 
-class MainView: NSViewController {
+class MainScene: NSViewController {
 
     private lazy var buttonHideWindow: NSButton = {
         let result = NSButton(

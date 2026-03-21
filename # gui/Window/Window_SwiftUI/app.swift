@@ -10,7 +10,7 @@ import SwiftUI
     var body: some Scene {
 
         Window("Main Window", id: "main") {
-            MainView()
+            MainScene()
         }.windowResizability(.contentSize).restorationBehavior(.disabled)
 
         /* MARK: Window with Static ID */

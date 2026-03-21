@@ -10,7 +10,7 @@
 		50114E742E0DBF3D00024326 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50114E732E0DBF3A00024326 /* app.swift */; };
 		5032DA3B2F676A7900D7453E /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5032DA3A2F676A7900D7453E /* Timer.swift */; };
 		50C06B1F2F2633D3008EE619 /* NSWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C06B1D2F263344008EE619 /* NSWindow.swift */; };
-		50C06B2B2F2649C4008EE619 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C06B2A2F2649C4008EE619 /* MainView.swift */; };
+		50C06B2B2F2649C4008EE619 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C06B2A2F2649C4008EE619 /* MainScene.swift */; };
 		50C06B2D2F265839008EE619 /* ChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C06B2C2F265839008EE619 /* ChildView.swift */; };
 /* End PBXBuildFile section */
 
@@ -20,7 +20,7 @@
 		5032DA3A2F676A7900D7453E /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		50C06B1D2F263344008EE619 /* NSWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSWindow.swift; sourceTree = "<group>"; };
 		50C06B1E2F2633BC008EE619 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		50C06B2A2F2649C4008EE619 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		50C06B2A2F2649C4008EE619 /* MainScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
 		50C06B2C2F265839008EE619 /* ChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -58,7 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				50114E732E0DBF3A00024326 /* app.swift */,
-				50C06B2A2F2649C4008EE619 /* MainView.swift */,
+				50C06B2A2F2649C4008EE619 /* MainScene.swift */,
 				50C06B2C2F265839008EE619 /* ChildView.swift */,
 			);
 			path = app;
@@ -137,7 +137,7 @@
 			files = (
 				50C06B1F2F2633D3008EE619 /* NSWindow.swift in Sources */,
 				50114E742E0DBF3D00024326 /* app.swift in Sources */,
-				50C06B2B2F2649C4008EE619 /* MainView.swift in Sources */,
+				50C06B2B2F2649C4008EE619 /* MainScene.swift in Sources */,
 				5032DA3B2F676A7900D7453E /* Timer.swift in Sources */,
 				50C06B2D2F265839008EE619 /* ChildView.swift in Sources */,
 			);

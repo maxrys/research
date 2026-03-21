@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-struct MainView: View {
+struct MainScene: View {
 
     @Environment(\.openWindow)    private var openWindow
     @Environment(\.dismissWindow) private var dismissWindow
