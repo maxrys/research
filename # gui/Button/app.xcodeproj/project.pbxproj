@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		50114E862E0E95C400024326 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50114E852E0E95C100024326 /* View.swift */; };
 		50114E8A2E0E983800024326 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50114E892E0E983800024326 /* Shape.swift */; };
+		50158DA92F75854C005AF819 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50158DA82F75854C005AF819 /* Color.swift */; };
 		501FA4CF2F4F08C4004663D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501FA4CE2F4F08C4004663D2 /* Assets.xcassets */; };
 		507318712DE9D59E005E26F9 /* ButtonCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507318702DE9D59E005E26F9 /* ButtonCustom.swift */; };
 		507318732DE9D616005E26F9 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 507318722DE9D616005E26F9 /* Media.xcassets */; };
@@ -19,6 +20,7 @@
 /* Begin PBXFileReference section */
 		50114E852E0E95C100024326 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		50114E892E0E983800024326 /* Shape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
+		50158DA82F75854C005AF819 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		501FA4CE2F4F08C4004663D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		507318702DE9D59E005E26F9 /* ButtonCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCustom.swift; sourceTree = "<group>"; };
 		507318722DE9D616005E26F9 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 		50CE9FED2F473677001006CF /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				50158DA82F75854C005AF819 /* Color.swift */,
 				50114E892E0E983800024326 /* Shape.swift */,
 				50114E852E0E95C100024326 /* View.swift */,
 			);
@@ -166,6 +169,7 @@
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				50114E862E0E95C400024326 /* View.swift in Sources */,
 				508D6D052EB251A300885E95 /* ButtonCustomColor.swift in Sources */,
+				50158DA92F75854C005AF819 /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

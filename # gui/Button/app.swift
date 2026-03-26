@@ -19,16 +19,33 @@ import SwiftUI
                     ButtonCustom(flexibility: .infinity)
                 }
 
-                VStack {
-                    Text("style").font(.headline)
-                    ButtonCustom(colorStyle: .accent)
-                    ButtonCustom(colorStyle: .danger)
-                    ButtonCustom(colorStyle: .custom(text: nil, background: nil))
-                    ButtonCustom(colorStyle: .custom(text: .white, background: .orange))
+                HStack(spacing: 0) {
+                    VStack {
+                        Text("light style").font(.headline)
+                        ButtonCustom(colorStyle: .accent)
+                        ButtonCustom(colorStyle: .danger)
+                        ButtonCustom(colorStyle: .custom(text: nil, background: nil))
+                        ButtonCustom(colorStyle: .custom(text: .white, background: .orange))
+                    }
+                    .padding(20)
+                    .environment(\.colorScheme, .light)
+                    .background(Color.white)
+
+                    VStack {
+                        Text("dark style").font(.headline)
+                        ButtonCustom(colorStyle: .accent)
+                        ButtonCustom(colorStyle: .danger)
+                        ButtonCustom(colorStyle: .custom(text: nil, background: nil))
+                        ButtonCustom(colorStyle: .custom(text: .white, background: .orange))
+                    }
+                    .padding(20)
+                    .environment(\.colorScheme, .dark)
+                    .background(Color.getNS(\.darkGray))
                 }
 
             }
-            .padding(10)
+            .frame(width: 210)
+            .padding(20)
         }
     }
 
