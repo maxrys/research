@@ -40,7 +40,7 @@ import SwiftUI
                     }
                     .padding(20)
                     .environment(\.colorScheme, .dark)
-                    .background(Color.getNS(\.darkGray))
+                    .background(Color.NS[\.darkGray])
                 }
 
             }

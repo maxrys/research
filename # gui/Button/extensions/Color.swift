@@ -7,8 +7,12 @@ import SwiftUI
 
 extension Color {
 
-    static func getNS(_ keyPath: KeyPath<NSColor.Type, NSColor>) -> Color {
-        Color(NSColor.self[keyPath: keyPath])
+    struct NSColorSet {
+        subscript(_ keyPath: KeyPath<NSColor.Type, NSColor>) -> Color {
+            Color(NSColor.self[keyPath: keyPath])
+        }
     }
+
+    static let NS = NSColorSet()
 
 }
