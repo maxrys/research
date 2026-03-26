@@ -22,9 +22,9 @@ struct ButtonCustom: View {
         _ text: String = "button",
         isDisabled: Bool = false,
         colorStyle: Color.ButtonCustomStyle = .accent,
-        isFlat: Bool = true,
+        isFlat: Bool = false,
         font: Font = .system(size: 12.5, weight: .regular),
-        padding: EdgeInsets = .init(top: 2, leading: 9, bottom: 3, trailing: 9),
+        padding: EdgeInsets = .init(top: 6, leading: 12, bottom: 6, trailing: 12),
         flexibility: Flexibility = .none,
         onClick: @escaping () -> Void = { }
     ) {
@@ -72,26 +72,44 @@ struct ButtonCustom: View {
 /* ########################## PREVIEW ########################## */
 /* ############################################################# */
 
-#Preview {
-    VStack(spacing: 20) {
+struct ButtonCustom_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack(spacing: 20) {
 
-        VStack {
-            Text("flexibility").font(.headline)
-            ButtonCustom()
-            ButtonCustom(flexibility: .none)
-            ButtonCustom(flexibility: .size(100))
-            ButtonCustom(flexibility: .infinity)
+            VStack {
+                Text("flexibility").font(.headline)
+                ButtonCustom()
+                ButtonCustom(flexibility: .none)
+                ButtonCustom(flexibility: .size(100))
+                ButtonCustom(flexibility: .infinity)
+            }
+
+            HStack(spacing: 0) {
+                VStack {
+                    Text("light style").font(.headline)
+                    ButtonCustom(colorStyle: .accent)
+                    ButtonCustom(colorStyle: .danger)
+                    ButtonCustom(colorStyle: .custom(text: nil, background: nil))
+                    ButtonCustom(colorStyle: .custom(text: .white, background: .orange))
+                }
+                .padding(20)
+                .environment(\.colorScheme, .light)
+                .background(Color.white)
+
+                VStack {
+                    Text("dark style").font(.headline)
+                    ButtonCustom(colorStyle: .accent)
+                    ButtonCustom(colorStyle: .danger)
+                    ButtonCustom(colorStyle: .custom(text: nil, background: nil))
+                    ButtonCustom(colorStyle: .custom(text: .white, background: .orange))
+                }
+                .padding(20)
+                .environment(\.colorScheme, .dark)
+                .background(Color.black)
+            }
+
         }
-
-        VStack {
-            Text("style").font(.headline)
-            ButtonCustom(colorStyle: .accent)
-            ButtonCustom(colorStyle: .danger)
-            ButtonCustom(colorStyle: .custom(text: nil, background: nil))
-            ButtonCustom(colorStyle: .custom(text: .white, background: .orange))
-        }
-
+        .frame(width: 210)
+        .padding(20)
     }
-    .frame(width: 200)
-    .padding(20)
 }
