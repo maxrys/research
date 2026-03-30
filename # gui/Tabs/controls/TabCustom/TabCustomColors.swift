@@ -18,8 +18,8 @@ extension Color {
         public let headTitleSelectedBackground = Color.accentColor
         public let headTitleBorder             = Color.black.opacity(0.1)
         public let headTitleBorderDark         = Color.white.opacity(0.1)
-        public let headTitleBorderHovering     = Color.black
-        public let headTitleBorderHoveringDark = Color.white
+        public let headTitleBorderHovering     = Color.black.opacity(0.5)
+        public let headTitleBorderHoveringDark = Color.white.opacity(0.5)
     }
 
     static let tab = TabCustomColorSet()

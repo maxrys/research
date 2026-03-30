@@ -17,6 +17,12 @@ struct TabCustom: View {
         self.contents = content()
     }
 
+    private var colorHeadBackground: Color {
+        self.colorScheme == .dark ?
+            Color.tab.headBackgroundDark :
+            Color.tab.headBackground
+    }
+
     public var body: some View {
         VStack(spacing: 0) {
 
@@ -38,14 +44,9 @@ struct TabCustom: View {
             }
             .padding(10)
             .frame(maxWidth: .infinity)
-            .background(
-                self.colorScheme == .dark ?
-                    Color.tab.headBackgroundDark :
-                    Color.tab.headBackground
-            )
+            .background(self.colorHeadBackground)
             .overlay(alignment: .bottom) {
                 self.ShadowView()
-                    .offset(y: 5)
             }
 
             /* MARK: Tab Body */
@@ -78,7 +79,7 @@ struct TabCustom: View {
 
 fileprivate struct TabCustom_HeadTitle: View {
 
-    @Environment(\.colorScheme) fileprivate var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
 
     @State fileprivate var isHovering = false
 
@@ -88,19 +89,19 @@ fileprivate struct TabCustom_HeadTitle: View {
     fileprivate let isSelected: Bool
     fileprivate let onClick: (Int) -> Void
 
-    private var colorForeground: Color {
-        if (self.isSelected != true && self.colorScheme != .dark) { return .tab.headTitle             }
-        if (self.isSelected != true && self.colorScheme == .dark) { return .tab.headTitleDark         }
-        if (self.isSelected == true && self.colorScheme != .dark) { return .tab.headTitleSelected     }
-        if (self.isSelected == true && self.colorScheme == .dark) { return .tab.headTitleSelectedDark }
-        return .clear
-    }
-
     private var colorBorder: Color {
         if (self.isHovering != true && self.colorScheme != .dark) { return .tab.headTitleBorder             }
         if (self.isHovering != true && self.colorScheme == .dark) { return .tab.headTitleBorderDark         }
         if (self.isHovering == true && self.colorScheme != .dark) { return .tab.headTitleBorderHovering     }
         if (self.isHovering == true && self.colorScheme == .dark) { return .tab.headTitleBorderHoveringDark }
+        return .clear
+    }
+
+    private var colorForeground: Color {
+        if (self.isSelected != true && self.colorScheme != .dark) { return .tab.headTitle             }
+        if (self.isSelected != true && self.colorScheme == .dark) { return .tab.headTitleDark         }
+        if (self.isSelected == true && self.colorScheme != .dark) { return .tab.headTitleSelected     }
+        if (self.isSelected == true && self.colorScheme == .dark) { return .tab.headTitleSelectedDark }
         return .clear
     }
 
