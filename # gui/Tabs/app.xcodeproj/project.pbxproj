@@ -13,6 +13,7 @@
 		50CFBAD52F278F63009A58ED /* TabCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CFBAD22F278F39009A58ED /* TabCustom.swift */; };
 		50CFBAD62F278F63009A58ED /* TabCustom_Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CFBAD32F278F39009A58ED /* TabCustom_Item.swift */; };
 		50CFBAD72F278F63009A58ED /* TabCustom_Spacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CFBAD42F278F39009A58ED /* TabCustom_Spacer.swift */; };
+		50D28F982F7AA6F3006A7304 /* TabCustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D28F972F7AA6F3006A7304 /* TabCustomColors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		50CFBAD22F278F39009A58ED /* TabCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCustom.swift; sourceTree = "<group>"; };
 		50CFBAD32F278F39009A58ED /* TabCustom_Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCustom_Item.swift; sourceTree = "<group>"; };
 		50CFBAD42F278F39009A58ED /* TabCustom_Spacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCustom_Spacer.swift; sourceTree = "<group>"; };
+		50D28F972F7AA6F3006A7304 /* TabCustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCustomColors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +45,7 @@
 				50CFBAD22F278F39009A58ED /* TabCustom.swift */,
 				50CFBAD32F278F39009A58ED /* TabCustom_Item.swift */,
 				50CFBAD42F278F39009A58ED /* TabCustom_Spacer.swift */,
+				50D28F972F7AA6F3006A7304 /* TabCustomColors.swift */,
 			);
 			path = TabCustom;
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
+				50D28F982F7AA6F3006A7304 /* TabCustomColors.swift in Sources */,
 				5075015C2EF94AA000624409 /* Array.swift in Sources */,
 				5075015E2EF94AD800624409 /* ResultBuilder.swift in Sources */,
 				50CFBAD52F278F63009A58ED /* TabCustom.swift in Sources */,
