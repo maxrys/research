@@ -50,13 +50,15 @@ struct ButtonCustom: View {
                     (self.isFlat ?
                         AnyView(RoundedRectangle(cornerRadius: 5).fill                (self.colorStyle.background)) :
                         AnyView(RoundedRectangle(cornerRadius: 5).fillGradientPolyfill(self.colorStyle.background))
-                    ).shadow(
-                        color: self.colorScheme == .dark ?
-                            .black.opacity(1.0) :
-                            .black.opacity(0.4),
-                        radius: 0.7,
-                        y: 0.3
                     )
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 5))
+                .shadow(
+                    color: self.colorScheme == .dark ?
+                        .black.opacity(1.0) :
+                        .black.opacity(0.4),
+                    radius: 0.7,
+                    y: 0.3
                 )
         }
         .buttonStyle(.plain)
