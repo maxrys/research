@@ -7,13 +7,6 @@ import SwiftUI
 
 struct DemoToggleOptional: View {
 
-    @Observable final class ValueState<T> {
-        var wrappedValue: T
-        init(_ value: T) {
-            self.wrappedValue = value
-        }
-    }
-
     private var text: String
     private var intIsOn = ValueState<Bool>(false)
     private var extIsOn: Binding<Bool>?
@@ -27,8 +20,8 @@ struct DemoToggleOptional: View {
 
     var body: some View {
         var isOn: Bool {
-            get { if (self.extIsOn != nil) { self.extIsOn!.wrappedValue            } else { self.intIsOn.wrappedValue            } }
-            set { if (self.extIsOn != nil) { self.extIsOn!.wrappedValue = newValue } else { self.intIsOn.wrappedValue = newValue } }
+            get { if (self.extIsOn != nil) { self.extIsOn!.wrappedValue            } else { self.intIsOn.value            } }
+            set { if (self.extIsOn != nil) { self.extIsOn!.wrappedValue = newValue } else { self.intIsOn.value = newValue } }
         }
         Button(self.text) {
             isOn.toggle()

@@ -3,11 +3,11 @@
 /* ### Copyright © 2026 Maxim Rysevets. All rights reserved. ### */
 /* ############################################################# */
 
-import Foundation
+import Combine
 
-@Observable final class ValueState<T> {
+final class ValueStateClassic<T>: ObservableObject {
 
-    var value: T
+    @Published var value: T
 
     init(_ value: T) {
         self.value = value

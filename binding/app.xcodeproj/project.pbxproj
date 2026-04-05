@@ -13,6 +13,8 @@
 		507318672DE9BAF5005E26F9 /* DemoToggleOptional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507318662DE9BAF5005E26F9 /* DemoToggleOptional.swift */; };
 		5073186D2DE9BDB4005E26F9 /* Demo_bindingOptional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5073186C2DE9BDB4005E26F9 /* Demo_bindingOptional.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
+		50D28FDD2F82EC0C006A7304 /* ValueState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D28FDC2F82EC0C006A7304 /* ValueState.swift */; };
+		50D28FDF2F82ECC4006A7304 /* ValueStateClassic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D28FDE2F82ECC4006A7304 /* ValueStateClassic.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		50993B682D33C4C900195667 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
+		50D28FDC2F82EC0C006A7304 /* ValueState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueState.swift; sourceTree = "<group>"; };
+		50D28FDE2F82ECC4006A7304 /* ValueStateClassic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueStateClassic.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +44,8 @@
 		507318622DE9B9D2005E26F9 /* shared */ = {
 			isa = PBXGroup;
 			children = (
+				50D28FDC2F82EC0C006A7304 /* ValueState.swift */,
+				50D28FDE2F82ECC4006A7304 /* ValueStateClassic.swift */,
 				5073185E2DE9B563005E26F9 /* Binding.swift */,
 				50CE72322EE5A87700FE3282 /* controls */,
 			);
@@ -151,7 +157,9 @@
 				5073185B2DE9ACA7005E26F9 /* Demo_bindingProxy.swift in Sources */,
 				5073185F2DE9B563005E26F9 /* Binding.swift in Sources */,
 				507318672DE9BAF5005E26F9 /* DemoToggleOptional.swift in Sources */,
+				50D28FDD2F82EC0C006A7304 /* ValueState.swift in Sources */,
 				5073186D2DE9BDB4005E26F9 /* Demo_bindingOptional.swift in Sources */,
+				50D28FDF2F82ECC4006A7304 /* ValueStateClassic.swift in Sources */,
 				507318612DE9B9C1005E26F9 /* DemoToggle.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 			);
