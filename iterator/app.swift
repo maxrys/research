@@ -5,69 +5,6 @@
 
 import SwiftUI
 
-struct ComplexStruct: Hashable {
-    let a: String
-    let b: String
-}
-
-let array = [
-    "value1",
-    "value2",
-]
-
-let arrayComplex = [
-    ComplexStruct(a: "value 1.1", b: "value 1.2"),
-    ComplexStruct(a: "value 2.1", b: "value 2.2"),
-]
-
-let arrayTuples = [
-    (key: 0, value: ComplexStruct(a: "value 1.1", b: "value 1.2")),
-    (key: 1, value: ComplexStruct(a: "value 2.1", b: "value 2.2")),
-]
-
-struct IntIterator: Sequence, IteratorProtocol {
-
-    private var current: Int = 0
-    private var max: Int = 0
-
-    init(_ max: Int) {
-        self.max = max
-    }
-
-    mutating func next() -> Int? {
-        if (self.current < self.max) {
-            self.current += 1
-            return self.current
-        }
-        return nil
-    }
-
-}
-
-struct ArrayIterator<Element>: Sequence, IteratorProtocol {
-
-    private var index: Int = 0
-    private var array: [Element]
-
-    init(_ array: [Element]) {
-        self.array = array
-    }
-
-    mutating func next() -> (index: Int, value: Element)? {
-        if (self.array.count > 0) {
-            if (self.index < self.array.count) {
-                defer { self.index += 1 }
-                return (
-                    index:            self.index,
-                    value: self.array[self.index]
-                )
-            }
-        }
-        return nil
-    }
-
-}
-
 @main struct ThisApp: App {
 
     let intIterator = IntIterator(3)
@@ -109,6 +46,12 @@ struct ArrayIterator<Element>: Sequence, IteratorProtocol {
 
         for (index, value) in ArrayIterator(arrayTuples) {
             print("\(index):\(value)")
+        }
+
+        Task {
+            for await value in AsyncCounter(3) {
+                print("\(value)")
+            }
         }
 
     }
