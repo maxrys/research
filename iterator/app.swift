@@ -27,7 +27,7 @@ let arrayTuples = [
 
 struct IntIterator: Sequence, IteratorProtocol {
 
-    private var cur: Int = 0
+    private var current: Int = 0
     private var max: Int = 0
 
     init(_ max: Int) {
@@ -35,9 +35,9 @@ struct IntIterator: Sequence, IteratorProtocol {
     }
 
     mutating func next() -> Int? {
-        if self.cur < self.max {
-            self.cur += 1
-            return self.cur
+        if (self.current < self.max) {
+            self.current += 1
+            return self.current
         }
         return nil
     }
@@ -53,36 +53,13 @@ struct ArrayIterator<Element>: Sequence, IteratorProtocol {
         self.array = array
     }
 
-    mutating func next() -> Element? {
+    mutating func next() -> (index: Int, value: Element)? {
         if (self.array.count > 0) {
             if (self.index < self.array.count) {
-                self.index += 1
-                return self.array[
-                    self.index - 1
-                ]
-            }
-        }
-        return nil
-    }
-
-}
-
-struct ArrayDictIterator<Element>: Sequence, IteratorProtocol {
-
-    private var index: Int = 0
-    private var array: [Element]
-
-    init(_ array: [Element]) {
-        self.array = array
-    }
-
-    mutating func next() -> (key: Int, value: Element)? {
-        if (self.array.count > 0) {
-            if (self.index < self.array.count) {
-                self.index += 1
+                defer { self.index += 1 }
                 return (
-                    key  :            self.index - 1,
-                    value: self.array[self.index - 1]
+                    index:            self.index,
+                    value: self.array[self.index]
                 )
             }
         }
@@ -122,30 +99,16 @@ struct ArrayDictIterator<Element>: Sequence, IteratorProtocol {
 
         /* ################################################################ */
 
-        for value in ArrayIterator(array) {
-            print("\(value)")
+        for (index, value) in ArrayIterator(array) {
+            print("\(index):\(value)")
         }
 
-        for value in ArrayIterator(arrayComplex) {
-            print("\(value)")
+        for (index, value) in ArrayIterator(arrayComplex) {
+            print("\(index):\(value)")
         }
 
-        for (key, value) in ArrayIterator(arrayTuples) {
-            print("\(key):\(value)")
-        }
-
-        /* ################################################################ */
-
-        for (key, value) in ArrayDictIterator(array) {
-            print("\(key):\(value)")
-        }
-
-        for (key, value) in ArrayDictIterator(arrayTuples) {
-            print("\(key):\(value)")
-        }
-
-        for (key, value) in ArrayDictIterator(arrayComplex) {
-            print("\(key):\(value)")
+        for (index, value) in ArrayIterator(arrayTuples) {
+            print("\(index):\(value)")
         }
 
     }
