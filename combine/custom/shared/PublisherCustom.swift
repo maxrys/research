@@ -18,13 +18,13 @@ struct PublisherCustom: Publisher {
     }
 
     func receive<S>(subscriber: S) where S: Subscriber, Never == S.Failure, Int == S.Input {
-        let subscription = CounterSubscription(subscriber: subscriber, count: count)
+        let subscription = SubscriptionCustom(subscriber: subscriber, count: count)
         subscriber.receive(subscription: subscription)
     }
 
 }
 
-private final class CounterSubscription<S: Subscriber>: Subscription where S.Input == Int, S.Failure == Never {
+private final class SubscriptionCustom<S: Subscriber>: Subscription where S.Input == Int, S.Failure == Never {
 
     private var subscriber: S?
     private let count: Int
