@@ -44,10 +44,9 @@
 		507318622DE9B9D2005E26F9 /* shared */ = {
 			isa = PBXGroup;
 			children = (
+				5073185E2DE9B563005E26F9 /* Binding.swift */,
 				50D28FDC2F82EC0C006A7304 /* ValueState.swift */,
 				50D28FDE2F82ECC4006A7304 /* ValueStateClassic.swift */,
-				5073185E2DE9B563005E26F9 /* Binding.swift */,
-				50CE72322EE5A87700FE3282 /* controls */,
 			);
 			path = shared;
 			sourceTree = "<group>";
@@ -57,6 +56,7 @@
 			children = (
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				507318622DE9B9D2005E26F9 /* shared */,
+				50CE72322EE5A87700FE3282 /* controls */,
 				50993B6B2D33C4C900195667 /* app.swift */,
 				5073185A2DE9ACA4005E26F9 /* Demo_bindingProxy.swift */,
 				5073186C2DE9BDB4005E26F9 /* Demo_bindingOptional.swift */,

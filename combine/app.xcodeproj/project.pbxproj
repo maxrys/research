@@ -61,11 +61,11 @@
 		50993B5F2D33C4C900195667 = {
 			isa = PBXGroup;
 			children = (
+				50993B742D33C4CD00195667 /* app.entitlements */,
 				503D1AF62F310A78005B8A98 /* shared */,
 				503D1AF72F310A8A005B8A98 /* extensions */,
 				50993B6B2D33C4C900195667 /* app.swift */,
 				50F5692F2D97FA3500847267 /* TimerDemoView.swift */,
-				50993B742D33C4CD00195667 /* app.entitlements */,
 				50993B692D33C4C900195667 /* Products */,
 			);
 			sourceTree = "<group>";

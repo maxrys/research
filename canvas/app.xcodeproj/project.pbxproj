@@ -35,9 +35,8 @@
 			isa = PBXGroup;
 			children = (
 				50993B742D33C4CD00195667 /* app.entitlements */,
+				50D290202F8538EB006A7304 /* extensions */,
 				50993B6B2D33C4C900195667 /* app.swift */,
-				50778CCC2D5CE19900C5A42E /* GraphicsContext.swift */,
-				50778CDD2D6484E900C5A42E /* CGPoint.swift */,
 				50993B692D33C4C900195667 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -48,6 +47,15 @@
 				50993B682D33C4C900195667 /* app.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		50D290202F8538EB006A7304 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				50778CDD2D6484E900C5A42E /* CGPoint.swift */,
+				50778CCC2D5CE19900C5A42E /* GraphicsContext.swift */,
+			);
+			path = extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

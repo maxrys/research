@@ -57,13 +57,21 @@
 			isa = PBXGroup;
 			children = (
 				50993B742D33C4CD00195667 /* app.entitlements */,
+				50D2901F2F8538AB006A7304 /* extensions */,
 				50993B6B2D33C4C900195667 /* app.swift */,
-				500895422DD9DD6000414588 /* UInt64.swift */,
-				502554E72D5268AA005F475E /* Data.swift */,
 				502555352D526A29005F475E /* test.swift */,
 				50114DFB2E0D6AFA00024326 /* app.app */,
 				50114DFC2E0D6AFA00024326 /* test.xctest */,
 			);
+			sourceTree = "<group>";
+		};
+		50D2901F2F8538AB006A7304 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				500895422DD9DD6000414588 /* UInt64.swift */,
+				502554E72D5268AA005F475E /* Data.swift */,
+			);
+			path = extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

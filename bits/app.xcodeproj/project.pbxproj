@@ -47,9 +47,8 @@
 			isa = PBXGroup;
 			children = (
 				50993B742D33C4CD00195667 /* app.entitlements */,
+				50D290212F85390C006A7304 /* extensions */,
 				50993B6B2D33C4C900195667 /* app.swift */,
-				507318302DE70802005E26F9 /* UInt.swift */,
-				5073183F2DE70885005E26F9 /* String.swift */,
 				507318382DE7083D005E26F9 /* Test.swift */,
 				50993B692D33C4C900195667 /* Products */,
 			);
@@ -62,6 +61,15 @@
 				507318362DE7083D005E26F9 /* test.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		50D290212F85390C006A7304 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5073183F2DE70885005E26F9 /* String.swift */,
+				507318302DE70802005E26F9 /* UInt.swift */,
+			);
+			path = extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
