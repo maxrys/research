@@ -4,25 +4,13 @@
 /* ################################################################## */
 
 import SwiftUI
-import Combine
 
 @main struct ThisApp: App {
 
-    private var publisher: Cancellable?
-
     var body: some Scene {
         WindowGroup {
-            Text("PublisherCustom")
+            PublisherView()
         }
-    }
-
-    init() {
-        self.publisher = PublisherCustom(count: 10)
-            .sink(receiveCompletion: { _ in
-                print("finish")
-            }, receiveValue: { value in
-                print("\(value)")
-            })
     }
 
 }

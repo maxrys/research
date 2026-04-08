@@ -6,10 +6,14 @@
 import Foundation
 import Combine
 
+enum PublisherCustomError: Error {
+    case demandValue
+}
+
 struct PublisherCustom: Publisher {
 
     typealias Output = Int
-    typealias Failure = Never
+    typealias Failure = PublisherCustomError
 
     let count: Int
 
@@ -17,14 +21,14 @@ struct PublisherCustom: Publisher {
         self.count = count
     }
 
-    func receive<S>(subscriber: S) where S: Subscriber, Never == S.Failure, Int == S.Input {
+    func receive<S>(subscriber: S) where S: Subscriber, PublisherCustomError == S.Failure, Int == S.Input {
         let subscription = SubscriptionCustom(subscriber: subscriber, count: count)
         subscriber.receive(subscription: subscription)
     }
 
 }
 
-private final class SubscriptionCustom<S: Subscriber>: Subscription where S.Input == Int, S.Failure == Never {
+private final class SubscriptionCustom<S: Subscriber>: Subscription where S.Input == Int, S.Failure == PublisherCustomError {
 
     private var subscriber: S?
     private let count: Int
@@ -35,14 +39,15 @@ private final class SubscriptionCustom<S: Subscriber>: Subscription where S.Inpu
     }
 
     func request(_ demand: Subscribers.Demand) {
-     // guard demand != .unlimited else {
-     //     self.subscriber?.receive(completion: .finished)
-     //     return
-     // }
-        for i in 0 ..< self.count {
-            _ = self.subscriber?.receive(i)
+        guard let subscriber = self.subscriber else { return }
+        guard demand == .unlimited else {
+            subscriber.receive(completion: .failure(.demandValue))
+            return
         }
-        self.subscriber?.receive(
+        for i in 0 ..< self.count {
+            _ = subscriber.receive(i)
+        }
+        subscriber.receive(
             completion: .finished
         )
     }
