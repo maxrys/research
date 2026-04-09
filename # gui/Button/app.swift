@@ -19,6 +19,13 @@ import SwiftUI
                     ButtonCustom(flexibility: .infinity)
                 }
 
+                VStack {
+                    Text("icon + text").font(.headline)
+                    ButtonCustom("text")
+                    ButtonCustom(  nil , Image(systemName: "globe"))
+                    ButtonCustom("text", Image(systemName: "globe"))
+                }
+
                 HStack(spacing: 0) {
                     VStack {
                         Text("light style").font(.headline)
@@ -46,6 +53,7 @@ import SwiftUI
             }
             .frame(width: 210)
             .padding(20)
+
         }
     }
 

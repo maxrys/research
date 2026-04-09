@@ -44,11 +44,11 @@
 		50993B5F2D33C4C900195667 = {
 			isa = PBXGroup;
 			children = (
+				50993B742D33C4CD00195667 /* app.entitlements */,
+				501FA4CE2F4F08C4004663D2 /* Assets.xcassets */,
 				50CE9FED2F473677001006CF /* extensions */,
 				50CE9FEF2F47369A001006CF /* controls */,
 				50993B6B2D33C4C900195667 /* app.swift */,
-				501FA4CE2F4F08C4004663D2 /* Assets.xcassets */,
-				50993B742D33C4CD00195667 /* app.entitlements */,
 				50993B692D33C4C900195667 /* Products */,
 			);
 			sourceTree = "<group>";
