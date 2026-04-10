@@ -8,20 +8,25 @@ import SwiftUI
 extension Shape {
 
     @ViewBuilder func fillGradientPolyfill(_ color: Color) -> some View {
-        if #available(macOS 13.0, *) {
-            self.fill(
-                color.gradient
-            )
-        } else {
-            self.fill(
-                LinearGradient(
-                    colors: [color.opacity(0.7), color],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-            )
-        }
+        if #available(macOS 13.0, *) { self.fill(color.gradient) }
+        else                         { self.fill(color) }
     }
+
+//  @ViewBuilder func fillGradientPolyfill(_ color: Color) -> some View {
+//      if #available(macOS 13.0, *) {
+//          self.fill(
+//              color.gradient
+//          )
+//      } else {
+//          self.fill(
+//              LinearGradient(
+//                  colors: [color.opacity(0.7), color],
+//                  startPoint: .top,
+//                  endPoint: .bottom
+//              )
+//          )
+//      }
+//  }
 
 //  @ViewBuilder func fillGradientPolyfill(_ color: Color) -> some View {
 //      if #available(macOS 13.0, *) {
