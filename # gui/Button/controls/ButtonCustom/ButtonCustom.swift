@@ -57,6 +57,7 @@ struct ButtonCustom: View {
                 )
             )
             .clipShape(RoundedRectangle(cornerRadius: 5))
+            .focusEffect(RoundedRectangle(cornerRadius: 5))
             .shadow(
                 color: self.colorScheme == .dark ?
                     .black.opacity(1.0) :
