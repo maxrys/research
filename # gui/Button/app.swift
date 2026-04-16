@@ -31,7 +31,7 @@ import SwiftUI
                         Text("light style").font(.headline)
                         ButtonCustom(colorStyle: .accent)
                         ButtonCustom(colorStyle: .danger)
-                        ButtonCustom(colorStyle: .custom(text: nil, background: nil))
+                        ButtonCustom(colorStyle: .common)
                         ButtonCustom(colorStyle: .custom(text: .white, background: .orange))
                     }
                     .padding(20)
@@ -42,7 +42,7 @@ import SwiftUI
                         Text("dark style").font(.headline)
                         ButtonCustom(colorStyle: .accent)
                         ButtonCustom(colorStyle: .danger)
-                        ButtonCustom(colorStyle: .custom(text: nil, background: nil))
+                        ButtonCustom(colorStyle: .common)
                         ButtonCustom(colorStyle: .custom(text: .white, background: .orange))
                     }
                     .padding(20)
