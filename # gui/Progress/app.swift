@@ -11,9 +11,7 @@ import SwiftUI
         WindowGroup {
             VStack(spacing: 10) {
                 ForEach(Array(stride(from: -0.1, through: 1.1, by: 0.1)), id: \.self) { value in
-                    ProgressCustom(
-                        value: .constant(value)
-                    )
+                    ProgressCustom(value: value)
                 }
             }
             .padding(10)
