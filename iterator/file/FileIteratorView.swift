@@ -8,11 +8,14 @@ import SwiftUI
 
 struct FileIteratorView: View {
 
-    static let DEMO_PATH = "/Volumes/dev/xcode/# research/iterator/file/demo.txt"
+    static public let DEMO_PATH = "/Volumes/dev/xcode/# research/iterator/file/demo.txt"
+    static public let MESSAGE_STATUS_SUCCESS_LOCALIZED        = NSLocalizedString("success", comment: "")
+    static public let MESSAGE_STATUS_FAILURE_LOCALIZED        = NSLocalizedString("failure", comment: "")
+    static public let MESSAGE_STATUS_TASK_CANCELLED_LOCALIZED = NSLocalizedString("Task was cancelled.", comment: "")
 
     @State private var task: Task<Void, Never>? = nil
     @State private var progress: Double = 0.0
-    @State private var report: [String] = []
+    @State private var report: [(column1: String, column2: String)] = []
 
     var body: some View {
         VStack(spacing: 10) {
@@ -40,8 +43,16 @@ struct FileIteratorView: View {
             Text("Progress: \(Int(self.progress * 100)) %")
 
             ScrollView {
-                ForEach (self.report.indices.reversed(), id: \.self) { index in
-                    Text(self.report[index]).id(index)
+                let columns = [
+                    GridItem(.flexible(), spacing: 0, alignment: .leading),
+                    GridItem(.fixed(200), spacing: 0, alignment: .center),
+                ]
+                LazyVGrid(columns: columns, spacing: 0) {
+                    ForEach (self.report.indices.reversed(), id: \.self) { index in
+                        let reportInfo = self.report[index]
+                        Text(reportInfo.column1).id(Double(index) + 0.1)
+                        Text(reportInfo.column2).id(Double(index) + 0.2)
+                    }
                 }
             }
 
@@ -61,9 +72,9 @@ struct FileIteratorView: View {
                 process: for result in fileSequence {
                     self.progress = result.progress
                     switch result.status {
-                        case .failure(_, let text): self.report.append(NSLocalizedString("failure", comment: "") + ": " + text)
-                        case .success             : self.report.append(NSLocalizedString("success", comment: "") + ": offset = \(result.offset) | progress = \(result.progress)")
-                        case .cancelledByUser     : self.report.append(NSLocalizedString("Task was cancelled.", comment: "")); break process
+                        case .failure(_, let text): self.report.append((column1: "error: \(text)"                                           , column2: Self.MESSAGE_STATUS_FAILURE_LOCALIZED))
+                        case .success             : self.report.append((column1: "offset = \(result.offset) | progress = \(result.progress)", column2: Self.MESSAGE_STATUS_SUCCESS_LOCALIZED))
+                        case .cancelledByUser     : self.report.append((column1: ""                                                         , column2: Self.MESSAGE_STATUS_TASK_CANCELLED_LOCALIZED)); break process
                     }
                     try? await Task.sleep(
                         nanoseconds: 10_000_000
@@ -82,9 +93,9 @@ struct FileIteratorView: View {
                 process: for await result in fileSequence {
                     self.progress = result.progress
                     switch result.status {
-                        case .failure(_, let text): self.report.append(NSLocalizedString("failure", comment: "") + ": " + text)
-                        case .success             : self.report.append(NSLocalizedString("success", comment: "") + ": offset = \(result.offset) | progress = \(result.progress)")
-                        case .cancelledByUser     : self.report.append(NSLocalizedString("Task was cancelled.", comment: "")); break process
+                        case .failure(_, let text): self.report.append((column1: "error: \(text)"                                           , column2: Self.MESSAGE_STATUS_FAILURE_LOCALIZED))
+                        case .success             : self.report.append((column1: "offset = \(result.offset) | progress = \(result.progress)", column2: Self.MESSAGE_STATUS_SUCCESS_LOCALIZED))
+                        case .cancelledByUser     : self.report.append((column1: ""                                                         , column2: Self.MESSAGE_STATUS_TASK_CANCELLED_LOCALIZED)); break process
                     }
                     try? await Task.sleep(
                         nanoseconds: 10_000_000
