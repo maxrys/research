@@ -8,26 +8,38 @@ import SwiftUI
 
 struct ProgressSimple: View {
 
-    private var value: Double
+    @Environment(\.colorScheme) private var colorScheme
 
-    init(value: Double) {
+    private let height: CGFloat
+    private let value: Double
+
+    init(value: Double, height: CGFloat = 10) {
         self.value = value
+        self.height = height
     }
 
     var body: some View {
-        GeometryReaderPolyfill(isIgnoreHeight: true) { size in
-            Color.NS[\.lightGray]
-                .frame(maxWidth: .infinity)
-                .frame(height: 10)
-                .overlayPolyfill(alignment: .leading) {
-                    let width = size.width * self.value.fixBounds(
-                        min: 0.0,
-                        max: 1.0
-                    )
-                    Color.accentColor
-                        .frame(width: width, height: 10)
-                }
+        Color.clear
+            .frame(height: self.height)
+            .background( self.IndicatorView() )
+            .background( self.BackgroundView() )
+    }
+
+    @ViewBuilder func IndicatorView() -> some View {
+        GeometryReader { geometry in
+            let width = geometry.size.width * self.value.fixBounds(max: 1.0)
+            RoundedRectangle(cornerRadius: 3)
+                .fill(Color.accentColor)
+                .frame(width: width)
         }
+    }
+
+    @ViewBuilder func BackgroundView() -> some View {
+        RoundedRectangle(cornerRadius: 3)
+            .fill(self.colorScheme == .dark ?
+                Color.black :
+                Color.white
+            )
     }
 
 }
