@@ -7,12 +7,17 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
+    @State private var date = Date()
+
     public var body: some Scene {
         WindowGroup {
             DatePickerCustom(
-                value: .constant(Date())
+                value: self.$date
             ).padding(20)
         }
+    }
+
+    init() {
     }
 
 }

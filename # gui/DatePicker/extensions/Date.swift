@@ -48,11 +48,35 @@ extension Date {
         return formatter.string(from: self) + "-\(mSec)"
     }
 
-    var day   : Int { Calendar.current.component(.day   , from: self) }
-    var month : Int { Calendar.current.component(.month , from: self) }
-    var year  : Int { Calendar.current.component(.year  , from: self) }
-    var hour  : Int { Calendar.current.component(.hour  , from: self) }
-    var minute: Int { Calendar.current.component(.minute, from: self) }
-    var second: Int { Calendar.current.component(.second, from: self) }
+    var day   : Int { get { Calendar.current.component(.day   , from: self) } set { self.updateComponent(day   : newValue) } }
+    var month : Int { get { Calendar.current.component(.month , from: self) } set { self.updateComponent(month : newValue) } }
+    var year  : Int { get { Calendar.current.component(.year  , from: self) } set { self.updateComponent(year  : newValue) } }
+    var hour  : Int { get { Calendar.current.component(.hour  , from: self) } set { self.updateComponent(hour  : newValue) } }
+    var minute: Int { get { Calendar.current.component(.minute, from: self) } set { self.updateComponent(minute: newValue) } }
+    var second: Int { get { Calendar.current.component(.second, from: self) } set { self.updateComponent(second: newValue) } }
+
+    private mutating func updateComponent(
+        day   : Int? = nil,
+        month : Int? = nil,
+        year  : Int? = nil,
+        hour  : Int? = nil,
+        minute: Int? = nil,
+        second: Int? = nil,
+    ) {
+        var components = Calendar.current.dateComponents([
+            .day, .month, .year, .hour, .minute, .second
+        ], from: self)
+
+        if let day    { components.day    = day }
+        if let month  { components.month  = month }
+        if let year   { components.year   = year }
+        if let hour   { components.hour   = hour }
+        if let minute { components.minute = minute }
+        if let second { components.second = second }
+
+        if let newDate = Calendar.current.date(from: components) {
+            self = newDate
+        }
+    }
 
 }

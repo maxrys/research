@@ -24,7 +24,7 @@ struct DatePickerCustom: View {
 
     @Environment(\.colorScheme) private var colorScheme
 
-    @Binding private var value: Date?
+    @Binding private var value: Date
 
     @State private var day: Int    /* 1 ... 31 */
     @State private var month: Int  /* 1 ... 12 */
@@ -38,17 +38,17 @@ struct DatePickerCustom: View {
     private let yearMaxValue: Int
 
     init(
-        value: Binding<Date?>,
+        value: Binding<Date>,
         yearMinValue: Int = 1970,
         yearMaxValue: Int = 2050
     ) {
         self._value = value
-        self.day    = (value.wrappedValue ?? Date()).day
-        self.month  = (value.wrappedValue ?? Date()).month
-        self.year   = (value.wrappedValue ?? Date()).year
-        self.hour   = (value.wrappedValue ?? Date()).hour
-        self.minute = (value.wrappedValue ?? Date()).minute
-        self.second = (value.wrappedValue ?? Date()).second
+        self.day    = value.wrappedValue.day
+        self.month  = value.wrappedValue.month
+        self.year   = value.wrappedValue.year
+        self.hour   = value.wrappedValue.hour
+        self.minute = value.wrappedValue.minute
+        self.second = value.wrappedValue.second
         self.zone   = 0
         self.yearMinValue = yearMinValue
         self.yearMaxValue = yearMaxValue
@@ -68,22 +68,22 @@ struct DatePickerCustom: View {
             HStack(spacing: 0) {
 
                 Picker("", selection: self.$day) {
-                    ForEach(1 ... 31, id: \.self) { dayNumber in
-                        Text("\(String(dayNumber))")
+                    ForEach(1 ... 31, id: \.self) { dayValue in
+                        Text("\(String(dayValue))")
                     }
                 }.frame(width: 60)
 
                 Picker("", selection: self.$month) {
-                    ForEach(1 ... 12, id: \.self) { monthNumber in
-                        if let monthName = Self.MONTH_NAMES[monthNumber]
+                    ForEach(1 ... 12, id: \.self) { monthValue in
+                        if let monthName = Self.MONTH_NAMES[monthValue]
                              { Text("\(monthName)") }
-                        else { Text("\(String(monthNumber))") }
+                        else { Text("\(String(monthValue))") }
                     }
                 }.frame(width: 120)
 
                 Picker("", selection: self.$year) {
-                    ForEach(self.yearMinValue ... self.yearMaxValue, id: \.self) { yearNumber in
-                        Text("\(String(yearNumber))")
+                    ForEach(self.yearMinValue ... self.yearMaxValue, id: \.self) { yearValue in
+                        Text("\(String(yearValue))")
                     }
                 }.frame(width: 72)
 
@@ -95,20 +95,20 @@ struct DatePickerCustom: View {
             HStack(spacing: 0) {
 
                 Picker("", selection: self.$hour) {
-                    ForEach(0 ... 23, id: \.self) { hourNumber in
-                        Text("\(String(hourNumber))")
+                    ForEach(0 ... 23, id: \.self) { hourValue in
+                        Text("\(String(hourValue))")
                     }
                 }.frame(width: 60)
 
                 Picker("", selection: self.$minute) {
-                    ForEach(0 ... 59, id: \.self) { minuteNumber in
-                        Text("\(String(minuteNumber))")
+                    ForEach(0 ... 59, id: \.self) { minuteValue in
+                        Text("\(String(minuteValue))")
                     }
                 }.frame(width: 60)
 
                 Picker("", selection: self.$second) {
-                    ForEach(0 ... 59, id: \.self) { secondNumber in
-                        Text("\(String(secondNumber))")
+                    ForEach(0 ... 59, id: \.self) { secondValue in
+                        Text("\(String(secondValue))")
                     }
                 }.frame(width: 60)
 
@@ -118,32 +118,26 @@ struct DatePickerCustom: View {
                 .font(.headline)
 
             Picker("", selection: self.$zone) {
-                ForEach(0 ... 12, id: \.self) { timeZoneNumber in
-                    Text("\(String(timeZoneNumber))")
+                ForEach(0 ... 12, id: \.self) { timeZoneValue in
+                    Text("\(String(timeZoneValue))")
                 }
             }.frame(width: 180)
 
             Text("")
 
-            Group {
-                if let value = self.value {
-                    Text("\(value.formatISO8601withTZ)")
-                } else {
-                    Text(NSLocalizedString("n/a", comment: ""))
-                }
-            }
-            .font(.system(size: 12))
-            .padding(.leading, 10)
-            .opacity(0.5)
+            Text("\(value.formatISO8601withTZ)")
+                .font(.system(size: 12))
+                .padding(.leading, 10)
+                .opacity(0.5)
 
         }
-        .onChange(of: self.day   ) { newDay    in }
-        .onChange(of: self.month ) { newMonth  in }
-        .onChange(of: self.year  ) { newYear   in }
-        .onChange(of: self.hour  ) { newHour   in }
-        .onChange(of: self.minute) { newMinute in }
-        .onChange(of: self.second) { newSecond in }
-        .onChange(of: self.zone  ) { newZone   in }
+        .onChange(of: self.day   ) { newDayValue    in self.value.day    = newDayValue }
+        .onChange(of: self.month ) { newMonthValue  in self.value.month  = newMonthValue }
+        .onChange(of: self.year  ) { newYearValue   in self.value.year   = newYearValue }
+        .onChange(of: self.hour  ) { newHourValue   in self.value.hour   = newHourValue }
+        .onChange(of: self.minute) { newMinuteValue in self.value.minute = newMinuteValue }
+        .onChange(of: self.second) { newSecondValue in self.value.second = newSecondValue }
+        .onChange(of: self.zone  ) { newZoneValue   in }
     }
 
 }
