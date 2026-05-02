@@ -43,12 +43,12 @@ struct DatePickerCustom: View {
         yearMaxValue: Int = 2050
     ) {
         self._value = value
-        self.day    = Calendar.current.component(.day     , from: value.wrappedValue ?? Date())
-        self.month  = Calendar.current.component(.month   , from: value.wrappedValue ?? Date())
-        self.year   = Calendar.current.component(.year    , from: value.wrappedValue ?? Date())
-        self.hour   = Calendar.current.component(.hour    , from: value.wrappedValue ?? Date())
-        self.minute = Calendar.current.component(.minute  , from: value.wrappedValue ?? Date())
-        self.second = Calendar.current.component(.second  , from: value.wrappedValue ?? Date())
+        self.day    = (value.wrappedValue ?? Date()).day
+        self.month  = (value.wrappedValue ?? Date()).month
+        self.year   = (value.wrappedValue ?? Date()).year
+        self.hour   = (value.wrappedValue ?? Date()).hour
+        self.minute = (value.wrappedValue ?? Date()).minute
+        self.second = (value.wrappedValue ?? Date()).second
         self.zone   = 0
         self.yearMinValue = yearMinValue
         self.yearMaxValue = yearMaxValue
@@ -127,7 +127,7 @@ struct DatePickerCustom: View {
 
             Group {
                 if let value = self.value {
-                    Text("\(value.ISO8601withTZ)")
+                    Text("\(value.formatISO8601withTZ)")
                 } else {
                     Text(NSLocalizedString("n/a", comment: ""))
                 }

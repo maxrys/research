@@ -15,7 +15,7 @@ extension Date {
         case convenientTime  = "HH:mm:ss"
     }
 
-    var convenient: String {
+    var formatConvenient: String {
         let formatter = DateFormatter()
         formatter.dateFormat = String(
             format: NSLocalizedString("%@ 'at' %@", comment: ""),
@@ -24,14 +24,14 @@ extension Date {
         return formatter.string(from: self)
     }
 
-    var ISO8601withTZ: String {
+    var formatISO8601withTZ: String {
         let formatter = DateFormatter()
         formatter.dateFormat = Self.Format.iso8601Timezone.rawValue
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter.string(from: self)
     }
 
-    var ISO8601: String {
+    var formatISO8601: String {
         let formatter = DateFormatter()
         formatter.dateFormat = Self.Format.iso8601Timezone.rawValue
         formatter.locale = Locale(identifier: "en_US_POSIX")
@@ -39,7 +39,7 @@ extension Date {
         return formatter.string(from: self)
     }
 
-    var ISO8601Mono: String {
+    var formatISO8601Mono: String {
         let formatter = DateFormatter()
         formatter.dateFormat = Self.Format.iso8601Mono.rawValue
         formatter.locale = Locale(identifier: "en_US_POSIX")
@@ -47,5 +47,12 @@ extension Date {
         let mSec = Int(Self().timeIntervalSince1970.fractionalPart * 1_000)
         return formatter.string(from: self) + "-\(mSec)"
     }
+
+    var day   : Int { Calendar.current.component(.day   , from: self) }
+    var month : Int { Calendar.current.component(.month , from: self) }
+    var year  : Int { Calendar.current.component(.year  , from: self) }
+    var hour  : Int { Calendar.current.component(.hour  , from: self) }
+    var minute: Int { Calendar.current.component(.minute, from: self) }
+    var second: Int { Calendar.current.component(.second, from: self) }
 
 }
