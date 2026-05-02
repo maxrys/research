@@ -48,14 +48,14 @@ extension Date {
         return formatter.string(from: self) + "-\(mSec)"
     }
 
-    var day   : Int { get { Calendar.current.component(.day   , from: self) } set { self.updateComponent(day   : newValue) } }
-    var month : Int { get { Calendar.current.component(.month , from: self) } set { self.updateComponent(month : newValue) } }
-    var year  : Int { get { Calendar.current.component(.year  , from: self) } set { self.updateComponent(year  : newValue) } }
-    var hour  : Int { get { Calendar.current.component(.hour  , from: self) } set { self.updateComponent(hour  : newValue) } }
-    var minute: Int { get { Calendar.current.component(.minute, from: self) } set { self.updateComponent(minute: newValue) } }
-    var second: Int { get { Calendar.current.component(.second, from: self) } set { self.updateComponent(second: newValue) } }
+    var day   : Int { get { Calendar.current.component(.day   , from: self) } set { self._updateComponent(day   : newValue) } }
+    var month : Int { get { Calendar.current.component(.month , from: self) } set { self._updateComponent(month : newValue) } }
+    var year  : Int { get { Calendar.current.component(.year  , from: self) } set { self._updateComponent(year  : newValue) } }
+    var hour  : Int { get { Calendar.current.component(.hour  , from: self) } set { self._updateComponent(hour  : newValue) } }
+    var minute: Int { get { Calendar.current.component(.minute, from: self) } set { self._updateComponent(minute: newValue) } }
+    var second: Int { get { Calendar.current.component(.second, from: self) } set { self._updateComponent(second: newValue) } }
 
-    private mutating func updateComponent(
+    private mutating func _updateComponent(
         day   : Int? = nil,
         month : Int? = nil,
         year  : Int? = nil,
