@@ -48,6 +48,10 @@ extension Date {
         return formatter.string(from: self) + "-\(mSec)"
     }
 
+    public func toNewTimeZone(offset seconds: Int) -> Self {
+        self.addingTimeInterval(TimeInterval(seconds))
+    }
+
     var day   : Int { get { Calendar.current.component(.day   , from: self) } set { self._updateComponent(day   : newValue) } }
     var month : Int { get { Calendar.current.component(.month , from: self) } set { self._updateComponent(month : newValue) } }
     var year  : Int { get { Calendar.current.component(.year  , from: self) } set { self._updateComponent(year  : newValue) } }

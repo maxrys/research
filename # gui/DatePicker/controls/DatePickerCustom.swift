@@ -96,10 +96,13 @@ struct DatePickerCustom: View {
 
             Text("")
 
-            Text("\(value.formatISO8601withTZ)")
-                .font(.system(size: 12))
-                .padding(.leading, 10)
-                .opacity(0.5)
+            VStack(spacing: 10) {
+                Text("\(value.formatISO8601withTZ)")
+                Text("\(value.formatISO8601)")
+            }
+            .font(.system(size: 12))
+            .padding(.leading, 10)
+            .opacity(0.5)
 
         }
         .onChange(of: self.day   ) { newDayValue    in self.value.day    = newDayValue }
@@ -109,7 +112,9 @@ struct DatePickerCustom: View {
         .onChange(of: self.minute) { newMinuteValue in self.value.minute = newMinuteValue }
         .onChange(of: self.second) { newSecondValue in self.value.second = newSecondValue }
         .onChange(of: self.zone  ) { newZoneValue   in
-            dump("\(newZoneValue) \(Date.TIME_ZONES_OFFSSET[newZoneValue])")
+            if let offset = Date.TIME_ZONES_OFFSSET[newZoneValue] {
+                self.value = self.value.toNewTimeZone(offset: offset)
+            }
         }
     }
 
@@ -146,7 +151,7 @@ struct DatePickerCustom: View {
                     Section(header: Text(group.offsetFormatted).font(.system(size: 18))) {
                         let zones = group.items.sorted(by: { (lhs, rhs) in lhs.key < rhs.key })
                         ForEach(zones, id: \.key) { ID, title in
-                            Text(title).id(ID)
+                            Text(title).tag(ID)
                         }
                     }
                 }
