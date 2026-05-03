@@ -66,24 +66,28 @@ struct DatePickerCustom: View {
                 .font(.headline)
 
             HStack(spacing: 0) {
-                self.FieldDay()
-                self.FieldMonth()
-                self.FieldYear()
+                DatePickerCustom.FieldDay(day: self.$day)
+                DatePickerCustom.FieldMonth(month: self.$month)
+                DatePickerCustom.FieldYear(
+                    year        : self.$year,
+                    yearMinValue: self.yearMinValue,
+                    yearMaxValue: self.yearMaxValue
+                )
             }
 
             Text(NSLocalizedString("Time", comment: ""))
                 .font(.headline)
 
             HStack(spacing: 0) {
-                self.FieldHour()
-                self.FieldMinute()
-                self.FieldSecond()
+                DatePickerCustom.FieldHour(hour: self.$hour)
+                DatePickerCustom.FieldMinute(minute: self.$minute)
+                DatePickerCustom.FieldSecond(second: self.$second)
             }
 
             Text(NSLocalizedString("TimeZone", comment: ""))
                 .font(.headline)
 
-            self.FieldZone()
+            DatePickerCustom.FieldZone(zone: self.$zone)
 
             Text("")
 
@@ -102,62 +106,85 @@ struct DatePickerCustom: View {
         .onChange(of: self.zone  ) { newZoneValue   in }
     }
 
-    @ViewBuilder private func FieldDay() -> some View {
-        Picker("", selection: self.$day) {
-            ForEach(1 ... 31, id: \.self) { dayValue in
-                Text("\(String(dayValue))")
-            }
-        }.frame(width: 60)
+    private struct FieldDay: View {
+        @Binding public var day: Int
+        var body: some View {
+            Picker("", selection: self.$day) {
+                ForEach(1 ... 31, id: \.self) { dayValue in
+                    Text("\(String(dayValue))")
+                }
+            }.frame(width: 60)
+        }
     }
 
-    @ViewBuilder private func FieldMonth() -> some View {
-        Picker("", selection: self.$month) {
-            ForEach(1 ... 12, id: \.self) { monthValue in
-                if let monthName = Self.MONTH_NAMES[monthValue]
-                     { Text("\(monthName)") }
-                else { Text("\(String(monthValue))") }
-            }
-        }.frame(width: 120)
+    private struct FieldMonth: View {
+        @Binding public var month: Int
+        var body: some View {
+            Picker("", selection: self.$month) {
+                ForEach(1 ... 12, id: \.self) { monthValue in
+                    if let monthName = DatePickerCustom.MONTH_NAMES[monthValue]
+                         { Text("\(monthName)") }
+                    else { Text("\(String(monthValue))") }
+                }
+            }.frame(width: 120)
+        }
     }
 
-    @ViewBuilder private func FieldYear() -> some View {
-        Picker("", selection: self.$year) {
-            ForEach(self.yearMinValue ... self.yearMaxValue, id: \.self) { yearValue in
-                Text("\(String(yearValue))")
-            }
-        }.frame(width: 72)
+    private struct FieldYear: View {
+        @Binding public var year: Int
+        public var yearMinValue: Int
+        public var yearMaxValue: Int
+        var body: some View {
+            Picker("", selection: self.$year) {
+                ForEach(self.yearMinValue ... self.yearMaxValue, id: \.self) { yearValue in
+                    Text("\(String(yearValue))")
+                }
+            }.frame(width: 72)
+        }
     }
 
-    @ViewBuilder private func FieldHour() -> some View {
-        Picker("", selection: self.$hour) {
-            ForEach(0 ... 23, id: \.self) { hourValue in
-                Text("\(String(hourValue))")
-            }
-        }.frame(width: 60)
+    private struct FieldHour: View {
+        @Binding public var hour: Int
+        var body: some View {
+            Picker("", selection: self.$hour) {
+                ForEach(0 ... 23, id: \.self) { hourValue in
+                    Text("\(String(hourValue))")
+                }
+            }.frame(width: 60)
+        }
     }
 
-    @ViewBuilder private func FieldMinute() -> some View {
-        Picker("", selection: self.$minute) {
-            ForEach(0 ... 59, id: \.self) { minuteValue in
-                Text("\(String(minuteValue))")
-            }
-        }.frame(width: 60)
+    private struct FieldMinute: View {
+        @Binding public var minute: Int
+        var body: some View {
+            Picker("", selection: self.$minute) {
+                ForEach(0 ... 59, id: \.self) { minuteValue in
+                    Text("\(String(minuteValue))")
+                }
+            }.frame(width: 60)
+        }
     }
 
-    @ViewBuilder private func FieldSecond() -> some View {
-        Picker("", selection: self.$second) {
-            ForEach(0 ... 59, id: \.self) { secondValue in
-                Text("\(String(secondValue))")
-            }
-        }.frame(width: 60)
+    private struct FieldSecond: View {
+        @Binding public var second: Int
+        var body: some View {
+            Picker("", selection: self.$second) {
+                ForEach(0 ... 59, id: \.self) { secondValue in
+                    Text("\(String(secondValue))")
+                }
+            }.frame(width: 60)
+        }
     }
 
-    @ViewBuilder private func FieldZone() -> some View {
-        Picker("", selection: self.$zone) {
-            ForEach(0 ... 12, id: \.self) { timeZoneValue in
-                Text("\(String(timeZoneValue))")
-            }
-        }.frame(width: 180)
+    private struct FieldZone: View {
+        @Binding public var zone: Int
+        var body: some View {
+            Picker("", selection: self.$zone) {
+                ForEach(0 ... 12, id: \.self) { timeZoneValue in
+                    Text("\(String(timeZoneValue))")
+                }
+            }.frame(width: 180)
+        }
     }
 
 }
