@@ -66,22 +66,39 @@ struct DatePickerCustom: View {
                 .font(.headline)
 
             HStack(spacing: 0) {
-                DatePickerCustom.FieldDay(day: self.$day)
-                DatePickerCustom.FieldMonth(month: self.$month)
-                DatePickerCustom.FieldYear(
-                    year        : self.$year,
-                    yearMinValue: self.yearMinValue,
-                    yearMaxValue: self.yearMaxValue
+                DatePickerCustom.FieldRange(
+                    componentValue: self.$day,
+                    range: 1 ... 31
+                ).frame(width: 60)
+
+                DatePickerCustom.FieldMonth(
+                    month: self.$month
                 )
+
+                DatePickerCustom.FieldRange(
+                    componentValue: self.$year,
+                    range: self.yearMinValue ... self.yearMaxValue
+                ).frame(width: 72)
             }
 
             Text(NSLocalizedString("Time", comment: ""))
                 .font(.headline)
 
             HStack(spacing: 0) {
-                DatePickerCustom.FieldHour(hour: self.$hour)
-                DatePickerCustom.FieldMinute(minute: self.$minute)
-                DatePickerCustom.FieldSecond(second: self.$second)
+                DatePickerCustom.FieldRange(
+                    componentValue: self.$hour,
+                    range: 0 ... 23
+                ).frame(width: 60)
+
+                DatePickerCustom.FieldRange(
+                    componentValue: self.$minute,
+                    range: 0 ... 59
+                ).frame(width: 60)
+
+                DatePickerCustom.FieldRange(
+                    componentValue: self.$second,
+                    range: 0 ... 59
+                ).frame(width: 60)
             }
 
             Text(NSLocalizedString("TimeZone", comment: ""))
@@ -106,14 +123,15 @@ struct DatePickerCustom: View {
         .onChange(of: self.zone  ) { newZoneValue   in }
     }
 
-    private struct FieldDay: View {
-        @Binding public var day: Int
+    private struct FieldRange: View {
+        @Binding public var componentValue: Int
+        public var range: ClosedRange<Int>
         var body: some View {
-            Picker("", selection: self.$day) {
-                ForEach(1 ... 31, id: \.self) { dayValue in
-                    Text("\(String(dayValue))")
+            Picker("", selection: self.$componentValue) {
+                ForEach(self.range, id: \.self) { currentValue in
+                    Text("\(String(currentValue))")
                 }
-            }.frame(width: 60)
+            }
         }
     }
 
@@ -127,52 +145,6 @@ struct DatePickerCustom: View {
                     else { Text("\(String(monthValue))") }
                 }
             }.frame(width: 120)
-        }
-    }
-
-    private struct FieldYear: View {
-        @Binding public var year: Int
-        public var yearMinValue: Int
-        public var yearMaxValue: Int
-        var body: some View {
-            Picker("", selection: self.$year) {
-                ForEach(self.yearMinValue ... self.yearMaxValue, id: \.self) { yearValue in
-                    Text("\(String(yearValue))")
-                }
-            }.frame(width: 72)
-        }
-    }
-
-    private struct FieldHour: View {
-        @Binding public var hour: Int
-        var body: some View {
-            Picker("", selection: self.$hour) {
-                ForEach(0 ... 23, id: \.self) { hourValue in
-                    Text("\(String(hourValue))")
-                }
-            }.frame(width: 60)
-        }
-    }
-
-    private struct FieldMinute: View {
-        @Binding public var minute: Int
-        var body: some View {
-            Picker("", selection: self.$minute) {
-                ForEach(0 ... 59, id: \.self) { minuteValue in
-                    Text("\(String(minuteValue))")
-                }
-            }.frame(width: 60)
-        }
-    }
-
-    private struct FieldSecond: View {
-        @Binding public var second: Int
-        var body: some View {
-            Picker("", selection: self.$second) {
-                ForEach(0 ... 59, id: \.self) { secondValue in
-                    Text("\(String(secondValue))")
-                }
-            }.frame(width: 60)
         }
     }
 
