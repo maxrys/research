@@ -67,16 +67,17 @@ struct DatePickerCustom: View {
 
             HStack(spacing: 0) {
                 DatePickerCustom.FieldRange(
-                    componentValue: self.$day,
+                    toValue: self.$day,
                     range: 1 ... 31
                 ).frame(width: 60)
 
-                DatePickerCustom.FieldMonth(
-                    month: self.$month
-                )
+                DatePickerCustom.FieldList(
+                    toValue: self.$month,
+                    items: Self.MONTH_NAMES
+                ).frame(width: 120)
 
                 DatePickerCustom.FieldRange(
-                    componentValue: self.$year,
+                    toValue: self.$year,
                     range: self.yearMinValue ... self.yearMaxValue
                 ).frame(width: 72)
             }
@@ -86,17 +87,17 @@ struct DatePickerCustom: View {
 
             HStack(spacing: 0) {
                 DatePickerCustom.FieldRange(
-                    componentValue: self.$hour,
+                    toValue: self.$hour,
                     range: 0 ... 23
                 ).frame(width: 60)
 
                 DatePickerCustom.FieldRange(
-                    componentValue: self.$minute,
+                    toValue: self.$minute,
                     range: 0 ... 59
                 ).frame(width: 60)
 
                 DatePickerCustom.FieldRange(
-                    componentValue: self.$second,
+                    toValue: self.$second,
                     range: 0 ... 59
                 ).frame(width: 60)
             }
@@ -104,7 +105,9 @@ struct DatePickerCustom: View {
             Text(NSLocalizedString("TimeZone", comment: ""))
                 .font(.headline)
 
-            DatePickerCustom.FieldZone(zone: self.$zone)
+            DatePickerCustom.FieldZone(
+                zone: self.$zone
+            ).frame(width: 180)
 
             Text("")
 
@@ -124,10 +127,10 @@ struct DatePickerCustom: View {
     }
 
     private struct FieldRange: View {
-        @Binding public var componentValue: Int
+        @Binding public var toValue: Int
         public var range: ClosedRange<Int>
         var body: some View {
-            Picker("", selection: self.$componentValue) {
+            Picker("", selection: self.$toValue) {
                 ForEach(self.range, id: \.self) { currentValue in
                     Text("\(String(currentValue))")
                 }
@@ -135,16 +138,15 @@ struct DatePickerCustom: View {
         }
     }
 
-    private struct FieldMonth: View {
-        @Binding public var month: Int
+    private struct FieldList: View {
+        @Binding public var toValue: Int
+        public var items: [Int: String]
         var body: some View {
-            Picker("", selection: self.$month) {
-                ForEach(1 ... 12, id: \.self) { monthValue in
-                    if let monthName = DatePickerCustom.MONTH_NAMES[monthValue]
-                         { Text("\(monthName)") }
-                    else { Text("\(String(monthValue))") }
+            Picker("", selection: self.$toValue) {
+                ForEach(Array(self.items.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }).enumerated()), id: \.element.key) { index, element in
+                    Text("\(String(element.value))")
                 }
-            }.frame(width: 120)
+            }
         }
     }
 
@@ -155,7 +157,7 @@ struct DatePickerCustom: View {
                 ForEach(0 ... 12, id: \.self) { timeZoneValue in
                     Text("\(String(timeZoneValue))")
                 }
-            }.frame(width: 180)
+            }
         }
     }
 
