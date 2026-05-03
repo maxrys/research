@@ -7,21 +7,6 @@ import SwiftUI
 
 struct DatePickerCustom: View {
 
-    static public let MONTH_NAMES = [
-         1: "January",
-         2: "February",
-         3: "March",
-         4: "April",
-         5: "May",
-         6: "June",
-         7: "July",
-         8: "August",
-         9: "September",
-        10: "October",
-        11: "November",
-        12: "December",
-    ]
-
     @Environment(\.colorScheme) private var colorScheme
 
     @Binding private var value: Date
@@ -73,7 +58,7 @@ struct DatePickerCustom: View {
 
                 DatePickerCustom.FieldList(
                     toValue: self.$month,
-                    items: Self.MONTH_NAMES
+                    items: Date.MONTH_NAMES
                 ).frame(width: 120)
 
                 DatePickerCustom.FieldRange(
@@ -105,8 +90,11 @@ struct DatePickerCustom: View {
             Text(NSLocalizedString("TimeZone", comment: ""))
                 .font(.headline)
 
-            DatePickerCustom.FieldZone(
-                zone: self.$zone
+            DatePickerCustom.FieldList(
+                toValue: self.$zone,
+                items: Date.TIME_ZONES.reduce(into: [Int: String](), { result, item in
+                    result[result.count] = item.name
+                })
             ).frame(width: 180)
 
             Text("")
@@ -145,17 +133,6 @@ struct DatePickerCustom: View {
             Picker("", selection: self.$toValue) {
                 ForEach(Array(self.items.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }).enumerated()), id: \.element.key) { index, element in
                     Text("\(String(element.value))")
-                }
-            }
-        }
-    }
-
-    private struct FieldZone: View {
-        @Binding public var zone: Int
-        var body: some View {
-            Picker("", selection: self.$zone) {
-                ForEach(0 ... 12, id: \.self) { timeZoneValue in
-                    Text("\(String(timeZoneValue))")
                 }
             }
         }
