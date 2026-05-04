@@ -51,9 +51,11 @@ struct DatePickerCustom: View {
                 .font(.headline)
 
             HStack(spacing: 0) {
-                DatePickerCustom.FieldRange(
+                DatePickerCustom.FieldList(
                     toValue: self.$day,
-                    range: 1 ... 31
+                    items: (1 ... 31).reduce(into: [Int: String]()) { result, value in
+                        result[value] = "\(value)"
+                    }
                 ).frame(width: 60)
 
                 DatePickerCustom.FieldList(
@@ -61,9 +63,11 @@ struct DatePickerCustom: View {
                     items: Date.MONTH_NAMES
                 ).frame(width: 120)
 
-                DatePickerCustom.FieldRange(
+                DatePickerCustom.FieldList(
                     toValue: self.$year,
-                    range: self.yearMinValue ... self.yearMaxValue
+                    items: (self.yearMinValue ... self.yearMaxValue).reduce(into: [Int: String]()) { result, value in
+                        result[value] = "\(value)"
+                    }
                 ).frame(width: 72)
             }
 
@@ -71,19 +75,25 @@ struct DatePickerCustom: View {
                 .font(.headline)
 
             HStack(spacing: 0) {
-                DatePickerCustom.FieldRange(
+                DatePickerCustom.FieldList(
                     toValue: self.$hour,
-                    range: 0 ... 23
+                    items: (0 ... 23).reduce(into: [Int: String]()) { result, value in
+                        result[value] = value < 10 ? "0\(value)" : "\(value)"
+                    }
                 ).frame(width: 60)
 
-                DatePickerCustom.FieldRange(
+                DatePickerCustom.FieldList(
                     toValue: self.$minute,
-                    range: 0 ... 59
+                    items: (0 ... 59).reduce(into: [Int: String]()) { result, value in
+                        result[value] = value < 10 ? "0\(value)" : "\(value)"
+                    }
                 ).frame(width: 60)
 
-                DatePickerCustom.FieldRange(
+                DatePickerCustom.FieldList(
                     toValue: self.$second,
-                    range: 0 ... 59
+                    items: (0 ... 59).reduce(into: [Int: String]()) { result, value in
+                        result[value] = value < 10 ? "0\(value)" : "\(value)"
+                    }
                 ).frame(width: 60)
             }
 
@@ -104,18 +114,6 @@ struct DatePickerCustom: View {
         .onChange(of: self.zone  ) { newZoneValue   in
             if let offset = Date.TIME_ZONES_OFFSSET[newZoneValue] {
                 self.value = self.value.toNewTimeZone(offset: offset)
-            }
-        }
-    }
-
-    private struct FieldRange: View {
-        @Binding public var toValue: Int
-        public var range: ClosedRange<Int>
-        var body: some View {
-            Picker("", selection: self.$toValue) {
-                ForEach(self.range, id: \.self) { currentValue in
-                    Text("\(String(currentValue))")
-                }
             }
         }
     }
