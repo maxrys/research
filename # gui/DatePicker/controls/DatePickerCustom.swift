@@ -21,10 +21,10 @@ struct DatePickerCustom: View {
 
     @Binding private var value: Value
 
-    @State private var day: Int    /* 1 ... 31 */
-    @State private var month: Int  /* 1 ... 12 */
-    @State private var year: Int   /* 1970 ... 2050 */
-    @State private var hour: Int   /* 0 ... 23 */
+    @State private var day   : Int /* 1 ... 31 */
+    @State private var month : Int /* 1 ... 12 */
+    @State private var year  : Int /* 1970 ... 2050 */
+    @State private var hour  : Int /* 0 ... 23 */
     @State private var minute: Int /* 0 ... 59 */
     @State private var second: Int /* 0 ... 59 */
     @State private var zone: String
@@ -49,6 +49,13 @@ struct DatePickerCustom: View {
         self.yearMaxValue = yearMaxValue
     }
 
+    private var days: [Int: String] {
+        let daysInMonth = Date.daysInMonth(month: self.month, year: self.year)
+        return (1 ... (daysInMonth ?? 31)).reduce(into: [Int: String]()) { result, value in
+            result[value] = value < 10 ? "\u{2002}\(value)" : "\(value)"
+        }
+    }
+
     private let columns = [
         GridItem(.fixed(90), spacing: 0, alignment: .trailing),
         GridItem(.flexible(), spacing: 0, alignment: .leading),
@@ -63,9 +70,7 @@ struct DatePickerCustom: View {
             HStack(spacing: 0) {
                 DatePickerCustom.FieldList(
                     toValue: self.$day,
-                    items: (1 ... 31).reduce(into: [Int: String]()) { result, value in
-                        result[value] = value < 10 ? "\u{2002}\(value)" : "\(value)"
-                    }
+                    items: self.days
                 ).frame(width: 60)
 
                 DatePickerCustom.FieldList(
@@ -116,12 +121,21 @@ struct DatePickerCustom: View {
 
         }
         .onChange(of: self.day   ) { newDayValue    in self.value.date.dayUTC    = newDayValue }
-        .onChange(of: self.month ) { newMonthValue  in self.value.date.monthUTC  = newMonthValue }
-        .onChange(of: self.year  ) { newYearValue   in self.value.date.yearUTC   = newYearValue }
         .onChange(of: self.hour  ) { newHourValue   in self.value.date.hourUTC   = newHourValue }
         .onChange(of: self.minute) { newMinuteValue in self.value.date.minuteUTC = newMinuteValue }
         .onChange(of: self.second) { newSecondValue in self.value.date.secondUTC = newSecondValue }
         .onChange(of: self.zone  ) { newZoneValue   in self.value.zone           = newZoneValue }
+        .onChange(of: self.month ) { newMonthValue  in self.fixDay(newMonthValue: newMonthValue); self.value.date.monthUTC = newMonthValue }
+        .onChange(of: self.year  ) { newYearValue   in self.fixDay(newYearValue : newYearValue ); self.value.date.yearUTC  = newYearValue }
+    }
+
+    private func fixDay(newMonthValue: Int? = nil, newYearValue: Int? = nil) {
+        if let daysInMonth = Date.daysInMonth(month: newMonthValue ?? self.month, year: newYearValue ?? self.year) {
+            if (self.day > daysInMonth) {
+                self.day = daysInMonth
+                self.value.date.dayUTC = self.day
+            }
+        }
     }
 
     private struct FieldList: View {
@@ -130,7 +144,7 @@ struct DatePickerCustom: View {
         var body: some View {
             Picker("", selection: self.$toValue) {
                 ForEach(Array(self.items.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }).enumerated()), id: \.element.key) { index, element in
-                    Text("\(String(element.value))")
+                    Text("\(String(element.value))").tag(element.key)
                 }
             }
         }

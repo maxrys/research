@@ -97,6 +97,12 @@ extension Date {
     var minuteUTC: Int { get { Self.UTCCalendar.component(.minute, from: self) } set { self._updateComponent(minute: newValue) } }
     var secondUTC: Int { get { Self.UTCCalendar.component(.second, from: self) } set { self._updateComponent(second: newValue) } }
 
+    static public var UTCCalendar: Calendar {
+        var result = Calendar(identifier: .gregorian)
+        result.timeZone = TimeZone(secondsFromGMT: 0)!
+        return result
+    }
+
     static public func daysInMonth(month: Int, year: Int) -> Int? {
         guard month >= 1 && month <= 12 else { return nil }
         guard let dateStart =             Date(day: 1, month: month,     year: year    , hour: 0, minute: 0, second: 0) else { return nil }
@@ -110,12 +116,6 @@ extension Date {
 
     public func toNewTimeZone(offset seconds: Int) -> Self {
         self.addingTimeInterval(TimeInterval(seconds))
-    }
-
-    private static var UTCCalendar: Calendar {
-        var result = Calendar(identifier: .gregorian)
-        result.timeZone = TimeZone(secondsFromGMT: 0)!
-        return result
     }
 
     private mutating func _updateComponent(
