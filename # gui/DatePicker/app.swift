@@ -11,9 +11,16 @@ import SwiftUI
 
     public var body: some Scene {
         WindowGroup {
-            DatePickerCustom(
-                value: self.$date
-            ).padding(20)
+            VStack(spacing: 10) {
+
+                DatePickerCustom(
+                    value: self.$date
+                ).padding(20)
+
+                Text("\(self.date.formatISO8601withTZ)")
+                Text("\(self.date.formatISO8601)")
+
+            }
         }
     }
 

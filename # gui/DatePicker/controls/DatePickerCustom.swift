@@ -94,16 +94,6 @@ struct DatePickerCustom: View {
                 toValue: self.$zone
             ).frame(width: 180)
 
-            Text("")
-
-            VStack(spacing: 10) {
-                Text("\(value.formatISO8601withTZ)")
-                Text("\(value.formatISO8601)")
-            }
-            .font(.system(size: 12))
-            .padding(.leading, 10)
-            .opacity(0.5)
-
         }
         .onChange(of: self.day   ) { newDayValue    in self.value.day    = newDayValue }
         .onChange(of: self.month ) { newMonthValue  in self.value.month  = newMonthValue }
