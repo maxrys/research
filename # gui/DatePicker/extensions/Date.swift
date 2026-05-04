@@ -7,6 +7,21 @@ import Foundation
 
 extension Date {
 
+    static public let MONTH_NAMES = [
+         1: "January",
+         2: "February",
+         3: "March",
+         4: "April",
+         5: "May",
+         6: "June",
+         7: "July",
+         8: "August",
+         9: "September",
+        10: "October",
+        11: "November",
+        12: "December",
+    ]
+
     enum Format: String {
         case iso8601         = "yyyy-MM-dd HH:mm:ss"
         case iso8601Timezone = "yyyy-MM-dd HH:mm:ss Z"
@@ -21,6 +36,21 @@ extension Date {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.timeZone = TimeZone(secondsFromGMT: 0)
         if let date = formatter.date(from: iso8601) {
+            self = date
+        } else {
+            return nil
+        }
+    }
+
+    init?(day: Int, month: Int, year: Int, hour: Int, minute: Int, second: Int) {
+        var components = DateComponents()
+        components.day    = day
+        components.month  = month
+        components.year   = year
+        components.hour   = hour
+        components.minute = minute
+        components.second = second
+        if let date = Self.UTCCalendar.date(from: components) {
             self = date
         } else {
             return nil
@@ -60,16 +90,27 @@ extension Date {
         return formatter.string(from: self) + "-\(mSec)"
     }
 
-    public func toNewTimeZone(offset seconds: Int) -> Self {
-        self.addingTimeInterval(TimeInterval(seconds))
-    }
-
     var dayUTC   : Int { get { Self.UTCCalendar.component(.day   , from: self) } set { self._updateComponent(day   : newValue) } }
     var monthUTC : Int { get { Self.UTCCalendar.component(.month , from: self) } set { self._updateComponent(month : newValue) } }
     var yearUTC  : Int { get { Self.UTCCalendar.component(.year  , from: self) } set { self._updateComponent(year  : newValue) } }
     var hourUTC  : Int { get { Self.UTCCalendar.component(.hour  , from: self) } set { self._updateComponent(hour  : newValue) } }
     var minuteUTC: Int { get { Self.UTCCalendar.component(.minute, from: self) } set { self._updateComponent(minute: newValue) } }
     var secondUTC: Int { get { Self.UTCCalendar.component(.second, from: self) } set { self._updateComponent(second: newValue) } }
+
+    static public func daysInMonth(month: Int, year: Int) -> Int? {
+        guard month >= 1 && month <= 12 else { return nil }
+        guard let dateStart =             Date(day: 1, month: month,     year: year    , hour: 0, minute: 0, second: 0) else { return nil }
+        guard let dateEnd = month <= 11 ? Date(day: 1, month: month + 1, year: year    , hour: 0, minute: 0, second: 0) :
+                                          Date(day: 1, month: 1        , year: year + 1, hour: 0, minute: 0, second: 0) else { return nil }
+        let startDay   = Self.UTCCalendar.startOfDay(for: dateStart)
+        let endDay     = Self.UTCCalendar.startOfDay(for: dateEnd)
+        let components = Self.UTCCalendar.dateComponents([.day], from: startDay, to: endDay)
+        return components.day
+    }
+
+    public func toNewTimeZone(offset seconds: Int) -> Self {
+        self.addingTimeInterval(TimeInterval(seconds))
+    }
 
     private static var UTCCalendar: Calendar {
         var result = Calendar(identifier: .gregorian)
@@ -85,35 +126,16 @@ extension Date {
         minute: Int? = nil,
         second: Int? = nil,
     ) {
-        var components = Self.UTCCalendar.dateComponents([
-            .day, .month, .year, .hour, .minute, .second
-        ], from: self)
-
-        if let day    { components.day    = day }
-        if let month  { components.month  = month }
-        if let year   { components.year   = year }
-        if let hour   { components.hour   = hour }
-        if let minute { components.minute = minute }
-        if let second { components.second = second }
-
-        if let newDate = Self.UTCCalendar.date(from: components) {
-            self = newDate
+        if let date = Date(
+            day   : day    ?? Self.UTCCalendar.component(.day   , from: self),
+            month : month  ?? Self.UTCCalendar.component(.month , from: self),
+            year  : year   ?? Self.UTCCalendar.component(.year  , from: self),
+            hour  : hour   ?? Self.UTCCalendar.component(.hour  , from: self),
+            minute: minute ?? Self.UTCCalendar.component(.minute, from: self),
+            second: second ?? Self.UTCCalendar.component(.second, from: self),
+        ) {
+            self = date
         }
     }
-
-    static public let MONTH_NAMES = [
-         1: "January",
-         2: "February",
-         3: "March",
-         4: "April",
-         5: "May",
-         6: "June",
-         7: "July",
-         8: "August",
-         9: "September",
-        10: "October",
-        11: "November",
-        12: "December",
-    ]
 
 }
