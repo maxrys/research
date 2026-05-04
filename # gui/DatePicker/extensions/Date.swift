@@ -17,8 +17,8 @@ extension Date {
 
     init?(iso8601: String) {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = Format.iso8601.rawValue
+        formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.timeZone = TimeZone(secondsFromGMT: 0)
         if let date = formatter.date(from: iso8601) {
             self = date
@@ -64,12 +64,18 @@ extension Date {
         self.addingTimeInterval(TimeInterval(seconds))
     }
 
-    var day   : Int { get { Calendar.current.component(.day   , from: self) } set { self._updateComponent(day   : newValue) } }
-    var month : Int { get { Calendar.current.component(.month , from: self) } set { self._updateComponent(month : newValue) } }
-    var year  : Int { get { Calendar.current.component(.year  , from: self) } set { self._updateComponent(year  : newValue) } }
-    var hour  : Int { get { Calendar.current.component(.hour  , from: self) } set { self._updateComponent(hour  : newValue) } }
-    var minute: Int { get { Calendar.current.component(.minute, from: self) } set { self._updateComponent(minute: newValue) } }
-    var second: Int { get { Calendar.current.component(.second, from: self) } set { self._updateComponent(second: newValue) } }
+    var dayUTC   : Int { get { Self.UTCCalendar.component(.day   , from: self) } set { self._updateComponent(day   : newValue) } }
+    var monthUTC : Int { get { Self.UTCCalendar.component(.month , from: self) } set { self._updateComponent(month : newValue) } }
+    var yearUTC  : Int { get { Self.UTCCalendar.component(.year  , from: self) } set { self._updateComponent(year  : newValue) } }
+    var hourUTC  : Int { get { Self.UTCCalendar.component(.hour  , from: self) } set { self._updateComponent(hour  : newValue) } }
+    var minuteUTC: Int { get { Self.UTCCalendar.component(.minute, from: self) } set { self._updateComponent(minute: newValue) } }
+    var secondUTC: Int { get { Self.UTCCalendar.component(.second, from: self) } set { self._updateComponent(second: newValue) } }
+
+    private static var UTCCalendar: Calendar {
+        var result = Calendar(identifier: .gregorian)
+        result.timeZone = TimeZone(secondsFromGMT: 0)!
+        return result
+    }
 
     private mutating func _updateComponent(
         day   : Int? = nil,
@@ -79,7 +85,7 @@ extension Date {
         minute: Int? = nil,
         second: Int? = nil,
     ) {
-        var components = Calendar.current.dateComponents([
+        var components = Self.UTCCalendar.dateComponents([
             .day, .month, .year, .hour, .minute, .second
         ], from: self)
 
@@ -90,7 +96,7 @@ extension Date {
         if let minute { components.minute = minute }
         if let second { components.second = second }
 
-        if let newDate = Calendar.current.date(from: components) {
+        if let newDate = Self.UTCCalendar.date(from: components) {
             self = newDate
         }
     }

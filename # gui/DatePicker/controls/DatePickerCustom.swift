@@ -38,12 +38,12 @@ struct DatePickerCustom: View {
         yearMaxValue: Int = 2050
     ) {
         self._value = value
-        self.day    = value.wrappedValue.date.day
-        self.month  = value.wrappedValue.date.month
-        self.year   = value.wrappedValue.date.year
-        self.hour   = value.wrappedValue.date.hour
-        self.minute = value.wrappedValue.date.minute
-        self.second = value.wrappedValue.date.second
+        self.day    = value.wrappedValue.date.dayUTC
+        self.month  = value.wrappedValue.date.monthUTC
+        self.year   = value.wrappedValue.date.yearUTC
+        self.hour   = value.wrappedValue.date.hourUTC
+        self.minute = value.wrappedValue.date.minuteUTC
+        self.second = value.wrappedValue.date.secondUTC
         self.zone   = value.wrappedValue.zone
         self.yearMinValue = yearMinValue
         self.yearMaxValue = yearMaxValue
@@ -115,13 +115,13 @@ struct DatePickerCustom: View {
             ).frame(width: 180)
 
         }
-        .onChange(of: self.day   ) { newDayValue    in self.value.date.day    = newDayValue }
-        .onChange(of: self.month ) { newMonthValue  in self.value.date.month  = newMonthValue }
-        .onChange(of: self.year  ) { newYearValue   in self.value.date.year   = newYearValue }
-        .onChange(of: self.hour  ) { newHourValue   in self.value.date.hour   = newHourValue }
-        .onChange(of: self.minute) { newMinuteValue in self.value.date.minute = newMinuteValue }
-        .onChange(of: self.second) { newSecondValue in self.value.date.second = newSecondValue }
-        .onChange(of: self.zone  ) { newZoneValue   in self.value.zone        = newZoneValue }
+        .onChange(of: self.day   ) { newDayValue    in self.value.date.dayUTC    = newDayValue }
+        .onChange(of: self.month ) { newMonthValue  in self.value.date.monthUTC  = newMonthValue }
+        .onChange(of: self.year  ) { newYearValue   in self.value.date.yearUTC   = newYearValue }
+        .onChange(of: self.hour  ) { newHourValue   in self.value.date.hourUTC   = newHourValue }
+        .onChange(of: self.minute) { newMinuteValue in self.value.date.minuteUTC = newMinuteValue }
+        .onChange(of: self.second) { newSecondValue in self.value.date.secondUTC = newSecondValue }
+        .onChange(of: self.zone  ) { newZoneValue   in self.value.zone           = newZoneValue }
     }
 
     private struct FieldList: View {
