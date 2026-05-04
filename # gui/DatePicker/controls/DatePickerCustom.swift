@@ -7,9 +7,19 @@ import SwiftUI
 
 struct DatePickerCustom: View {
 
+    struct Value {
+        var date: Date
+        var zone: String
+        var result: Date {
+            if let offsetNumeric = Date.TIME_ZONES_OFFSSET[self.zone]
+                 { return self.date.toNewTimeZone(offset: offsetNumeric) }
+            else { return self.date }
+        }
+    }
+
     @Environment(\.colorScheme) private var colorScheme
 
-    @Binding private var value: Date
+    @Binding private var value: Value
 
     @State private var day: Int    /* 1 ... 31 */
     @State private var month: Int  /* 1 ... 12 */
@@ -23,18 +33,18 @@ struct DatePickerCustom: View {
     private let yearMaxValue: Int
 
     init(
-        value: Binding<Date>,
+        value: Binding<Value>,
         yearMinValue: Int = 1970,
         yearMaxValue: Int = 2050
     ) {
         self._value = value
-        self.day    = value.wrappedValue.day
-        self.month  = value.wrappedValue.month
-        self.year   = value.wrappedValue.year
-        self.hour   = value.wrappedValue.hour
-        self.minute = value.wrappedValue.minute
-        self.second = value.wrappedValue.second
-        self.zone   = "UTC"
+        self.day    = value.wrappedValue.date.day
+        self.month  = value.wrappedValue.date.month
+        self.year   = value.wrappedValue.date.year
+        self.hour   = value.wrappedValue.date.hour
+        self.minute = value.wrappedValue.date.minute
+        self.second = value.wrappedValue.date.second
+        self.zone   = value.wrappedValue.zone
         self.yearMinValue = yearMinValue
         self.yearMaxValue = yearMaxValue
     }
@@ -105,17 +115,13 @@ struct DatePickerCustom: View {
             ).frame(width: 180)
 
         }
-        .onChange(of: self.day   ) { newDayValue    in self.value.day    = newDayValue }
-        .onChange(of: self.month ) { newMonthValue  in self.value.month  = newMonthValue }
-        .onChange(of: self.year  ) { newYearValue   in self.value.year   = newYearValue }
-        .onChange(of: self.hour  ) { newHourValue   in self.value.hour   = newHourValue }
-        .onChange(of: self.minute) { newMinuteValue in self.value.minute = newMinuteValue }
-        .onChange(of: self.second) { newSecondValue in self.value.second = newSecondValue }
-        .onChange(of: self.zone  ) { newZoneValue   in
-            if let offset = Date.TIME_ZONES_OFFSSET[newZoneValue] {
-                self.value = self.value.toNewTimeZone(offset: offset)
-            }
-        }
+        .onChange(of: self.day   ) { newDayValue    in self.value.date.day    = newDayValue }
+        .onChange(of: self.month ) { newMonthValue  in self.value.date.month  = newMonthValue }
+        .onChange(of: self.year  ) { newYearValue   in self.value.date.year   = newYearValue }
+        .onChange(of: self.hour  ) { newHourValue   in self.value.date.hour   = newHourValue }
+        .onChange(of: self.minute) { newMinuteValue in self.value.date.minute = newMinuteValue }
+        .onChange(of: self.second) { newSecondValue in self.value.date.second = newSecondValue }
+        .onChange(of: self.zone  ) { newZoneValue   in self.value.zone        = newZoneValue }
     }
 
     private struct FieldList: View {
@@ -158,7 +164,12 @@ struct DatePickerCustom: View {
 struct DatePickerCustom_Previews: PreviewProvider {
     static public var previews: some View {
         DatePickerCustom(
-            value: .constant(Date())
+            value: .constant(
+                DatePickerCustom.Value(
+                    date: Date(iso8601: "2000-01-01 00:00:00")!,
+                    zone: "UTC"
+                )
+            )
         )
         .padding(20)
         .frame(width: 400)

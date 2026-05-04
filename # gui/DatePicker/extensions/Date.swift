@@ -15,6 +15,18 @@ extension Date {
         case convenientTime  = "HH:mm:ss"
     }
 
+    init?(iso8601: String) {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = Format.iso8601.rawValue
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        if let date = formatter.date(from: iso8601) {
+            self = date
+        } else {
+            return nil
+        }
+    }
+
     var formatConvenient: String {
         let formatter = DateFormatter()
         formatter.dateFormat = String(
