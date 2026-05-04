@@ -59,13 +59,13 @@ struct DatePickerCustom: View {
         self.yearMaxValue = yearMaxValue
         self._value = value
         self.state = State(
-            day     : value.wrappedValue.date.dayUTC,
-            month   : value.wrappedValue.date.monthUTC,
-            year    : value.wrappedValue.date.yearUTC,
-            hour    : value.wrappedValue.date.hourUTC,
-            minute  : value.wrappedValue.date.minuteUTC,
-            second  : value.wrappedValue.date.secondUTC,
-            zone    : value.wrappedValue.zone)
+            day   : value.wrappedValue.date.dayUTC,
+            month : value.wrappedValue.date.monthUTC,
+            year  : value.wrappedValue.date.yearUTC,
+            hour  : value.wrappedValue.date.hourUTC,
+            minute: value.wrappedValue.date.minuteUTC,
+            second: value.wrappedValue.date.secondUTC,
+            zone  : value.wrappedValue.zone)
         self.state.onChange = self.onChangeState
     }
 
