@@ -17,8 +17,7 @@ import SwiftUI
                     value: self.$date
                 ).padding(20)
 
-                Text("\(self.date.formatISO8601withTZ)")
-                Text("\(self.date.formatISO8601)")
+                Text("\(self.date.formatISO8601tzUTC)")
 
             }
         }

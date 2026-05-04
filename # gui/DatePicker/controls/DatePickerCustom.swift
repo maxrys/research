@@ -54,7 +54,7 @@ struct DatePickerCustom: View {
                 DatePickerCustom.FieldList(
                     toValue: self.$day,
                     items: (1 ... 31).reduce(into: [Int: String]()) { result, value in
-                        result[value] = "\(value)"
+                        result[value] = value < 10 ? "\u{2002}\(value)" : "\(value)"
                     }
                 ).frame(width: 60)
 
