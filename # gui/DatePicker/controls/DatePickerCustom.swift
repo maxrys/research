@@ -188,7 +188,11 @@ fileprivate final class FieldValueState<T>: ObservableObject {
 
 
 
-fileprivate struct FieldTimeZone: View {
+fileprivate struct FieldTimeZone: View, Equatable {
+
+    static func == (lhs: FieldTimeZone, rhs: FieldTimeZone) -> Bool {
+        lhs.state.value == rhs.state.value
+    }
 
     @ObservedObject private var state: FieldValueState<String>
 
