@@ -33,20 +33,26 @@ struct DatePickerCustom: View {
         self._value = value
     }
 
-    private func fixDay(newMonth: Int) {
-        if let daysInMonth = Date.daysInMonth(month: newMonth, year: self.value.date.yearUTC) {
-            if (self.value.date.dayUTC > daysInMonth) {
-                self.value.date.dayUTC = daysInMonth
+    private func updateMonth(_ newMonth: Int) {
+        var resultDate = self.value.date
+        if let daysInMonth = Date.daysInMonth(month: newMonth, year: resultDate.yearUTC) {
+            if (resultDate.dayUTC > daysInMonth) {
+                resultDate.dayUTC = daysInMonth
             }
         }
+        resultDate.monthUTC = newMonth
+        self.value.date = resultDate
     }
 
-    private func fixDay(newYear: Int) {
-        if let daysInMonth = Date.daysInMonth(month: self.value.date.monthUTC, year: newYear) {
-            if (self.value.date.dayUTC > daysInMonth) {
-                self.value.date.dayUTC = daysInMonth
+    private func updateYear(_ newYear: Int) {
+        var resultDate = self.value.date
+        if let daysInMonth = Date.daysInMonth(month: resultDate.monthUTC, year: newYear) {
+            if (resultDate.dayUTC > daysInMonth) {
+                resultDate.dayUTC = daysInMonth
             }
         }
+        resultDate.yearUTC = newYear
+        self.value.date = resultDate
     }
 
     private var days: [Int: String] {
@@ -77,15 +83,15 @@ struct DatePickerCustom: View {
 
                 self.FieldList(
                     toValue: Binding(
-                        get: {                                              self.value.date.monthUTC },
-                        set: { newValue in self.fixDay(newMonth: newValue); self.value.date.monthUTC = newValue }),
+                        get: {             self.value.date.monthUTC },
+                        set: { newValue in self.updateMonth(newValue) }),
                     items: Date.MONTH_NAMES
                 ).frame(width: 120)
 
                 self.FieldList(
                     toValue: Binding(
-                        get: {                                             self.value.date.yearUTC },
-                        set: { newValue in self.fixDay(newYear: newValue); self.value.date.yearUTC = newValue }),
+                        get: {             self.value.date.yearUTC },
+                        set: { newValue in self.updateYear(newValue) }),
                     items: (self.yearMinValue ... self.yearMaxValue).reduce(into: [Int: String]()) { result, value in
                         result[value] = "\(value)"
                     }
