@@ -7,22 +7,30 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
+    public var body: some Scene {
+        WindowGroup {
+            MainScene()
+        }
+    }
+
+}
+
+struct MainScene: View {
+
     @State private var dateWithTZ = DatePickerCustom.Value(
         date: Date(iso8601: "2000-01-01 00:00:00")!,
         zone: "UTC"
     )
 
-    public var body: some Scene {
-        WindowGroup {
-            VStack(spacing: 10) {
+    public var body: some View {
+        VStack(spacing: 10) {
 
-                DatePickerCustom(
-                    value: self.$dateWithTZ
-                ).padding(20)
+            DatePickerCustom(
+                value: self.$dateWithTZ
+            ).padding(20)
 
-                Text("\(self.dateWithTZ.result.formatISO8601tzUTC)")
+            Text("\(self.dateWithTZ.result.formatISO8601tzUTC)")
 
-            }
         }
     }
 

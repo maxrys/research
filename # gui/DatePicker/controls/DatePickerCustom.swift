@@ -7,7 +7,7 @@ import SwiftUI
 
 struct DatePickerCustom: View {
 
-    struct Value {
+    struct Value: Equatable {
         var date: Date
         var zone: String
         var result: Date {
@@ -41,7 +41,9 @@ struct DatePickerCustom: View {
             }
         }
         resultDate.monthUTC = newMonth
-        self.value.date = resultDate
+        if (resultDate != self.value.date) {
+            self.value.date = resultDate
+        }
     }
 
     private func updateYear(_ newYear: Int) {
@@ -52,7 +54,9 @@ struct DatePickerCustom: View {
             }
         }
         resultDate.yearUTC = newYear
-        self.value.date = resultDate
+        if (resultDate != self.value.date) {
+            self.value.date = resultDate
+        }
     }
 
     private var days: [Int: String] {
