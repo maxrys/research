@@ -72,7 +72,7 @@ struct DatePickerCustom: View {
 
             HStack(spacing: 0) {
                 FieldList(
-                    id: "dayUTC",
+                    ID: "dayUTC",
                     value: self.value.date.dayUTC,
                     items: self.dayItems,
                     onChange: { value in
@@ -81,7 +81,7 @@ struct DatePickerCustom: View {
                 ).frame(width: 60)
 
                 FieldList(
-                    id: "monthUTC",
+                    ID: "monthUTC",
                     value: self.value.date.monthUTC,
                     items: Date.MONTH_NAMES,
                     onChange: { value in
@@ -90,7 +90,7 @@ struct DatePickerCustom: View {
                 ).frame(width: 120)
 
                 FieldList(
-                    id: "yearUTC",
+                    ID: "yearUTC",
                     value: self.value.date.yearUTC,
                     items: self.yearItems,
                     onChange: { value in
@@ -104,7 +104,7 @@ struct DatePickerCustom: View {
 
             HStack(spacing: 0) {
                 FieldList(
-                    id: "hourUTC",
+                    ID: "hourUTC",
                     value: self.value.date.hourUTC,
                     items: self.hourItems,
                     onChange: { value in
@@ -113,7 +113,7 @@ struct DatePickerCustom: View {
                 ).frame(width: 60)
 
                 FieldList(
-                    id: "minuteUTC",
+                    ID: "minuteUTC",
                     value: self.value.date.minuteUTC,
                     items: self.minuteAndSecondItems,
                     onChange: { value in
@@ -122,7 +122,7 @@ struct DatePickerCustom: View {
                 ).frame(width: 60)
 
                 FieldList(
-                    id: "secondUTC",
+                    ID: "secondUTC",
                     value: self.value.date.secondUTC,
                     items: self.minuteAndSecondItems,
                     onChange: { value in
@@ -134,10 +134,11 @@ struct DatePickerCustom: View {
             Text(NSLocalizedString("TimeZone", comment: ""))
                 .font(.headline)
 
-            self.FieldTimeZone(
-                toValue: Binding(
-                    get: {             self.value.zone },
-                    set: { newValue in self.value.zone = newValue }),
+            FieldTimeZone(
+                value: self.value.zone,
+                onChange: { value in
+                    self.value.zone = value
+                }
             ).frame(width: 180)
 
         }
@@ -169,8 +170,35 @@ struct DatePickerCustom: View {
         }
     }
 
-    @ViewBuilder private func FieldTimeZone(toValue: Binding<String>) -> some View {
-        Picker("", selection: toValue) {
+}
+
+
+
+fileprivate final class FieldValueState<T>: ObservableObject {
+
+    @Published public var value: T { willSet { self.onChange(newValue) } }
+    private let onChange: (T) -> Void
+
+    init(_ value: T, _ onChange: @escaping (T) -> Void) {
+        self.value    = value
+        self.onChange = onChange
+    }
+
+}
+
+
+
+fileprivate struct FieldTimeZone: View {
+
+    @ObservedObject private var state: FieldValueState<String>
+
+    init(value: String, onChange: @escaping (String) -> Void) {
+        self.state = FieldValueState(value, onChange)
+    }
+
+    var body: some View {
+        let _ = { Logger.customLog("RENDER FieldTimeZone") }()
+        Picker("", selection: self.$state.value) {
             let groups = Date.TIME_ZONES_GROUPPED_LIST.sorted(by: { (lhs, rhs) in lhs.key > rhs.key })
             ForEach(groups, id: \.key) { offsetNumeric, group in
                 Section(header: Text(group.offsetFormatted).font(.system(size: 18))) {
@@ -185,36 +213,29 @@ struct DatePickerCustom: View {
 
 }
 
+
+
 fileprivate struct FieldList: View, Equatable {
 
-    final class State<T>: ObservableObject {
-        @Published public var value: T { willSet { self.onChange(newValue) } }
-        private let onChange: (T) -> Void
-        init(_ value: T, _ onChange: @escaping (T) -> Void) {
-            self.value    = value
-            self.onChange = onChange
-        }
-    }
-
     static func == (lhs: FieldList, rhs: FieldList) -> Bool {
-        lhs.id          == rhs.id          &&
+        lhs.ID          == rhs.ID          &&
         lhs.state.value == rhs.state.value &&
         lhs.items       == rhs.items
     }
 
-    @ObservedObject private var state: State<Int>
+    @ObservedObject private var state: FieldValueState<Int>
 
-    private let id: String
+    private let ID: String
     private let items: [Int: String]
 
-    init(id: String, value: Int, items: [Int: String], onChange: @escaping (Int) -> Void) {
-        self.id    = id
-        self.state = State(value, onChange)
+    init(ID: String, value: Int, items: [Int: String], onChange: @escaping (Int) -> Void) {
+        self.ID    = ID
+        self.state = FieldValueState(value, onChange)
         self.items = items
     }
 
     var body: some View {
-        let _ = { Logger.customLog("RENDER FieldList with ID = \(self.id)") }()
+        let _ = { Logger.customLog("RENDER FieldList with ID = \(self.ID)") }()
         Picker("", selection: self.$state.value) {
             ForEach(Array(self.items.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }).enumerated()), id: \.element.key) { index, element in
                 Text("\(String(element.value))").tag(element.key)
