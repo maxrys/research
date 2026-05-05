@@ -8,6 +8,8 @@ import SwiftUI
 
 struct FieldTimeZone: View, Equatable {
 
+    let IS_DEBUG = true
+
     static func == (lhs: FieldTimeZone, rhs: FieldTimeZone) -> Bool {
         lhs.state.value == rhs.state.value
     }
@@ -19,7 +21,7 @@ struct FieldTimeZone: View, Equatable {
     }
 
     var body: some View {
-        let _ = { Logger.customLog("RENDER FieldTimeZone") }()
+        if (self.IS_DEBUG) { let _ = { Logger.customLog("RENDER FieldTimeZone") }() }
         Picker("", selection: self.$state.value) {
             let groups = Date.TIME_ZONES_GROUPPED_LIST.sorted(by: { (lhs, rhs) in lhs.key > rhs.key })
             ForEach(groups, id: \.key) { offsetNumeric, group in
