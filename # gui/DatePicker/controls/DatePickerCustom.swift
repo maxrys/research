@@ -3,6 +3,7 @@
 /* ### Copyright © 2026 Maxim Rysevets. All rights reserved. ### */
 /* ############################################################# */
 
+import os
 import SwiftUI
 
 struct DatePickerCustom: View {
@@ -33,6 +34,115 @@ struct DatePickerCustom: View {
         self._value = value
     }
 
+    private var dayItems: [Int: String] {
+        let daysInMonth = Date.daysInMonth(month: self.value.date.monthUTC, year: self.value.date.yearUTC)
+        return (1 ... (daysInMonth ?? 31)).reduce(into: [Int: String]()) { result, value in
+            result[value] = value < 10 ? "\u{2002}\(value)" : "\(value)"
+        }
+    }
+
+    private var yearItems: [Int: String] {
+        (self.yearMinValue ... self.yearMaxValue).reduce(into: [Int: String]()) { result, value in
+            result[value] = "\(value)"
+        }
+    }
+
+    private var hourItems: [Int: String] {
+        (0 ... 23).reduce(into: [Int: String]()) { result, value in
+            result[value] = value < 10 ? "0\(value)" : "\(value)"
+        }
+    }
+
+    private var minuteAndSecondItems: [Int: String] {
+        (0 ... 59).reduce(into: [Int: String]()) { result, value in
+            result[value] = value < 10 ? "0\(value)" : "\(value)"
+        }
+    }
+
+    private let columns = [
+        GridItem(.fixed(90), spacing: 0, alignment: .trailing),
+        GridItem(.flexible(), spacing: 0, alignment: .leading),
+    ]
+
+    var body: some View {
+        LazyVGrid(columns: self.columns, spacing: 10) {
+
+            Text(NSLocalizedString("Date", comment: ""))
+                .font(.headline)
+
+            HStack(spacing: 0) {
+                FieldList(
+                    id: "dayUTC",
+                    value: self.value.date.dayUTC,
+                    items: self.dayItems,
+                    onChange: { value in
+                        self.value.date.dayUTC = value
+                    }
+                ).frame(width: 60)
+
+                FieldList(
+                    id: "monthUTC",
+                    value: self.value.date.monthUTC,
+                    items: Date.MONTH_NAMES,
+                    onChange: { value in
+                        self.updateMonth(value)
+                    }
+                ).frame(width: 120)
+
+                FieldList(
+                    id: "yearUTC",
+                    value: self.value.date.yearUTC,
+                    items: self.yearItems,
+                    onChange: { value in
+                        self.updateYear(value)
+                    }
+                ).frame(width: 72)
+            }
+
+            Text(NSLocalizedString("Time", comment: ""))
+                .font(.headline)
+
+            HStack(spacing: 0) {
+                FieldList(
+                    id: "hourUTC",
+                    value: self.value.date.hourUTC,
+                    items: self.hourItems,
+                    onChange: { value in
+                        self.value.date.hourUTC = value
+                    }
+                ).frame(width: 60)
+
+                FieldList(
+                    id: "minuteUTC",
+                    value: self.value.date.minuteUTC,
+                    items: self.minuteAndSecondItems,
+                    onChange: { value in
+                        self.value.date.minuteUTC = value
+                    }
+                ).frame(width: 60)
+
+                FieldList(
+                    id: "secondUTC",
+                    value: self.value.date.secondUTC,
+                    items: self.minuteAndSecondItems,
+                    onChange: { value in
+                        self.value.date.secondUTC = value
+                    }
+                ).frame(width: 60)
+            }
+
+            Text(NSLocalizedString("TimeZone", comment: ""))
+                .font(.headline)
+
+            self.FieldTimeZone(
+                toValue: Binding(
+                    get: {             self.value.zone },
+                    set: { newValue in self.value.zone = newValue }),
+            ).frame(width: 180)
+
+        }
+    }
+
     private func updateMonth(_ newMonth: Int) {
         var resultDate = self.value.date
         if let daysInMonth = Date.daysInMonth(month: newMonth, year: resultDate.yearUTC) {
@@ -59,101 +169,6 @@ struct DatePickerCustom: View {
         }
     }
 
-    private var days: [Int: String] {
-        let daysInMonth = Date.daysInMonth(month: self.value.date.monthUTC, year: self.value.date.yearUTC)
-        return (1 ... (daysInMonth ?? 31)).reduce(into: [Int: String]()) { result, value in
-            result[value] = value < 10 ? "\u{2002}\(value)" : "\(value)"
-        }
-    }
-
-    private let columns = [
-        GridItem(.fixed(90), spacing: 0, alignment: .trailing),
-        GridItem(.flexible(), spacing: 0, alignment: .leading),
-    ]
-
-    var body: some View {
-        LazyVGrid(columns: self.columns, spacing: 10) {
-
-            Text(NSLocalizedString("Date", comment: ""))
-                .font(.headline)
-
-            HStack(spacing: 0) {
-                self.FieldList(
-                    toValue: Binding(
-                        get: {             self.value.date.dayUTC },
-                        set: { newValue in self.value.date.dayUTC = newValue }),
-                    items: self.days
-                ).frame(width: 60)
-
-                self.FieldList(
-                    toValue: Binding(
-                        get: {             self.value.date.monthUTC },
-                        set: { newValue in self.updateMonth(newValue) }),
-                    items: Date.MONTH_NAMES
-                ).frame(width: 120)
-
-                self.FieldList(
-                    toValue: Binding(
-                        get: {             self.value.date.yearUTC },
-                        set: { newValue in self.updateYear(newValue) }),
-                    items: (self.yearMinValue ... self.yearMaxValue).reduce(into: [Int: String]()) { result, value in
-                        result[value] = "\(value)"
-                    }
-                ).frame(width: 72)
-            }
-
-            Text(NSLocalizedString("Time", comment: ""))
-                .font(.headline)
-
-            HStack(spacing: 0) {
-                self.FieldList(
-                    toValue: Binding(
-                        get: {             self.value.date.hourUTC },
-                        set: { newValue in self.value.date.hourUTC = newValue }),
-                    items: (0 ... 23).reduce(into: [Int: String]()) { result, value in
-                        result[value] = value < 10 ? "0\(value)" : "\(value)"
-                    }
-                ).frame(width: 60)
-
-                self.FieldList(
-                    toValue: Binding(
-                        get: {             self.value.date.minuteUTC },
-                        set: { newValue in self.value.date.minuteUTC = newValue }),
-                    items: (0 ... 59).reduce(into: [Int: String]()) { result, value in
-                        result[value] = value < 10 ? "0\(value)" : "\(value)"
-                    }
-                ).frame(width: 60)
-
-                self.FieldList(
-                    toValue: Binding(
-                        get: {             self.value.date.secondUTC },
-                        set: { newValue in self.value.date.secondUTC = newValue }),
-                    items: (0 ... 59).reduce(into: [Int: String]()) { result, value in
-                        result[value] = value < 10 ? "0\(value)" : "\(value)"
-                    }
-                ).frame(width: 60)
-            }
-
-            Text(NSLocalizedString("TimeZone", comment: ""))
-                .font(.headline)
-
-            self.FieldTimeZone(
-                toValue: Binding(
-                    get: {             self.value.zone },
-                    set: { newValue in self.value.zone = newValue }),
-            ).frame(width: 180)
-
-        }
-    }
-
-    @ViewBuilder private func FieldList(toValue: Binding<Int>, items: [Int: String]) -> some View {
-        Picker("", selection: toValue) {
-            ForEach(Array(items.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }).enumerated()), id: \.element.key) { index, element in
-                Text("\(String(element.value))").tag(element.key)
-            }
-        }
-    }
-
     @ViewBuilder private func FieldTimeZone(toValue: Binding<String>) -> some View {
         Picker("", selection: toValue) {
             let groups = Date.TIME_ZONES_GROUPPED_LIST.sorted(by: { (lhs, rhs) in lhs.key > rhs.key })
@@ -164,6 +179,45 @@ struct DatePickerCustom: View {
                         Text(title).tag(ID)
                     }
                 }
+            }
+        }
+    }
+
+}
+
+fileprivate struct FieldList: View, Equatable {
+
+    final class State<T>: ObservableObject {
+        @Published public var value: T { willSet { self.onChange(newValue) } }
+        private let onChange: (T) -> Void
+        init(_ value: T, _ onChange: @escaping (T) -> Void) {
+            self.value    = value
+            self.onChange = onChange
+        }
+    }
+
+    static func == (lhs: FieldList, rhs: FieldList) -> Bool {
+        lhs.id          == rhs.id          &&
+        lhs.state.value == rhs.state.value &&
+        lhs.items       == rhs.items
+    }
+
+    @ObservedObject private var state: State<Int>
+
+    private let id: String
+    private let items: [Int: String]
+
+    init(id: String, value: Int, items: [Int: String], onChange: @escaping (Int) -> Void) {
+        self.id    = id
+        self.state = State(value, onChange)
+        self.items = items
+    }
+
+    var body: some View {
+        let _ = { Logger.customLog("RENDER FieldList with ID = \(self.id)") }()
+        Picker("", selection: self.$state.value) {
+            ForEach(Array(self.items.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }).enumerated()), id: \.element.key) { index, element in
+                Text("\(String(element.value))").tag(element.key)
             }
         }
     }
