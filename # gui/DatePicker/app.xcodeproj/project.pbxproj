@@ -21,6 +21,9 @@
 		50F244E82FA8CA3200DFCC8F /* DateTZ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F244D12FA8970700DFCC8F /* DateTZ.swift */; };
 		50F244E92FA8CA3200DFCC8F /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F244CE2FA50D3700DFCC8F /* Double.swift */; };
 		50F244EA2FA8CA3200DFCC8F /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F244D52FA8C65400DFCC8F /* Logger.swift */; };
+		50F244EC2FAA30CB00DFCC8F /* FieldTimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F244EB2FAA30CB00DFCC8F /* FieldTimeZone.swift */; };
+		50F244EF2FAA314600DFCC8F /* FieldValueState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F244EE2FAA310C00DFCC8F /* FieldValueState.swift */; };
+		50F244F12FAA328D00DFCC8F /* FieldList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F244F02FAA328D00DFCC8F /* FieldList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +40,9 @@
 		50F244D52FA8C65400DFCC8F /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		50F244DB2FA8C98D00DFCC8F /* test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50F244DD2FA8C98D00DFCC8F /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
+		50F244EB2FAA30CB00DFCC8F /* FieldTimeZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldTimeZone.swift; sourceTree = "<group>"; };
+		50F244EE2FAA310C00DFCC8F /* FieldValueState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldValueState.swift; sourceTree = "<group>"; };
+		50F244F02FAA328D00DFCC8F /* FieldList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +69,7 @@
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				501FA4CE2F4F08C4004663D2 /* Assets.xcassets */,
 				50F244D32FA89C3A00DFCC8F /* Localizable.xcstrings */,
+				50F244ED2FAA30FF00DFCC8F /* shared */,
 				50CE9FED2F473677001006CF /* extensions */,
 				50CE9FEF2F47369A001006CF /* controls */,
 				50993B6B2D33C4C900195667 /* app.swift */,
@@ -96,6 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				50F244CA2FA5098E00DFCC8F /* DatePickerCustom.swift */,
+				50F244F02FAA328D00DFCC8F /* FieldList.swift */,
+				50F244EB2FAA30CB00DFCC8F /* FieldTimeZone.swift */,
 			);
 			path = controls;
 			sourceTree = "<group>";
@@ -106,6 +115,14 @@
 				50F244DD2FA8C98D00DFCC8F /* test.swift */,
 			);
 			path = test;
+			sourceTree = "<group>";
+		};
+		50F244ED2FAA30FF00DFCC8F /* shared */ = {
+			isa = PBXGroup;
+			children = (
+				50F244EE2FAA310C00DFCC8F /* FieldValueState.swift */,
+			);
+			path = shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,8 +236,11 @@
 				50F244C32FA4B3C900DFCC8F /* View.swift in Sources */,
 				50F244CB2FA509A800DFCC8F /* DatePickerCustom.swift in Sources */,
 				50F244D62FA8C65400DFCC8F /* Logger.swift in Sources */,
+				50F244EC2FAA30CB00DFCC8F /* FieldTimeZone.swift in Sources */,
 				50F244CF2FA50D3700DFCC8F /* Double.swift in Sources */,
 				50F244CD2FA50D0B00DFCC8F /* Date.swift in Sources */,
+				50F244F12FAA328D00DFCC8F /* FieldList.swift in Sources */,
+				50F244EF2FAA314600DFCC8F /* FieldValueState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
