@@ -7,32 +7,6 @@ import SwiftUI
 
 struct DatePickerCustom: View {
 
-    final class State: ObservableObject {
-        public func getBinding<T>(_ propertyName: WritableKeyPath<State, T>) -> Binding<T> {
-            var instance = self; return Binding(
-                get: {             instance[keyPath: propertyName]            },
-                set: { newValue in instance[keyPath: propertyName] = newValue }
-            )
-        }
-        @Published public var day   : Int /* 1 ... 31 */      { willSet { self.onChange(\.day   , newValue) } }
-        @Published public var month : Int /* 1 ... 12 */      { willSet { self.onChange(\.month , newValue) } }
-        @Published public var year  : Int /* 1970 ... 2050 */ { willSet { self.onChange(\.year  , newValue) } }
-        @Published public var hour  : Int /* 0 ... 23 */      { willSet { self.onChange(\.hour  , newValue) } }
-        @Published public var minute: Int /* 0 ... 59 */      { willSet { self.onChange(\.minute, newValue) } }
-        @Published public var second: Int /* 0 ... 59 */      { willSet { self.onChange(\.second, newValue) } }
-        @Published public var zone  : String                  { willSet { self.onChange(\.zone  , newValue) } }
-                   public var onChange: (PartialKeyPath<State>, Any) -> Void = { _, _ in }
-        init(day: Int, month: Int, year: Int, hour: Int, minute: Int, second: Int, zone: String) {
-            self.day    = day
-            self.month  = month
-            self.year   = year
-            self.hour   = hour
-            self.minute = minute
-            self.second = second
-            self.zone   = zone
-        }
-    }
-
     struct Value {
         var date: Date
         var zone: String
@@ -44,7 +18,6 @@ struct DatePickerCustom: View {
     }
 
     @Environment(\.colorScheme) private var colorScheme
-    @ObservedObject private var state: State
     @Binding private var value: Value
 
     private let yearMinValue: Int
@@ -58,47 +31,26 @@ struct DatePickerCustom: View {
         self.yearMinValue = yearMinValue
         self.yearMaxValue = yearMaxValue
         self._value = value
-        self.state = State(
-            day   : value.wrappedValue.date.dayUTC,
-            month : value.wrappedValue.date.monthUTC,
-            year  : value.wrappedValue.date.yearUTC,
-            hour  : value.wrappedValue.date.hourUTC,
-            minute: value.wrappedValue.date.minuteUTC,
-            second: value.wrappedValue.date.secondUTC,
-            zone  : value.wrappedValue.zone)
-        self.state.onChange = self.onChangeState
-    }
-
-    private func onChangeState(keyPath: PartialKeyPath<State>, value: Any) {
-        if keyPath == \.month , let value = value as? Int    { self.fixDay(newMonth: value); self.value.date.monthUTC = value }
-        if keyPath == \.year  , let value = value as? Int    { self.fixDay(newYear : value); self.value.date.yearUTC  = value }
-        if keyPath == \.day   , let value = value as? Int    { self.value.date.dayUTC    = value }
-        if keyPath == \.hour  , let value = value as? Int    { self.value.date.hourUTC   = value }
-        if keyPath == \.minute, let value = value as? Int    { self.value.date.minuteUTC = value }
-        if keyPath == \.second, let value = value as? Int    { self.value.date.secondUTC = value }
-        if keyPath == \.zone  , let value = value as? String { self.value.zone           = value }
     }
 
     private func fixDay(newMonth: Int) {
-        if let daysInMonth = Date.daysInMonth(month: newMonth, year: self.state.year) {
-            if (self.state.day > daysInMonth) {
-                self.state.day = daysInMonth
+        if let daysInMonth = Date.daysInMonth(month: newMonth, year: self.value.date.yearUTC) {
+            if (self.value.date.dayUTC > daysInMonth) {
                 self.value.date.dayUTC = daysInMonth
             }
         }
     }
 
     private func fixDay(newYear: Int) {
-        if let daysInMonth = Date.daysInMonth(month: self.state.month, year: newYear) {
-            if (self.state.day > daysInMonth) {
-                self.state.day = daysInMonth
+        if let daysInMonth = Date.daysInMonth(month: self.value.date.monthUTC, year: newYear) {
+            if (self.value.date.dayUTC > daysInMonth) {
                 self.value.date.dayUTC = daysInMonth
             }
         }
     }
 
     private var days: [Int: String] {
-        let daysInMonth = Date.daysInMonth(month: self.state.month, year: self.state.year)
+        let daysInMonth = Date.daysInMonth(month: self.value.date.monthUTC, year: self.value.date.yearUTC)
         return (1 ... (daysInMonth ?? 31)).reduce(into: [Int: String]()) { result, value in
             result[value] = value < 10 ? "\u{2002}\(value)" : "\(value)"
         }
@@ -116,18 +68,24 @@ struct DatePickerCustom: View {
                 .font(.headline)
 
             HStack(spacing: 0) {
-                DatePickerCustom.FieldList(
-                    toValue: self.state.getBinding(\.day),
+                self.FieldList(
+                    toValue: Binding(
+                        get: {             self.value.date.dayUTC },
+                        set: { newValue in self.value.date.dayUTC = newValue }),
                     items: self.days
                 ).frame(width: 60)
 
-                DatePickerCustom.FieldList(
-                    toValue: self.state.getBinding(\.month),
+                self.FieldList(
+                    toValue: Binding(
+                        get: {                                              self.value.date.monthUTC },
+                        set: { newValue in self.fixDay(newMonth: newValue); self.value.date.monthUTC = newValue }),
                     items: Date.MONTH_NAMES
                 ).frame(width: 120)
 
-                DatePickerCustom.FieldList(
-                    toValue: self.state.getBinding(\.year),
+                self.FieldList(
+                    toValue: Binding(
+                        get: {                                             self.value.date.yearUTC },
+                        set: { newValue in self.fixDay(newYear: newValue); self.value.date.yearUTC = newValue }),
                     items: (self.yearMinValue ... self.yearMaxValue).reduce(into: [Int: String]()) { result, value in
                         result[value] = "\(value)"
                     }
@@ -138,22 +96,28 @@ struct DatePickerCustom: View {
                 .font(.headline)
 
             HStack(spacing: 0) {
-                DatePickerCustom.FieldList(
-                    toValue: self.state.getBinding(\.hour),
+                self.FieldList(
+                    toValue: Binding(
+                        get: {             self.value.date.hourUTC },
+                        set: { newValue in self.value.date.hourUTC = newValue }),
                     items: (0 ... 23).reduce(into: [Int: String]()) { result, value in
                         result[value] = value < 10 ? "0\(value)" : "\(value)"
                     }
                 ).frame(width: 60)
 
-                DatePickerCustom.FieldList(
-                    toValue: self.state.getBinding(\.minute),
+                self.FieldList(
+                    toValue: Binding(
+                        get: {             self.value.date.minuteUTC },
+                        set: { newValue in self.value.date.minuteUTC = newValue }),
                     items: (0 ... 59).reduce(into: [Int: String]()) { result, value in
                         result[value] = value < 10 ? "0\(value)" : "\(value)"
                     }
                 ).frame(width: 60)
 
-                DatePickerCustom.FieldList(
-                    toValue: self.state.getBinding(\.second),
+                self.FieldList(
+                    toValue: Binding(
+                        get: {             self.value.date.secondUTC },
+                        set: { newValue in self.value.date.secondUTC = newValue }),
                     items: (0 ... 59).reduce(into: [Int: String]()) { result, value in
                         result[value] = value < 10 ? "0\(value)" : "\(value)"
                     }
@@ -163,36 +127,31 @@ struct DatePickerCustom: View {
             Text(NSLocalizedString("TimeZone", comment: ""))
                 .font(.headline)
 
-            DatePickerCustom.FieldTimeZone(
-                toValue: self.state.getBinding(\.zone)
+            self.FieldTimeZone(
+                toValue: Binding(
+                    get: {             self.value.zone },
+                    set: { newValue in self.value.zone = newValue }),
             ).frame(width: 180)
 
         }
     }
 
-    private struct FieldList: View {
-        @Binding public var toValue: Int
-        public var items: [Int: String]
-        var body: some View {
-            Picker("", selection: self.$toValue) {
-                ForEach(Array(self.items.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }).enumerated()), id: \.element.key) { index, element in
-                    Text("\(String(element.value))").tag(element.key)
-                }
+    @ViewBuilder private func FieldList(toValue: Binding<Int>, items: [Int: String]) -> some View {
+        Picker("", selection: toValue) {
+            ForEach(Array(items.sorted(by: { (lhs, rhs) in lhs.key < rhs.key }).enumerated()), id: \.element.key) { index, element in
+                Text("\(String(element.value))").tag(element.key)
             }
         }
     }
 
-    private struct FieldTimeZone: View {
-        @Binding public var toValue: String
-        var body: some View {
-            Picker("", selection: self.$toValue) {
-                let groups = Date.TIME_ZONES_GROUPPED_LIST.sorted(by: { (lhs, rhs) in lhs.key > rhs.key })
-                ForEach(groups, id: \.key) { offsetNumeric, group in
-                    Section(header: Text(group.offsetFormatted).font(.system(size: 18))) {
-                        let zones = group.items.sorted(by: { (lhs, rhs) in lhs.key < rhs.key })
-                        ForEach(zones, id: \.key) { ID, title in
-                            Text(title).tag(ID)
-                        }
+    @ViewBuilder private func FieldTimeZone(toValue: Binding<String>) -> some View {
+        Picker("", selection: toValue) {
+            let groups = Date.TIME_ZONES_GROUPPED_LIST.sorted(by: { (lhs, rhs) in lhs.key > rhs.key })
+            ForEach(groups, id: \.key) { offsetNumeric, group in
+                Section(header: Text(group.offsetFormatted).font(.system(size: 18))) {
+                    let zones = group.items.sorted(by: { (lhs, rhs) in lhs.key < rhs.key })
+                    ForEach(zones, id: \.key) { ID, title in
+                        Text(title).tag(ID)
                     }
                 }
             }
