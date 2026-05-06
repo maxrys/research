@@ -73,7 +73,7 @@ struct DatePickerCustom: View {
             VStack(alignment: .leading, spacing: 10) {
 
                 HStack(spacing: 0) {
-                    FieldList(
+                    FieldList<Int>(
                         value: self.value.date.dayUTC,
                         items: self.dayItems,
                         onChange: { value in
@@ -81,7 +81,7 @@ struct DatePickerCustom: View {
                         }
                     ).frame(width: 60)
 
-                    FieldList(
+                    FieldList<Int>(
                         value: self.value.date.monthUTC,
                         items: Date.MONTH_NAMES,
                         onChange: { value in
@@ -89,7 +89,7 @@ struct DatePickerCustom: View {
                         }
                     ).frame(width: 120)
 
-                    FieldList(
+                    FieldList<Int>(
                         value: self.value.date.yearUTC,
                         items: self.yearItems,
                         onChange: { value in
@@ -99,7 +99,7 @@ struct DatePickerCustom: View {
                 }
 
                 HStack(spacing: 0) {
-                    FieldList(
+                    FieldList<Int>(
                         value: self.value.date.hourUTC,
                         items: self.hourItems,
                         onChange: { value in
@@ -107,7 +107,7 @@ struct DatePickerCustom: View {
                         }
                     ).frame(width: 60)
 
-                    FieldList(
+                    FieldList<Int>(
                         value: self.value.date.minuteUTC,
                         items: self.minuteAndSecondItems,
                         onChange: { value in
@@ -115,7 +115,7 @@ struct DatePickerCustom: View {
                         }
                     ).frame(width: 60)
 
-                    FieldList(
+                    FieldList<Int>(
                         value: self.value.date.secondUTC,
                         items: self.minuteAndSecondItems,
                         onChange: { value in
