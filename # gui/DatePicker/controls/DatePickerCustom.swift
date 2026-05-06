@@ -74,7 +74,6 @@ struct DatePickerCustom: View {
 
                 HStack(spacing: 0) {
                     FieldList(
-                        ID: "dayUTC",
                         value: self.value.date.dayUTC,
                         items: self.dayItems,
                         onChange: { value in
@@ -83,7 +82,6 @@ struct DatePickerCustom: View {
                     ).frame(width: 60)
 
                     FieldList(
-                        ID: "monthUTC",
                         value: self.value.date.monthUTC,
                         items: Date.MONTH_NAMES,
                         onChange: { value in
@@ -92,7 +90,6 @@ struct DatePickerCustom: View {
                     ).frame(width: 120)
 
                     FieldList(
-                        ID: "yearUTC",
                         value: self.value.date.yearUTC,
                         items: self.yearItems,
                         onChange: { value in
@@ -103,7 +100,6 @@ struct DatePickerCustom: View {
 
                 HStack(spacing: 0) {
                     FieldList(
-                        ID: "hourUTC",
                         value: self.value.date.hourUTC,
                         items: self.hourItems,
                         onChange: { value in
@@ -112,7 +108,6 @@ struct DatePickerCustom: View {
                     ).frame(width: 60)
 
                     FieldList(
-                        ID: "minuteUTC",
                         value: self.value.date.minuteUTC,
                         items: self.minuteAndSecondItems,
                         onChange: { value in
@@ -121,7 +116,6 @@ struct DatePickerCustom: View {
                     ).frame(width: 60)
 
                     FieldList(
-                        ID: "secondUTC",
                         value: self.value.date.secondUTC,
                         items: self.minuteAndSecondItems,
                         onChange: { value in
@@ -130,8 +124,9 @@ struct DatePickerCustom: View {
                     ).frame(width: 60)
                 }
 
-                FieldTimeZone(
+                FieldGrouppedList<Int, String>(
                     value: self.value.zone,
+                    list: Date.TIME_ZONES_GROUPPED_LIST,
                     onChange: { value in
                         self.value.zone = value
                     }

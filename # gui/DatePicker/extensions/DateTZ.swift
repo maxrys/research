@@ -429,33 +429,32 @@ extension Date {
         "UTC": 0,
     ]
 
+    static public let TIME_ZONES_GROUPPED_LIST: [Int: GruppedListItem<String>] = [
 
-    static public let TIME_ZONES_GROUPPED_LIST: [Int: (groupTitle: String, groupItems: [String: String])] = [
-
-        50400: (
-            groupTitle: "+14:00",
-            groupItems: [
+        50400: GruppedListItem(
+            title: "+14:00",
+            items: [
                 "Pacific/Kiritimati": NSLocalizedString("Pacific / Kiritimati", comment: ""),
             ]),
 
-        46800: (
-            groupTitle: "+13:00",
-            groupItems: [
+        46800: GruppedListItem(
+            title: "+13:00",
+            items: [
                 "Pacific/Apia"     : NSLocalizedString("Pacific / Apia", comment: ""),
                 "Pacific/Fakaofo"  : NSLocalizedString("Pacific / Fakaofo", comment: ""),
                 "Pacific/Kanton"   : NSLocalizedString("Pacific / Kanton", comment: ""),
                 "Pacific/Tongatapu": NSLocalizedString("Pacific / Tongatapu", comment: ""),
             ]),
 
-        45900: (
-            groupTitle: "+12:45",
-            groupItems: [
+        45900: GruppedListItem(
+            title: "+12:45",
+            items: [
                 "Pacific/Chatham": NSLocalizedString("Pacific / Chatham", comment: ""),
             ]),
 
-        43200: (
-            groupTitle: "+12:00",
-            groupItems: [
+        43200: GruppedListItem(
+            title: "+12:00",
+            items: [
                 "Antarctica/McMurdo": NSLocalizedString("Antarctica / McMurdo", comment: ""),
                 "Asia/Anadyr"       : NSLocalizedString("Asia / Anadyr", comment: ""),
                 "Asia/Kamchatka"    : NSLocalizedString("Asia / Kamchatka", comment: ""),
@@ -470,9 +469,9 @@ extension Date {
                 "Pacific/Wallis"    : NSLocalizedString("Pacific / Wallis", comment: ""),
             ]),
 
-        39600: (
-            groupTitle: "+11:00",
-            groupItems: [
+        39600: GruppedListItem(
+            title: "+11:00",
+            items: [
                 "Asia/Magadan"        : NSLocalizedString("Asia / Magadan", comment: ""),
                 "Asia/Sakhalin"       : NSLocalizedString("Asia / Sakhalin", comment: ""),
                 "Asia/Srednekolymsk"  : NSLocalizedString("Asia / Srednekolymsk", comment: ""),
@@ -485,15 +484,15 @@ extension Date {
                 "Pacific/Pohnpei"     : NSLocalizedString("Pacific / Pohnpei", comment: ""),
             ]),
 
-        37800: (
-            groupTitle: "+10:30",
-            groupItems: [
+        37800: GruppedListItem(
+            title: "+10:30",
+            items: [
                 "Australia/Lord_Howe": NSLocalizedString("Australia / Lord-Howe", comment: ""),
             ]),
 
-        36000: (
-            groupTitle: "+10:00",
-            groupItems: [
+        36000: GruppedListItem(
+            title: "+10:00",
+            items: [
                 "Antarctica/DumontDUrville": NSLocalizedString("Antarctica / DumontDUrville", comment: ""),
                 "Antarctica/Macquarie"     : NSLocalizedString("Antarctica / Macquarie", comment: ""),
                 "Asia/Ust-Nera"            : NSLocalizedString("Asia / Ust-Nera", comment: ""),
@@ -509,17 +508,17 @@ extension Date {
                 "Pacific/Saipan"           : NSLocalizedString("Pacific / Saipan", comment: ""),
             ]),
 
-        34200: (
-            groupTitle: "+09:30",
-            groupItems: [
+        34200: GruppedListItem(
+            title: "+09:30",
+            items: [
                 "Australia/Adelaide"   : NSLocalizedString("Australia / Adelaide", comment: ""),
                 "Australia/Broken_Hill": NSLocalizedString("Australia / Broken-Hill", comment: ""),
                 "Australia/Darwin"     : NSLocalizedString("Australia / Darwin", comment: ""),
             ]),
 
-        32400: (
-            groupTitle: "+09:00",
-            groupItems: [
+        32400: GruppedListItem(
+            title: "+09:00",
+            items: [
                 "Asia/Chita"    : NSLocalizedString("Asia / Chita", comment: ""),
                 "Asia/Dili"     : NSLocalizedString("Asia / Dili", comment: ""),
                 "Asia/Jayapura" : NSLocalizedString("Asia / Jayapura", comment: ""),
@@ -531,15 +530,15 @@ extension Date {
                 "Pacific/Palau" : NSLocalizedString("Pacific / Palau", comment: ""),
             ]),
 
-        31500: (
-            groupTitle: "+08:45",
-            groupItems: [
+        31500: GruppedListItem(
+            title: "+08:45",
+            items: [
                 "Australia/Eucla": NSLocalizedString("Australia / Eucla", comment: ""),
             ]),
 
-        28800: (
-            groupTitle: "+08:00",
-            groupItems: [
+        28800: GruppedListItem(
+            title: "+08:00",
+            items: [
                 "Antarctica/Casey" : NSLocalizedString("Antarctica / Casey", comment: ""),
                 "Asia/Brunei"      : NSLocalizedString("Asia / Brunei", comment: ""),
                 "Asia/Hong_Kong"   : NSLocalizedString("Asia / Hong-Kong", comment: ""),
@@ -556,9 +555,9 @@ extension Date {
                 "Australia/Perth"  : NSLocalizedString("Australia / Perth", comment: ""),
             ]),
 
-        25200: (
-            groupTitle: "+07:00",
-            groupItems: [
+        25200: GruppedListItem(
+            title: "+07:00",
+            items: [
                 "Antarctica/Davis" : NSLocalizedString("Antarctica / Davis", comment: ""),
                 "Asia/Bangkok"     : NSLocalizedString("Asia / Bangkok", comment: ""),
                 "Asia/Barnaul"     : NSLocalizedString("Asia / Barnaul", comment: ""),
@@ -575,16 +574,16 @@ extension Date {
                 "Indian/Christmas" : NSLocalizedString("Indian / Christmas", comment: ""),
             ]),
 
-        23400: (
-            groupTitle: "+06:30",
-            groupItems: [
+        23400: GruppedListItem(
+            title: "+06:30",
+            items: [
                 "Asia/Yangon" : NSLocalizedString("Asia / Yangon", comment: ""),
                 "Indian/Cocos": NSLocalizedString("Indian / Cocos", comment: ""),
             ]),
 
-        21600: (
-            groupTitle: "+06:00",
-            groupItems: [
+        21600: GruppedListItem(
+            title: "+06:00",
+            items: [
                 "Asia/Bishkek" : NSLocalizedString("Asia / Bishkek", comment: ""),
                 "Asia/Dhaka"   : NSLocalizedString("Asia / Dhaka", comment: ""),
                 "Asia/Omsk"    : NSLocalizedString("Asia / Omsk", comment: ""),
@@ -593,22 +592,22 @@ extension Date {
                 "Indian/Chagos": NSLocalizedString("Indian / Chagos", comment: ""),
             ]),
 
-        20700: (
-            groupTitle: "+05:45",
-            groupItems: [
+        20700: GruppedListItem(
+            title: "+05:45",
+            items: [
                 "Asia/Kathmandu": NSLocalizedString("Asia / Kathmandu", comment: ""),
             ]),
 
-        19800: (
-            groupTitle: "+05:30",
-            groupItems: [
+        19800: GruppedListItem(
+            title: "+05:30",
+            items: [
                 "Asia/Colombo": NSLocalizedString("Asia / Colombo", comment: ""),
                 "Asia/Kolkata": NSLocalizedString("Asia / Kolkata", comment: ""),
             ]),
 
-        18000: (
-            groupTitle: "+05:00",
-            groupItems: [
+        18000: GruppedListItem(
+            title: "+05:00",
+            items: [
                 "Antarctica/Mawson" : NSLocalizedString("Antarctica / Mawson", comment: ""),
                 "Antarctica/Vostok" : NSLocalizedString("Antarctica / Vostok", comment: ""),
                 "Asia/Almaty"       : NSLocalizedString("Asia / Almaty", comment: ""),
@@ -628,15 +627,15 @@ extension Date {
                 "Indian/Maldives"   : NSLocalizedString("Indian / Maldives", comment: ""),
             ]),
 
-        16200: (
-            groupTitle: "+04:30",
-            groupItems: [
+        16200: GruppedListItem(
+            title: "+04:30",
+            items: [
                 "Asia/Kabul": NSLocalizedString("Asia / Kabul", comment: ""),
             ]),
 
-        14400: (
-            groupTitle: "+04:00",
-            groupItems: [
+        14400: GruppedListItem(
+            title: "+04:00",
+            items: [
                 "Asia/Baku"       : NSLocalizedString("Asia / Baku", comment: ""),
                 "Asia/Dubai"      : NSLocalizedString("Asia / Dubai", comment: ""),
                 "Asia/Muscat"     : NSLocalizedString("Asia / Muscat", comment: ""),
@@ -651,15 +650,15 @@ extension Date {
                 "Indian/Reunion"  : NSLocalizedString("Indian / Reunion", comment: ""),
             ]),
 
-        12600: (
-            groupTitle: "+03:30",
-            groupItems: [
+        12600: GruppedListItem(
+            title: "+03:30",
+            items: [
                 "Asia/Tehran": NSLocalizedString("Asia / Tehran", comment: ""),
             ]),
 
-        10800: (
-            groupTitle: "+03:00",
-            groupItems: [
+        10800: GruppedListItem(
+            title: "+03:00",
+            items: [
                 "Africa/Addis_Ababa"  : NSLocalizedString("Africa / Addis-Ababa", comment: ""),
                 "Africa/Asmara"       : NSLocalizedString("Africa / Asmara", comment: ""),
                 "Africa/Cairo"        : NSLocalizedString("Africa / Cairo", comment: ""),
@@ -704,9 +703,9 @@ extension Date {
                 "Indian/Mayotte"      : NSLocalizedString("Indian / Mayotte", comment: ""),
             ]),
 
-        7200: (
-            groupTitle: "+02:00",
-            groupItems: [
+        7200: GruppedListItem(
+            title: "+02:00",
+            items: [
                 "Africa/Blantyre"    : NSLocalizedString("Africa / Blantyre", comment: ""),
                 "Africa/Bujumbura"   : NSLocalizedString("Africa / Bujumbura", comment: ""),
                 "Africa/Ceuta"       : NSLocalizedString("Africa / Ceuta", comment: ""),
@@ -759,9 +758,9 @@ extension Date {
                 "Europe/Zurich"      : NSLocalizedString("Europe / Zurich", comment: ""),
             ]),
 
-        3600: (
-            groupTitle: "+01:00",
-            groupItems: [
+        3600: GruppedListItem(
+            title: "+01:00",
+            items: [
                 "Africa/Algiers"    : NSLocalizedString("Africa / Algiers", comment: ""),
                 "Africa/Bangui"     : NSLocalizedString("Africa / Bangui", comment: ""),
                 "Africa/Brazzaville": NSLocalizedString("Africa / Brazzaville", comment: ""),
@@ -788,9 +787,9 @@ extension Date {
                 "Europe/London"     : NSLocalizedString("Europe / London", comment: ""),
             ]),
 
-        0: (
-            groupTitle: "+00:00",
-            groupItems: [
+        0: GruppedListItem(
+            title: "+00:00",
+            items: [
                 "Africa/Abidjan"      : NSLocalizedString("Africa / Abidjan", comment: ""),
                 "Africa/Accra"        : NSLocalizedString("Africa / Accra", comment: ""),
                 "Africa/Bamako"       : NSLocalizedString("Africa / Bamako", comment: ""),
@@ -811,31 +810,31 @@ extension Date {
                 "UTC"                 : NSLocalizedString("UTC", comment: ""),
             ]),
 
-        -3600: (
-            groupTitle: "−01:00",
-            groupItems: [
+        -3600: GruppedListItem(
+            title: "−01:00",
+            items: [
                 "America/Nuuk"        : NSLocalizedString("America / Nuuk", comment: ""),
                 "America/Scoresbysund": NSLocalizedString("America / Scoresbysund", comment: ""),
                 "Atlantic/Cape_Verde" : NSLocalizedString("Atlantic / Cape-Verde", comment: ""),
             ]),
 
-        -7200: (
-            groupTitle: "−02:00",
-            groupItems: [
+        -7200: GruppedListItem(
+            title: "−02:00",
+            items: [
                 "America/Miquelon"      : NSLocalizedString("America / Miquelon", comment: ""),
                 "America/Noronha"       : NSLocalizedString("America / Noronha", comment: ""),
                 "Atlantic/South_Georgia": NSLocalizedString("Atlantic / South-Georgia", comment: ""),
             ]),
 
-        -9000: (
-            groupTitle: "−02:30",
-            groupItems: [
+        -9000: GruppedListItem(
+            title: "−02:30",
+            items: [
                 "America/St_Johns": NSLocalizedString("America / St-Johns", comment: ""),
             ]),
 
-        -10800: (
-            groupTitle: "−03:00",
-            groupItems: [
+        -10800: GruppedListItem(
+            title: "−03:00",
+            items: [
                 "America/Araguaina"             : NSLocalizedString("America / Araguaina", comment: ""),
                 "America/Argentina/Buenos_Aires": NSLocalizedString("America / Argentina / Buenos-Aires", comment: ""),
                 "America/Argentina/Catamarca"   : NSLocalizedString("America / Argentina / Catamarca", comment: ""),
@@ -873,9 +872,9 @@ extension Date {
                 "Atlantic/Stanley"              : NSLocalizedString("Atlantic / Stanley", comment: ""),
             ]),
 
-        -14400: (
-            groupTitle: "−04:00",
-            groupItems: [
+        -14400: GruppedListItem(
+            title: "−04:00",
+            items: [
                 "America/Anguilla"            : NSLocalizedString("America / Anguilla", comment: ""),
                 "America/Antigua"             : NSLocalizedString("America / Antigua", comment: ""),
                 "America/Aruba"               : NSLocalizedString("America / Aruba", comment: ""),
@@ -926,9 +925,9 @@ extension Date {
                 "America/Tortola"             : NSLocalizedString("America / Tortola", comment: ""),
             ]),
 
-        -18000: (
-            groupTitle: "−05:00",
-            groupItems: [
+        -18000: GruppedListItem(
+            title: "−05:00",
+            items: [
                 "America/Atikokan"              : NSLocalizedString("America / Atikokan", comment: ""),
                 "America/Bogota"                : NSLocalizedString("America / Bogota", comment: ""),
                 "America/Cancun"                : NSLocalizedString("America / Cancun", comment: ""),
@@ -953,9 +952,9 @@ extension Date {
                 "America/Winnipeg"              : NSLocalizedString("America / Winnipeg", comment: ""),
             ]),
 
-        -21600: (
-            groupTitle: "−06:00",
-            groupItems: [
+        -21600: GruppedListItem(
+            title: "−06:00",
+            items: [
                 "America/Bahia_Banderas": NSLocalizedString("America / Bahia-Banderas", comment: ""),
                 "America/Belize"        : NSLocalizedString("America / Belize", comment: ""),
                 "America/Boise"         : NSLocalizedString("America / Boise", comment: ""),
@@ -979,9 +978,9 @@ extension Date {
                 "Pacific/Galapagos"     : NSLocalizedString("Pacific / Galapagos", comment: ""),
             ]),
 
-        -25200: (
-            groupTitle: "−07:00",
-            groupItems: [
+        -25200: GruppedListItem(
+            title: "−07:00",
+            items: [
                 "America/Creston"     : NSLocalizedString("America / Creston", comment: ""),
                 "America/Dawson"      : NSLocalizedString("America / Dawson", comment: ""),
                 "America/Dawson_Creek": NSLocalizedString("America / Dawson-Creek", comment: ""),
@@ -995,9 +994,9 @@ extension Date {
                 "America/Whitehorse"  : NSLocalizedString("America / Whitehorse", comment: ""),
             ]),
 
-        -28800: (
-            groupTitle: "−08:00",
-            groupItems: [
+        -28800: GruppedListItem(
+            title: "−08:00",
+            items: [
                 "America/Anchorage" : NSLocalizedString("America / Anchorage", comment: ""),
                 "America/Juneau"    : NSLocalizedString("America / Juneau", comment: ""),
                 "America/Metlakatla": NSLocalizedString("America / Metlakatla", comment: ""),
@@ -1007,30 +1006,30 @@ extension Date {
                 "Pacific/Pitcairn"  : NSLocalizedString("Pacific / Pitcairn", comment: ""),
             ]),
 
-        -32400: (
-            groupTitle: "−09:00",
-            groupItems: [
+        -32400: GruppedListItem(
+            title: "−09:00",
+            items: [
                 "America/Adak"   : NSLocalizedString("America / Adak", comment: ""),
                 "Pacific/Gambier": NSLocalizedString("Pacific / Gambier", comment: ""),
             ]),
 
-        -34200: (
-            groupTitle: "−09:30",
-            groupItems: [
+        -34200: GruppedListItem(
+            title: "−09:30",
+            items: [
                 "Pacific/Marquesas": NSLocalizedString("Pacific / Marquesas", comment: "")
             ]),
 
-        -36000: (
-            groupTitle: "−10:00",
-            groupItems: [
+        -36000: GruppedListItem(
+            title: "−10:00",
+            items: [
                 "Pacific/Honolulu" : NSLocalizedString("Pacific / Honolulu", comment: ""),
                 "Pacific/Rarotonga": NSLocalizedString("Pacific / Rarotonga", comment: ""),
                 "Pacific/Tahiti"   : NSLocalizedString("Pacific / Tahiti", comment: ""),
             ]),
 
-        -39600: (
-            groupTitle: "−11:00",
-            groupItems: [
+        -39600: GruppedListItem(
+            title: "−11:00",
+            items: [
                 "Pacific/Midway"   : NSLocalizedString("Pacific / Midway", comment: ""),
                 "Pacific/Niue"     : NSLocalizedString("Pacific / Niue", comment: ""),
                 "Pacific/Pago_Pago": NSLocalizedString("Pacific / Pago-Pago", comment: ""),
