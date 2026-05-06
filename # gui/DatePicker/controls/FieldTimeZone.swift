@@ -25,8 +25,8 @@ struct FieldTimeZone: View, Equatable {
         Picker("", selection: self.$state.value) {
             let groups = Date.TIME_ZONES_GROUPPED_LIST.sorted(by: { (lhs, rhs) in lhs.key > rhs.key })
             ForEach(groups, id: \.key) { offsetNumeric, group in
-                Section(header: Text(group.offsetFormatted).font(.system(size: 18))) {
-                    let zones = group.items.sorted(by: { (lhs, rhs) in lhs.key < rhs.key })
+                Section(header: Text(group.groupTitle).font(.system(size: 18))) {
+                    let zones = group.groupItems.sorted(by: { (lhs, rhs) in lhs.key < rhs.key })
                     ForEach(zones, id: \.key) { ID, title in
                         Text(title).tag(ID)
                     }
