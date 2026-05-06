@@ -59,87 +59,85 @@ struct DatePickerCustom: View {
         }
     }
 
-    private let columns = [
-        GridItem(.fixed(90), spacing: 0, alignment: .trailing),
-        GridItem(.flexible(), spacing: 0, alignment: .leading),
-    ]
-
     var body: some View {
-        LazyVGrid(columns: self.columns, spacing: 10) {
+        HStack(spacing: 0) {
 
-            Text(NSLocalizedString("Date", comment: ""))
-                .font(.headline)
-
-            HStack(spacing: 0) {
-                FieldList(
-                    ID: "dayUTC",
-                    value: self.value.date.dayUTC,
-                    items: self.dayItems,
-                    onChange: { value in
-                        self.value.date.dayUTC = value
-                    }
-                ).frame(width: 60)
-
-                FieldList(
-                    ID: "monthUTC",
-                    value: self.value.date.monthUTC,
-                    items: Date.MONTH_NAMES,
-                    onChange: { value in
-                        self.updateMonth(value)
-                    }
-                ).frame(width: 120)
-
-                FieldList(
-                    ID: "yearUTC",
-                    value: self.value.date.yearUTC,
-                    items: self.yearItems,
-                    onChange: { value in
-                        self.updateYear(value)
-                    }
-                ).frame(width: 72)
+            VStack(alignment: .trailing, spacing: 14) {
+                Text(NSLocalizedString("Date"    , comment: ""))
+                Text(NSLocalizedString("Time"    , comment: ""))
+                Text(NSLocalizedString("TimeZone", comment: ""))
             }
+            .font(.headline)
+            .lineLimit(1)
 
-            Text(NSLocalizedString("Time", comment: ""))
-                .font(.headline)
+            VStack(alignment: .leading, spacing: 10) {
 
-            HStack(spacing: 0) {
-                FieldList(
-                    ID: "hourUTC",
-                    value: self.value.date.hourUTC,
-                    items: self.hourItems,
-                    onChange: { value in
-                        self.value.date.hourUTC = value
-                    }
-                ).frame(width: 60)
+                HStack(spacing: 0) {
+                    FieldList(
+                        ID: "dayUTC",
+                        value: self.value.date.dayUTC,
+                        items: self.dayItems,
+                        onChange: { value in
+                            self.value.date.dayUTC = value
+                        }
+                    ).frame(width: 60)
 
-                FieldList(
-                    ID: "minuteUTC",
-                    value: self.value.date.minuteUTC,
-                    items: self.minuteAndSecondItems,
-                    onChange: { value in
-                        self.value.date.minuteUTC = value
-                    }
-                ).frame(width: 60)
+                    FieldList(
+                        ID: "monthUTC",
+                        value: self.value.date.monthUTC,
+                        items: Date.MONTH_NAMES,
+                        onChange: { value in
+                            self.updateMonth(value)
+                        }
+                    ).frame(width: 120)
 
-                FieldList(
-                    ID: "secondUTC",
-                    value: self.value.date.secondUTC,
-                    items: self.minuteAndSecondItems,
-                    onChange: { value in
-                        self.value.date.secondUTC = value
-                    }
-                ).frame(width: 60)
-            }
-
-            Text(NSLocalizedString("TimeZone", comment: ""))
-                .font(.headline)
-
-            FieldTimeZone(
-                value: self.value.zone,
-                onChange: { value in
-                    self.value.zone = value
+                    FieldList(
+                        ID: "yearUTC",
+                        value: self.value.date.yearUTC,
+                        items: self.yearItems,
+                        onChange: { value in
+                            self.updateYear(value)
+                        }
+                    ).frame(width: 72)
                 }
-            ).frame(width: 180)
+
+                HStack(spacing: 0) {
+                    FieldList(
+                        ID: "hourUTC",
+                        value: self.value.date.hourUTC,
+                        items: self.hourItems,
+                        onChange: { value in
+                            self.value.date.hourUTC = value
+                        }
+                    ).frame(width: 60)
+
+                    FieldList(
+                        ID: "minuteUTC",
+                        value: self.value.date.minuteUTC,
+                        items: self.minuteAndSecondItems,
+                        onChange: { value in
+                            self.value.date.minuteUTC = value
+                        }
+                    ).frame(width: 60)
+
+                    FieldList(
+                        ID: "secondUTC",
+                        value: self.value.date.secondUTC,
+                        items: self.minuteAndSecondItems,
+                        onChange: { value in
+                            self.value.date.secondUTC = value
+                        }
+                    ).frame(width: 60)
+                }
+
+                FieldTimeZone(
+                    value: self.value.zone,
+                    onChange: { value in
+                        self.value.zone = value
+                    }
+                ).frame(width: 180)
+
+            }
 
         }
     }
