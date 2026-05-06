@@ -14,10 +14,10 @@ struct FieldTimeZone: View, Equatable {
         lhs.state.value == rhs.state.value
     }
 
-    @ObservedObject private var state: FieldValueState<String>
+    @ObservedObject private var state: ValueState<String>
 
     init(value: String, onChange: @escaping (String) -> Void) {
-        self.state = FieldValueState(value, onChange)
+        self.state = ValueState(value, onChange)
     }
 
     var body: some View {

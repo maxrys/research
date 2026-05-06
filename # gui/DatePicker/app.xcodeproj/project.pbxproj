@@ -22,7 +22,7 @@
 		50F244E92FA8CA3200DFCC8F /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F244CE2FA50D3700DFCC8F /* Double.swift */; };
 		50F244EA2FA8CA3200DFCC8F /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F244D52FA8C65400DFCC8F /* Logger.swift */; };
 		50F244EC2FAA30CB00DFCC8F /* FieldTimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F244EB2FAA30CB00DFCC8F /* FieldTimeZone.swift */; };
-		50F244EF2FAA314600DFCC8F /* FieldValueState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F244EE2FAA310C00DFCC8F /* FieldValueState.swift */; };
+		50F244EF2FAA314600DFCC8F /* ValueState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F244EE2FAA310C00DFCC8F /* ValueState.swift */; };
 		50F244F12FAA328D00DFCC8F /* FieldList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F244F02FAA328D00DFCC8F /* FieldList.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,7 +41,7 @@
 		50F244DB2FA8C98D00DFCC8F /* test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50F244DD2FA8C98D00DFCC8F /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		50F244EB2FAA30CB00DFCC8F /* FieldTimeZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldTimeZone.swift; sourceTree = "<group>"; };
-		50F244EE2FAA310C00DFCC8F /* FieldValueState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldValueState.swift; sourceTree = "<group>"; };
+		50F244EE2FAA310C00DFCC8F /* ValueState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueState.swift; sourceTree = "<group>"; };
 		50F244F02FAA328D00DFCC8F /* FieldList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,7 +120,7 @@
 		50F244ED2FAA30FF00DFCC8F /* shared */ = {
 			isa = PBXGroup;
 			children = (
-				50F244EE2FAA310C00DFCC8F /* FieldValueState.swift */,
+				50F244EE2FAA310C00DFCC8F /* ValueState.swift */,
 			);
 			path = shared;
 			sourceTree = "<group>";
@@ -240,7 +240,7 @@
 				50F244CF2FA50D3700DFCC8F /* Double.swift in Sources */,
 				50F244CD2FA50D0B00DFCC8F /* Date.swift in Sources */,
 				50F244F12FAA328D00DFCC8F /* FieldList.swift in Sources */,
-				50F244EF2FAA314600DFCC8F /* FieldValueState.swift in Sources */,
+				50F244EF2FAA314600DFCC8F /* ValueState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

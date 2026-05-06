@@ -5,7 +5,7 @@
 
 import Foundation
 
-final class FieldValueState<T>: ObservableObject {
+final class ValueState<T>: ObservableObject {
 
     @Published public var value: T {
         willSet { self.onChange(newValue) }
@@ -13,7 +13,7 @@ final class FieldValueState<T>: ObservableObject {
 
     private let onChange: (T) -> Void
 
-    init(_ value: T, _ onChange: @escaping (T) -> Void) {
+    init(_ value: T, _ onChange: @escaping (T) -> Void = { _ in }) {
         self.value    = value
         self.onChange = onChange
     }

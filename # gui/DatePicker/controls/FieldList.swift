@@ -16,14 +16,14 @@ struct FieldList<T>: View, Equatable where T: Hashable & Equatable & Comparable 
         lhs.items       == rhs.items
     }
 
-    @ObservedObject private var state: FieldValueState<T>
+    @ObservedObject private var state: ValueState<T>
 
     private let ID: String
     private let items: [T: String]
 
     init(ID: String, value: T, items: [T: String], onChange: @escaping (T) -> Void) {
         self.ID    = ID
-        self.state = FieldValueState(value, onChange)
+        self.state = ValueState(value, onChange)
         self.items = items
     }
 
