@@ -5,27 +5,27 @@
 
 import SwiftUI
 
-struct RadioButton<T: Equatable>: View {
+struct RadioButtonSimple: View {
 
     @Environment(\.colorScheme) private var colorScheme
-    @Binding private var selected: T?
 
-    private let ID: T
+    private let isSelected: Bool
+    private let onSelect: () -> Void
     private let content: any View
     private let size: CGFloat
     private let indicatorAlignment: VerticalAlignment
     private let isDisabled: Bool
 
     init(
-        ID: T,
-        _ selected: Binding<T?>,
+        isSelected: Bool,
+        onSelect: @escaping () -> Void,
         size: CGFloat = 20,
         indicatorAlignment: VerticalAlignment = .center,
         isDisabled: Bool = false,
         @ViewBuilder content: () -> any View
     ) {
-        self.ID = ID
-        self._selected = selected
+        self.isSelected = isSelected
+        self.onSelect = onSelect
         self.size = size
         self.indicatorAlignment = indicatorAlignment
         self.isDisabled = isDisabled
@@ -34,7 +34,7 @@ struct RadioButton<T: Equatable>: View {
 
     var body: some View {
         HStack(alignment: self.indicatorAlignment, spacing: 10) {
-            Button { self.selected = self.ID } label: {
+            Button { self.onSelect() } label: {
                 Circle()
                     .fill(
                         self.colorScheme == .dark ?
@@ -49,7 +49,7 @@ struct RadioButton<T: Equatable>: View {
                         self.BorderView()
                     }
                     .overlayPolyfill {
-                        if (self.selected == self.ID) {
+                        if (self.isSelected) {
                             self.IndicatorView()
                         }
                     }
@@ -99,18 +99,18 @@ struct RadioButton<T: Equatable>: View {
 /* ########################## PREVIEW ########################## */
 /* ############################################################# */
 
-struct RadioButton_UInt_Previews: PreviewProvider {
+struct RadioButtonSimple_Previews: PreviewProvider {
     struct ViewWithState: View {
         static let DEMO_ID_0: UInt = 0
         static let DEMO_ID_1: UInt = 1
         static let DEMO_ID_2: UInt = 2
-        @State private var selected: UInt? = 0
+        @State private var selected: UInt = 0
         public var body: some View {
             VStack(alignment: .leading, spacing: 15) {
-                RadioButton(ID: Self.DEMO_ID_0, self.$selected) {
+                RadioButtonSimple(isSelected: self.selected == Self.DEMO_ID_0, onSelect: { self.selected = Self.DEMO_ID_0 }) {
                     Text("Item 1")
                 }
-                RadioButton(ID: Self.DEMO_ID_1, self.$selected) {
+                RadioButtonSimple(isSelected: self.selected == Self.DEMO_ID_1, onSelect: { self.selected = Self.DEMO_ID_1 }) {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Item 2")
                         Text("some description 1").font(.system(size: 10))
@@ -118,42 +118,7 @@ struct RadioButton_UInt_Previews: PreviewProvider {
                         Text("some description 3").font(.system(size: 10))
                     }
                 }
-                RadioButton(ID: Self.DEMO_ID_2, self.$selected, isDisabled: true) {
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text("Item 3")
-                        Text("disabled").font(.system(size: 10))
-                    }
-                }
-            }.padding(20)
-        }
-    }
-    static public var previews: some View {
-        ViewWithState()
-    }
-}
-
-struct RadioButton_Enum_Previews: PreviewProvider {
-    struct ViewWithState: View {
-        enum Mode {
-            case mode0
-            case mode1
-            case mode2
-        }
-        @State private var mode: Mode? = .mode0
-        public var body: some View {
-            VStack(alignment: .leading, spacing: 15) {
-                RadioButton(ID: .mode0, self.$mode) {
-                    Text("Item 1")
-                }
-                RadioButton(ID: .mode1, self.$mode) {
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text("Item 2")
-                        Text("some description 1").font(.system(size: 10))
-                        Text("some description 2").font(.system(size: 10))
-                        Text("some description 3").font(.system(size: 10))
-                    }
-                }
-                RadioButton(ID: .mode2, self.$mode, isDisabled: true) {
+                RadioButtonSimple(isSelected: self.selected == Self.DEMO_ID_2, onSelect: { self.selected = Self.DEMO_ID_2 }, isDisabled: true) {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Item 3")
                         Text("disabled").font(.system(size: 10))

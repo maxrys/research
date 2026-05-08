@@ -12,6 +12,7 @@ import SwiftUI
             HStack {
                 RadioButton_UInt()
                 RadioButton_Enum()
+                RadioButton_Simple()
             }
         }
     }

@@ -13,6 +13,8 @@
 		50F244C32FA4B3C900DFCC8F /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F244C22FA4B3C300DFCC8F /* View.swift */; };
 		50F244C52FA4B40200DFCC8F /* RadioButton_Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F244C42FA4B40200DFCC8F /* RadioButton_Enum.swift */; };
 		50F244C72FA4B41200DFCC8F /* RadioButton_UInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F244C62FA4B41200DFCC8F /* RadioButton_UInt.swift */; };
+		50F245102FAE171000DFCC8F /* RadioButtonSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2450F2FAE171000DFCC8F /* RadioButtonSimple.swift */; };
+		50F245122FAE19B300DFCC8F /* RadioButton_Simple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F245112FAE19B300DFCC8F /* RadioButton_Simple.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		50F244C22FA4B3C300DFCC8F /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		50F244C42FA4B40200DFCC8F /* RadioButton_Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton_Enum.swift; sourceTree = "<group>"; };
 		50F244C62FA4B41200DFCC8F /* RadioButton_UInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton_UInt.swift; sourceTree = "<group>"; };
+		50F2450F2FAE171000DFCC8F /* RadioButtonSimple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonSimple.swift; sourceTree = "<group>"; };
+		50F245112FAE19B300DFCC8F /* RadioButton_Simple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton_Simple.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +51,7 @@
 				50993B6B2D33C4C900195667 /* app.swift */,
 				50F244C42FA4B40200DFCC8F /* RadioButton_Enum.swift */,
 				50F244C62FA4B41200DFCC8F /* RadioButton_UInt.swift */,
+				50F245112FAE19B300DFCC8F /* RadioButton_Simple.swift */,
 				50993B692D33C4C900195667 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				50F244C02FA4B30600DFCC8F /* RadioButton.swift */,
+				50F2450F2FAE171000DFCC8F /* RadioButtonSimple.swift */,
 			);
 			path = controls;
 			sourceTree = "<group>";
@@ -149,9 +155,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50F245122FAE19B300DFCC8F /* RadioButton_Simple.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				50F244C72FA4B41200DFCC8F /* RadioButton_UInt.swift in Sources */,
 				50F244C12FA4B37D00DFCC8F /* RadioButton.swift in Sources */,
+				50F245102FAE171000DFCC8F /* RadioButtonSimple.swift in Sources */,
 				50F244C32FA4B3C900DFCC8F /* View.swift in Sources */,
 				50F244C52FA4B40200DFCC8F /* RadioButton_Enum.swift in Sources */,
 			);
