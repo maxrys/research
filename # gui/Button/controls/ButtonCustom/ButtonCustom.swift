@@ -8,10 +8,10 @@ import SwiftUI
 struct ButtonCustom: View {
 
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.isEnabled) private var isEnabled
 
     private let text: String?
     private let icon: Image?
-    private let isDisabled: Bool
     private let colorStyle: Color.ButtonCustomStyle
     private let fixedColorScheme: ColorScheme?
     private let isFlat: Bool
@@ -29,12 +29,10 @@ struct ButtonCustom: View {
         padding: EdgeInsets = .init(top: 6, leading: 12, bottom: 6, trailing: 12),
         flexibility: Flexibility = .none,
         isFlat: Bool = false,
-        isDisabled: Bool = false,
         onClick: @escaping () -> Void = { }
     ) {
         self.text = text
         self.icon = icon
-        self.isDisabled = isDisabled
         self.colorStyle = colorStyle
         self.fixedColorScheme = fixedColorScheme
         self.isFlat = isFlat
@@ -65,19 +63,19 @@ struct ButtonCustom: View {
                     AnyView(RoundedRectangle(cornerRadius: 5).fillGradientPolyfill(self.colorStyle.background))
                 )
             )
-            .clipShape(RoundedRectangle(cornerRadius: 5))
-            .focusEffect(RoundedRectangle(cornerRadius: 5))
+            .clipShape   (RoundedRectangle(cornerRadius: 5))
+            .contentShape(RoundedRectangle(cornerRadius: 5))
+            .focusEffect (RoundedRectangle(cornerRadius: 5))
             .shadow(
                 color: self.colorScheme == .dark ?
                     .black.opacity(1.0) :
                     .black.opacity(0.4),
-                radius: 0.7,
+                radius: self.isEnabled ? 0.7 : 0.0,
                 y: 0.3
             )
         }
         .buttonStyle(.plain)
-        .disabled(self.isDisabled)
-        .pointerStyleLinkPolyfill()
+        .pointerStyleLinkPolyfill(self.isEnabled)
     }
 
     @ViewBuilder private func TextView() -> some View {
@@ -127,6 +125,7 @@ struct ButtonCustom_Previews: PreviewProvider {
                     ButtonCustom(colorStyle: .accent)
                     ButtonCustom(colorStyle: .danger)
                     ButtonCustom(colorStyle: .common)
+                    ButtonCustom(colorStyle: .common).disabled(true)
                     ButtonCustom(colorStyle: .custom(text: .white, background: .orange))
                 }
                 .padding(20)
@@ -138,6 +137,7 @@ struct ButtonCustom_Previews: PreviewProvider {
                     ButtonCustom(colorStyle: .accent)
                     ButtonCustom(colorStyle: .danger)
                     ButtonCustom(colorStyle: .common)
+                    ButtonCustom(colorStyle: .common).disabled(true)
                     ButtonCustom(colorStyle: .custom(text: .white, background: .orange))
                 }
                 .padding(20)
