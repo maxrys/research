@@ -26,12 +26,12 @@ struct RadioButton_Simple: View {
                     Text("some description 3").font(.system(size: 10))
                 }
             }
-            RadioButtonSimple(isSelected: self.selected == Self.DEMO_ID_2, onSelect: { self.selected = Self.DEMO_ID_2 }, isDisabled: true) {
+            RadioButtonSimple(isSelected: self.selected == Self.DEMO_ID_2, onSelect: { self.selected = Self.DEMO_ID_2 }) {
                 VStack(alignment: .leading, spacing: 5) {
                     Text("Item 3")
                     Text("disabled").font(.system(size: 10))
                 }
-            }
+            }.disabled(true)
         }.padding(20)
     }
 

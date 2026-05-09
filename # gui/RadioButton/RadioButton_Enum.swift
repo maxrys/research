@@ -28,12 +28,12 @@ struct RadioButton_Enum: View {
                     Text("some description 3").font(.system(size: 10))
                 }
             }
-            RadioButton(ID: .mode2, self.$mode, isDisabled: true) {
+            RadioButton(ID: .mode2, self.$mode) {
                 VStack(alignment: .leading, spacing: 5) {
                     Text("Item 3")
                     Text("disabled").font(.system(size: 10))
                 }
-            }
+            }.disabled(true)
         }.padding(20)
     }
 

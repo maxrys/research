@@ -26,12 +26,12 @@ struct RadioButton_UInt: View {
                     Text("some description 3").font(.system(size: 10))
                 }
             }
-            RadioButton(ID: Self.DEMO_ID_2, self.$selected, isDisabled: true) {
+            RadioButton(ID: Self.DEMO_ID_2, self.$selected) {
                 VStack(alignment: .leading, spacing: 5) {
                     Text("Item 3")
                     Text("disabled").font(.system(size: 10))
                 }
-            }
+            }.disabled(true)
         }.padding(20)
     }
 
