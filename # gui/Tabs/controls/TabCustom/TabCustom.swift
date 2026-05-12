@@ -11,9 +11,17 @@ struct TabCustom: View {
 
     @State private var selected: Int = 0
 
+    private let padding    : EdgeInsets
+    private let itemPadding: EdgeInsets
     private let contents: [any TabCustom_Item_Protocol]
 
-    init(@ViewBuilderArray<TabCustom_Item_Protocol> content: () -> [any TabCustom_Item_Protocol]) {
+    init(
+        padding    : EdgeInsets = .init(top: 20, leading: 20, bottom: 20, trailing: 20),
+        itemPadding: EdgeInsets = .init(top: 10, leading: 12, bottom: 10, trailing: 12),
+        @ViewBuilderArray<TabCustom_Item_Protocol> content: () -> [any TabCustom_Item_Protocol]
+    ) {
+        self.padding = padding
+        self.itemPadding = itemPadding
         self.contents = content()
     }
 
@@ -36,17 +44,18 @@ struct TabCustom: View {
                             title: tabItem.title,
                             icon: tabItem.icon,
                             index: index,
+                            padding: self.itemPadding,
                             isSelected: self.selected == index) { index in
                                 self.selected = index
                             }
                     }
                 }
             }
-            .padding(10)
+            .padding(self.padding)
             .frame(maxWidth: .infinity)
             .background(self.colorHeadBackground)
             .overlay(alignment: .bottom) {
-                self.ShadowView()
+                self.ShadowView().offset(y: 5)
             }
 
             /* MARK: Tab Body */
@@ -65,14 +74,14 @@ struct TabCustom: View {
             .fill(
                 LinearGradient(
                     colors: [
-                        Color.clear,
                         self.colorScheme == .dark ?
-                            .black.opacity(0.5) :
-                            .black.opacity(0.2) ],
+                            .black.opacity(0.7) :
+                            .black.opacity(0.2),
+                        Color.clear],
                     startPoint: .top,
                     endPoint: .bottom
                 )
-            ).frame(height: 8)
+            ).frame(height: 5)
     }
 
 }
@@ -86,6 +95,7 @@ fileprivate struct TabCustom_HeadTitle: View {
     fileprivate let title: String
     fileprivate let icon: Image?
     fileprivate let index: Int
+    fileprivate let padding: EdgeInsets
     fileprivate let isSelected: Bool
     fileprivate let onClick: (Int) -> Void
 
@@ -127,8 +137,7 @@ fileprivate struct TabCustom_HeadTitle: View {
                         .fixedSize(horizontal: true, vertical: false)
                 }
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical  , 10)
+            .padding(self.padding)
             .foregroundStyle(self.colorForeground)
             .background {
                 RoundedRectangle(cornerRadius: 10)
@@ -160,5 +169,5 @@ fileprivate struct TabCustom_HeadTitle: View {
         TabCustom_Item(title: NSLocalizedString("Title 1", comment: ""), icon: Image(systemName: "1.square")) { Text("Tab 1 Content").padding(20) }
         TabCustom_Item(title: NSLocalizedString("Title 2", comment: ""), icon: Image(systemName: "2.square")) { Text("Tab 2 Content").padding(20) }; TabCustom_Spacer()
         TabCustom_Item(title: NSLocalizedString("Title 3", comment: ""), icon: Image(systemName: "3.square")) { Text("Tab 3 Content").padding(20) }
-    }.frame(maxWidth: 350)
+    }.frame(maxWidth: 400)
 }
