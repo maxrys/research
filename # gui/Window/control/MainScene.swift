@@ -8,33 +8,33 @@ import SwiftUI
 struct MainScene: View {
 
     public let frame: CGRect
-    public let onManualChangeFrame: (CGRect) -> Void
+    public let onFrameManualChange: (CGRect) -> Void
 
     var body: some View {
         VStack {
 
             HStack {
                 Text("x").font(.headline)
-                Button("←") { var newFrame = self.frame; newFrame.x -= 10; self.onManualChangeFrame(newFrame) }
-                Button("→") { var newFrame = self.frame; newFrame.x += 10; self.onManualChangeFrame(newFrame) }
+                Button("←") { var newFrame = self.frame; newFrame.x -= 100; self.onFrameManualChange(newFrame) }
+                Button("→") { var newFrame = self.frame; newFrame.x += 100; self.onFrameManualChange(newFrame) }
             }
 
             HStack {
                 Text("y").font(.headline)
-                Button("↓") { var newFrame = self.frame; newFrame.y -= 10; self.onManualChangeFrame(newFrame) }
-                Button("↑") { var newFrame = self.frame; newFrame.y += 10; self.onManualChangeFrame(newFrame) }
+                Button("↓") { var newFrame = self.frame; newFrame.y -= 100; self.onFrameManualChange(newFrame) }
+                Button("↑") { var newFrame = self.frame; newFrame.y += 100; self.onFrameManualChange(newFrame) }
             }
 
             HStack {
                 Text("w").font(.headline)
-                Button("←") { var newFrame = self.frame; newFrame.w -= 10; self.onManualChangeFrame(newFrame) }
-                Button("→") { var newFrame = self.frame; newFrame.w += 10; self.onManualChangeFrame(newFrame) }
+                Button("←") { var newFrame = self.frame; newFrame.w -= 100; self.onFrameManualChange(newFrame) }
+                Button("→") { var newFrame = self.frame; newFrame.w += 100; self.onFrameManualChange(newFrame) }
             }
 
             HStack {
                 Text("h").font(.headline)
-                Button("↓") { var newFrame = self.frame; newFrame.h -= 10; self.onManualChangeFrame(newFrame) }
-                Button("↑") { var newFrame = self.frame; newFrame.h += 10; self.onManualChangeFrame(newFrame) }
+                Button("↓") { var newFrame = self.frame; newFrame.h -= 100; self.onFrameManualChange(newFrame) }
+                Button("↑") { var newFrame = self.frame; newFrame.h += 100; self.onFrameManualChange(newFrame) }
             }
 
             Text("X = \(self.frame.x) : Y = \(self.frame.y)")

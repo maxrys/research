@@ -10,23 +10,31 @@ import SwiftUI
 
     static let WINDOW_MAIN_ID = "main"
 
+    @AppStorage("frameEncoded") private var frameStored: String = ""
     @ObservedObject private var frame = ValueState<CGRect>(.zero)
 
     var body: some Scene {
         Window("Main Window", id: "main") {
             MainScene(
-                frame: self.frame.value,
-                onManualChangeFrame: self.onManualChangeFrame
+                frame              : self.frame.value,
+                onFrameManualChange: self.onFrameManualChange
             )
+            .onAppear {
+                if let window = NSWindow.get(ThisApp.WINDOW_MAIN_ID) {
+                    if let storedFrame = CGRect(encoded: self.frameStored) {
+                        window.setFrame(storedFrame, display: true, animate: true)
+                    }
+                }
+            }
         }
-     // .windowResizability(.contentSize)
         .restorationBehavior(.disabled)
         .onChange(of: self.frame.value) { _, newValue in
-            Logger.customLog("Frame change: x = \(self.frame.value.x) | y = \(self.frame.value.y) | w = \(self.frame.value.w) | h = \(self.frame.value.h)")
+            Logger.customLog("Frame change: \(self.frame.value.encode)")
+            self.frameStored = newValue.encode
         }
     }
 
-    func onManualChangeFrame(newFrame: CGRect) {
+    func onFrameManualChange(newFrame: CGRect) {
         self.frame.value = newFrame
         if let window = NSWindow.get(ThisApp.WINDOW_MAIN_ID) {
             window.setFrame(newFrame, display: true, animate: true)
