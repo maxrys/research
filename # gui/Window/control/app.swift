@@ -6,10 +6,17 @@
 import os
 import SwiftUI
 
+final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        false
+    }
+}
+
 @main struct ThisApp: App {
 
     static let WINDOW_MAIN_ID = "main"
 
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @AppStorage("frameEncoded") private var frameStored: String = ""
     @ObservedObject private var frame = ValueState<CGRect>(.zero)
 
@@ -22,14 +29,17 @@ import SwiftUI
             .onAppear {
                 if let window = NSWindow.get(ThisApp.WINDOW_MAIN_ID) {
                     if let storedFrame = CGRect(encoded: self.frameStored) {
-                        Task {
-                            window.setFrame(storedFrame, display: true, animate: false)
+                        if (window.frame != storedFrame) {
+                            Task { @MainActor in
+                                window.setFrame(storedFrame, display: true, animate: true)
+                                Logger.customLog("Frame restore")
+                            }
                         }
                     }
                 }
             }
         }
-        .restorationBehavior(.disabled)
+     // .restorationBehavior(.disabled)
         .onChange(of: self.frame.value) { _, newValue in
             Logger.customLog("Frame change: \(self.frame.value.encode)")
             self.frameStored = newValue.encode
