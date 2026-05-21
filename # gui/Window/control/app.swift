@@ -22,7 +22,9 @@ import SwiftUI
             .onAppear {
                 if let window = NSWindow.get(ThisApp.WINDOW_MAIN_ID) {
                     if let storedFrame = CGRect(encoded: self.frameStored) {
-                        window.setFrame(storedFrame, display: true, animate: true)
+                        Task {
+                            window.setFrame(storedFrame, display: true, animate: false)
+                        }
                     }
                 }
             }
@@ -41,11 +43,13 @@ import SwiftUI
         }
     }
 
+    func onFrameChange(newFrame: CGRect) {
+        self.frame.value = newFrame
+    }
+
     init() {
-        NSWindow.onChangeRect(Self.WINDOW_MAIN_ID) { [weak frame] window in
-            Task { @MainActor in
-                frame?.value = window.frame
-            }
+        NSWindow.onChangeRect(Self.WINDOW_MAIN_ID) { [self] window in
+            self.onFrameChange(newFrame: window.frame)
         }
     }
 

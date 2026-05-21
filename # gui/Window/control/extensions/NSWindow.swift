@@ -53,13 +53,13 @@ extension NSWindow {
         self.identifier?.rawValue
     }
 
-    static private var cancellableBag: [
+    static private var onChangeCancellableBag: [
         String: AnyCancellable
     ] = [:]
 
     static func onChangeRect(_ ID: String, _ action: @escaping (NSWindow) -> Void) {
-        Self.cancellableBag[ID]?.cancel()
-        Self.cancellableBag[ID] = NotificationCenter.default.publisher(for: NSWindow.didResizeNotification)
+        Self.onChangeCancellableBag[ID]?.cancel()
+        Self.onChangeCancellableBag[ID] = NotificationCenter.default.publisher(for: NSWindow.didResizeNotification)
             .merge(with: NotificationCenter.default.publisher(for: NSWindow.didMoveNotification))
             .compactMap { notification in notification.object as? NSWindow }
             .filter { window in window.ID == ID }
@@ -71,8 +71,8 @@ extension NSWindow {
     }
 
     static func removeOnChangeRect(_ ID: String) {
-        Self.cancellableBag[ID]?.cancel()
-        Self.cancellableBag[ID] = nil
+        Self.onChangeCancellableBag[ID]?.cancel()
+        Self.onChangeCancellableBag[ID] = nil
     }
 
 }
