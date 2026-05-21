@@ -10,6 +10,8 @@
 		505507192FBEFBC3007DB93D /* NSWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505507182FBEFBB9007DB93D /* NSWindow.swift */; };
 		5055071B2FBEFBD4007DB93D /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5055071A2FBEFBD4007DB93D /* Timer.swift */; };
 		5055071D2FBF0184007DB93D /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5055071C2FBF0184007DB93D /* View.swift */; };
+		505507212FBF1595007DB93D /* ValueState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505507202FBF1595007DB93D /* ValueState.swift */; };
+		505507232FBF1822007DB93D /* CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505507222FBF1822007DB93D /* CGRect.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
 		50C06B292F263933008EE619 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C06B282F263933008EE619 /* MainScene.swift */; };
 /* End PBXBuildFile section */
@@ -18,6 +20,8 @@
 		505507182FBEFBB9007DB93D /* NSWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSWindow.swift; sourceTree = "<group>"; };
 		5055071A2FBEFBD4007DB93D /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		5055071C2FBF0184007DB93D /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		505507202FBF1595007DB93D /* ValueState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueState.swift; sourceTree = "<group>"; };
+		505507222FBF1822007DB93D /* CGRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRect.swift; sourceTree = "<group>"; };
 		50993B682D33C4C900195667 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
@@ -38,8 +42,10 @@
 		505507172FBEFBAA007DB93D /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				505507222FBF1822007DB93D /* CGRect.swift */,
 				505507182FBEFBB9007DB93D /* NSWindow.swift */,
 				5055071A2FBEFBD4007DB93D /* Timer.swift */,
+				505507202FBF1595007DB93D /* ValueState.swift */,
 				5055071C2FBF0184007DB93D /* View.swift */,
 			);
 			path = extensions;
@@ -140,6 +146,8 @@
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				50C06B292F263933008EE619 /* MainScene.swift in Sources */,
 				5055071D2FBF0184007DB93D /* View.swift in Sources */,
+				505507232FBF1822007DB93D /* CGRect.swift in Sources */,
+				505507212FBF1595007DB93D /* ValueState.swift in Sources */,
 				505507192FBEFBC3007DB93D /* NSWindow.swift in Sources */,
 				5055071B2FBEFBD4007DB93D /* Timer.swift in Sources */,
 			);

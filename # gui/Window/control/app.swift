@@ -7,14 +7,28 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
-    var body: some Scene {
+    static let WINDOW_MAIN_ID = "main"
 
+    @ObservedObject private var frame = ValueState<CGRect>(.zero)
+
+    var body: some Scene {
         Window("Main Window", id: "main") {
-            MainScene()
+            MainScene(self.$frame.value)
         }
      // .windowResizability(.contentSize)
         .restorationBehavior(.disabled)
+        .onChange(of: self.frame.value) { _, newValue in
+            // save to database
+            dump(self.frame.value)
+        }
+    }
 
+    init() {
+        NSWindow.onChangeRect(Self.WINDOW_MAIN_ID) { [weak frame] window in
+            Task { @MainActor in
+                frame?.value = window.frame
+            }
+        }
     }
 
 }

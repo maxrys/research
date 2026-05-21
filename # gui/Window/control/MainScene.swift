@@ -7,39 +7,43 @@ import SwiftUI
 
 struct MainScene: View {
 
-    static let WINDOW_MAIN_ID = "main"
+    @Binding private var frame: CGRect
 
-    @State private var frame: CGRect = .zero
+    init(_ frame: Binding<CGRect>) {
+        self._frame = frame
+    }
 
     var body: some View {
         VStack {
-            Button("←") { /* if let window = NSWindow.get(Self.WINDOW_MAIN_ID) {} */ }
-            Button("→") { /* if let window = NSWindow.get(Self.WINDOW_MAIN_ID) {} */ }
-            Button("↑") { /* if let window = NSWindow.get(Self.WINDOW_MAIN_ID) {} */ }
-            Button("↓") { /* if let window = NSWindow.get(Self.WINDOW_MAIN_ID) {} */ }
-            Text("X = \(self.frame.minX ) : Y = \(self.frame.minY  )")
-            Text("W = \(self.frame.width) : H = \(self.frame.height)")
-        }
-        .padding(40)
-        .onWinResize { window in
-            self.frame = window.frame
-        }
-        .onWinMove { window in
-            self.frame = window.frame
-        }
-        .onAppear {
-            if let window = NSWindow.get(Self.WINDOW_MAIN_ID) {
-                self.frame = window.frame
-            }
-        }
-        .onChange(of: frame) { _, newValue in
-        }
-    }
 
-    init() {
-        NSWindow.onChangeRect(Self.WINDOW_MAIN_ID) { window in
-            dump(window.frame)
-        }
+            HStack {
+                Text("x").font(.headline)
+                Button("←") { self.frame.x -= 10 }
+                Button("→") { self.frame.x += 10 }
+            }
+
+            HStack {
+                Text("y").font(.headline)
+                Button("↑") { self.frame.y -= 10 }
+                Button("↓") { self.frame.y += 10 }
+            }
+
+            HStack {
+                Text("w").font(.headline)
+                Button("←") { self.frame.w -= 10 }
+                Button("→") { self.frame.w += 10 }
+            }
+
+            HStack {
+                Text("h").font(.headline)
+                Button("↑") { self.frame.h -= 10 }
+                Button("↓") { self.frame.h += 10 }
+            }
+
+            Text("X = \(self.frame.x) : Y = \(self.frame.y)")
+            Text("W = \(self.frame.w) : H = \(self.frame.h)")
+
+        }.padding(40)
     }
 
 }
