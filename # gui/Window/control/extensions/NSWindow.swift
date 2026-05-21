@@ -53,17 +53,6 @@ extension NSWindow {
         self.identifier?.rawValue
     }
 
-    var sizeAtTop: CGSize {
-        get { self.frame.size }
-        set {
-            var frame = self.frame
-            let originalTopY = frame.origin.y + frame.size.height
-            frame.size = NSSize(width: newValue.width, height: newValue.height)
-            frame.origin.y = originalTopY - frame.size.height
-            self.setFrame(frame, display: true, animate: true)
-        }
-    }
-
     static private var cancellableBag: [
         String: AnyCancellable
     ] = [:]
