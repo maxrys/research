@@ -13,8 +13,8 @@ extension CGRect {
         self.init(x: x, y: y, width: w, height: h)
     }
 
-    init?(encoded string: String) {
-        let parts = string.split(separator: Self.ENCODING_SEPARATOR)
+    init?(decode from: String) {
+        let parts = from.split(separator: Self.ENCODING_SEPARATOR)
         guard parts.count == 4,
               let x = Double(parts[0]),
               let y = Double(parts[1]),
@@ -28,7 +28,7 @@ extension CGRect {
     var w: Double { get { self.width  } set { self = Self(x: self.x  , y: self.y  , width: newValue, height: self.h  ) } }
     var h: Double { get { self.height } set { self = Self(x: self.x  , y: self.y  , width: self.w  , height: newValue) } }
 
-    var encode: String {
+    public func encode() -> String {
         "\(self.x)" + Self.ENCODING_SEPARATOR +
         "\(self.y)" + Self.ENCODING_SEPARATOR +
         "\(self.w)" + Self.ENCODING_SEPARATOR +

@@ -32,7 +32,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             .onAppear {
                 Logger.customLog("MainScene.onAppear()")
                 if let window = NSWindow.get(ThisApp.WINDOW_MAIN_ID) {
-                    if let storedFrame = CGRect(encoded: self.frameStored) {
+                    if let storedFrame = CGRect(decode: self.frameStored) {
                         if (window.frame != storedFrame) {
                             Task { @MainActor in
                                 window.setFrame(storedFrame, display: true, animate: true)
@@ -45,8 +45,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         }
      // .restorationBehavior(.disabled)
         .onChange(of: self.frame.value) { _, newValue in
-            Logger.customLog("Frame change: \(self.frame.value.encode)")
-            self.frameStored = newValue.encode
+            Logger.customLog("Frame change: \(self.frame.value.encode())")
+            self.frameStored = newValue.encode()
         }
     }
 
