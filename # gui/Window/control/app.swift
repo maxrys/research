@@ -7,9 +7,12 @@ import os
 import SwiftUI
 
 final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
-    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        false
+
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        Logger.customLog("AppDelegate.applicationDidFinishLaunching()")
     }
+
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
 }
 
 @main struct ThisApp: App {
@@ -27,6 +30,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
                 onFrameManualChange: self.onFrameManualChange
             )
             .onAppear {
+                Logger.customLog("MainScene.onAppear()")
                 if let window = NSWindow.get(ThisApp.WINDOW_MAIN_ID) {
                     if let storedFrame = CGRect(encoded: self.frameStored) {
                         if (window.frame != storedFrame) {
@@ -58,6 +62,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
 
     init() {
+        Logger.customLog("App.init()")
         NSWindow.onChangeRect(Self.WINDOW_MAIN_ID) { [self] window in
             self.onFrameChange(newFrame: window.frame)
         }
