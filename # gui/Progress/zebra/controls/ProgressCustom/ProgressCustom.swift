@@ -87,7 +87,7 @@ struct ProgressCustom: View {
         let formattedValue = Int(value * 100)
         Text("\(formattedValue) %")
             .font(self.valueFont)
-            .foregroundStyle(.blue)
+            .foregroundStyle(Color.accentColor)
             .blendMode(.difference)
     }
 
