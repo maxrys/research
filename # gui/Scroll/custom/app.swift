@@ -7,21 +7,29 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
+    static let GRID_COLS = 5
+    static let GRID_ROWS = 10
+
     @StateObject private var scrollController = ScrollController()
 
     var body: some Scene {
         Window("Main", id: "main") {
 
             ScrollCustom(controller: self.scrollController) {
-                VStack (spacing: 0) {
-                    ForEach(0 ..< 200) { i in
-                        Text("Cell \(i)")
-                            .frame(height: 100)
-                            .frame(maxWidth: .infinity)
-                            .background(
-                                i % 2 == 0 ? .gray : .white
-                            )
-                    }
+
+                Grid(alignment: .center, horizontalSpacing: 0, verticalSpacing: 0) {
+                    ForEach(0 ..< ThisApp.GRID_ROWS, id: \.self) { rowNum in GridRow {
+                    ForEach(0 ..< ThisApp.GRID_COLS, id: \.self) { colNum in
+                        let isDarkCell =
+                            (rowNum % 2 == 0 && colNum % 2 != 0) ||
+                            (rowNum % 2 != 0 && colNum % 2 == 0)
+                        Rectangle()
+                            .fill(isDarkCell ? .gray : .white)
+                            .frame(width: 100, height: 100)
+                            .overlay {
+                                Text("\(rowNum):\(colNum)")
+                            }
+                    }}}
                 }
             } onScroll: { point in
                 print("\(point.x) : \(point.y)")
