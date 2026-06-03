@@ -8,18 +8,17 @@ import SwiftUI
 @main struct ThisApp: App {
 
     static let GRID_COLS = 20
-    static let GRID_ROWS = 20
+    static let GRID_ROWS = 60
+    static let CELL_SIZE: CGFloat = 100
 
     @StateObject private var scrollController = ScrollController()
 
-    @State private var scrollPosition: CGPoint = .zero
+    @State private var scrollCurrent: CGPoint = .zero
 
-    let cellSize: CGFloat = 100
-
-    var nearest: CGPoint {
+    var scrollNearest: CGPoint {
         CGPoint(
-            x: (self.scrollPosition.x / self.cellSize).rounded() * self.cellSize,
-            y: (self.scrollPosition.y / self.cellSize).rounded() * self.cellSize
+            x: (self.scrollCurrent.x / Self.CELL_SIZE).rounded() * Self.CELL_SIZE,
+            y: (self.scrollCurrent.y / Self.CELL_SIZE).rounded() * Self.CELL_SIZE
         )
     }
 
@@ -36,38 +35,41 @@ import SwiftUI
                             (rowNum % 2 != 0 && colNum % 2 == 0)
                         Rectangle()
                             .fill(isDarkCell ? .gray : .white)
-                            .frame(width: self.cellSize, height: self.cellSize)
+                            .frame(width: Self.CELL_SIZE, height: Self.CELL_SIZE)
                             .overlay {
                                 Text("\(rowNum):\(colNum)")
                             }
                     }}}
                 }
-            } onScroll: { position in self.scrollPosition = position }
+            } onScroll: { position in self.scrollCurrent = position }
             .frame(minWidth: 100, minHeight: 100)
             .overlay(alignment: .bottom) {
-                VStack (spacing: 10) {
-                    Text("current: \(self.scrollPosition.x) : \(self.scrollPosition.y)")
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(Color.accentColor)
-                        .foregroundStyle(.white)
-                        .clipShape(Capsule())
-                    Text("nearest: \(self.nearest.x) : \(self.nearest.y)")
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(.green)
-                        .foregroundStyle(.white)
-                        .clipShape(Capsule())
-                    Button("scroll to nearest") {
-                        self.scrollController.scroll(
-                            to: CGPoint(x: self.nearest.x, y: self.nearest.y),
-                            animated: true
-                        )
-                    }
-                }.offset(y: -10)
+                self.InfoPanel()
+                    .offset(y: -10)
             }
 
         }.windowResizability(.contentSize)
+    }
+
+    @ViewBuilder func InfoPanel() -> some View {
+        VStack (spacing: 10) {
+            let currentX = Double(self.scrollCurrent.x).formatted(.number.precision(.fractionLength(1)))
+            let currentY = Double(self.scrollCurrent.y).formatted(.number.precision(.fractionLength(1)))
+            let nearestX = Double(self.scrollNearest.x).formatted(.number.precision(.fractionLength(1)))
+            let nearestY = Double(self.scrollNearest.y).formatted(.number.precision(.fractionLength(1)))
+            Text("current: \(currentX) : \(currentY)")
+            Text("nearest: \(nearestX) : \(nearestY)")
+            Button("scroll to nearest") {
+                self.scrollController.scroll(
+                    to: CGPoint(x: self.scrollNearest.x, y: self.scrollNearest.y),
+                    animated: true
+                )
+            }
+        }
+        .padding(10)
+        .foregroundStyle(.white)
+        .background(Color.accentColor)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 
 }
