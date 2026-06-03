@@ -7,8 +7,8 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
-    static let GRID_COLS = 5
-    static let GRID_ROWS = 10
+    static let GRID_COLS = 20
+    static let GRID_ROWS = 20
 
     @StateObject private var scrollController = ScrollController()
 
@@ -34,7 +34,6 @@ import SwiftUI
             } onScroll: { point in
                 print("\(point.x) : \(point.y)")
             }
-            .frame(width: 600, height: 600)
             .overlay(alignment: .topLeading) {
                 Button("scroll") {
                     self.scrollController.scroll(

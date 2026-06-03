@@ -34,13 +34,6 @@ struct ScrollCustom<Content: View>: NSViewRepresentable {
 
         scrollView.documentView = hosting
 
-        NSLayoutConstraint.activate([
-            hosting.leadingAnchor .constraint(equalTo: scrollView.contentView.leadingAnchor),
-            hosting.trailingAnchor.constraint(equalTo: scrollView.contentView.trailingAnchor),
-            hosting.topAnchor     .constraint(equalTo: scrollView.contentView.topAnchor),
-            hosting.widthAnchor   .constraint(equalTo: scrollView.contentView.widthAnchor)
-        ])
-
         context.coordinator.observe(
             scrollView: scrollView
         )
@@ -116,14 +109,15 @@ class ScrollCoordinator: NSObject {
                 sv.contentView.animator().setBoundsOrigin(NSPoint(x: point.x, y: point.y))
                 sv.reflectScrolledClipView(sv.contentView)
             } completionHandler: {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                Task {
+                    try? await Task.sleep(nanoseconds: 50_000_000)
                     self.programmatic = false
                 }
             }
         } else {
             sv.contentView.setBoundsOrigin(NSPoint(x: point.x, y: point.y))
             sv.reflectScrolledClipView(sv.contentView)
-            DispatchQueue.main.async {
+            Task { @MainActor in
                 self.programmatic = false
             }
         }
