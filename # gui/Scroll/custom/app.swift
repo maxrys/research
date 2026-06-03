@@ -12,6 +12,17 @@ import SwiftUI
 
     @StateObject private var scrollController = ScrollController()
 
+    @State private var scrollPosition: CGPoint = .zero
+
+    let cellSize: CGFloat = 100
+
+    var nearest: CGPoint {
+        CGPoint(
+            x: (self.scrollPosition.x / self.cellSize).rounded() * self.cellSize,
+            y: (self.scrollPosition.y / self.cellSize).rounded() * self.cellSize
+        )
+    }
+
     var body: some Scene {
         Window("Main", id: "main") {
 
@@ -25,22 +36,35 @@ import SwiftUI
                             (rowNum % 2 != 0 && colNum % 2 == 0)
                         Rectangle()
                             .fill(isDarkCell ? .gray : .white)
-                            .frame(width: 100, height: 100)
+                            .frame(width: self.cellSize, height: self.cellSize)
                             .overlay {
                                 Text("\(rowNum):\(colNum)")
                             }
                     }}}
                 }
-            } onScroll: { point in
-                print("\(point.x) : \(point.y)")
-            }
-            .overlay(alignment: .topLeading) {
-                Button("scroll") {
-                    self.scrollController.scroll(
-                        to: CGPoint(x: 0, y: 100),
-                        animated: true
-                    )
-                }.offset(x: 10, y: 10)
+            } onScroll: { position in self.scrollPosition = position }
+            .frame(minWidth: 100, minHeight: 100)
+            .overlay(alignment: .bottom) {
+                VStack (spacing: 10) {
+                    Text("current: \(self.scrollPosition.x) : \(self.scrollPosition.y)")
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                        .background(Color.accentColor)
+                        .foregroundStyle(.white)
+                        .clipShape(Capsule())
+                    Text("nearest: \(self.nearest.x) : \(self.nearest.y)")
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                        .background(.green)
+                        .foregroundStyle(.white)
+                        .clipShape(Capsule())
+                    Button("scroll to nearest") {
+                        self.scrollController.scroll(
+                            to: CGPoint(x: self.nearest.x, y: self.nearest.y),
+                            animated: true
+                        )
+                    }
+                }.offset(y: -10)
             }
 
         }.windowResizability(.contentSize)
