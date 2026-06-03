@@ -13,12 +13,13 @@ import SwiftUI
 
     @StateObject private var scrollController = ScrollController()
 
-    @State private var scrollCurrent: CGPoint = .zero
+    @State private var scrollPositionCurrent: CGPoint = .zero
+    @State private var scrollSpeed: Double = 0
 
-    var scrollNearest: CGPoint {
+    var scrollPositionNearest: CGPoint {
         CGPoint(
-            x: (self.scrollCurrent.x / Self.CELL_SIZE).rounded() * Self.CELL_SIZE,
-            y: (self.scrollCurrent.y / Self.CELL_SIZE).rounded() * Self.CELL_SIZE
+            x: (self.scrollPositionCurrent.x / Self.CELL_SIZE).rounded() * Self.CELL_SIZE,
+            y: (self.scrollPositionCurrent.y / Self.CELL_SIZE).rounded() * Self.CELL_SIZE
         )
     }
 
@@ -41,9 +42,10 @@ import SwiftUI
                             }
                     }}}
                 }
-            } onScroll: { position in
-                self.scrollCurrent = position
-                print("\(position.x) : \(position.y)")
+            } onScroll: { position, speed in
+                self.scrollPositionCurrent = position
+                self.scrollSpeed   = speed
+                print("\(position.x) : \(position.y) | \(speed)")
             }
             .frame(minWidth: 100, minHeight: 100)
             .overlay(alignment: .bottom) {
@@ -56,15 +58,16 @@ import SwiftUI
 
     @ViewBuilder func InfoPanel() -> some View {
         VStack (spacing: 10) {
-            let currentX = Double(self.scrollCurrent.x).formatted(.number.precision(.fractionLength(1)))
-            let currentY = Double(self.scrollCurrent.y).formatted(.number.precision(.fractionLength(1)))
-            let nearestX = Double(self.scrollNearest.x).formatted(.number.precision(.fractionLength(1)))
-            let nearestY = Double(self.scrollNearest.y).formatted(.number.precision(.fractionLength(1)))
+            let currentX = Double(self.scrollPositionCurrent.x).formatted(.number.precision(.fractionLength(1)))
+            let currentY = Double(self.scrollPositionCurrent.y).formatted(.number.precision(.fractionLength(1)))
+            let nearestX = Double(self.scrollPositionNearest.x).formatted(.number.precision(.fractionLength(1)))
+            let nearestY = Double(self.scrollPositionNearest.y).formatted(.number.precision(.fractionLength(1)))
             Text("current: \(currentX) : \(currentY)")
             Text("nearest: \(nearestX) : \(nearestY)")
+            Text("speed: \(self.scrollSpeed)")
             Button("scroll to nearest") {
                 self.scrollController.scroll(
-                    to: CGPoint(x: self.scrollNearest.x, y: self.scrollNearest.y),
+                    to: CGPoint(x: self.scrollPositionNearest.x, y: self.scrollPositionNearest.y),
                     animated: true
                 )
             }
