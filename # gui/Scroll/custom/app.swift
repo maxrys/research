@@ -41,7 +41,10 @@ import SwiftUI
                             }
                     }}}
                 }
-            } onScroll: { position in self.scrollCurrent = position }
+            } onScroll: { position in
+                self.scrollCurrent = position
+                print("\(position.x) : \(position.y)")
+            }
             .frame(minWidth: 100, minHeight: 100)
             .overlay(alignment: .bottom) {
                 self.InfoPanel()
