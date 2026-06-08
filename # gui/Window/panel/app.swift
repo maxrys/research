@@ -7,12 +7,20 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
-    var body: some Scene {
-        Window("Main Window", id: "main") {
-            MainScene()
+    static let WINDOW_MAIN_ID = "main"
+
+    @State private var windowMainFrame = ValueState<CGRect>(.zero)
+
+    init() {
+        NSWindow.onChangeRect(ThisApp.WINDOW_MAIN_ID) { [self] window in
+            self.windowMainFrame.value = window.frame
         }
-        .windowResizability(.automatic)
-        .restorationBehavior(.disabled)
+    }
+
+    var body: some Scene {
+        Window("Main Window", id: Self.WINDOW_MAIN_ID) { MainScene(windowMainFrame: self.$windowMainFrame.value) }
+            .windowResizability(.automatic)
+            .restorationBehavior(.disabled)
     }
 
 }

@@ -6,15 +6,15 @@
 import SwiftUI
 
 struct ViewFramePreferenceKey: @MainActor PreferenceKey {
-    @MainActor static var defaultValue: NSRect = .zero
-    static func reduce(value: inout NSRect, nextValue: () -> NSRect) {
+    @MainActor static var defaultValue: CGRect = .zero
+    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
         value = nextValue()
     }
 }
 
 extension View {
 
-    func trackFrameOnScreen(onChange: @escaping (NSRect) -> Void) -> some View {
+    func trackFrameOnScreen(onChange: @escaping (CGRect) -> Void) -> some View {
         self.background(
             GeometryReader { geometry in
                 Color.clear

@@ -7,27 +7,34 @@ import SwiftUI
 
 struct MainScene: View {
 
-    static let PANEL_ID = "main"
+    static let PANEL_ID = "panelMain"
 
-    @State private var panelAnchorFrame: NSRect = .zero
+    @Binding private var windowMainFrame: CGRect
+    @State private var panelAnchorFrame: CGRect = .zero
+
+    init(windowMainFrame: Binding<CGRect>) {
+        self._windowMainFrame = windowMainFrame
+    }
 
     var body: some View {
         Button("show panel") {
-            _ = NSPanel.makeNewOrShowExisting(ID: Self.PANEL_ID) {
+            _ = NSPanel.makeNewOrShowExistingPanel(ID: Self.PANEL_ID) {
                 self.PanelContent()
             }
         }
         self.PanelAnchor()
-            .trackFrameOnScreen { frame in
-                self.panelAnchorFrame = frame
-                self.updatePanelPosition()
-            }
+            .trackFrameOnScreen { frame in self.panelAnchorFrame = frame }
+            .onChange(of: self.windowMainFrame ) { _, _ in self.updatePanelPosition() }
+            .onChange(of: self.panelAnchorFrame) { _, _ in self.updatePanelPosition() }
     }
 
     func updatePanelPosition() {
         if let panel = NSPanel.get(Self.PANEL_ID) {
             panel.setFrame(
-                NSRect(origin: self.panelAnchorFrame.origin, size: panel.frame.size),
+                CGRect(origin: CGPoint(
+                    x: self.windowMainFrame.x + self.panelAnchorFrame.x,
+                    y: self.windowMainFrame.y + self.panelAnchorFrame.y),
+                    size: panel.frame.size),
                 display: true,
                 animate: false
             )

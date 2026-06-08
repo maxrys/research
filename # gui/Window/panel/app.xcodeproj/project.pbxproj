@@ -11,6 +11,9 @@
 		50C06B292F263933008EE619 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C06B282F263933008EE619 /* MainScene.swift */; };
 		50F04B5D2FD6CCA800AECEEF /* NSPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F04B5C2FD6C0C000AECEEF /* NSPanel.swift */; };
 		50F04B5F2FD6EF1500AECEEF /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F04B5E2FD6EF1500AECEEF /* View.swift */; };
+		50F04B612FD6FE2C00AECEEF /* NSWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F04B602FD6FE2C00AECEEF /* NSWindow.swift */; };
+		50F04B632FD6FE7D00AECEEF /* CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F04B622FD6FE7D00AECEEF /* CGRect.swift */; };
+		50F04B652FD705C900AECEEF /* ValueState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F04B642FD705C900AECEEF /* ValueState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +23,9 @@
 		50C06B282F263933008EE619 /* MainScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
 		50F04B5C2FD6C0C000AECEEF /* NSPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPanel.swift; sourceTree = "<group>"; };
 		50F04B5E2FD6EF1500AECEEF /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		50F04B602FD6FE2C00AECEEF /* NSWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSWindow.swift; sourceTree = "<group>"; };
+		50F04B622FD6FE7D00AECEEF /* CGRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRect.swift; sourceTree = "<group>"; };
+		50F04B642FD705C900AECEEF /* ValueState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +61,10 @@
 		50F04B5B2FD6C08100AECEEF /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				50F04B622FD6FE7D00AECEEF /* CGRect.swift */,
 				50F04B5C2FD6C0C000AECEEF /* NSPanel.swift */,
+				50F04B602FD6FE2C00AECEEF /* NSWindow.swift */,
+				50F04B642FD705C900AECEEF /* ValueState.swift */,
 				50F04B5E2FD6EF1500AECEEF /* View.swift */,
 			);
 			path = extensions;
@@ -91,7 +100,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 2630;
 				TargetAttributes = {
 					50993B672D33C4C900195667 = {
 						CreatedOnToolsVersion = 16.2;
@@ -134,8 +143,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50F04B612FD6FE2C00AECEEF /* NSWindow.swift in Sources */,
+				50F04B632FD6FE7D00AECEEF /* CGRect.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				50F04B5F2FD6EF1500AECEEF /* View.swift in Sources */,
+				50F04B652FD705C900AECEEF /* ValueState.swift in Sources */,
 				50F04B5D2FD6CCA800AECEEF /* NSPanel.swift in Sources */,
 				50C06B292F263933008EE619 /* MainScene.swift in Sources */,
 			);
@@ -178,7 +190,9 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 97CZR6J379;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -202,6 +216,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -241,7 +256,9 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 97CZR6J379;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -258,6 +275,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -272,10 +290,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 97CZR6J379;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -300,10 +320,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 97CZR6J379;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
