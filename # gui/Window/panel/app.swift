@@ -11,7 +11,7 @@ import SwiftUI
         Window("Main Window", id: "main") {
             MainScene()
         }
-        .windowResizability(.contentSize)
+        .windowResizability(.automatic)
         .restorationBehavior(.disabled)
     }
 

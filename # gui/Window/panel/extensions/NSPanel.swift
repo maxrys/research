@@ -19,6 +19,7 @@ extension NSPanel {
     static func makeNewOrShowExisting<Content: View>(
         ID: String,
         styleMask: NSPanel.StyleMask = [.borderless, .nonactivatingPanel],
+        hasShadow: Bool = true,
         isVisible: Bool = true,
         level: NSPanel.Level = .floating,
         size: CGSize = CGSize(width: 1000, height: 1000),
@@ -44,6 +45,7 @@ extension NSPanel {
         panel.identifier = NSUserInterfaceItemIdentifier(ID)
         panel.isOpaque = false
         panel.backgroundColor = .clear
+        panel.hasShadow = hasShadow
         panel.level = level
         panel.contentView = NSHostingView(
             rootView: content()

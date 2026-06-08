@@ -41,9 +41,6 @@ struct StickyScrollView: View {
                                             key: ScrollOffsetKey.self,
                                             value: geometry.frame(in: .global).minY
                                         )
-                                        .onPreferenceChange(ScrollOffsetKey.self) { value in
-                                            print("value: \(value)")
-                                        }
                                 }
                             }
                     } else {
@@ -51,6 +48,9 @@ struct StickyScrollView: View {
                     }
                 }
             }
+        }
+        .onPreferenceChange(ScrollOffsetKey.self) { value in
+            print("value: \(value)")
         }
     }
 
