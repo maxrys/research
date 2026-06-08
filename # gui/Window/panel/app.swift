@@ -18,9 +18,9 @@ import SwiftUI
     }
 
     var body: some Scene {
-        Window("Main Window", id: Self.WINDOW_MAIN_ID) { MainScene(windowMainFrame: self.$windowMainFrame.value) }
-            .windowResizability(.automatic)
-            .restorationBehavior(.disabled)
+        Window("Main Window", id: Self.WINDOW_MAIN_ID) {
+            MainScene(windowMainFrame: self.$windowMainFrame.value)
+        }.windowResizability(.automatic)
     }
 
 }

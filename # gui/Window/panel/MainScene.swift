@@ -18,8 +18,8 @@ struct MainScene: View {
 
     var body: some View {
         Button("show panel") {
-            _ = NSPanel.makeNewOrShowExistingPanel(ID: Self.PANEL_ID) {
-                self.PanelContent()
+            if NSPanel.makeNewOrShowExistingPanel(ID: Self.PANEL_ID, content: { self.PanelContent() }) {
+                self.updatePanelPosition()
             }
         }
         self.PanelAnchor()
