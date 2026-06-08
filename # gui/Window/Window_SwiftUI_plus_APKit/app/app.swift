@@ -11,9 +11,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     static public let MAIN_WINDOW_TITLE = "Main Window"
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        _ = NSWindow.makeAndShowFromSwiftUIView(ID: "id=1", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=1"))
-        _ = NSWindow.makeAndShowFromSwiftUIView(ID: "id=2", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=2"))
-        _ = NSWindow.makeAndShowFromSwiftUIView(ID: "id=3", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=3"))
+        _ = NSWindow.makeNewOrShowExisting(ID: "id=1", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=1"))
+        _ = NSWindow.makeNewOrShowExisting(ID: "id=2", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=2"))
+        _ = NSWindow.makeNewOrShowExisting(ID: "id=3", title: "Child Window", isVisible: false, delegate: self, view: ChildView(windowId: "id=3"))
     }
 
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool { return true }

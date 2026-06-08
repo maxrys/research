@@ -20,7 +20,7 @@ import Cocoa
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        _ = NSWindow.makeAndShowFromSwiftUIView(
+        _ = NSWindow.makeNewOrShowExisting(
             ID: Self.MAIN_WINDOW_ID,
             title: Self.MAIN_WINDOW_TITLE,
             delegate: self,
