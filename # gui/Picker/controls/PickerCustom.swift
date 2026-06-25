@@ -9,16 +9,17 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
 
     typealias ColorSet = Color.PickerColorSet
 
+    @Environment(\.isEnabled) private var isEnabled
     @Binding fileprivate var selectedKey: Key
     @State fileprivate var isOpened = false
 
     fileprivate let items: [Key: String]
-    fileprivate let sortedBy: Dictionary<Key, String>.SortedBy
+    fileprivate let sortedBy: Dictionary<Key, String>.OrderBy
     fileprivate let isPlainListStyle: Bool
     fileprivate let flexibility: Flexibility
     fileprivate let colorSet: ColorSet
     fileprivate let cornerRadius: CGFloat = 10
-    fileprivate let borderWidth: CGFloat = 4
+    fileprivate let borderWidth: CGFloat = 1
 
     fileprivate var keyToIndex: [Key: Int] = [:]
     fileprivate var indexToKey: [Int: Key] = [:]
@@ -27,7 +28,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
     init(
         selected: Binding<Key>,
         items: [Key: String],
-        sortedBy: Dictionary<Key, String>.SortedBy = .keyAsc,
+        sortedBy: Dictionary<Key, String>.OrderBy = .keyAscending,
         isPlainListStyle: Bool = false,
         flexibility: Flexibility = .none,
         colorSet: ColorSet = Color.picker
@@ -38,7 +39,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
         self.isPlainListStyle = isPlainListStyle
         self.flexibility = flexibility
         self.colorSet = colorSet
-        self.itemsSorted = self.items.sortedBy(order: self.sortedBy)
+        self.itemsSorted = self.items.sorted(order: self.sortedBy)
         self.itemsSorted.enumerated().forEach { index, keyValuePair in
             self.keyToIndex[keyValuePair.key] = index
             self.indexToKey[index] = keyValuePair.key
@@ -51,6 +52,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                 .disabled(true)
         } else {
             self.OpenerView()
+                .disabled(!self.isEnabled)
                 .onKeyPressPolyfill(character: KeyEquivalentPolyfill.upArrow  .rawValue) { self.isOpened = true }
                 .onKeyPressPolyfill(character: KeyEquivalentPolyfill.downArrow.rawValue) { self.isOpened = true }
                 .onKeyPressPolyfill(character: KeyEquivalentPolyfill.return   .rawValue) { self.isOpened = true }
@@ -80,7 +82,7 @@ struct PickerCustom<Key>: View where Key: Hashable & Comparable {
                 .contentShape(RoundedRectangle(cornerRadius: self.cornerRadius))
         }
         .buttonStyle(.plain)
-        .pointerStyleLinkPolyfill()
+        .pointerStyleLinkPolyfill(self.isEnabled)
     }
 
 }
@@ -113,12 +115,12 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
                     self.rootView.selectedKey = item.key
                     self.rootView.isOpened = false
                 } label: {
-                    var backgroundColor: Color {
+                    let backgroundColor = {
                         if (self.rootView.selectedKey      == item.key) { return self.rootView.colorSet.itemSelectedBackground }
                         if (self.hoveredKey                == item.key) { return self.rootView.colorSet.itemHoveringBackground }
                         if (self.rootView.isPlainListStyle == false   ) { return self.rootView.colorSet.itemBackground }
                         return Color.clear
-                    }
+                    }()
                     Text(item.value)
                         .lineLimit(1)
                         .padding(.horizontal, 9)
@@ -176,12 +178,12 @@ fileprivate struct PickerCustomPopover<Key>: View where Key: Hashable & Comparab
                         self.rootView.selectedKey = item.key
                         self.rootView.isOpened = false
                     } label: {
-                        var backgroundColor: Color {
+                        let backgroundColor = {
                             if (self.rootView.selectedKey      == item.key) { return self.rootView.colorSet.itemSelectedBackground }
                             if (self.hoveredKey                == item.key) { return self.rootView.colorSet.itemHoveringBackground }
                             if (self.rootView.isPlainListStyle == false   ) { return self.rootView.colorSet.itemBackground }
                             return Color.clear
-                        }
+                        }()
                         Text(item.value)
                             .lineLimit(1)
                             .padding(.horizontal, 9)
@@ -249,112 +251,58 @@ fileprivate func generatePreviewItems_intKey(count: Int) -> [UInt: String] {
     }
 }
 
-fileprivate func generatePreviewItems_strKey(count: Int) -> [String: String] {
-    (1000 ..< 1100).reduce(into: [String: String]()) { result, i in
-        if (i == 1005) { result["ID:\(i)"] = "Value \(i) long long long long long long" }
-        else           { result["ID:\(i)"] = "Value \(i)" }
+struct PickerCustom_Previews1: PreviewProvider {
+    struct ViewWithState: View {
+        @State private var selectedV1: UInt = 0
+        @State private var selectedV2: UInt = 0
+        @State private var selectedV3: UInt = 0
+        public var body: some View {
+            VStack(spacing: 20) {
+
+                VStack {
+                    Text("No value:").font(.headline)
+                    PickerCustom<UInt>(selected: $selectedV1, items: generatePreviewItems_intKey(count: 0), isPlainListStyle: true)
+                    PickerCustom<UInt>(selected: $selectedV1, items: generatePreviewItems_intKey(count: 0))
+                }
+
+                VStack {
+                    Text("Single value:").font(.headline)
+                    PickerCustom<UInt>(selected: $selectedV2, items: generatePreviewItems_intKey(count: 1), isPlainListStyle: true)
+                    PickerCustom<UInt>(selected: $selectedV2, items: generatePreviewItems_intKey(count: 1))
+                }
+
+                VStack {
+                    Text("Multiple values:").font(.headline)
+                    PickerCustom<UInt>(selected: $selectedV3, items: generatePreviewItems_intKey(count: 9), isPlainListStyle: true)
+                    PickerCustom<UInt>(selected: $selectedV3, items: generatePreviewItems_intKey(count: 9))
+                }
+
+            }
+            .padding(20)
+            .frame(width: 200)
+        }
+    }
+    static public var previews: some View {
+        ViewWithState()
     }
 }
 
-fileprivate func generatePreviewItems_forSort() -> [String: String] {[
-    "key1": "Значение Б",
-    "key3": "Значение Я",
-    "key5": "Значение Ё",
-    "key6": "Value A",
-    "key4": "Value Z",
-    "key2": "Value I",
-]}
-
-@available(macOS 14.0, *) #Preview {
-    @Previewable @State var selectedKeyInt: UInt = 0
-    @Previewable @State var selectedKeyString: String = ""
-
-    VStack(spacing: 20) {
-
-        VStack {
-            Text("Items: 0-30, key: int").font(.headline)
-            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count:  0))
-            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count:  5))
-            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 10))
-            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 15))
-            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 20))
-            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 25))
-            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 30))
+struct PickerCustom_Previews2: PreviewProvider {
+    struct ViewWithState: View {
+        @State private var selected: UInt = 0
+        public var body: some View {
+            VStack {
+                Text("Flexibility:").font(.headline)
+                PickerCustom<UInt>(selected: $selected, items: generatePreviewItems_intKey(count: 10))
+                PickerCustom<UInt>(selected: $selected, items: generatePreviewItems_intKey(count: 10), flexibility: .none)
+                PickerCustom<UInt>(selected: $selected, items: generatePreviewItems_intKey(count: 10), flexibility: .size(100))
+                PickerCustom<UInt>(selected: $selected, items: generatePreviewItems_intKey(count: 10), flexibility: .infinity)
+            }
+            .padding(20)
+            .frame(width: 200)
         }
-
-        VStack {
-            Text("Items: 0-30, key: string").font(.headline)
-            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count:  0))
-            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count:  5))
-            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 10))
-            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 15))
-            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 20))
-            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 25))
-            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 30))
-        }
-
     }
-    .frame(minWidth: 250, minHeight: 600)
-    .background(Color.gray)
-}
-
-@available(macOS 14.0, *) #Preview {
-    @Previewable @State var selectedKeyInt: UInt = 0
-    @Previewable @State var selectedKeyString: String = ""
-
-    VStack(spacing: 20) {
-
-        VStack {
-            Text("Items: 0-30, key: int, style: plain").font(.headline)
-            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count:  0), isPlainListStyle: true)
-            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count:  5), isPlainListStyle: true)
-            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 10), isPlainListStyle: true)
-            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 15), isPlainListStyle: true)
-            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 20), isPlainListStyle: true)
-            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 25), isPlainListStyle: true)
-            PickerCustom<UInt>(selected: $selectedKeyInt, items: generatePreviewItems_intKey(count: 30), isPlainListStyle: true)
-        }
-
-        VStack {
-            Text("Items: 0-30, key: string, style: plain").font(.headline)
-            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count:  0), isPlainListStyle: true)
-            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count:  5), isPlainListStyle: true)
-            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 10), isPlainListStyle: true)
-            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 15), isPlainListStyle: true)
-            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 20), isPlainListStyle: true)
-            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 25), isPlainListStyle: true)
-            PickerCustom<String>(selected: $selectedKeyString, items: generatePreviewItems_strKey(count: 30), isPlainListStyle: true)
-        }
-
+    static public var previews: some View {
+        ViewWithState()
     }
-    .frame(minWidth: 250, minHeight: 600)
-    .background(Color.gray)
-}
-
-@available(macOS 14.0, *) #Preview {
-    @Previewable @State var selected: UInt = 0
-    VStack {
-        Text("Flexibility:").font(.headline)
-        PickerCustom<UInt>(selected: $selected, items: generatePreviewItems_intKey(count: 30))
-        PickerCustom<UInt>(selected: $selected, items: generatePreviewItems_intKey(count: 30), flexibility: .none)
-        PickerCustom<UInt>(selected: $selected, items: generatePreviewItems_intKey(count: 30), flexibility: .size(100))
-        PickerCustom<UInt>(selected: $selected, items: generatePreviewItems_intKey(count: 30), flexibility: .infinity)
-    }
-    .padding(20)
-    .frame(width: 200)
-    .background(Color.gray)
-}
-
-@available(macOS 14.0, *) #Preview {
-    @Previewable @State var selected: String = ""
-    VStack {
-        Text("Sort:").font(.headline)
-        PickerCustom<String>(selected: $selected, items: generatePreviewItems_forSort(), sortedBy: .keyAsc)
-        PickerCustom<String>(selected: $selected, items: generatePreviewItems_forSort(), sortedBy: .keyDsc)
-        PickerCustom<String>(selected: $selected, items: generatePreviewItems_forSort(), sortedBy: .valueAsc)
-        PickerCustom<String>(selected: $selected, items: generatePreviewItems_forSort(), sortedBy: .valueDsc)
-    }
-    .padding(20)
-    .frame(width: 200)
-    .background(Color.gray)
 }

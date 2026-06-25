@@ -11,6 +11,7 @@ import SwiftUI
 
     @State var selectedKeyInt: UInt = 0
     @State var selectedKeyString: String = ""
+    @State var selectedForSort: String = ""
 
     func generatePreviewItems_intKey(count: Int) -> [UInt: String] {
         (1000 ..< 1000 + count).reduce(into: [UInt: String]()) { result, i in
@@ -26,6 +27,15 @@ import SwiftUI
         }
     }
 
+    func generatePreviewItems_forSort() -> [String: String] {[
+        "key1": "Значение Б",
+        "key3": "Значение Я",
+        "key5": "Значение Ё",
+        "key6": "Value A",
+        "key4": "Value Z",
+        "key2": "Value I",
+    ]}
+
     var body: some Scene {
         WindowGroup {
             HStack(spacing: 20) {
@@ -34,24 +44,24 @@ import SwiftUI
 
                     VStack {
                         Text("Items: 0-30, key: int").font(.headline)
-                        PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count:  0))
-                        PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count:  5))
-                        PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count: 10))
-                        PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count: 15))
-                        PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count: 20))
-                        PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count: 25))
-                        PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count: 30))
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count:  0))
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count:  5))
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count: 10))
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count: 15))
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count: 20))
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count: 25))
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count: 30))
                     }
 
                     VStack {
                         Text("Items: 0-30, key: string").font(.headline)
-                        PickerCustom<String>(selected: $selectedKeyString, items: self.generatePreviewItems_strKey(count:  0))
-                        PickerCustom<String>(selected: $selectedKeyString, items: self.generatePreviewItems_strKey(count:  5))
-                        PickerCustom<String>(selected: $selectedKeyString, items: self.generatePreviewItems_strKey(count: 10))
-                        PickerCustom<String>(selected: $selectedKeyString, items: self.generatePreviewItems_strKey(count: 15))
-                        PickerCustom<String>(selected: $selectedKeyString, items: self.generatePreviewItems_strKey(count: 20))
-                        PickerCustom<String>(selected: $selectedKeyString, items: self.generatePreviewItems_strKey(count: 25))
-                        PickerCustom<String>(selected: $selectedKeyString, items: self.generatePreviewItems_strKey(count: 30))
+                        PickerCustom<String>(selected: self.$selectedKeyString, items: self.generatePreviewItems_strKey(count:  0))
+                        PickerCustom<String>(selected: self.$selectedKeyString, items: self.generatePreviewItems_strKey(count:  5))
+                        PickerCustom<String>(selected: self.$selectedKeyString, items: self.generatePreviewItems_strKey(count: 10))
+                        PickerCustom<String>(selected: self.$selectedKeyString, items: self.generatePreviewItems_strKey(count: 15))
+                        PickerCustom<String>(selected: self.$selectedKeyString, items: self.generatePreviewItems_strKey(count: 20))
+                        PickerCustom<String>(selected: self.$selectedKeyString, items: self.generatePreviewItems_strKey(count: 25))
+                        PickerCustom<String>(selected: self.$selectedKeyString, items: self.generatePreviewItems_strKey(count: 30))
                     }
 
                 }.frame(minWidth: 250, minHeight: 600)
@@ -60,42 +70,56 @@ import SwiftUI
 
                     VStack {
                         Text("Items: 0-30, key: int, style: plain").font(.headline)
-                        PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count:  0), isPlainListStyle: true)
-                        PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count:  5), isPlainListStyle: true)
-                        PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count: 10), isPlainListStyle: true)
-                        PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count: 15), isPlainListStyle: true)
-                        PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count: 20), isPlainListStyle: true)
-                        PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count: 25), isPlainListStyle: true)
-                        PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count: 30), isPlainListStyle: true)
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count:  0), isPlainListStyle: true)
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count:  5), isPlainListStyle: true)
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count: 10), isPlainListStyle: true)
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count: 15), isPlainListStyle: true)
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count: 20), isPlainListStyle: true)
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count: 25), isPlainListStyle: true)
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count: 30), isPlainListStyle: true)
                     }
 
                     VStack {
                         Text("Items: 0-30, key: string, style: plain").font(.headline)
-                        PickerCustom<String>(selected: $selectedKeyString, items: self.generatePreviewItems_strKey(count:  0), isPlainListStyle: true)
-                        PickerCustom<String>(selected: $selectedKeyString, items: self.generatePreviewItems_strKey(count:  5), isPlainListStyle: true)
-                        PickerCustom<String>(selected: $selectedKeyString, items: self.generatePreviewItems_strKey(count: 10), isPlainListStyle: true)
-                        PickerCustom<String>(selected: $selectedKeyString, items: self.generatePreviewItems_strKey(count: 15), isPlainListStyle: true)
-                        PickerCustom<String>(selected: $selectedKeyString, items: self.generatePreviewItems_strKey(count: 20), isPlainListStyle: true)
-                        PickerCustom<String>(selected: $selectedKeyString, items: self.generatePreviewItems_strKey(count: 25), isPlainListStyle: true)
-                        PickerCustom<String>(selected: $selectedKeyString, items: self.generatePreviewItems_strKey(count: 30), isPlainListStyle: true)
+                        PickerCustom<String>(selected: self.$selectedKeyString, items: self.generatePreviewItems_strKey(count:  0), isPlainListStyle: true)
+                        PickerCustom<String>(selected: self.$selectedKeyString, items: self.generatePreviewItems_strKey(count:  5), isPlainListStyle: true)
+                        PickerCustom<String>(selected: self.$selectedKeyString, items: self.generatePreviewItems_strKey(count: 10), isPlainListStyle: true)
+                        PickerCustom<String>(selected: self.$selectedKeyString, items: self.generatePreviewItems_strKey(count: 15), isPlainListStyle: true)
+                        PickerCustom<String>(selected: self.$selectedKeyString, items: self.generatePreviewItems_strKey(count: 20), isPlainListStyle: true)
+                        PickerCustom<String>(selected: self.$selectedKeyString, items: self.generatePreviewItems_strKey(count: 25), isPlainListStyle: true)
+                        PickerCustom<String>(selected: self.$selectedKeyString, items: self.generatePreviewItems_strKey(count: 30), isPlainListStyle: true)
                     }
 
                 }.frame(minWidth: 250, minHeight: 600)
 
-                VStack {
-                    Text("Flexibility:").font(.headline)
-                    PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count: 30))
-                    PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count: 30), flexibility: .none)
-                    PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count: 30), flexibility: .size(100))
-                    PickerCustom<UInt>(selected: $selectedKeyInt, items: self.generatePreviewItems_intKey(count: 30), flexibility: .infinity)
+                VStack(spacing: 20) {
+
+                    VStack {
+                        Text("Flexibility:").font(.headline)
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count: 30))
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count: 30), flexibility: .none)
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count: 30), flexibility: .size(100))
+                        PickerCustom<UInt>(selected: self.$selectedKeyInt, items: self.generatePreviewItems_intKey(count: 30), flexibility: .infinity)
+                    }
+                    .padding(20)
+                    .frame(width: 200)
+
+                    VStack {
+                        Text("Sort:").font(.headline)
+                        PickerCustom<String>(selected: self.$selectedForSort, items: self.generatePreviewItems_forSort(), sortedBy: .keyAscending)
+                        PickerCustom<String>(selected: self.$selectedForSort, items: self.generatePreviewItems_forSort(), sortedBy: .keyDescending)
+                        PickerCustom<String>(selected: self.$selectedForSort, items: self.generatePreviewItems_forSort(), sortedBy: .valueAscending)
+                        PickerCustom<String>(selected: self.$selectedForSort, items: self.generatePreviewItems_forSort(), sortedBy: .valueDescending)
+                    }
+                    .padding(20)
+                    .frame(width: 200)
+
                 }
-                .padding(20)
-                .frame(width: 200)
 
                 VStack {
                     Text("Picker").font(.headline)
                     Picker("", selection: self.$selectedKeyInt) {
-                        ForEach(self.generatePreviewItems_intKey(count: 30).sortedBy(order: .valueAsc), id: \.key) { key, value in
+                        ForEach(self.generatePreviewItems_intKey(count: 30).sorted(order: .valueAscending), id: \.key) { key, value in
                             Text(value)
                         }
                     }
@@ -103,10 +127,6 @@ import SwiftUI
 
             }.padding(30)
         }
-    }
-
-    init() {
-
     }
 
 }
