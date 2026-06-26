@@ -11,6 +11,7 @@
 		50114E8A2E0E983800024326 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50114E892E0E983800024326 /* Shape.swift */; };
 		50158DA92F75854C005AF819 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50158DA82F75854C005AF819 /* Color.swift */; };
 		501FA4CF2F4F08C4004663D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501FA4CE2F4F08C4004663D2 /* Assets.xcassets */; };
+		503C965B2FEE798000972B60 /* Previewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503C965A2FEE798000972B60 /* Previewer.swift */; };
 		507318712DE9D59E005E26F9 /* ButtonCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507318702DE9D59E005E26F9 /* ButtonCustom.swift */; };
 		507318732DE9D616005E26F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 507318722DE9D616005E26F9 /* Assets.xcassets */; };
 		508D6D052EB251A300885E95 /* ButtonCustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D6D042EB251A300885E95 /* ButtonCustomColor.swift */; };
@@ -22,6 +23,7 @@
 		50114E892E0E983800024326 /* Shape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 		50158DA82F75854C005AF819 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		501FA4CE2F4F08C4004663D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		503C965A2FEE798000972B60 /* Previewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Previewer.swift; sourceTree = "<group>"; };
 		507318702DE9D59E005E26F9 /* ButtonCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCustom.swift; sourceTree = "<group>"; };
 		507318722DE9D616005E26F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		508D6D042EB251A300885E95 /* ButtonCustomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCustomColor.swift; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				50158DA82F75854C005AF819 /* Color.swift */,
+				503C965A2FEE798000972B60 /* Previewer.swift */,
 				50114E892E0E983800024326 /* Shape.swift */,
 				50114E852E0E95C100024326 /* View.swift */,
 			);
@@ -167,6 +170,7 @@
 				50114E8A2E0E983800024326 /* Shape.swift in Sources */,
 				507318712DE9D59E005E26F9 /* ButtonCustom.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
+				503C965B2FEE798000972B60 /* Previewer.swift in Sources */,
 				50114E862E0E95C400024326 /* View.swift in Sources */,
 				508D6D052EB251A300885E95 /* ButtonCustomColor.swift in Sources */,
 				50158DA92F75854C005AF819 /* Color.swift in Sources */,
