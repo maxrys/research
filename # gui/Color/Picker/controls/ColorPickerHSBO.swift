@@ -7,8 +7,6 @@ import SwiftUI
 
 struct ColorPickerHSBO: View {
 
-    @Environment(\.isEnabled) private var isEnabled
-
     enum ColorComponent {
         case H
         case S
@@ -16,8 +14,9 @@ struct ColorPickerHSBO: View {
         case O
     }
 
-    @Binding private var colorExternal: ColorHSBValue
+    @Environment(\.isEnabled) private var isEnabled
 
+    @Binding private var colorExternal: ColorHSBValue
     @State private var colorInternal: ColorHSBValue
     @State private var isShowPopover: Bool = false
 
@@ -245,15 +244,22 @@ struct ColorPickerHSBO: View {
     @Previewable @State var pickerColorR = ColorHSBValue(0.00, 1.0, 1.0)
     @Previewable @State var pickerColorD = ColorHSBValue(0.00, 0.0, 0.0)
     VStack(spacing: 20) {
-        ColorPickerHSBO($pickerColorR)
-        ColorPickerHSBO($pickerColorD).disabled(true)
-        HStack {
-            ColorPickerHSBO($pickerColorR).PopoverView()
-        }.background(
-            Color.NS[\.windowBackgroundColor]
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .shadow(radius: 3)
-        )
+        HStack(spacing: 20) {
+            ColorPickerHSBO($pickerColorR)
+            ColorPickerHSBO($pickerColorD).disabled(true)
+        }
+        ColorPickerHSBO($pickerColorR).PopoverView()
+            .background {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.NS[\.windowBackgroundColor])
+                    .shadow(radius: 3)
+            }.environment(\.colorScheme, .light)
+        ColorPickerHSBO($pickerColorR).PopoverView()
+            .background {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.NS[\.windowBackgroundColor])
+                    .shadow(radius: 3)
+            }.environment(\.colorScheme, .dark)
     }
     .padding(20)
     .onChange(of: pickerColorR) { _, value in
