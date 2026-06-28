@@ -53,7 +53,7 @@ struct TabCustom: View {
             .padding(self.padding)
             .frame(maxWidth: .infinity)
             .background(self.colorHeadBackground)
-            .overlay(alignment: .bottom) {
+            .overlayPolyfill(alignment: .bottom) {
                 ShadowLine(opacityDark: 0.7)
                     .offset(y: 5)
             }
@@ -125,21 +125,21 @@ fileprivate struct TabCustom_HeadTitle: View {
                 }
             }
             .padding(self.padding)
-            .foregroundStyle(self.colorForeground)
-            .background {
+            .foregroundPolyfill(self.colorForeground)
+            .background(
                 RoundedRectangle(cornerRadius: 10)
                     .fill(self.colorBackground)
-                    .overlay {
+                    .overlayPolyfill {
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(style: StrokeStyle(lineWidth: 1))
-                            .foregroundStyle(self.colorBorder)
+                            .stroke(style: StrokeStyle(lineWidth: 4))
+                            .foregroundPolyfill(self.colorBorder)
                     }
                     .contentShape(RoundedRectangle(cornerRadius: 10))
                     .focusEffect (RoundedRectangle(cornerRadius: 10))
-            }
+            )
         }
         .buttonStyle(.plain)
-        .pointerStyle(.link)
+        .pointerStyleLinkPolyfill()
         .onHover { isHovering in
             self.isHovering = isHovering
         }
