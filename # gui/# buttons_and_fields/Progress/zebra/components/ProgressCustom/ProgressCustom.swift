@@ -100,11 +100,9 @@ struct ProgressCustom: View {
 /* ############################################################# */
 
 #Preview {
-    VStack(spacing: 10) {
-        ForEach(Array(stride(from: -0.1, through: 1.1, by: 0.1)), id: \.self) { value in
+    Previewer(spacing: 10, padding: 10) {
+        ForEach(Array(stride(from: -0.1, through: 1.1, by: 0.2)), id: \.self) { value in
             ProgressCustom(value: value)
         }
-    }
-    .padding(10)
-    .frame(width: 300)
+    }.frame(width: 300)
 }
