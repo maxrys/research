@@ -47,7 +47,7 @@
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				501FA4CE2F4F08C4004663D2 /* Assets.xcassets */,
 				50CE9FED2F473677001006CF /* extensions */,
-				50CE9FEF2F47369A001006CF /* controls */,
+				50CE9FEF2F47369A001006CF /* components */,
 				50993B6B2D33C4C900195667 /* app.swift */,
 				50F244C42FA4B40200DFCC8F /* RadioButton_Enum.swift */,
 				50F244C62FA4B41200DFCC8F /* RadioButton_UInt.swift */,
@@ -72,13 +72,13 @@
 			path = extensions;
 			sourceTree = "<group>";
 		};
-		50CE9FEF2F47369A001006CF /* controls */ = {
+		50CE9FEF2F47369A001006CF /* components */ = {
 			isa = PBXGroup;
 			children = (
 				50F244C02FA4B30600DFCC8F /* RadioButton.swift */,
 				50F2450F2FAE171000DFCC8F /* RadioButtonSimple.swift */,
 			);
-			path = controls;
+			path = components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

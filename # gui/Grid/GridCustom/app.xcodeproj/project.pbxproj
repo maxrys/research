@@ -61,7 +61,7 @@
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				50CE724E2EEAFF1F00FE3282 /* shared */,
 				503D1AE82F30FD40005B8A98 /* extension */,
-				50CE72482EEAF70F00FE3282 /* controls */,
+				50CE72482EEAF70F00FE3282 /* components */,
 				50993B6B2D33C4C900195667 /* app.swift */,
 				50993B692D33C4C900195667 /* Products */,
 			);
@@ -75,13 +75,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		50CE72482EEAF70F00FE3282 /* controls */ = {
+		50CE72482EEAF70F00FE3282 /* components */ = {
 			isa = PBXGroup;
 			children = (
 				50CE72462EEADC1400FE3282 /* GridCustom.swift */,
 				50CE724B2EEAFEF000FE3282 /* Cell_viewMode.swift */,
 			);
-			path = controls;
+			path = components;
 			sourceTree = "<group>";
 		};
 		50CE724E2EEAFF1F00FE3282 /* shared */ = {

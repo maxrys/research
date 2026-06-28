@@ -55,7 +55,7 @@
 			children = (
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				5071B9352EC319120068DB06 /* shared */,
-				50EE8B842EC86B0A002DFEA5 /* controls */,
+				50EE8B842EC86B0A002DFEA5 /* components */,
 				50993B6B2D33C4C900195667 /* app.swift */,
 				50993B692D33C4C900195667 /* Products */,
 			);
@@ -69,13 +69,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		50EE8B842EC86B0A002DFEA5 /* controls */ = {
+		50EE8B842EC86B0A002DFEA5 /* components */ = {
 			isa = PBXGroup;
 			children = (
 				50FEACFC2EFB35AB00B9CAD3 /* ColorPickerHSBO.swift */,
 				50EE8B852EC86B12002DFEA5 /* ColorPickerPalette.swift */,
 			);
-			path = controls;
+			path = components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

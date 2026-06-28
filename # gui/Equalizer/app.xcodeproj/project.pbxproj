@@ -45,10 +45,10 @@
 		50993B5F2D33C4C900195667 = {
 			isa = PBXGroup;
 			children = (
+				50993B742D33C4CD00195667 /* app.entitlements */,
 				503D1AF32F31054F005B8A98 /* extensions */,
 				50993B6B2D33C4C900195667 /* app.swift */,
 				50C2CFA22D71E78A00D9D04B /* Equalizer.swift */,
-				50993B742D33C4CD00195667 /* app.entitlements */,
 				50993B692D33C4C900195667 /* Products */,
 			);
 			sourceTree = "<group>";

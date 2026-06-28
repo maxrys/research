@@ -73,7 +73,7 @@
 				50F244D32FA89C3A00DFCC8F /* Localizable.xcstrings */,
 				50F244ED2FAA30FF00DFCC8F /* shared */,
 				50CE9FED2F473677001006CF /* extensions */,
-				50CE9FEF2F47369A001006CF /* controls */,
+				50CE9FEF2F47369A001006CF /* components */,
 				50993B6B2D33C4C900195667 /* app.swift */,
 				50F244E22FA8C9A300DFCC8F /* test */,
 				50993B692D33C4C900195667 /* Products */,
@@ -101,14 +101,14 @@
 			path = extensions;
 			sourceTree = "<group>";
 		};
-		50CE9FEF2F47369A001006CF /* controls */ = {
+		50CE9FEF2F47369A001006CF /* components */ = {
 			isa = PBXGroup;
 			children = (
 				50F244CA2FA5098E00DFCC8F /* DatePickerCustom.swift */,
 				50F244EB2FAA30CB00DFCC8F /* FieldGrouppedList.swift */,
 				50F244F02FAA328D00DFCC8F /* FieldList.swift */,
 			);
-			path = controls;
+			path = components;
 			sourceTree = "<group>";
 		};
 		50F244E22FA8C9A300DFCC8F /* test */ = {
