@@ -10,7 +10,7 @@
 		50114E842E0E93E300024326 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50114E832E0E93E100024326 /* View.swift */; };
 		5013DB792E9FBEF900BEDC5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5013DB782E9FBEF900BEDC5E /* Assets.xcassets */; };
 		503C966E2FEE868100972B60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 503C966D2FEE868100972B60 /* Assets.xcassets */; };
-		508D6CEA2EA62DB600885E95 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D6CE92EA62DB600885E95 /* Color.swift */; };
+		503C96702FF141B400972B60 /* PickerCustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503C966F2FF141B400972B60 /* PickerCustomColor.swift */; };
 		508D6CF32EAB58E400885E95 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D6CF22EAB58E400885E95 /* Dictionary.swift */; };
 		508D6D0E2EB3A65700885E95 /* PickerCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D6D0D2EB3A65700885E95 /* PickerCustom.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
@@ -20,7 +20,7 @@
 		50114E832E0E93E100024326 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		5013DB782E9FBEF900BEDC5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		503C966D2FEE868100972B60 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		508D6CE92EA62DB600885E95 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		503C966F2FF141B400972B60 /* PickerCustomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerCustomColor.swift; sourceTree = "<group>"; };
 		508D6CF22EAB58E400885E95 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		508D6D0D2EB3A65700885E95 /* PickerCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerCustom.swift; sourceTree = "<group>"; };
 		50993B682D33C4C900195667 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -43,6 +43,7 @@
 			isa = PBXGroup;
 			children = (
 				508D6D0D2EB3A65700885E95 /* PickerCustom.swift */,
+				503C966F2FF141B400972B60 /* PickerCustomColor.swift */,
 				503C966D2FEE868100972B60 /* Assets.xcassets */,
 			);
 			path = PickerCustom;
@@ -53,7 +54,6 @@
 			children = (
 				508D6CF22EAB58E400885E95 /* Dictionary.swift */,
 				50114E832E0E93E100024326 /* View.swift */,
-				508D6CE92EA62DB600885E95 /* Color.swift */,
 			);
 			path = shared;
 			sourceTree = "<group>";
@@ -161,11 +161,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				503C96702FF141B400972B60 /* PickerCustomColor.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				508D6D0E2EB3A65700885E95 /* PickerCustom.swift in Sources */,
 				50114E842E0E93E300024326 /* View.swift in Sources */,
 				508D6CF32EAB58E400885E95 /* Dictionary.swift in Sources */,
-				508D6CEA2EA62DB600885E95 /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
