@@ -17,6 +17,8 @@
 		50E4B0BC2FF17C82008D625B /* Previewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E4B0BB2FF17C82008D625B /* Previewer.swift */; };
 		50E4B0BF2FF17CA2008D625B /* ShadowLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E4B0BD2FF17CA2008D625B /* ShadowLine.swift */; };
 		50E4B0C12FF17CBE008D625B /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E4B0C02FF17CBE008D625B /* Color.swift */; };
+		50E4B0C32FF17EC8008D625B /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E4B0C22FF17EC8008D625B /* View.swift */; };
+		50E4B0C52FF18488008D625B /* HVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E4B0C42FF18488008D625B /* HVStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		50E4B0BB2FF17C82008D625B /* Previewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Previewer.swift; sourceTree = "<group>"; };
 		50E4B0BD2FF17CA2008D625B /* ShadowLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowLine.swift; sourceTree = "<group>"; };
 		50E4B0C02FF17CBE008D625B /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		50E4B0C22FF17EC8008D625B /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		50E4B0C42FF18488008D625B /* HVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HVStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,7 @@
 			isa = PBXGroup;
 			children = (
 				5075015B2EF94A7E00624409 /* Array.swift */,
+				50E4B0C22FF17EC8008D625B /* View.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -97,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				50E4B0C02FF17CBE008D625B /* Color.swift */,
+				50E4B0C42FF18488008D625B /* HVStack.swift */,
 				50E4B0BB2FF17C82008D625B /* Previewer.swift */,
 				5075015D2EF94AD100624409 /* ResultBuilder.swift */,
 			);
@@ -191,8 +197,10 @@
 				50E4B0BC2FF17C82008D625B /* Previewer.swift in Sources */,
 				50E4B0BF2FF17CA2008D625B /* ShadowLine.swift in Sources */,
 				5075015E2EF94AD800624409 /* ResultBuilder.swift in Sources */,
+				50E4B0C52FF18488008D625B /* HVStack.swift in Sources */,
 				50CFBAD52F278F63009A58ED /* TabCustom.swift in Sources */,
 				50CFBAD62F278F63009A58ED /* TabCustom_Item.swift in Sources */,
+				50E4B0C32FF17EC8008D625B /* View.swift in Sources */,
 				50CFBAD72F278F63009A58ED /* TabCustom_Spacer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

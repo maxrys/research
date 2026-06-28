@@ -10,9 +10,9 @@ import SwiftUI
     var body: some Scene {
         WindowGroup {
             TabCustom {
-                TabCustom_Item(title: NSLocalizedString("Update", comment: ""), icon: Image(systemName: "pencil.tip.crop.circle")) { Text("Tab Update content").padding(20) }
-                TabCustom_Item(title: NSLocalizedString("Insert", comment: ""), icon: Image(systemName: "plus.circle"           )) { Text("Tab Insert content").padding(20) }; TabCustom_Spacer()
-                TabCustom_Item(title: NSLocalizedString("Delete", comment: ""), icon: Image(systemName: "trash"                 )) { Text("Tab Delete content").padding(20) }
+                TabCustom_Item(title: NSLocalizedString("Update", comment: ""), icon: Image(systemName: "pencil.tip.crop.circle"), iconSize: CGSize(width: 15, height: 15)) { Text("Tab Update content").padding(20) }
+                TabCustom_Item(title: NSLocalizedString("Insert", comment: ""), icon: Image(systemName: "plus.circle"           ), iconSize: CGSize(width: 15, height: 15)) { Text("Tab Insert content").padding(20) }; TabCustom_Spacer()
+                TabCustom_Item(title: NSLocalizedString("Delete", comment: ""), icon: Image(systemName: "trash"                 ), iconSize: CGSize(width: 15, height: 15)) { Text("Tab Delete content").padding(20) }
             }
         }
     }
