@@ -14,6 +14,9 @@
 		50CFBAD62F278F63009A58ED /* TabCustom_Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CFBAD32F278F39009A58ED /* TabCustom_Item.swift */; };
 		50CFBAD72F278F63009A58ED /* TabCustom_Spacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CFBAD42F278F39009A58ED /* TabCustom_Spacer.swift */; };
 		50D28F982F7AA6F3006A7304 /* TabCustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D28F972F7AA6F3006A7304 /* TabCustomColors.swift */; };
+		50E4B0BC2FF17C82008D625B /* Previewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E4B0BB2FF17C82008D625B /* Previewer.swift */; };
+		50E4B0BF2FF17CA2008D625B /* ShadowLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E4B0BD2FF17CA2008D625B /* ShadowLine.swift */; };
+		50E4B0C12FF17CBE008D625B /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E4B0C02FF17CBE008D625B /* Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		50CFBAD32F278F39009A58ED /* TabCustom_Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCustom_Item.swift; sourceTree = "<group>"; };
 		50CFBAD42F278F39009A58ED /* TabCustom_Spacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCustom_Spacer.swift; sourceTree = "<group>"; };
 		50D28F972F7AA6F3006A7304 /* TabCustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCustomColors.swift; sourceTree = "<group>"; };
+		50E4B0BB2FF17C82008D625B /* Previewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Previewer.swift; sourceTree = "<group>"; };
+		50E4B0BD2FF17CA2008D625B /* ShadowLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowLine.swift; sourceTree = "<group>"; };
+		50E4B0C02FF17CBE008D625B /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +87,7 @@
 		50CE722F2EE582E500FE3282 /* components */ = {
 			isa = PBXGroup;
 			children = (
+				50E4B0BE2FF17CA2008D625B /* ShadowLine */,
 				50309B4B2F5DD552008CA064 /* TabCustom */,
 			);
 			path = components;
@@ -89,9 +96,19 @@
 		50CE72302EE582F400FE3282 /* shared */ = {
 			isa = PBXGroup;
 			children = (
+				50E4B0C02FF17CBE008D625B /* Color.swift */,
+				50E4B0BB2FF17C82008D625B /* Previewer.swift */,
 				5075015D2EF94AD100624409 /* ResultBuilder.swift */,
 			);
 			path = shared;
+			sourceTree = "<group>";
+		};
+		50E4B0BE2FF17CA2008D625B /* ShadowLine */ = {
+			isa = PBXGroup;
+			children = (
+				50E4B0BD2FF17CA2008D625B /* ShadowLine.swift */,
+			);
+			path = ShadowLine;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,6 +187,9 @@
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				50D28F982F7AA6F3006A7304 /* TabCustomColors.swift in Sources */,
 				5075015C2EF94AA000624409 /* Array.swift in Sources */,
+				50E4B0C12FF17CBE008D625B /* Color.swift in Sources */,
+				50E4B0BC2FF17C82008D625B /* Previewer.swift in Sources */,
+				50E4B0BF2FF17CA2008D625B /* ShadowLine.swift in Sources */,
 				5075015E2EF94AD800624409 /* ResultBuilder.swift in Sources */,
 				50CFBAD52F278F63009A58ED /* TabCustom.swift in Sources */,
 				50CFBAD62F278F63009A58ED /* TabCustom_Item.swift in Sources */,

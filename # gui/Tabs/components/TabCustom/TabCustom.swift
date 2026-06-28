@@ -55,7 +55,8 @@ struct TabCustom: View {
             .frame(maxWidth: .infinity)
             .background(self.colorHeadBackground)
             .overlay(alignment: .bottom) {
-                self.ShadowView().offset(y: 5)
+                ShadowLine(opacityDark: 0.7)
+                    .offset(y: 5)
             }
 
             /* MARK: Tab Body */
@@ -66,22 +67,7 @@ struct TabCustom: View {
                 }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
 
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-
-    @ViewBuilder private func ShadowView() -> some View {
-        Rectangle()
-            .fill(
-                LinearGradient(
-                    colors: [
-                        self.colorScheme == .dark ?
-                            .black.opacity(0.7) :
-                            .black.opacity(0.2),
-                        Color.clear],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-            ).frame(height: 5)
+        }.frame(maxWidth: .infinity)
     }
 
 }
@@ -165,9 +151,11 @@ fileprivate struct TabCustom_HeadTitle: View {
 /* ############################################################# */
 
 #Preview {
-    TabCustom {
-        TabCustom_Item(title: NSLocalizedString("Title 1", comment: ""), icon: Image(systemName: "1.square")) { Text("Tab 1 Content").padding(20) }
-        TabCustom_Item(title: NSLocalizedString("Title 2", comment: ""), icon: Image(systemName: "2.square")) { Text("Tab 2 Content").padding(20) }; TabCustom_Spacer()
-        TabCustom_Item(title: NSLocalizedString("Title 3", comment: ""), icon: Image(systemName: "3.square")) { Text("Tab 3 Content").padding(20) }
-    }.frame(maxWidth: 400)
+    Previewer {
+        TabCustom {
+            TabCustom_Item(title: NSLocalizedString("Title 1", comment: ""), icon: Image(systemName: "1.square")) { Text("Tab 1 Content").padding(20) }
+            TabCustom_Item(title: NSLocalizedString("Title 2", comment: ""), icon: Image(systemName: "2.square")) { Text("Tab 2 Content").padding(20) }; TabCustom_Spacer()
+            TabCustom_Item(title: NSLocalizedString("Title 3", comment: ""), icon: Image(systemName: "3.square")) { Text("Tab 3 Content").padding(20) }
+        }.frame(maxWidth: 400)
+    }
 }
