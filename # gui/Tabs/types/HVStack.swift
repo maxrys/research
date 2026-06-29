@@ -13,7 +13,7 @@ struct HVStack<Content: View>: View {
 
     init(
         axis: Axis,
-        spacing: CGFloat,
+        spacing: CGFloat = 10,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.axis = axis
@@ -22,12 +22,34 @@ struct HVStack<Content: View>: View {
     }
 
     public var body: some View {
-        Group {
-            switch self.axis {
-                case .horizontal: HStack(spacing: self.spacing) { content() }
-                case .vertical  : VStack(spacing: self.spacing) { content() }
-            }
+        switch self.axis {
+            case .horizontal: HStack(spacing: self.spacing) { self.content() }
+            case .vertical  : VStack(spacing: self.spacing) { self.content() }
         }
     }
 
+}
+
+
+
+/* ############################################################# */
+/* ########################## PREVIEW ########################## */
+/* ############################################################# */
+
+#Preview {
+    VStack(spacing: 10) {
+
+        HVStack(axis: .vertical) {
+            Text("1").background(.yellow)
+            Text("2").background(.yellow)
+            Text("3").background(.yellow)
+        }.frame(width: 100, height: 100).background(.white)
+
+        HVStack(axis: .horizontal) {
+            Text("1").background(.yellow)
+            Text("2").background(.yellow)
+            Text("3").background(.yellow)
+        }.frame(width: 100, height: 100).background(.white)
+
+    }.padding(10).background(.black)
 }
