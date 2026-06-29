@@ -31,27 +31,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		503D1AF62F310A78005B8A98 /* shared */ = {
+		503D1AF62F310A78005B8A98 /* types */ = {
 			isa = PBXGroup;
 			children = (
 				50D2902E2F85976A006A7304 /* PublisherCustom.swift */,
 			);
-			path = shared;
-			sourceTree = "<group>";
-		};
-		503D1AF72F310A8A005B8A98 /* extensions */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = extensions;
+			path = types;
 			sourceTree = "<group>";
 		};
 		50993B5F2D33C4C900195667 = {
 			isa = PBXGroup;
 			children = (
 				50993B742D33C4CD00195667 /* app.entitlements */,
-				503D1AF62F310A78005B8A98 /* shared */,
-				503D1AF72F310A8A005B8A98 /* extensions */,
+				503D1AF62F310A78005B8A98 /* types */,
 				50D2903C2F86480B006A7304 /* app.swift */,
 				50993B6B2D33C4C900195667 /* PublisherView.swift */,
 				50993B692D33C4C900195667 /* Products */,

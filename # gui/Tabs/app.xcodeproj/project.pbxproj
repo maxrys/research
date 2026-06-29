@@ -64,6 +64,7 @@
 			isa = PBXGroup;
 			children = (
 				5075015B2EF94A7E00624409 /* Array.swift */,
+				50E4B0C02FF17CBE008D625B /* Color.swift */,
 				50E4B0C22FF17EC8008D625B /* View.swift */,
 			);
 			path = extensions;
@@ -73,7 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				50993B742D33C4CD00195667 /* app.entitlements */,
-				50CE72302EE582F400FE3282 /* shared */,
+				50E4B0E12FF276B1008D625B /* types */,
 				5075015A2EF94A6D00624409 /* extensions */,
 				50CE722F2EE582E500FE3282 /* components */,
 				50993B6B2D33C4C900195667 /* app.swift */,
@@ -98,23 +99,22 @@
 			path = components;
 			sourceTree = "<group>";
 		};
-		50CE72302EE582F400FE3282 /* shared */ = {
-			isa = PBXGroup;
-			children = (
-				50E4B0C02FF17CBE008D625B /* Color.swift */,
-				50E4B0C42FF18488008D625B /* HVStack.swift */,
-				50E4B0BB2FF17C82008D625B /* Previewer.swift */,
-				5075015D2EF94AD100624409 /* ResultBuilder.swift */,
-			);
-			path = shared;
-			sourceTree = "<group>";
-		};
 		50E4B0BE2FF17CA2008D625B /* ShadowLine */ = {
 			isa = PBXGroup;
 			children = (
 				50E4B0BD2FF17CA2008D625B /* ShadowLine.swift */,
 			);
 			path = ShadowLine;
+			sourceTree = "<group>";
+		};
+		50E4B0E12FF276B1008D625B /* types */ = {
+			isa = PBXGroup;
+			children = (
+				50E4B0C42FF18488008D625B /* HVStack.swift */,
+				50E4B0BB2FF17C82008D625B /* Previewer.swift */,
+				5075015D2EF94AD100624409 /* ResultBuilder.swift */,
+			);
+			path = types;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

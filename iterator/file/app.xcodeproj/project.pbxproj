@@ -51,30 +51,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5056A82E2F977406009B89C3 /* controls */ = {
+		5056A82E2F977406009B89C3 /* components */ = {
 			isa = PBXGroup;
 			children = (
 				5056A82F2F97741B009B89C3 /* ProgressCustom.swift */,
 			);
-			path = controls;
+			path = components;
 			sourceTree = "<group>";
 		};
-		507501382EF19BAC00624409 /* shared */ = {
+		507501382EF19BAC00624409 /* types */ = {
 			isa = PBXGroup;
 			children = (
 				5056A82C2F97729B009B89C3 /* FileSequence.swift */,
 				50F244982F98C5B000DFCC8F /* FileSequenceAsync.swift */,
+				5056A8332F97779D009B89C3 /* GeometryReaderPolyfill.swift */,
 			);
-			path = shared;
+			path = types;
 			sourceTree = "<group>";
 		};
 		50993B5F2D33C4C900195667 = {
 			isa = PBXGroup;
 			children = (
 				50993B742D33C4CD00195667 /* app.entitlements */,
-				507501382EF19BAC00624409 /* shared */,
-				50D28FE72F83A26F006A7304 /* extension */,
-				5056A82E2F977406009B89C3 /* controls */,
+				507501382EF19BAC00624409 /* types */,
+				50D28FE72F83A26F006A7304 /* extensions */,
+				5056A82E2F977406009B89C3 /* components */,
 				50993B6B2D33C4C900195667 /* app.swift */,
 				5056A82A2F97717F009B89C3 /* FileIteratorView.swift */,
 				50993B692D33C4C900195667 /* Products */,
@@ -89,19 +90,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		50D28FE72F83A26F006A7304 /* extension */ = {
+		50D28FE72F83A26F006A7304 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
 				5056A8352F9778D1009B89C3 /* Color.swift */,
 				50D28FF22F8426C9006A7304 /* Double.swift */,
-				5056A8332F97779D009B89C3 /* GeometryReaderPolyfill.swift */,
 				50D28FE82F83A279006A7304 /* Logger.swift */,
 				50D2903E2F86678F006A7304 /* Numeric.swift */,
 				50D28FEE2F83C4A1006A7304 /* String.swift */,
 				50D28FEA2F83B2CF006A7304 /* URL.swift */,
 				5056A8312F9775E6009B89C3 /* View.swift */,
 			);
-			path = extension;
+			path = extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

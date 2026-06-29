@@ -71,7 +71,7 @@
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				501FA4CE2F4F08C4004663D2 /* Assets.xcassets */,
 				50F244D32FA89C3A00DFCC8F /* Localizable.xcstrings */,
-				50F244ED2FAA30FF00DFCC8F /* shared */,
+				50F244ED2FAA30FF00DFCC8F /* types */,
 				50CE9FED2F473677001006CF /* extensions */,
 				50CE9FEF2F47369A001006CF /* components */,
 				50993B6B2D33C4C900195667 /* app.swift */,
@@ -119,13 +119,13 @@
 			path = test;
 			sourceTree = "<group>";
 		};
-		50F244ED2FAA30FF00DFCC8F /* shared */ = {
+		50F244ED2FAA30FF00DFCC8F /* types */ = {
 			isa = PBXGroup;
 			children = (
 				50F244F42FAB402700DFCC8F /* GruppedList.swift */,
 				50F244EE2FAA310C00DFCC8F /* ValueState.swift */,
 			);
-			path = shared;
+			path = types;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

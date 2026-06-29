@@ -40,7 +40,7 @@
 			children = (
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				50E4B0D42FF26C39008D625B /* types */,
-				50CE72302EE582F400FE3282 /* shared */,
+				50CE72302EE582F400FE3282 /* extensions */,
 				50CE722F2EE582E500FE3282 /* components */,
 				50993B6B2D33C4C900195667 /* app.swift */,
 				50993B692D33C4C900195667 /* Products */,
@@ -63,13 +63,13 @@
 			path = components;
 			sourceTree = "<group>";
 		};
-		50CE72302EE582F400FE3282 /* shared */ = {
+		50CE72302EE582F400FE3282 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
 				50E4B0D72FF26C5A008D625B /* Color.swift */,
 				50114E832E0E93E100024326 /* View.swift */,
 			);
-			path = shared;
+			path = extensions;
 			sourceTree = "<group>";
 		};
 		50E4B0D42FF26C39008D625B /* types */ = {

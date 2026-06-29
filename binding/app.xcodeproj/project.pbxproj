@@ -41,22 +41,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		507318622DE9B9D2005E26F9 /* shared */ = {
+		507318622DE9B9D2005E26F9 /* extension */ = {
 			isa = PBXGroup;
 			children = (
 				5073185E2DE9B563005E26F9 /* Binding.swift */,
-				50D28FDC2F82EC0C006A7304 /* ValueState.swift */,
-				50D28FDE2F82ECC4006A7304 /* ValueStateClassic.swift */,
 			);
-			path = shared;
+			path = extension;
 			sourceTree = "<group>";
 		};
 		50993B5F2D33C4C900195667 = {
 			isa = PBXGroup;
 			children = (
 				50993B742D33C4CD00195667 /* app.entitlements */,
-				507318622DE9B9D2005E26F9 /* shared */,
-				50CE72322EE5A87700FE3282 /* controls */,
+				50E4B0E32FF277A0008D625B /* types */,
+				507318622DE9B9D2005E26F9 /* extension */,
+				50CE72322EE5A87700FE3282 /* components */,
 				50993B6B2D33C4C900195667 /* app.swift */,
 				5073185A2DE9ACA4005E26F9 /* Demo_bindingProxy.swift */,
 				5073186C2DE9BDB4005E26F9 /* Demo_bindingOptional.swift */,
@@ -72,13 +71,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		50CE72322EE5A87700FE3282 /* controls */ = {
+		50CE72322EE5A87700FE3282 /* components */ = {
 			isa = PBXGroup;
 			children = (
 				507318602DE9B9C0005E26F9 /* DemoToggle.swift */,
 				507318662DE9BAF5005E26F9 /* DemoToggleOptional.swift */,
 			);
-			path = controls;
+			path = components;
+			sourceTree = "<group>";
+		};
+		50E4B0E32FF277A0008D625B /* types */ = {
+			isa = PBXGroup;
+			children = (
+				50D28FDC2F82EC0C006A7304 /* ValueState.swift */,
+				50D28FDE2F82ECC4006A7304 /* ValueStateClassic.swift */,
+			);
+			path = types;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
