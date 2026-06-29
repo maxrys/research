@@ -57,22 +57,22 @@ struct ToggleCustom: View {
                 self.isOn.toggle()
             }
         } label: {
-            ZStack(alignment: self.isOn ? .trailing : .leading) {
-                Capsule()
-                    .fill(self.isOn ? .green : .black.opacity(0.3))
-                    .frame(width: self.size.width, height: self.size.height)
-                Capsule()
-                    .fill(.white)
-                    .frame(
-                        width: (self.size.height * 1.5) - (self.innerPadding * 2),
-                        height: self.size.height        - (self.innerPadding * 2)
-                    )
-                    .padding(self.innerPadding)
-                    .shadow(
-                        color: .black.opacity(0.5),
-                        radius: 2.0
-                    )
-            }
+            Capsule()
+                .fill(self.isOn ? .green : .black.opacity(0.3))
+                .frame(width: self.size.width, height: self.size.height)
+                .overlayPolyfill(alignment: self.isOn ? .trailing : .leading) {
+                    Capsule()
+                        .fill(.white)
+                        .frame(
+                            width: (self.size.height * 1.5) - (self.innerPadding * 2),
+                            height: self.size.height        - (self.innerPadding * 2)
+                        )
+                        .padding(self.innerPadding)
+                        .shadow(
+                            color: .black.opacity(0.5),
+                            radius: 2.0
+                        )
+                }.focusEffect(Capsule())
         }
         .buttonStyle(.plain)
         .pointerStyleLinkPolyfill()
@@ -86,13 +86,22 @@ struct ToggleCustom: View {
 /* ########################## PREVIEW ########################## */
 /* ############################################################# */
 
-@available(macOS 14.0, *) #Preview {
-    @Previewable @State var isOn: Bool = false
-    VStack(alignment: .trailing) {
-        ToggleCustom(text: "Test", isOn: $isOn, isFlexible: true)
-        ToggleCustom(text: "Test", isOn: $isOn, isFlexible: false)
-        ToggleCustom(isOn: $isOn)
+struct ToggleCustom_Previews: PreviewProvider {
+    struct ViewWithState: View {
+        @State private var isOn: Bool = false
+        public var body: some View {
+            Previewer {
+                VStack(alignment: .trailing) {
+                    ToggleCustom(text: "Test", isOn: self.$isOn, isFlexible: true)
+                    ToggleCustom(text: "Test", isOn: self.$isOn, isFlexible: false)
+                    ToggleCustom(isOn: self.$isOn)
+                }
+                .frame(width: 200)
+                .padding(20)
+            }
+        }
     }
-    .frame(width: 200)
-    .padding(20)
+    static public var previews: some View {
+        ViewWithState()
+    }
 }
