@@ -225,7 +225,7 @@ struct TableCustom_Previews2: PreviewProvider {
     struct ViewWithState: View {
         @State private var selected: Set<Int> = [4]
         var body: some View {
-            Previewer (axis: .horizontal, padding: 20) {
+            Previewer(axis: .horizontal, padding: 20) {
                 TableCustom(
                     selected: self.$selected,
                     isVisibleHeader: true,

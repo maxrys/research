@@ -58,7 +58,7 @@ struct TextFieldCustom_Previews: PreviewProvider {
     struct ViewWithState: View {
         @State private var value: String = "some text"
         public var body: some View {
-            Previewer (padding: 20) {
+            Previewer(padding: 20) {
                 TextFieldCustom("Title", value: $value)
                 TextFieldCustom(""     , value: $value)
                 TextFieldCustom(         value: $value)

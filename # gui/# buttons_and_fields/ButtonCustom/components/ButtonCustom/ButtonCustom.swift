@@ -119,7 +119,7 @@ struct ButtonCustom_Previews: PreviewProvider {
                 ButtonCustom("text", Image(systemName: "globe"))
             }
 
-            Previewer (axis: .horizontal, spacing: 10, padding: 20) {
+            Previewer(axis: .horizontal, spacing: 10, padding: 20) {
                 ButtonCustom(colorStyle: .accent)
                 ButtonCustom(colorStyle: .danger)
                 ButtonCustom(colorStyle: .common)
