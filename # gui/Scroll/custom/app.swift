@@ -57,7 +57,7 @@ import SwiftUI
     }
 
     @ViewBuilder func InfoPanel() -> some View {
-        VStack (spacing: 10) {
+        VStack(spacing: 10) {
             let currentX = Double(self.scrollPositionCurrent.x).formatted(.number.precision(.fractionLength(1)))
             let currentY = Double(self.scrollPositionCurrent.y).formatted(.number.precision(.fractionLength(1)))
             let nearestX = Double(self.scrollPositionNearest.x).formatted(.number.precision(.fractionLength(1)))

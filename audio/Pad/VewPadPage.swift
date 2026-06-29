@@ -17,7 +17,7 @@ struct VewPadPage: View {
     }
 
     var body: some View {
-        HStack (alignment: .top, spacing: 55) {
+        HStack(alignment: .top, spacing: 55) {
             ForEach(self.bankCategories.tuples, id: \.key) { (cIndex, category) in
                 ForEach(category.banks.indices, id: \.self) { bankNum in
                     VStack(spacing: 5) {
