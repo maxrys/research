@@ -19,6 +19,7 @@
 		5075015E2EF94AD800624409 /* ResultBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5075015D2EF94AD100624409 /* ResultBuilder.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
 		50BAFD4F2F6BEC1B004A057F /* NSWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAFD4E2F6BEC1B004A057F /* NSWindow.swift */; };
+		50E4B0DC2FF2738C008D625B /* Previewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E4B0DB2FF2738C008D625B /* Previewer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
 		50BAFD4E2F6BEC1B004A057F /* NSWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSWindow.swift; sourceTree = "<group>"; };
+		50E4B0DB2FF2738C008D625B /* Previewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Previewer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,7 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				50993B742D33C4CD00195667 /* app.entitlements */,
-				50CE72302EE582F400FE3282 /* shared */,
+				50CE72302EE582F400FE3282 /* types */,
 				5075015A2EF94A6D00624409 /* extensions */,
 				50CE722F2EE582E500FE3282 /* components */,
 				50993B6B2D33C4C900195667 /* app.swift */,
@@ -101,12 +103,13 @@
 			path = components;
 			sourceTree = "<group>";
 		};
-		50CE72302EE582F400FE3282 /* shared */ = {
+		50CE72302EE582F400FE3282 /* types */ = {
 			isa = PBXGroup;
 			children = (
+				50E4B0DB2FF2738C008D625B /* Previewer.swift */,
 				5075015D2EF94AD100624409 /* ResultBuilder.swift */,
 			);
-			path = shared;
+			path = types;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -186,6 +189,7 @@
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				5075015C2EF94AA000624409 /* Array.swift in Sources */,
 				5075015E2EF94AD800624409 /* ResultBuilder.swift in Sources */,
+				50E4B0DC2FF2738C008D625B /* Previewer.swift in Sources */,
 				506421512F5DF3790020F6C8 /* TableCustom_HeadCell.swift in Sources */,
 				50309B502F5DD689008CA064 /* TableCustomColors.swift in Sources */,
 				50309B562F5DD798008CA064 /* NSEvent.swift in Sources */,
