@@ -16,6 +16,7 @@
 		507318732DE9D616005E26F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 507318722DE9D616005E26F9 /* Assets.xcassets */; };
 		508D6D052EB251A300885E95 /* ButtonCustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D6D042EB251A300885E95 /* ButtonCustomColor.swift */; };
 		50993B6C2D33C4C900195667 /* app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50993B6B2D33C4C900195667 /* app.swift */; };
+		50E4B0E72FF285CE008D625B /* HVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E4B0E62FF285CE008D625B /* HVStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		50993B682D33C4C900195667 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50993B6B2D33C4C900195667 /* app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app.swift; sourceTree = "<group>"; };
 		50993B742D33C4CD00195667 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app.entitlements; sourceTree = "<group>"; };
+		50E4B0E62FF285CE008D625B /* HVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HVStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +50,7 @@
 			children = (
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				501FA4CE2F4F08C4004663D2 /* Assets.xcassets */,
+				50E4B0E82FF285DD008D625B /* types */,
 				50CE9FED2F473677001006CF /* extensions */,
 				50CE9FEF2F47369A001006CF /* components */,
 				50993B6B2D33C4C900195667 /* app.swift */,
@@ -67,7 +70,6 @@
 			isa = PBXGroup;
 			children = (
 				50158DA82F75854C005AF819 /* Color.swift */,
-				503C965A2FEE798000972B60 /* Previewer.swift */,
 				50114E892E0E983800024326 /* Shape.swift */,
 				50114E852E0E95C100024326 /* View.swift */,
 			);
@@ -90,6 +92,15 @@
 				50CE9FEE2F473693001006CF /* ButtonCustom */,
 			);
 			path = components;
+			sourceTree = "<group>";
+		};
+		50E4B0E82FF285DD008D625B /* types */ = {
+			isa = PBXGroup;
+			children = (
+				50E4B0E62FF285CE008D625B /* HVStack.swift */,
+				503C965A2FEE798000972B60 /* Previewer.swift */,
+			);
+			path = types;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -171,6 +182,7 @@
 				507318712DE9D59E005E26F9 /* ButtonCustom.swift in Sources */,
 				50993B6C2D33C4C900195667 /* app.swift in Sources */,
 				503C965B2FEE798000972B60 /* Previewer.swift in Sources */,
+				50E4B0E72FF285CE008D625B /* HVStack.swift in Sources */,
 				50114E862E0E95C400024326 /* View.swift in Sources */,
 				508D6D052EB251A300885E95 /* ButtonCustomColor.swift in Sources */,
 				50158DA92F75854C005AF819 /* Color.swift in Sources */,
