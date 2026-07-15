@@ -12,11 +12,11 @@ extension TimeInterval {
         case week
 
         init(interval: TimeInterval) {
-            if      (interval / TimeInterval.PERIOD_1_WEEK   > 1) { self = .week }
-            else if (interval / TimeInterval.PERIOD_1_DAY    > 1) { self = .day }
-            else if (interval / TimeInterval.PERIOD_1_HOUR   > 1) { self = .hour }
-            else if (interval / TimeInterval.PERIOD_1_MINUTE > 1) { self = .minute }
-            else                                                  { self = .second }
+            if      (interval / TimeInterval.PERIOD_1_WEEK   >= 1) { self = .week }
+            else if (interval / TimeInterval.PERIOD_1_DAY    >= 1) { self = .day }
+            else if (interval / TimeInterval.PERIOD_1_HOUR   >= 1) { self = .hour }
+            else if (interval / TimeInterval.PERIOD_1_MINUTE >= 1) { self = .minute }
+            else                                                   { self = .second }
         }
 
     }
