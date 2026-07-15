@@ -36,7 +36,8 @@ extension TimeInterval {
         var seconds: Int64 = 0
     }
 
-    static func wholeParts(interval: TimeInterval) -> PeriodsCountResult {
+    static func wholeParts(interval: TimeInterval) -> PeriodsCountResult? {
+        guard interval >= 0 else { return nil }
         let wholeWeeks   = (interval.int64                                                                                                                                                                                                          ) / TimeInterval.PERIOD_1_WEEK.int64
         let wholeDays    = (interval.int64 - (wholeWeeks * TimeInterval.PERIOD_1_WEEK.int64)                                                                                                                                                        ) / TimeInterval.PERIOD_1_DAY.int64
         let wholeHours   = (interval.int64 - (wholeWeeks * TimeInterval.PERIOD_1_WEEK.int64) - (wholeDays * TimeInterval.PERIOD_1_DAY.int64)                                                                                                        ) / TimeInterval.PERIOD_1_HOUR.int64
