@@ -37,11 +37,11 @@ extension TimeInterval {
     }
 
     static func wholeParts(interval: TimeInterval) -> PeriodsCountResult {
-        var wholeWeeks   = (interval.int64                                                                                                                                                                                                          ) / TimeInterval.PERIOD_1_WEEK.int64
-        var wholeDays    = (interval.int64 - (wholeWeeks * TimeInterval.PERIOD_1_WEEK.int64)                                                                                                                                                        ) / TimeInterval.PERIOD_1_DAY.int64
-        var wholeHours   = (interval.int64 - (wholeWeeks * TimeInterval.PERIOD_1_WEEK.int64) - (wholeDays * TimeInterval.PERIOD_1_DAY.int64)                                                                                                        ) / TimeInterval.PERIOD_1_HOUR.int64
-        var wholeMinutes = (interval.int64 - (wholeWeeks * TimeInterval.PERIOD_1_WEEK.int64) - (wholeDays * TimeInterval.PERIOD_1_DAY.int64) - (wholeHours * TimeInterval.PERIOD_1_HOUR.int64)                                                      ) / TimeInterval.PERIOD_1_MINUTE.int64
-        var wholeSeconds = (interval.int64 - (wholeWeeks * TimeInterval.PERIOD_1_WEEK.int64) - (wholeDays * TimeInterval.PERIOD_1_DAY.int64) - (wholeHours * TimeInterval.PERIOD_1_HOUR.int64) - (wholeMinutes * TimeInterval.PERIOD_1_MINUTE.int64))
+        let wholeWeeks   = (interval.int64                                                                                                                                                                                                          ) / TimeInterval.PERIOD_1_WEEK.int64
+        let wholeDays    = (interval.int64 - (wholeWeeks * TimeInterval.PERIOD_1_WEEK.int64)                                                                                                                                                        ) / TimeInterval.PERIOD_1_DAY.int64
+        let wholeHours   = (interval.int64 - (wholeWeeks * TimeInterval.PERIOD_1_WEEK.int64) - (wholeDays * TimeInterval.PERIOD_1_DAY.int64)                                                                                                        ) / TimeInterval.PERIOD_1_HOUR.int64
+        let wholeMinutes = (interval.int64 - (wholeWeeks * TimeInterval.PERIOD_1_WEEK.int64) - (wholeDays * TimeInterval.PERIOD_1_DAY.int64) - (wholeHours * TimeInterval.PERIOD_1_HOUR.int64)                                                      ) / TimeInterval.PERIOD_1_MINUTE.int64
+        let wholeSeconds = (interval.int64 - (wholeWeeks * TimeInterval.PERIOD_1_WEEK.int64) - (wholeDays * TimeInterval.PERIOD_1_DAY.int64) - (wholeHours * TimeInterval.PERIOD_1_HOUR.int64) - (wholeMinutes * TimeInterval.PERIOD_1_MINUTE.int64))
         return PeriodsCountResult(
             weeks  : wholeWeeks,
             days   : wholeDays,
@@ -54,7 +54,6 @@ extension TimeInterval {
     public var int64: Int64 {
         Int64(self)
     }
-
 
 }
 
