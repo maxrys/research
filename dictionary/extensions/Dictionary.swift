@@ -5,6 +5,32 @@
 
 extension Dictionary where Key: Comparable {
 
+    public enum OrderBy {
+        case keyAscending
+        case keyDescending
+        case valueAscending
+        case valueDescending
+    }
+
+    public func sorted(
+        order: Self.OrderBy = .keyAscending
+    ) -> [Element] where Key: Comparable, Value: Comparable {
+        self.sorted(by: { (lhs, rhs) in
+            switch order {
+                case .keyAscending   : lhs.key   < rhs.key
+                case .keyDescending  : lhs.key   > rhs.key
+                case .valueAscending : lhs.value < rhs.value
+                case .valueDescending: lhs.value > rhs.value
+            }
+        })
+    }
+
+    @inlinable public func sortedByKeys() -> [Element] {
+        self.sorted(by: { (lhs, rhs) in
+            lhs.key < rhs.key
+        })
+    }
+
     @inlinable public var last: Element? {
         get {
             if let key = self.keys.max(by: { (lhs, rhs) in lhs < rhs } ) {
@@ -58,17 +84,11 @@ extension Dictionary where Key: Comparable {
     }
 
     @inlinable public func previousSlow(before: Key) -> Element? {
-        return self.filter({ (key, value) in before > key }).ordered().last
+        return self.filter({ (key, value) in before > key }).sortedByKeys().last
     }
 
     @inlinable public func nextSlow(after: Key) -> Element? {
-        return self.filter({ (key, value) in key > after }).ordered().first
-    }
-
-    @inlinable public func ordered() -> [Element] {
-        self.sorted(by: { (lhs, rhs) in
-            lhs.key < rhs.key
-        })
+        return self.filter({ (key, value) in key > after }).sortedByKeys().first
     }
 
     @inlinable public mutating func append(_ value: Value) where Key: Numeric {

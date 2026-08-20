@@ -11,21 +11,21 @@ import QuartzCore
     var body: some Scene {
         Window("Main", id: "main") { ScrollView {
 
-            // ordered
+            // sorted
 
-            ForEach(dictIntKeys.ordered(), id: \.key) { key, value in
+            ForEach(dictIntKeys.sorted(), id: \.key) { key, value in
                 Text("\(key) = \(value)")
             }
 
-            ForEach(dictStrKeys.ordered(), id: \.key) { key, value in
+            ForEach(dictStrKeys.sorted(), id: \.key) { key, value in
                 Text("\(key) = \(value)")
             }
 
-            ForEach(dictComplex.ordered(), id: \.key) { key, value in
+            ForEach(dictComplex.sortedByKeys(), id: \.key) { key, value in
                 Text("\(key) = \(value)")
             }
 
-            ForEach(dictIntKeysEmpty.ordered(), id: \.key) { key, value in
+            ForEach(dictIntKeysEmpty.sorted(), id: \.key) { key, value in
                 Text("\(key) = \(value)")
             }
 
@@ -153,23 +153,23 @@ import QuartzCore
         dump(dictComplex.last! == (key: "key5", value: ComplexStruct(a: "value 5.1", b: "value 5.2")))
         dump(dictIntKeysEmpty.last == nil)
 
-        print("Int keys (ordered):")
-        for (key, value) in dictIntKeys.ordered() {
+        print("Int keys (sorted):")
+        for (key, value) in dictIntKeys.sorted() {
             print("\(key):\(value)")
         }
 
-        print("Str keys (ordered):")
-        for (key, value) in dictStrKeys.ordered() {
+        print("Str keys (sorted):")
+        for (key, value) in dictStrKeys.sorted() {
             print("\(key):\(value)")
         }
 
-        print("Comples keys (ordered):")
-        for (key, value) in dictComplex.ordered() {
+        print("Comples keys (sortedByKeys):")
+        for (key, value) in dictComplex.sortedByKeys() {
             print("\(key):\(value)")
         }
 
         print("Empty:")
-        for (key, value) in dictIntKeysEmpty.ordered() {
+        for (key, value) in dictIntKeysEmpty.sorted() {
             print("\(key):\(value)")
         }
 
