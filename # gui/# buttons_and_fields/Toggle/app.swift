@@ -12,9 +12,9 @@ import SwiftUI
     var body: some Scene {
         WindowGroup {
             VStack(alignment: .trailing) {
-                ToggleCustom(text: "Test", isOn: $isOn, isFlexible: true)
-                ToggleCustom(text: "Test", isOn: $isOn, isFlexible: false)
-                ToggleCustom(isOn: $isOn)
+                ToggleCustom(text: "Test", isOn: self.$isOn, isFlexible: true)
+                ToggleCustom(text: "Test", isOn: self.$isOn, isFlexible: false)
+                ToggleCustom(              isOn: self.$isOn)
             }
             .frame(width: 200)
             .padding(20)
