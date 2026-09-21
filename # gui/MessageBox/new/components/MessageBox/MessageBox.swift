@@ -8,7 +8,7 @@ import SwiftUI
 typealias MessageBoxID = UInt
 typealias MessageID = UInt
 
-enum MessageRegion {
+enum MessageRegion: Codable {
 
     case distributed(appName: String)
     case local
@@ -35,8 +35,8 @@ enum MessageLifeTime: Codable {
 
 enum MessageMergePolicy: Codable {
 
-    case replace
-    case prolong
+    case replaceOrInsert
+    case deleteAndInsert
 
 }
 
@@ -69,6 +69,7 @@ struct MessageInfo: Equatable, Codable {
     public let type: MessageType
     public let lifetime: MessageLifeTime
     public let isClosable: Bool
+    public let mergePolicy: MessageMergePolicy
     public let title: String?
     public let description: String?
     public let createdAt: TimeInterval
@@ -78,22 +79,21 @@ struct MessageInfo: Equatable, Codable {
         type: MessageType = .info,
         lifetime: MessageLifeTime = .time(duration: MessageLifeTime.LIFE_TIME_DEFAULT),
         isClosable: Bool = false,
+        mergePolicy: MessageMergePolicy = .replaceOrInsert,
         title: String? = nil,
         description: String? = nil
     ) {
         self.type = type
         self.lifetime = lifetime
         self.isClosable = isClosable
+        self.mergePolicy = mergePolicy
         self.title = title
         self.description = description
         self.createdAt = Date.timestamp
         self.ID = ID ?? MessageID(Checksums.crc32(
             "\(type)|" +
-            "\(lifetime)|" +
-            "\(isClosable)|" +
             "\(title ?? "")|" +
-            "\(description ?? "")|" +
-            "\(createdAt)"
+            "\(description ?? "")"
         ))
     }
 
@@ -243,10 +243,7 @@ struct MessageBox: View {
     private let region: MessageRegion
     private var timer: Timer.Custom!
 
-    init(
-        ID: MessageBoxID,
-        region: MessageRegion = .local
-    ) {
+    init(ID: MessageBoxID, region: MessageRegion = .local) {
         self.ID = ID
         self.region = region
         self.timer = Timer.Custom(
@@ -267,9 +264,27 @@ struct MessageBox: View {
         }
     }
 
+    private func messageInsert(_ newInfo: MessageInfo) {
+        self.messages.value.append(newInfo)
+    }
+
+    private func messageUpdate(_ newInfo: MessageInfo) -> Bool {
+        if let index = self.messages.value.firstIndex(where: { info in info.ID == newInfo.ID }) {
+            self.messages.value[index] = newInfo
+            return true
+        }
+        return false
+    }
+
+    private func messageDelete(_ ID: MessageID) {
+        if let index = self.messages.value.firstIndex(where: { info in info.ID == ID }) {
+            self.messages.value.remove(at: index)
+        }
+    }
+
     public var body: some View {
         VStack(spacing: 0) {
-            Text("\(self.frame.value)")
+            let _ = self.frame.value
             ForEach(0 ..< self.messages.value.count, id: \.self) { index in
                 let info = self.messages.value[index]
                 Message(
@@ -282,8 +297,16 @@ struct MessageBox: View {
         }
         .onReceive(self.publisherForInsert) { publisher in
             if let messageString = publisher.object as? String {
-                if let message = MessageInfo(decode: messageString) {
-                    self.messages.value.append(message)
+                if let newInfo = MessageInfo(decode: messageString) {
+                    switch (newInfo.mergePolicy) {
+                        case .replaceOrInsert:
+                            if !self.messageUpdate(newInfo) {
+                                self.messageInsert(newInfo)
+                            }
+                        case .deleteAndInsert:
+                            self.messageDelete(newInfo.ID)
+                            self.messageInsert(newInfo)
+                    }
                 }
             }
         }
