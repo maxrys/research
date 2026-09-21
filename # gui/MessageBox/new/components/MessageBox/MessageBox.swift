@@ -127,9 +127,10 @@ struct MessageInfo: Equatable, Codable {
 fileprivate struct Message: View {
 
     public let type: MessageType
+    public let progress: Double?
+    public let isClosable: Bool
     public let title: String?
     public let description: String?
-    public let progress: Double?
 
     private var colorTitleBackground: Color {
         switch self.type {
@@ -197,6 +198,10 @@ fileprivate struct Message: View {
                     .frame(width: size.width * progress, height: 3)
             }
         }
+    }
+
+    @ViewBuilder private func ButtonCloseView() -> some View {
+        Text("X")
     }
 
 }
@@ -292,9 +297,10 @@ struct MessageBox: View {
                 let info = self.messages.value[index]
                 Message(
                     type: info.type,
+                    progress: info.progress,
+                    isClosable: info.isClosable,
                     title: info.title,
-                    description: info.description,
-                    progress: info.progress
+                    description: info.description
                 )
             }
         }
