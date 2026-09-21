@@ -33,6 +33,13 @@ enum MessageLifeTime: Codable {
 
 }
 
+enum MessageMergePolicy: Codable {
+
+    case replace
+    case prolong
+
+}
+
 struct MessageInfo: Equatable, Codable {
 
     static func == (lhs: Self, rhs: Self) -> Bool {
@@ -156,11 +163,7 @@ fileprivate struct Message: View {
             self.TitleView()
             self.DescriptionView()
         }.overlayPolyfill(alignment: .bottom) {
-            if let progress = self.progress {
-                self.ProgressView(
-                    progress: progress
-                )
-            }
+            self.ProgressView()
         }
     }
 
@@ -185,11 +188,13 @@ fileprivate struct Message: View {
         }
     }
 
-    @ViewBuilder private func ProgressView(progress: Double) -> some View {
-        GeometryReaderCustom(isIgnoreHeight: true, alignment: .leading) { size in
-            Rectangle()
-                .fill(self.colorProgressBackground)
-                .frame(width: size.width * progress, height: 3)
+    @ViewBuilder private func ProgressView() -> some View {
+        if let progress = self.progress {
+            GeometryReaderCustom(isIgnoreHeight: true, alignment: .leading) { size in
+                Rectangle()
+                    .fill(self.colorProgressBackground)
+                    .frame(width: size.width * progress, height: 3)
+            }
         }
     }
 
@@ -246,7 +251,7 @@ struct MessageBox: View {
         self.region = region
         self.timer = Timer.Custom(
             repeats: .infinity,
-            delay: 1.0,
+            delay: 1.0 / 12,
             onTick: self.onTick
         )
     }
@@ -257,17 +262,8 @@ struct MessageBox: View {
     }
 
     private func sanitizeIfRequired() {
-        let expiredIDs = self.messages.value.enumerated().reduce(
-            into: Set<MessageID>()
-        ) { result, pair in
-            if (pair.element.isExpired == true) {
-                result.insert(pair.element.ID)
-            }
-        }
-        if (!expiredIDs.isEmpty) {
-            self.messages.value.removeAll { info in
-                expiredIDs.contains(info.ID)
-            }
+        self.messages.value.removeAll { info in
+            info.isExpired == true
         }
     }
 
