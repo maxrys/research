@@ -27,14 +27,14 @@ import SwiftUI
             VStack(spacing: 10) {
 
                 Text("3 (default) sec.").font(.headline)
-                self.ButtonInsertMessageView(   "Info Message"         , .init(type: .info   , lifetime: .time(duration: 10.0), isClosable: false, title:    "Info Message"))
-                self.ButtonInsertMessageView(     "Ok Message"         , .init(type: .ok     , lifetime: .time(duration: 10.0), isClosable: false, title:      "Ok Message"))
-                self.ButtonInsertMessageView("Warning Message"         , .init(type: .warning, lifetime: .time(duration: 10.0), isClosable: false, title: "Warning Message"))
-                self.ButtonInsertMessageView(  "Error Message"         , .init(type: .error  , lifetime: .time(duration: 10.0), isClosable: false, title:   "Error Message"))
-                self.ButtonInsertMessageView(   "Info Message + Descr.", .init(type: .info   , lifetime: .time(duration: 10.0), isClosable: false, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION))
-                self.ButtonInsertMessageView(     "Ok Message + Descr.", .init(type: .ok     , lifetime: .time(duration: 10.0), isClosable: false, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION))
-                self.ButtonInsertMessageView("Warning Message + Descr.", .init(type: .warning, lifetime: .time(duration: 10.0), isClosable: false, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION))
-                self.ButtonInsertMessageView(  "Error Message + Descr.", .init(type: .error  , lifetime: .time(duration: 10.0), isClosable: false, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION))
+                self.ButtonInsertMessageView(   "Info Message"         , type: .info   , lifetime: .time(duration: 10.0), isClosable: false, title:    "Info Message")
+                self.ButtonInsertMessageView(     "Ok Message"         , type: .ok     , lifetime: .time(duration: 10.0), isClosable: false, title:      "Ok Message")
+                self.ButtonInsertMessageView("Warning Message"         , type: .warning, lifetime: .time(duration: 10.0), isClosable: false, title: "Warning Message")
+                self.ButtonInsertMessageView(  "Error Message"         , type: .error  , lifetime: .time(duration: 10.0), isClosable: false, title:   "Error Message")
+                self.ButtonInsertMessageView(   "Info Message + Descr.", type: .info   , lifetime: .time(duration: 10.0), isClosable: false, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
+                self.ButtonInsertMessageView(     "Ok Message + Descr.", type: .ok     , lifetime: .time(duration: 10.0), isClosable: false, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
+                self.ButtonInsertMessageView("Warning Message + Descr.", type: .warning, lifetime: .time(duration: 10.0), isClosable: false, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
+                self.ButtonInsertMessageView(  "Error Message + Descr.", type: .error  , lifetime: .time(duration: 10.0), isClosable: false, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
             }
 
             ScrollView {
@@ -48,9 +48,15 @@ import SwiftUI
         .frame(minWidth: 500)
     }
 
-    @ViewBuilder private func ButtonInsertMessageView(_ text: String, _ messageInfo: MessageInfo) -> some View {
+    @ViewBuilder private func ButtonInsertMessageView(_ text: String, type: MessageType, lifetime: MessageLifeTime, isClosable: Bool, title: String? = nil, description: String? = nil) -> some View {
         Button {
-            MessageBox.insert(to: Self.MESSAGE_BOX_MAIN_ID, messageInfo)
+            MessageBox.insert(to: Self.MESSAGE_BOX_MAIN_ID, .init(
+                type: type,
+                lifetime: lifetime,
+                isClosable: isClosable,
+                title: title,
+                description: description
+            ))
         } label: {
             Text(text).frame(width: 200)
         }

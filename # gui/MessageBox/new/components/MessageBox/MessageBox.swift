@@ -171,6 +171,7 @@ fileprivate struct Message: View {
         if let title = self.title {
             Text(title)
                 .font(.headline)
+                .multilineTextAlignment(.center)
                 .padding(10)
                 .frame(maxWidth: .infinity)
                 .foregroundPolyfill(Color.messageBox.text)
@@ -248,19 +249,21 @@ struct MessageBox: View {
         self.region = region
         self.timer = Timer.Custom(
             repeats: .infinity,
-            delay: 1.0 / 12,
+            delay: 1.0,
             onTick: self.onTick
         )
     }
 
     private func onTick(timer: Timer.Custom) {
-        self.sanitizeIfRequired()
+        self.messagesSanitizeIfRequired()
         self.frame.value += 1 /* view will be refresh */
     }
 
-    private func sanitizeIfRequired() {
-        self.messages.value.removeAll { info in
-            info.isExpired == true
+    private func messagesSanitizeIfRequired() {
+        if !self.messages.value.isEmpty {
+            self.messages.value.removeAll { info in
+                info.isExpired == true
+            }
         }
     }
 
@@ -284,7 +287,7 @@ struct MessageBox: View {
 
     public var body: some View {
         VStack(spacing: 0) {
-            let _ = self.frame.value
+            let _ = self.frame.value /* view will be refresh */
             ForEach(0 ..< self.messages.value.count, id: \.self) { index in
                 let info = self.messages.value[index]
                 Message(
