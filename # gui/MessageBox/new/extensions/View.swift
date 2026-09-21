@@ -22,4 +22,23 @@ extension View {
         }
     }
 
+    @ViewBuilder func pointerStyleLinkPolyfill(_ isEnabled: Bool = true) -> some View {
+        if (isEnabled) {
+            self.onHover { isInView in
+                if (isInView) { NSCursor.pointingHand.push() }
+                else          { NSCursor.pop() }
+            }
+        } else {
+            self
+        }
+    }
+
+    @ViewBuilder func focusEffect<S>(_ shape: S) -> some View where S: Shape {
+        if #available(macOS 12.0, *) {
+            self.contentShape(.focusEffect, shape)
+        } else {
+            self
+        }
+    }
+
 }

@@ -70,7 +70,7 @@ struct MessageInfo: Equatable, Codable {
     public let lifetime: MessageLifeTime
     public let isClosable: Bool
     public let mergePolicy: MessageMergePolicy
-    public let title: String?
+    public let title: String
     public let description: String?
     public let createdAt: TimeInterval
 
@@ -80,7 +80,7 @@ struct MessageInfo: Equatable, Codable {
         lifetime: MessageLifeTime = .time(duration: MessageLifeTime.LIFE_TIME_DEFAULT),
         isClosable: Bool = false,
         mergePolicy: MessageMergePolicy = .replaceOrInsert,
-        title: String? = nil,
+        title: String,
         description: String? = nil
     ) {
         self.type = type
@@ -91,9 +91,7 @@ struct MessageInfo: Equatable, Codable {
         self.description = description
         self.createdAt = Date.timestamp
         self.ID = ID ?? MessageID(Checksums.crc32(
-            "\(type)|" +
-            "\(title ?? "")|" +
-            "\(description ?? "")"
+            "\(type)|\(title)|\(description ?? "")"
         ))
     }
 
@@ -129,7 +127,7 @@ fileprivate struct Message: View {
     public let type: MessageType
     public let progress: Double?
     public let isClosable: Bool
-    public let title: String?
+    public let title: String
     public let description: String?
 
     private var colorTitleBackground: Color {
@@ -169,15 +167,18 @@ fileprivate struct Message: View {
     }
 
     @ViewBuilder private func TitleView() -> some View {
-        if let title = self.title {
-            Text(title)
+        HStack(spacing: 10) {
+            Text(self.title)
                 .font(.headline)
                 .multilineTextAlignment(.center)
-                .padding(10)
-                .frame(maxWidth: .infinity)
-                .foregroundPolyfill(Color.messageBox.text)
-                .background(self.colorTitleBackground)
+            if (self.isClosable) {
+                self.ButtonCloseView()
+            }
         }
+        .padding(10)
+        .frame(maxWidth: .infinity)
+        .foregroundPolyfill(Color.messageBox.text)
+        .background(self.colorTitleBackground)
     }
 
     @ViewBuilder private func DescriptionView() -> some View {
@@ -201,7 +202,20 @@ fileprivate struct Message: View {
     }
 
     @ViewBuilder private func ButtonCloseView() -> some View {
-        Text("X")
+        Button {
+            // UNDER CONSTRUCTION
+        } label: {
+            Image(systemName: "xmark.circle")
+                .resizable()
+                .frame(width: 20, height: 20)
+                .clipShape   (Capsule())
+                .contentShape(Capsule())
+                .focusEffect (Capsule())
+                .opacity(0.5)
+        }
+        .focusable(false)
+        .buttonStyle(.plain)
+        .pointerStyleLinkPolyfill()
     }
 
 }
@@ -219,7 +233,6 @@ struct MessageBox: View {
     static private func notificationNameForDeleteLocal      (                   _ messageBoxID: MessageBoxID) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_DELETE_LOCAL)-\(messageBoxID)") }
 
     static public func insert(region: MessageRegion = .local, to messageBoxID: MessageBoxID, _ message: MessageInfo) {
-        guard message.title != nil || message.description != nil else { return }
         if case .distributed(let appName) = region { NotificationCenter.default.postDistributed(name: Self.notificationNameForInsertDistributed(appName, messageBoxID), object: message.encode()) }
         if case .local                    = region { NotificationCenter.default.post           (name: Self.notificationNameForInsertLocal      (         messageBoxID), object: message.encode()) }
     }
