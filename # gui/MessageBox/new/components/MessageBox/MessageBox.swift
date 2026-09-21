@@ -1,0 +1,301 @@
+
+/* ############################################################# */
+/* ### Copyright © 2026 Maxim Rysevets. All rights reserved. ### */
+/* ############################################################# */
+
+import SwiftUI
+
+typealias MessageBoxID = UInt
+typealias MessageID = UInt
+
+enum MessageRegion {
+
+    case distributed(appName: String)
+    case local
+
+}
+
+enum MessageType: Codable {
+
+    case info
+    case ok
+    case warning
+    case error
+
+}
+
+enum MessageLifeTime: Codable {
+
+    static let LIFE_TIME_DEFAULT: CFTimeInterval = 3.0
+
+    case time(duration: Double)
+    case infinity
+
+}
+
+struct MessageInfo: Equatable, Codable {
+
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.ID == rhs.ID
+    }
+
+    public var progress: Double? {
+        if case .time(let duration) = self.lifetime {
+            let createdAt = self.createdAt
+            let expiresAt = self.createdAt + duration
+            return Date.timestamp.progress(
+                begin: createdAt, end: expiresAt
+            )
+        }
+        return nil
+    }
+
+    public var isExpired: Bool? {
+        if case .time(let duration) = self.lifetime {
+            let expiresAt = self.createdAt + duration
+            return Date.timestamp > expiresAt
+        }
+        return nil
+    }
+
+    public let ID: MessageID
+    public let type: MessageType
+    public let lifetime: MessageLifeTime
+    public let isClosable: Bool
+    public let title: String?
+    public let description: String?
+    public let createdAt: TimeInterval
+
+    init(
+        ID: MessageID? = nil,
+        type: MessageType = .info,
+        lifetime: MessageLifeTime = .time(duration: MessageLifeTime.LIFE_TIME_DEFAULT),
+        isClosable: Bool = false,
+        title: String? = nil,
+        description: String? = nil
+    ) {
+        self.type = type
+        self.lifetime = lifetime
+        self.isClosable = isClosable
+        self.title = title
+        self.description = description
+        self.createdAt = Date.timestamp
+        self.ID = ID ?? MessageID(Checksums.crc32(
+            "\(type)|" +
+            "\(lifetime)|" +
+            "\(isClosable)|" +
+            "\(title ?? "")|" +
+            "\(description ?? "")|" +
+            "\(createdAt)"
+        ))
+    }
+
+    init?(decode json: String) {
+        do {
+            guard let data = json.data(using: .utf8) else {
+                return nil
+            }
+            self = try JSONDecoder().decode(
+                Self.self,
+                from: data
+            )
+        } catch {
+            return nil
+        }
+    }
+
+    func encode() -> String? {
+        let jsonEncoder = JSONEncoder()
+        guard let data = try? jsonEncoder.encode(self) else {
+            return nil
+        }
+        return String(
+            data: data,
+            encoding: .utf8
+        )
+    }
+
+}
+
+fileprivate struct Message: View {
+
+    public let type: MessageType
+    public let title: String?
+    public let description: String?
+    public let progress: Double?
+
+    private var colorTitleBackground: Color {
+        switch self.type {
+            case .info   : Color.messageBox.infoTitleBackground
+            case .ok     : Color.messageBox.okTitleBackground
+            case .warning: Color.messageBox.warningTitleBackground
+            case .error  : Color.messageBox.errorTitleBackground
+        }
+    }
+
+    private var colorDescriptionBackground: Color {
+        switch self.type {
+            case .info   : Color.messageBox.infoDescriptionBackground
+            case .ok     : Color.messageBox.okDescriptionBackground
+            case .warning: Color.messageBox.warningDescriptionBackground
+            case .error  : Color.messageBox.errorDescriptionBackground
+        }
+    }
+
+    private var colorProgressBackground: Color {
+        switch self.type {
+            case .info   : Color.messageBox.infoProgressBackground
+            case .ok     : Color.messageBox.okProgressBackground
+            case .warning: Color.messageBox.warningProgressBackground
+            case .error  : Color.messageBox.errorProgressBackground
+        }
+    }
+
+    public var body: some View {
+        VStack(spacing: 0) {
+            self.TitleView()
+            self.DescriptionView()
+        }.overlayPolyfill(alignment: .bottom) {
+            if let progress = self.progress {
+                self.ProgressView(
+                    progress: progress
+                )
+            }
+        }
+    }
+
+    @ViewBuilder private func TitleView() -> some View {
+        if let title = self.title {
+            Text(title)
+                .font(.headline)
+                .padding(10)
+                .frame(maxWidth: .infinity)
+                .foregroundPolyfill(Color.messageBox.text)
+                .background(self.colorTitleBackground)
+        }
+    }
+
+    @ViewBuilder private func DescriptionView() -> some View {
+        if let description = self.description {
+            Text(description)
+                .padding(10)
+                .frame(maxWidth: .infinity)
+                .foregroundPolyfill(Color.messageBox.text)
+                .background(self.colorDescriptionBackground)
+        }
+    }
+
+    @ViewBuilder private func ProgressView(progress: Double) -> some View {
+        GeometryReaderCustom(isIgnoreHeight: true, alignment: .leading) { size in
+            Rectangle()
+                .fill(self.colorProgressBackground)
+                .frame(width: size.width * progress, height: 3)
+        }
+    }
+
+}
+
+struct MessageBox: View {
+
+    static let MESSAGE_NAME_FOR_INSERT_DISTRIBUTED = "messageInsertDistributed"
+    static let MESSAGE_NAME_FOR_DELETE_DISTRIBUTED = "messageDeleteDistributed"
+    static let MESSAGE_NAME_FOR_INSERT_LOCAL       = "messageInsertLocal"
+    static let MESSAGE_NAME_FOR_DELETE_LOCAL       = "messageDeleteLocal"
+
+    static private func notificationNameForInsertDistributed(_ appName: String, _ messageBoxID: MessageBoxID) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_INSERT_DISTRIBUTED)-\(appName)-\(messageBoxID)") }
+    static private func notificationNameForDeleteDistributed(_ appName: String, _ messageBoxID: MessageBoxID) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_DELETE_DISTRIBUTED)-\(appName)-\(messageBoxID)") }
+    static private func notificationNameForInsertLocal      (                   _ messageBoxID: MessageBoxID) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_INSERT_LOCAL)-\(messageBoxID)") }
+    static private func notificationNameForDeleteLocal      (                   _ messageBoxID: MessageBoxID) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_DELETE_LOCAL)-\(messageBoxID)") }
+
+    static public func insert(region: MessageRegion = .local, to messageBoxID: MessageBoxID, _ message: MessageInfo) {
+        guard message.title != nil || message.description != nil else { return }
+        if case .distributed(let appName) = region { NotificationCenter.default.postDistributed(name: Self.notificationNameForInsertDistributed(appName, messageBoxID), object: message.encode()) }
+        if case .local                    = region { NotificationCenter.default.post           (name: Self.notificationNameForInsertLocal      (         messageBoxID), object: message.encode()) }
+    }
+
+    static public func delete(_ ID: MessageID) {
+        // UNDER CONSTRUCTION
+    }
+
+    private var publisherForInsert: NotificationCenter.Publisher {
+        switch self.region {
+            case .distributed(let appName): DistributedNotificationCenter.default.publisher(for: Self.notificationNameForInsertDistributed(appName, self.ID))
+            case .local                   :            NotificationCenter.default.publisher(for: Self.notificationNameForInsertLocal      (         self.ID))
+        }
+    }
+
+    private var publisherForDelete: NotificationCenter.Publisher {
+        switch self.region {
+            case .distributed(let appName): DistributedNotificationCenter.default.publisher(for: Self.notificationNameForDeleteDistributed(appName, self.ID))
+            case .local                   :            NotificationCenter.default.publisher(for: Self.notificationNameForDeleteLocal      (         self.ID))
+        }
+    }
+
+    @ObservedObject private var messages = ValueState<[MessageInfo]>([])
+    @ObservedObject private var frame = ValueState<UInt>(0)
+
+    private let ID: MessageBoxID
+    private let region: MessageRegion
+    private var timer: Timer.Custom!
+
+    init(
+        ID: MessageBoxID,
+        region: MessageRegion = .local
+    ) {
+        self.ID = ID
+        self.region = region
+        self.timer = Timer.Custom(
+            repeats: .infinity,
+            delay: 1.0,
+            onTick: self.onTick
+        )
+    }
+
+    private func onTick(timer: Timer.Custom) {
+        self.sanitizeIfRequired()
+        self.frame.value += 1 /* view will be refresh */
+    }
+
+    private func sanitizeIfRequired() {
+        let expiredIDs = self.messages.value.enumerated().reduce(
+            into: Set<MessageID>()
+        ) { result, pair in
+            if (pair.element.isExpired == true) {
+                result.insert(pair.element.ID)
+            }
+        }
+        if (!expiredIDs.isEmpty) {
+            self.messages.value.removeAll { info in
+                expiredIDs.contains(info.ID)
+            }
+        }
+    }
+
+    public var body: some View {
+        VStack(spacing: 0) {
+            Text("\(self.frame.value)")
+            ForEach(0 ..< self.messages.value.count, id: \.self) { index in
+                let info = self.messages.value[index]
+                Message(
+                    type: info.type,
+                    title: info.title,
+                    description: info.description,
+                    progress: info.progress
+                )
+            }
+        }
+        .onReceive(self.publisherForInsert) { publisher in
+            if let messageString = publisher.object as? String {
+                if let message = MessageInfo(decode: messageString) {
+                    self.messages.value.append(message)
+                }
+            }
+        }
+        .onReceive(self.publisherForDelete) { publisher in
+            if let messageString = publisher.object as? String {
+                // UNDER CONSTRUCTION
+            }
+        }
+    }
+
+}
