@@ -126,6 +126,9 @@ fileprivate struct Message: View {
 
     @State private var isHoverOnTitle = false
 
+    public let messageBoxID: MessageBoxID
+    public let region: MessageRegion
+    public let ID: MessageID
     public let type: MessageType
     public let progress: Double?
     public let isClosable: Bool
@@ -209,7 +212,11 @@ fileprivate struct Message: View {
 
     @ViewBuilder private func ButtonCloseView() -> some View {
         Button {
-            // UNDER CONSTRUCTION
+            MessageBox.delete(
+                region: self.region,
+                to: self.messageBoxID,
+                self.ID
+            )
         } label: {
             let shape = RoundedRectangle(cornerRadius: 3)
             shape
@@ -326,6 +333,9 @@ struct MessageBox: View {
             ForEach(0 ..< self.messages.value.count, id: \.self) { index in
                 let info = self.messages.value[index]
                 Message(
+                    messageBoxID: self.ID,
+                    region: self.region,
+                    ID: info.ID,
                     type: info.type,
                     progress: info.progress,
                     isClosable: info.isClosable,
