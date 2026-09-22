@@ -8,10 +8,10 @@ import SwiftUI
 typealias MessageBoxID = UInt
 typealias MessageID = UInt
 
-enum MessageRegion: Codable {
+enum MessageBoxAddress: Codable {
 
-    case distributed(appName: String)
-    case local
+    case distributed(boxID: MessageBoxID, appName: String)
+    case local      (boxID: MessageBoxID)
 
 }
 
@@ -126,8 +126,7 @@ fileprivate struct Message: View {
 
     @State private var isHoverOnTitle = false
 
-    public let messageBoxID: MessageBoxID
-    public let region: MessageRegion
+    public let address: MessageBoxAddress
     public let ID: MessageID
     public let type: MessageType
     public let progress: Double?
@@ -213,8 +212,7 @@ fileprivate struct Message: View {
     @ViewBuilder private func ButtonCloseView() -> some View {
         Button {
             MessageBox.delete(
-                region: self.region,
-                to: self.messageBoxID,
+                address: self.address,
                 self.ID
             )
         } label: {
@@ -250,45 +248,47 @@ struct MessageBox: View {
     static let MESSAGE_NAME_FOR_INSERT_LOCAL       = "messageInsertLocal"
     static let MESSAGE_NAME_FOR_DELETE_LOCAL       = "messageDeleteLocal"
 
-    static private func notificationNameForInsertDistributed(_ appName: String, _ messageBoxID: MessageBoxID) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_INSERT_DISTRIBUTED)-\(appName)-\(messageBoxID)") }
-    static private func notificationNameForDeleteDistributed(_ appName: String, _ messageBoxID: MessageBoxID) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_DELETE_DISTRIBUTED)-\(appName)-\(messageBoxID)") }
-    static private func notificationNameForInsertLocal      (                   _ messageBoxID: MessageBoxID) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_INSERT_LOCAL)-\(messageBoxID)") }
-    static private func notificationNameForDeleteLocal      (                   _ messageBoxID: MessageBoxID) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_DELETE_LOCAL)-\(messageBoxID)") }
+    static private func notificationNameForInsertDistributed(_ messageBoxID: MessageBoxID, _ appName: String) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_INSERT_DISTRIBUTED)-\(appName)-\(messageBoxID)") }
+    static private func notificationNameForDeleteDistributed(_ messageBoxID: MessageBoxID, _ appName: String) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_DELETE_DISTRIBUTED)-\(appName)-\(messageBoxID)") }
+    static private func notificationNameForInsertLocal      (_ messageBoxID: MessageBoxID,                  ) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_INSERT_LOCAL)-\(messageBoxID)") }
+    static private func notificationNameForDeleteLocal      (_ messageBoxID: MessageBoxID,                  ) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_DELETE_LOCAL)-\(messageBoxID)") }
 
-    static public func insert(region: MessageRegion = .local, to messageBoxID: MessageBoxID, _ message: MessageInfo) {
-        if case .distributed(let appName) = region { NotificationCenter.default.postDistributed(name: Self.notificationNameForInsertDistributed(appName, messageBoxID), object: message.encode()) }
-        if case .local                    = region { NotificationCenter.default.post           (name: Self.notificationNameForInsertLocal      (         messageBoxID), object: message.encode()) }
+    static public func insert(address: MessageBoxAddress, _ message: MessageInfo) {
+        switch address {
+            case .distributed(let boxID, let appName): NotificationCenter.default.postDistributed(name: Self.notificationNameForInsertDistributed(boxID, appName), object: message.encode())
+            case .local      (let boxID)             : NotificationCenter.default.post           (name: Self.notificationNameForInsertLocal      (boxID         ), object: message.encode())
+        }
     }
 
-    static public func delete(region: MessageRegion = .local, to messageBoxID: MessageBoxID, _ ID: MessageID) {
-        if case .distributed(let appName) = region { NotificationCenter.default.postDistributed(name: Self.notificationNameForDeleteDistributed(appName, messageBoxID), object: String(ID)) }
-        if case .local                    = region { NotificationCenter.default.post           (name: Self.notificationNameForDeleteLocal      (         messageBoxID), object: String(ID)) }
+    static public func delete(address: MessageBoxAddress, _ ID: MessageID) {
+        switch address {
+            case .distributed(let boxID, let appName): NotificationCenter.default.postDistributed(name: Self.notificationNameForDeleteDistributed(boxID, appName), object: String(ID))
+            case .local      (let boxID)             : NotificationCenter.default.post           (name: Self.notificationNameForDeleteLocal      (boxID         ), object: String(ID))
+        }
     }
 
     private var publisherForInsert: NotificationCenter.Publisher {
-        switch self.region {
-            case .distributed(let appName): DistributedNotificationCenter.default.publisher(for: Self.notificationNameForInsertDistributed(appName, self.ID))
-            case .local                   :            NotificationCenter.default.publisher(for: Self.notificationNameForInsertLocal      (         self.ID))
+        switch self.address {
+            case .distributed(let boxID, let appName): DistributedNotificationCenter.default.publisher(for: Self.notificationNameForInsertDistributed(boxID, appName))
+            case .local      (let boxID)             :            NotificationCenter.default.publisher(for: Self.notificationNameForInsertLocal      (boxID         ))
         }
     }
 
     private var publisherForDelete: NotificationCenter.Publisher {
-        switch self.region {
-            case .distributed(let appName): DistributedNotificationCenter.default.publisher(for: Self.notificationNameForDeleteDistributed(appName, self.ID))
-            case .local                   :            NotificationCenter.default.publisher(for: Self.notificationNameForDeleteLocal      (         self.ID))
+        switch self.address {
+            case .distributed(let boxID, let appName): DistributedNotificationCenter.default.publisher(for: Self.notificationNameForDeleteDistributed(boxID, appName))
+            case .local      (let boxID)             :            NotificationCenter.default.publisher(for: Self.notificationNameForDeleteLocal      (boxID         ))
         }
     }
 
     @ObservedObject private var messages = ValueState<[MessageInfo]>([])
     @ObservedObject private var frame = ValueState<UInt>(0)
 
-    private let ID: MessageBoxID
-    private let region: MessageRegion
+    private let address: MessageBoxAddress
     private var timer: Timer.Custom!
 
-    init(ID: MessageBoxID, region: MessageRegion = .local) {
-        self.ID = ID
-        self.region = region
+    init(address: MessageBoxAddress) {
+        self.address = address
         self.timer = Timer.Custom(
             repeats: .infinity,
             delay: 1.0,
@@ -333,8 +333,7 @@ struct MessageBox: View {
             ForEach(0 ..< self.messages.value.count, id: \.self) { index in
                 let info = self.messages.value[index]
                 Message(
-                    messageBoxID: self.ID,
-                    region: self.region,
+                    address: self.address,
                     ID: info.ID,
                     type: info.type,
                     progress: info.progress,

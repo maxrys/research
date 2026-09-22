@@ -7,7 +7,9 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
-    public static let MESSAGE_BOX_MAIN_ID: MessageBoxID = 0
+    public static let messageBoxMainAddress: MessageBoxAddress = .local(
+        boxID: MessageBoxID(0)
+    )
 
     public static let DEMO_LONG_TITLE       = NSLocalizedString("Long long long long long long long long long long long long long long Title", comment: "")
     public static let DEMO_LONG_DESCRIPTION = NSLocalizedString("Long long long long long long long long long long long long long long long long long long long long long Description", comment: "")
@@ -40,7 +42,7 @@ import SwiftUI
 
             ScrollView {
                 MessageBox(
-                    ID: Self.MESSAGE_BOX_MAIN_ID
+                    address: Self.messageBoxMainAddress
                 )
             }.frame(width: 300)
 
@@ -57,7 +59,7 @@ import SwiftUI
         description: String? = nil
     ) -> some View {
         Button {
-            MessageBox.insert(to: Self.MESSAGE_BOX_MAIN_ID, .init(
+            MessageBox.insert(address: Self.messageBoxMainAddress, .init(
                 type: type,
                 lifetime: lifetime,
                 isClosable: isClosable,
