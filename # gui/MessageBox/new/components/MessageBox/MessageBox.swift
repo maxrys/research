@@ -35,8 +35,10 @@ enum MessageLifeTime: Codable {
 
 enum MessageMergePolicy: Codable {
 
-    case replaceOrInsert
-    case deleteAndInsert
+    case replaceOrInsertAtTop
+    case replaceOrInsertAtBottom
+    case deleteAndInsertAtTop
+    case deleteAndInsertAtBottom
 
 }
 
@@ -79,7 +81,7 @@ struct MessageInfo: Equatable, Codable {
         type: MessageType = .info,
         lifetime: MessageLifeTime = .time(duration: MessageLifeTime.LIFE_TIME_DEFAULT),
         isClosable: Bool = false,
-        mergePolicy: MessageMergePolicy = .replaceOrInsert,
+        mergePolicy: MessageMergePolicy = .replaceOrInsertAtBottom,
         title: String,
         description: String? = nil
     ) {
@@ -309,8 +311,9 @@ struct MessageBox: View {
         }
     }
 
-    private func messageInsert(_ newInfo: MessageInfo) {
-        self.messages.value.append(newInfo)
+    private func messageInsert(_ newInfo: MessageInfo, atTop: Bool = false) {
+        if (atTop) { self.messages.value.insert(newInfo, at: 0) }
+        else       { self.messages.value.append(newInfo) }
     }
 
     private func messageUpdate(_ newInfo: MessageInfo) -> Bool {
@@ -347,13 +350,10 @@ struct MessageBox: View {
             if let messageString = publisher.object as? String {
                 if let newInfo = MessageInfo(decode: messageString) {
                     switch (newInfo.mergePolicy) {
-                        case .replaceOrInsert:
-                            if !self.messageUpdate(newInfo) {
-                                self.messageInsert(newInfo)
-                            }
-                        case .deleteAndInsert:
-                            self.messageDelete(newInfo.ID)
-                            self.messageInsert(newInfo)
+                        case .replaceOrInsertAtTop   : if !self.messageUpdate(newInfo) { self.messageInsert(newInfo, atTop: true) }
+                        case .replaceOrInsertAtBottom: if !self.messageUpdate(newInfo) { self.messageInsert(newInfo) }
+                        case .deleteAndInsertAtTop   : self.messageDelete(newInfo.ID);   self.messageInsert(newInfo, atTop: true)
+                        case .deleteAndInsertAtBottom: self.messageDelete(newInfo.ID);   self.messageInsert(newInfo)
                     }
                 }
             }
