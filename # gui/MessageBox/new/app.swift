@@ -22,7 +22,7 @@ import SwiftUI
     }
 
     @ViewBuilder fileprivate func mainSceneView() -> some View {
-        HStack (spacing: 10) {
+        HStack (alignment: .bottom, spacing: 10) {
 
             VStack(spacing: 10) {
 
@@ -35,17 +35,16 @@ import SwiftUI
                 self.ButtonInsertMessageView(     "Ok Message + Descr.", type: .ok     , lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: .replaceOrInsert, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
                 self.ButtonInsertMessageView("Warning Message + Descr.", type: .warning, lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: .replaceOrInsert, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
                 self.ButtonInsertMessageView(  "Error Message + Descr.", type: .error  , lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: .replaceOrInsert, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
-            }
+
+            }.frame(width: 200)
 
             ScrollView {
                 MessageBox(
                     ID: Self.MESSAGE_BOX_MAIN_ID
                 )
-            }
+            }.frame(width: 300)
 
-        }
-        .padding(10)
-        .frame(minWidth: 500)
+        }.padding(10)
     }
 
     @ViewBuilder private func ButtonInsertMessageView(
@@ -67,7 +66,7 @@ import SwiftUI
                 description: description
             ))
         } label: {
-            Text(text).frame(width: 200)
+            Text(text).frame(width: 180)
         }
     }
 

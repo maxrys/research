@@ -124,6 +124,8 @@ struct MessageInfo: Equatable, Codable {
 
 fileprivate struct Message: View {
 
+    @State private var isHoverOnTitle = false
+
     public let type: MessageType
     public let progress: Double?
     public let isClosable: Bool
@@ -167,18 +169,22 @@ fileprivate struct Message: View {
     }
 
     @ViewBuilder private func TitleView() -> some View {
-        HStack(spacing: 10) {
-            Text(self.title)
-                .font(.headline)
-                .multilineTextAlignment(.center)
-            if (self.isClosable) {
-                self.ButtonCloseView()
+        Text(self.title)
+            .font(.headline)
+            .multilineTextAlignment(.center)
+            .padding(10)
+            .frame(maxWidth: .infinity)
+            .foregroundPolyfill(Color.messageBox.text)
+            .background(self.colorTitleBackground)
+            .overlayPolyfill(alignment: .topTrailing) {
+                if (self.isClosable && self.isHoverOnTitle) {
+                    self.ButtonCloseView()
+                        .padding(8)
+                }
             }
-        }
-        .padding(10)
-        .frame(maxWidth: .infinity)
-        .foregroundPolyfill(Color.messageBox.text)
-        .background(self.colorTitleBackground)
+            .onHover { isHovering in
+                self.isHoverOnTitle = isHovering
+            }
     }
 
     @ViewBuilder private func DescriptionView() -> some View {
@@ -205,17 +211,27 @@ fileprivate struct Message: View {
         Button {
             // UNDER CONSTRUCTION
         } label: {
-            Image(systemName: "xmark.circle")
-                .resizable()
+            let shape = RoundedRectangle(cornerRadius: 3)
+            shape
+                .fill(self.colorDescriptionBackground)
                 .frame(width: 20, height: 20)
-                .clipShape   (Capsule())
-                .contentShape(Capsule())
-                .focusEffect (Capsule())
-                .opacity(0.5)
+                .overlayPolyfill {
+                    Image(systemName: "xmark.square")
+                        .resizable()
+                        .frame(width: 15, height: 15)
+                        .foregroundPolyfill(Color.messageBox.text)
+                }
+                .clipShape   (shape)
+                .contentShape(shape)
+                .focusEffect (shape)
         }
         .focusable(false)
         .buttonStyle(.plain)
-        .pointerStyleLinkPolyfill()
+        .shadow(
+            color: .black.opacity(0.5),
+            radius: 3,
+            y: 0
+        )
     }
 
 }
@@ -237,8 +253,9 @@ struct MessageBox: View {
         if case .local                    = region { NotificationCenter.default.post           (name: Self.notificationNameForInsertLocal      (         messageBoxID), object: message.encode()) }
     }
 
-    static public func delete(_ ID: MessageID) {
-        // UNDER CONSTRUCTION
+    static public func delete(region: MessageRegion = .local, to messageBoxID: MessageBoxID, _ ID: MessageID) {
+        if case .distributed(let appName) = region { NotificationCenter.default.postDistributed(name: Self.notificationNameForDeleteDistributed(appName, messageBoxID), object: String(ID)) }
+        if case .local                    = region { NotificationCenter.default.post           (name: Self.notificationNameForDeleteLocal      (         messageBoxID), object: String(ID)) }
     }
 
     private var publisherForInsert: NotificationCenter.Publisher {
@@ -333,8 +350,10 @@ struct MessageBox: View {
             }
         }
         .onReceive(self.publisherForDelete) { publisher in
-            if let messageString = publisher.object as? String {
-                // UNDER CONSTRUCTION
+            if let IDString = publisher.object as? String {
+                if let ID = MessageID(IDString) {
+                    self.messageDelete(ID)
+                }
             }
         }
     }
