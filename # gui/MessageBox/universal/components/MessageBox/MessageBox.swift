@@ -56,6 +56,14 @@ struct MessageInfo: Equatable, Codable {
         lhs.ID == rhs.ID
     }
 
+    public var viewID: String {
+        "\(self.ID)-\(self.createdAt)"
+    }
+
+    public var isPersistent: Bool {
+        if case .infinity = self.lifetime { true } else { false }
+    }
+
     public var isExpired: Bool? {
         if case .time(let duration) = self.lifetime {
             let expiresAt = self.createdAt + duration
@@ -83,8 +91,12 @@ struct MessageInfo: Equatable, Codable {
                 return .inProgress(progress: Date.timestamp.progress(
                     begin: createdAt, end: expiresAt
                 ))
-        } else { return .expired }
-        } else { return .persistent }
+            } else {
+                return .expired
+            }
+        } else {
+            return .persistent
+        }
     }
 
     public let ID: MessageID
@@ -146,18 +158,12 @@ struct MessageInfo: Equatable, Codable {
 
 fileprivate struct Message: View {
 
+    @ObservedObject private var progress: ValueState<Double> = ValueState<Double>(0.0)
     @State private var isHoverOnTitle = false
-
-    public let address: MessageBoxAddress
-    public let ID: MessageID
-    public let type: MessageType
-    public let status: MessageStatus
-    public let isClosable: Bool
-    public let title: String
-    public let description: String?
+    @State private var timer: Timer.Custom?
 
     private var colorTitleBackground: Color {
-        switch self.type {
+        switch self.info.type {
             case .info   : Color.messageBox.infoTitleBackground
             case .ok     : Color.messageBox.okTitleBackground
             case .warning: Color.messageBox.warningTitleBackground
@@ -166,7 +172,7 @@ fileprivate struct Message: View {
     }
 
     private var colorDescriptionBackground: Color {
-        switch self.type {
+        switch self.info.type {
             case .info   : Color.messageBox.infoDescriptionBackground
             case .ok     : Color.messageBox.okDescriptionBackground
             case .warning: Color.messageBox.warningDescriptionBackground
@@ -175,11 +181,42 @@ fileprivate struct Message: View {
     }
 
     private var colorProgressBackground: Color {
-        switch self.type {
+        switch self.info.type {
             case .info   : Color.messageBox.infoProgressBackground
             case .ok     : Color.messageBox.okProgressBackground
             case .warning: Color.messageBox.warningProgressBackground
             case .error  : Color.messageBox.errorProgressBackground
+        }
+    }
+
+    public let address: MessageBoxAddress
+    public let info: MessageInfo
+
+    init(
+        address: MessageBoxAddress,
+        info: MessageInfo
+    ) {
+        self.address = address
+        self.info = info
+    }
+
+    private func onTick(timer: Timer.Custom) {
+        switch self.info.status {
+            case .inProgress:
+                if let progress = self.info.progress {
+                    withAnimation(.linear(duration: 1.0)) {
+                        self.progress.value = progress
+                    }
+                }
+            case .expired:
+                self.progress.value = 1.0
+                self.timer?.stopAndReset()
+                self.timer = nil
+                MessageBox.delete(
+                    address: self.address,
+                    self.info.ID
+                )
+            case .persistent: break
         }
     }
 
@@ -188,16 +225,27 @@ fileprivate struct Message: View {
             self.TitleView()
             self.DescriptionView()
         }.overlayPolyfill(alignment: .bottom) {
-            switch (self.status) {
-                case .inProgress(let progress): self.ProgressView(progress)
-                case .expired                 : self.ProgressView(1.0)
-                default                       : EmptyView()
+            if !self.info.isPersistent {
+                self.ProgressView()
             }
+        }
+        .onAppear {
+            guard !self.info.isPersistent else { return }
+            self.progress.value = 0.0
+            self.timer = Timer.Custom(
+                repeats: .infinity,
+                delay: 1.0,
+                onTick: self.onTick
+            )
+        }
+        .onDisappear {
+            self.timer?.stopAndReset()
+            self.timer = nil
         }
     }
 
     @ViewBuilder private func TitleView() -> some View {
-        Text(self.title)
+        Text(self.info.title)
             .font(.system(size: 14, weight: .bold))
             .multilineTextAlignment(.center)
             .fixedSize(horizontal: false, vertical: true)
@@ -206,7 +254,7 @@ fileprivate struct Message: View {
             .foregroundPolyfill(Color.messageBox.text)
             .background(self.colorTitleBackground)
             .overlayPolyfill(alignment: .topTrailing) {
-                if (self.isClosable && self.isHoverOnTitle) {
+                if (self.info.isClosable && self.isHoverOnTitle) {
                     self.ButtonCloseView()
                         .offset(x: -12, y: 12)
                 }
@@ -217,7 +265,7 @@ fileprivate struct Message: View {
     }
 
     @ViewBuilder private func DescriptionView() -> some View {
-        if let description = self.description {
+        if let description = self.info.description {
             Text(description)
                 .font(.system(size: 13))
                 .multilineTextAlignment(.center)
@@ -229,11 +277,11 @@ fileprivate struct Message: View {
         }
     }
 
-    @ViewBuilder private func ProgressView(_ progress: Double) -> some View {
+    @ViewBuilder private func ProgressView() -> some View {
         GeometryReaderCustom(isIgnoreHeight: true, alignment: .leading) { size in
             Rectangle()
                 .fill(self.colorProgressBackground)
-                .frame(width: size.width * progress, height: 3)
+                .frame(width: size.width * self.progress.value, height: 3)
         }
     }
 
@@ -241,7 +289,7 @@ fileprivate struct Message: View {
         Button {
             MessageBox.delete(
                 address: self.address,
-                self.ID
+                self.info.ID
             )
         } label: {
             let shape = RoundedRectangle(cornerRadius: 3)
@@ -310,47 +358,11 @@ struct MessageBox: View {
     }
 
     @ObservedObject private var messages = ValueState<[MessageInfo]>([])
-    @ObservedObject private var frame = ValueState<UInt>(0)
-
-    private var hasProgressingItems: Int {
-        self.messages.value.reduce(into: 0) { total, info in
-            if case .inProgress = info.status {
-                total += 1
-            }
-        }
-    }
 
     private let address: MessageBoxAddress
-    private var timer: Timer.Custom?
 
     init(address: MessageBoxAddress) {
         self.address = address
-        self.timer = Timer.Custom(
-            immediately: false,
-            repeats: .infinity,
-            delay: 1.0,
-            onTick: self.onTick
-        )
-    }
-
-    private func onTick(timer: Timer.Custom) {
-        self.messagesSanitizeIfRequired()
-        self.frame.value += 1 /* view will be refresh */
-    }
-
-    private func messagesSanitizeIfRequired() {
-        if !self.messages.value.isEmpty {
-            self.messages.value.removeAll { info in
-                if case .expired = info.status { return true } else { return false }
-            }
-        }
-        if (self.hasProgressingItems == 0) {
-            if let timer = self.timer {
-                if (timer.isStoped == false) {
-                    timer.stopAndReset()
-                }
-            }
-        }
     }
 
     private func messageInsert(_ newInfo: MessageInfo, atTop: Bool = false) {
@@ -358,7 +370,7 @@ struct MessageBox: View {
         else       { self.messages.value.append(newInfo) }
     }
 
-    private func messageUpdate(_ newInfo: MessageInfo) -> Bool {
+    private func messageReplace(_ newInfo: MessageInfo) -> Bool {
         if let index = self.messages.value.firstIndex(where: { info in info.ID == newInfo.ID }) {
             self.messages.value[index] = newInfo
             return true
@@ -374,17 +386,10 @@ struct MessageBox: View {
 
     public var body: some View {
         VStack(spacing: 0) {
-            let _ = self.frame.value /* view will be refresh */
-            ForEach(0 ..< self.messages.value.count, id: \.self) { index in
-                let info = self.messages.value[index]
+            ForEach(self.messages.value, id: \.viewID) { info in
                 Message(
                     address: self.address,
-                    ID: info.ID,
-                    type: info.type,
-                    status: info.status,
-                    isClosable: info.isClosable,
-                    title: info.title,
-                    description: info.description
+                    info: info
                 )
             }
         }
@@ -392,17 +397,10 @@ struct MessageBox: View {
             if let messageString = publisher.object as? String {
                 if let newInfo = MessageInfo(decode: messageString) {
                     switch (newInfo.mergePolicy) {
-                        case .replaceOrInsertAtTop   : if !self.messageUpdate(newInfo) { self.messageInsert(newInfo, atTop: true) }
-                        case .replaceOrInsertAtBottom: if !self.messageUpdate(newInfo) { self.messageInsert(newInfo) }
-                        case .deleteAndInsertAtTop   : self.messageDelete(newInfo.ID);   self.messageInsert(newInfo, atTop: true)
-                        case .deleteAndInsertAtBottom: self.messageDelete(newInfo.ID);   self.messageInsert(newInfo)
-                    }
-                    if case .inProgress = newInfo.status {
-                        if let timer = self.timer {
-                            if (timer.isStoped) {
-                                timer.startOrRenew()
-                            }
-                        }
+                        case .replaceOrInsertAtTop   : if !self.messageReplace(newInfo) { self.messageInsert(newInfo, atTop: true) }
+                        case .replaceOrInsertAtBottom: if !self.messageReplace(newInfo) { self.messageInsert(newInfo) }
+                        case .deleteAndInsertAtTop   : self.messageDelete(newInfo.ID);    self.messageInsert(newInfo, atTop: true)
+                        case .deleteAndInsertAtBottom: self.messageDelete(newInfo.ID);    self.messageInsert(newInfo)
                     }
                 }
             }

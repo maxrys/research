@@ -28,15 +28,17 @@ import SwiftUI
 
             VStack(spacing: 10) {
 
+                let duration: Double = 3.0
+
                 Text("3 (default) sec.").font(.headline)
-                self.ButtonInsertMessageView(   "Info Message"         , type: .info   , lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title:    "Info Message")
-                self.ButtonInsertMessageView(     "Ok Message"         , type: .ok     , lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title:      "Ok Message")
-                self.ButtonInsertMessageView("Warning Message"         , type: .warning, lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title: "Warning Message")
-                self.ButtonInsertMessageView(  "Error Message"         , type: .error  , lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title:   "Error Message")
-                self.ButtonInsertMessageView(   "Info Message + Descr.", type: .info   , lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
-                self.ButtonInsertMessageView(     "Ok Message + Descr.", type: .ok     , lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
-                self.ButtonInsertMessageView("Warning Message + Descr.", type: .warning, lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
-                self.ButtonInsertMessageView(  "Error Message + Descr.", type: .error  , lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
+                self.ButtonInsertMessageView(   "Info Message"         , type: .info   , lifetime: .time(duration: duration), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title:    "Info Message")
+                self.ButtonInsertMessageView(     "Ok Message"         , type: .ok     , lifetime: .time(duration: duration), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title:      "Ok Message")
+                self.ButtonInsertMessageView("Warning Message"         , type: .warning, lifetime: .time(duration: duration), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title: "Warning Message")
+                self.ButtonInsertMessageView(  "Error Message"         , type: .error  , lifetime: .time(duration: duration), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title:   "Error Message")
+                self.ButtonInsertMessageView(   "Info Message + Descr.", type: .info   , lifetime: .time(duration: duration), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
+                self.ButtonInsertMessageView(     "Ok Message + Descr.", type: .ok     , lifetime: .time(duration: duration), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
+                self.ButtonInsertMessageView("Warning Message + Descr.", type: .warning, lifetime: .time(duration: duration), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
+                self.ButtonInsertMessageView(  "Error Message + Descr.", type: .error  , lifetime: .time(duration: duration), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
 
             }.frame(width: 200)
 

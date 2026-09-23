@@ -22,6 +22,7 @@
 		50EF034A3061378E00557AF2 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EF03493061378E00557AF2 /* Timer.swift */; };
 		50EF034C3061453900557AF2 /* Numeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EF034B3061453900557AF2 /* Numeric.swift */; };
 		50EF0352306155DD00557AF2 /* GeometryReaderCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EF0351306155DD00557AF2 /* GeometryReaderCustom.swift */; };
+		50EF03543063D41A00557AF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50EF03533063D41A00557AF2 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		50EF03493061378E00557AF2 /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		50EF034B3061453900557AF2 /* Numeric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numeric.swift; sourceTree = "<group>"; };
 		50EF0351306155DD00557AF2 /* GeometryReaderCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryReaderCustom.swift; sourceTree = "<group>"; };
+		50EF03533063D41A00557AF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 		50993B5F2D33C4C900195667 = {
 			isa = PBXGroup;
 			children = (
+				50EF03533063D41A00557AF2 /* Assets.xcassets */,
 				50993B742D33C4CD00195667 /* app.entitlements */,
 				5040E1D5305AAE310004A290 /* types */,
 				50CE72302EE582F400FE3282 /* extensions */,
@@ -219,6 +222,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50EF03543063D41A00557AF2 /* Assets.xcassets in Resources */,
 				5040E1D8305AAE5A0004A290 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
