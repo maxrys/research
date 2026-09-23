@@ -33,14 +33,6 @@ enum MessageLifeTime: Codable {
 
 }
 
-enum MessageStatus {
-
-    case persistent
-    case inProgress(progress: Double)
-    case expired
-
-}
-
 enum MessageMergePolicy: Codable {
 
     case replaceOrInsertAtTop
@@ -81,22 +73,6 @@ struct MessageInfo: Equatable, Codable {
             )
         }
         return nil
-    }
-
-    public var status: MessageStatus {
-        if case .time(let duration) = self.lifetime {
-            let createdAt = self.createdAt
-            let expiresAt = self.createdAt + duration
-            if (Date.timestamp < expiresAt) {
-                return .inProgress(progress: Date.timestamp.progress(
-                    begin: createdAt, end: expiresAt
-                ))
-            } else {
-                return .expired
-            }
-        } else {
-            return .persistent
-        }
     }
 
     public let ID: MessageID
@@ -158,7 +134,7 @@ struct MessageInfo: Equatable, Codable {
 
 fileprivate struct Message: View {
 
-    @ObservedObject private var progress: ValueState<Double> = ValueState<Double>(0.0)
+    @State private var progress: Double = 0.0
     @State private var isHoverOnTitle = false
     @State private var timer: Timer.Custom?
 
@@ -200,26 +176,6 @@ fileprivate struct Message: View {
         self.info = info
     }
 
-    private func onTick(timer: Timer.Custom) {
-        switch self.info.status {
-            case .inProgress:
-                if let progress = self.info.progress {
-                    withAnimation(.linear(duration: 1.0)) {
-                        self.progress.value = progress
-                    }
-                }
-            case .expired:
-                self.progress.value = 1.0
-                self.timer?.stopAndReset()
-                self.timer = nil
-                MessageBox.delete(
-                    address: self.address,
-                    self.info.ID
-                )
-            case .persistent: break
-        }
-    }
-
     public var body: some View {
         VStack(spacing: 0) {
             self.TitleView()
@@ -230,18 +186,32 @@ fileprivate struct Message: View {
             }
         }
         .onAppear {
-            guard !self.info.isPersistent else { return }
-            self.progress.value = 0.0
-            self.timer = Timer.Custom(
-                repeats: .infinity,
-                delay: 1.0,
-                onTick: self.onTick
-            )
+            if case .time(let duration) = self.info.lifetime {
+                self.progress = 0.0
+                self.timer = Timer.Custom(
+                    repeats: .count(1),
+                    delay: duration,
+                    onExpire: self.onTimerExpire
+                )
+                withAnimation(.linear(duration: duration)) {
+                    self.progress = 1.0
+                }
+            }
         }
         .onDisappear {
             self.timer?.stopAndReset()
             self.timer = nil
         }
+    }
+
+    private func onTimerExpire(timer: Timer.Custom) {
+        self.progress = 1.0
+        self.timer?.stopAndReset()
+        self.timer = nil
+        MessageBox.delete(
+            address: self.address,
+            self.info.ID
+        )
     }
 
     @ViewBuilder private func TitleView() -> some View {
@@ -281,7 +251,7 @@ fileprivate struct Message: View {
         GeometryReaderCustom(isIgnoreHeight: true, alignment: .leading) { size in
             Rectangle()
                 .fill(self.colorProgressBackground)
-                .frame(width: size.width * self.progress.value, height: 3)
+                .frame(width: size.width * self.progress, height: 3)
         }
     }
 
