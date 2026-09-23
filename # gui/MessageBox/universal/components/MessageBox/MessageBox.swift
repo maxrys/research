@@ -168,14 +168,6 @@ fileprivate struct Message: View {
     public let address: MessageBoxAddress
     public let info: MessageInfo
 
-    init(
-        address: MessageBoxAddress,
-        info: MessageInfo
-    ) {
-        self.address = address
-        self.info = info
-    }
-
     public var body: some View {
         VStack(spacing: 0) {
             self.TitleView()
@@ -188,11 +180,7 @@ fileprivate struct Message: View {
         .onAppear {
             if case .time(let duration) = self.info.lifetime {
                 self.progress = 0.0
-                self.timer = Timer.Custom(
-                    repeats: .count(1),
-                    delay: duration,
-                    onExpire: self.onTimerExpire
-                )
+                self.timer = Timer.Custom(repeats: .count(1), delay: duration, onExpire: self.onTimerExpire)
                 withAnimation(.linear(duration: duration)) {
                     self.progress = 1.0
                 }

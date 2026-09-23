@@ -7,12 +7,47 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
+    public static let DEMO_LONG_TITLE       = NSLocalizedString("Long long long long long long long long long long long long long long Title", comment: "")
+    public static let DEMO_LONG_DESCRIPTION = NSLocalizedString("Long long long long long long long long long long long long long long long long long long long long long Description", comment: "")
+
+    enum MergePolicy: Codable, CaseIterable, Hashable {
+
+        case replaceOrInsertAtTop
+        case replaceOrInsertAtBottom
+        case deleteAndInsertAtTop
+        case deleteAndInsertAtBottom
+
+        var title: String {
+            switch self {
+                case .replaceOrInsertAtTop   : "Replace Or Insert At Top"
+                case .replaceOrInsertAtBottom: "Replace Or Insert At Bottom"
+                case .deleteAndInsertAtTop   : "Delete And Insert At Top"
+                case .deleteAndInsertAtBottom: "Delete And Insert At Bottom"
+            }
+        }
+
+        var messageMergePolicy: MessageMergePolicy {
+            switch self {
+                case .replaceOrInsertAtTop   : .replaceOrInsertAtTop
+                case .replaceOrInsertAtBottom: .replaceOrInsertAtBottom
+                case .deleteAndInsertAtTop   : .deleteAndInsertAtTop
+                case .deleteAndInsertAtBottom: .deleteAndInsertAtBottom
+            }
+        }
+
+    }
+
+    @State private var mergePolicy: MergePolicy = .replaceOrInsertAtBottom
+
     public static let messageBoxMainAddress: MessageBoxAddress = .local(
         boxID: MessageBoxID(0)
     )
 
-    public static let DEMO_LONG_TITLE       = NSLocalizedString("Long long long long long long long long long long long long long long Title", comment: "")
-    public static let DEMO_LONG_DESCRIPTION = NSLocalizedString("Long long long long long long long long long long long long long long long long long long long long long Description", comment: "")
+    private let columns = [
+        GridItem(.fixed(200), spacing: 10, alignment: .bottom),
+        GridItem(.fixed(200), spacing: 10, alignment: .bottom),
+        GridItem(.flexible(), alignment: .top),
+    ]
 
     var body: some Scene {
         let window = WindowGroup {
@@ -24,31 +59,54 @@ import SwiftUI
     }
 
     @ViewBuilder fileprivate func mainSceneView() -> some View {
-        HStack (alignment: .bottom, spacing: 10) {
+        VStack(spacing: 10) {
 
-            VStack(spacing: 10) {
+            LazyVGrid(columns: columns, spacing: 0) {
 
-                let duration: Double = 3.0
+                VStack(spacing: 10) {
+                    Text("lifetime: 10 sec.").font(.headline)
+                    self.ButtonInsertMessageView(   "Info Message"         , type: .info   , lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: self.mergePolicy.messageMergePolicy, title:    "Info Message")
+                    self.ButtonInsertMessageView(     "Ok Message"         , type: .ok     , lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: self.mergePolicy.messageMergePolicy, title:      "Ok Message")
+                    self.ButtonInsertMessageView("Warning Message"         , type: .warning, lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: self.mergePolicy.messageMergePolicy, title: "Warning Message")
+                    self.ButtonInsertMessageView(  "Error Message"         , type: .error  , lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: self.mergePolicy.messageMergePolicy, title:   "Error Message")
+                    self.ButtonInsertMessageView(   "Info Message + Descr.", type: .info   , lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: self.mergePolicy.messageMergePolicy, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
+                    self.ButtonInsertMessageView(     "Ok Message + Descr.", type: .ok     , lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: self.mergePolicy.messageMergePolicy, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
+                    self.ButtonInsertMessageView("Warning Message + Descr.", type: .warning, lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: self.mergePolicy.messageMergePolicy, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
+                    self.ButtonInsertMessageView(  "Error Message + Descr.", type: .error  , lifetime: .time(duration: 10.0), isClosable: true, mergePolicy: self.mergePolicy.messageMergePolicy, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
+                }
 
-                Text("3 (default) sec.").font(.headline)
-                self.ButtonInsertMessageView(   "Info Message"         , type: .info   , lifetime: .time(duration: duration), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title:    "Info Message")
-                self.ButtonInsertMessageView(     "Ok Message"         , type: .ok     , lifetime: .time(duration: duration), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title:      "Ok Message")
-                self.ButtonInsertMessageView("Warning Message"         , type: .warning, lifetime: .time(duration: duration), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title: "Warning Message")
-                self.ButtonInsertMessageView(  "Error Message"         , type: .error  , lifetime: .time(duration: duration), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title:   "Error Message")
-                self.ButtonInsertMessageView(   "Info Message + Descr.", type: .info   , lifetime: .time(duration: duration), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
-                self.ButtonInsertMessageView(     "Ok Message + Descr.", type: .ok     , lifetime: .time(duration: duration), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
-                self.ButtonInsertMessageView("Warning Message + Descr.", type: .warning, lifetime: .time(duration: duration), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
-                self.ButtonInsertMessageView(  "Error Message + Descr.", type: .error  , lifetime: .time(duration: duration), isClosable: true, mergePolicy: .replaceOrInsertAtBottom, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
+                VStack(spacing: 10) {
+                    Text("lifetime: infinity").font(.headline)
+                    self.ButtonInsertMessageView(   "Info Message"         , type: .info   , lifetime: .infinity, isClosable: true, mergePolicy: self.mergePolicy.messageMergePolicy, title:    "Info Message")
+                    self.ButtonInsertMessageView(     "Ok Message"         , type: .ok     , lifetime: .infinity, isClosable: true, mergePolicy: self.mergePolicy.messageMergePolicy, title:      "Ok Message")
+                    self.ButtonInsertMessageView("Warning Message"         , type: .warning, lifetime: .infinity, isClosable: true, mergePolicy: self.mergePolicy.messageMergePolicy, title: "Warning Message")
+                    self.ButtonInsertMessageView(  "Error Message"         , type: .error  , lifetime: .infinity, isClosable: true, mergePolicy: self.mergePolicy.messageMergePolicy, title:   "Error Message")
+                    self.ButtonInsertMessageView(   "Info Message + Descr.", type: .info   , lifetime: .infinity, isClosable: true, mergePolicy: self.mergePolicy.messageMergePolicy, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
+                    self.ButtonInsertMessageView(     "Ok Message + Descr.", type: .ok     , lifetime: .infinity, isClosable: true, mergePolicy: self.mergePolicy.messageMergePolicy, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
+                    self.ButtonInsertMessageView("Warning Message + Descr.", type: .warning, lifetime: .infinity, isClosable: true, mergePolicy: self.mergePolicy.messageMergePolicy, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
+                    self.ButtonInsertMessageView(  "Error Message + Descr.", type: .error  , lifetime: .infinity, isClosable: true, mergePolicy: self.mergePolicy.messageMergePolicy, title: Self.DEMO_LONG_TITLE, description: Self.DEMO_LONG_DESCRIPTION)
+                }
 
-            }.frame(width: 200)
+                ScrollView {
+                    MessageBox(
+                        address: Self.messageBoxMainAddress
+                    )
+                }
+                .frame(height: 280)
+                .background(Color.white)
 
-            ScrollView {
-                MessageBox(
-                    address: Self.messageBoxMainAddress
-                )
+            }
+
+            Picker("Merge Policy", selection: self.$mergePolicy) {
+                ForEach(MergePolicy.allCases, id: \.self) { value in
+                    Text("\(value.title)").tag(value)
+                }
             }.frame(width: 300)
 
-        }.padding(10)
+        }
+        .padding(10)
+        .frame(minWidth: 600)
+        .frame(maxWidth: 800)
     }
 
     @ViewBuilder private func ButtonInsertMessageView(
@@ -70,7 +128,8 @@ import SwiftUI
                 description: description
             ))
         } label: {
-            Text(text).frame(width: 180)
+            Text(text)
+                .frame(maxWidth: .infinity)
         }
     }
 
