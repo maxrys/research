@@ -88,7 +88,7 @@ struct MessageInfo: Equatable, Codable {
         ID: MessageID? = nil,
         type: MessageType = .info,
         lifetime: MessageLifeTime = .time(duration: MessageLifeTime.LIFE_TIME_DEFAULT),
-        isClosable: Bool = false,
+        isClosable: Bool = true,
         mergePolicy: MessageMergePolicy = .replaceOrInsertAtBottom,
         title: String,
         description: String? = nil
