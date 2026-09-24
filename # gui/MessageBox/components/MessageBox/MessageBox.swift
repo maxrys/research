@@ -239,7 +239,8 @@ fileprivate struct Message: View {
         GeometryReaderCustom(isIgnoreHeight: true, alignment: .leading) { size in
             Rectangle()
                 .fill(self.colorProgressBackground)
-                .frame(width: size.width * self.progress, height: 3)
+                .frame(maxWidth: size.width * self.progress)
+                .frame(height: 3)
         }
     }
 
@@ -317,11 +318,7 @@ struct MessageBox: View {
 
     @ObservedObject private var messages = ValueState<[MessageInfo]>([])
 
-    private let address: MessageBoxAddress
-
-    init(address: MessageBoxAddress) {
-        self.address = address
-    }
+    public let address: MessageBoxAddress
 
     private func messageInsert(_ newInfo: MessageInfo, atTop: Bool = false) {
         if (atTop) { self.messages.value.insert(newInfo, at: 0) }
@@ -353,12 +350,12 @@ struct MessageBox: View {
         }
         .onReceive(self.publisherForInsert) { publisher in
             if let messageString = publisher.object as? String {
-                if let newInfo = MessageInfo(decode: messageString) {
-                    switch (newInfo.mergePolicy) {
-                        case .replaceOrInsertAtTop   : if !self.messageReplace(newInfo) { self.messageInsert(newInfo, atTop: true) }
-                        case .replaceOrInsertAtBottom: if !self.messageReplace(newInfo) { self.messageInsert(newInfo) }
-                        case .deleteAndInsertAtTop   : self.messageDelete(newInfo.ID);    self.messageInsert(newInfo, atTop: true)
-                        case .deleteAndInsertAtBottom: self.messageDelete(newInfo.ID);    self.messageInsert(newInfo)
+                if let info = MessageInfo(decode: messageString) {
+                    switch (info.mergePolicy) {
+                        case .replaceOrInsertAtTop   : if !self.messageReplace(info) { self.messageInsert(info, atTop: true) }
+                        case .replaceOrInsertAtBottom: if !self.messageReplace(info) { self.messageInsert(info) }
+                        case .deleteAndInsertAtTop   : self.messageDelete(info.ID);    self.messageInsert(info, atTop: true)
+                        case .deleteAndInsertAtBottom: self.messageDelete(info.ID);    self.messageInsert(info)
                     }
                 }
             }
