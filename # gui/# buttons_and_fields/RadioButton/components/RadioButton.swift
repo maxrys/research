@@ -11,29 +11,32 @@ struct RadioButton<T: Equatable>: View {
     @Environment(\.isEnabled) private var isEnabled
     @Binding private var selected: T?
 
-    private let ID: T
-    private let content: any View
+    private let shape = Circle()
+    private let indicatorScale: Double = 0.7
+
+    private let ID: T?
+    private let lebel: any View
     private let size: CGFloat
     private let indicatorAlignment: VerticalAlignment
 
     init(
-        ID: T,
+        ID: T?,
         _ selected: Binding<T?>,
         size: CGFloat = 20,
         indicatorAlignment: VerticalAlignment = .center,
-        @ViewBuilder content: () -> any View
+        @ViewBuilder lebel: () -> any View
     ) {
         self.ID = ID
         self._selected = selected
         self.size = size
         self.indicatorAlignment = indicatorAlignment
-        self.content = content()
+        self.lebel = lebel()
     }
 
     var body: some View {
         HStack(alignment: self.indicatorAlignment, spacing: 10) {
             Button { self.selected = self.ID } label: {
-                Circle()
+                self.shape
                     .fill(
                         self.colorScheme == .dark ?
                             Color.black :
@@ -51,24 +54,21 @@ struct RadioButton<T: Equatable>: View {
                             self.IndicatorView()
                         }
                     }
-                    .clipShape   (Circle())
-                    .contentShape(Circle())
-                    .focusEffect (Circle())
+                    .clipShape   (self.shape)
+                    .contentShape(self.shape)
+                    .focusEffect (self.shape)
             }
             .buttonStyle(.plain)
             .disabled(!self.isEnabled)
             .pointerStyleLinkPolyfill(self.isEnabled)
 
-            AnyView(
-                self.content
-            ).opacity(
-                self.isEnabled ? 1.0 : 0.3
-            )
+            AnyView(self.lebel)
+                .opacity(self.isEnabled ? 1.0 : 0.3)
         }
     }
 
     @ViewBuilder private func BorderView() -> some View {
-        Circle()
+        self.shape
             .stroke(
                 self.colorScheme == .dark ?
                     Color.white.opacity(0.3) :
@@ -82,11 +82,11 @@ struct RadioButton<T: Equatable>: View {
     }
 
     @ViewBuilder private func IndicatorView() -> some View {
-        Circle()
+        self.shape
             .fill(Color.accentColor)
             .frame(
-                width : self.size * 0.7,
-                height: self.size * 0.7
+                width : self.size * self.indicatorScale,
+                height: self.size * self.indicatorScale
             )
     }
 
