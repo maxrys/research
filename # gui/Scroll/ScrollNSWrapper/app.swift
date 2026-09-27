@@ -26,7 +26,7 @@ import SwiftUI
     var body: some Scene {
         Window("Main", id: "main") {
 
-            ScrollCustom(controller: self.scrollController) {
+            ScrollNSWrapper(controller: self.scrollController) {
 
                 Grid(alignment: .center, horizontalSpacing: 0, verticalSpacing: 0) {
                     ForEach(0 ..< ThisApp.GRID_ROWS, id: \.self) { rowNum in GridRow {

@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-struct ScrollCustom<Content: View>: NSViewRepresentable {
+struct ScrollNSWrapper<Content: View>: NSViewRepresentable {
 
     @ObservedObject private var controller: ScrollController
 
