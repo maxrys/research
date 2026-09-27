@@ -9,13 +9,9 @@ extension View {
 
     @ViewBuilder func pointerStyleLinkPolyfill(_ isEnabled: Bool = true) -> some View {
         if (isEnabled) {
-            if #available(macOS 15.0, *) {
-                self.pointerStyle(.link)
-            } else {
-                self.onHover { isInView in
-                    if (isInView) { NSCursor.pointingHand.push() }
-                    else          { NSCursor.pop() }
-                }
+            self.onHover { isInView in
+                if (isInView) { NSCursor.pointingHand.push() }
+                else          { NSCursor.pop() }
             }
         } else {
             self
