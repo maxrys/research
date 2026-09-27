@@ -4,6 +4,7 @@
 /* ############################################################# */
 
 import SwiftUI
+import Combine
 
 private struct SizeKey: PreferenceKey {
     static var defaultValue = CGSize(width: 0, height: 0)
