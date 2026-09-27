@@ -69,26 +69,47 @@ struct ScrollCustom<Content: View>: View {
 
 struct ScrollCustom_Previews: PreviewProvider {
 
+    final class DemoState: ObservableObject {
+        static public private(set) var shared = DemoState()
+        @Published var count: UInt = 0
+    }
+
+    struct DemoView: View {
+        @StateObject private var state = DemoState.shared
+        public var body: some View {
+            VStack(spacing: 10) {
+                ForEach(0 ..< Int(self.state.count), id: \.self) { i in
+                    Text("Item \(i)")
+                }
+            }
+        }
+    }
+
     struct ViewWithState: View {
 
-        @ObservedObject static private var count = ValueState<UInt>(0)
+        @ObservedObject static private var mode = ValueState<UInt>(0) { value in
+            switch value {
+                case 0: DemoState.shared.count =  0
+                case 1: DemoState.shared.count =  5
+                case 2: DemoState.shared.count = 10
+                case 3: DemoState.shared.count = 20
+                case 4: DemoState.shared.count = 30
+                default: break
+            }
+        }
 
         var body: some View {
             VStack(spacing: 0) {
                 ScrollCustom(axis: .vertical, scrollAfter: .init(width: 200, height: 200)) {
-                    VStack(spacing: 10) {
-                        ForEach(0 ..< Int(Self.count.value), id: \.self) { i in
-                            Text("Item \(i)")
-                        }
-                    }
-                }
+                    DemoView()
+                }.background(Color.gray)
                 PreviewMode(
                     title: "count",
-                    state: Self.count,
-                    modes: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+                    state: Self.mode,
+                    modes: ["0", "5", "10", "20", "30"]
                 )
             }.frame(
-                width: 240
+                width: 200, height: 280
             )
         }
 
