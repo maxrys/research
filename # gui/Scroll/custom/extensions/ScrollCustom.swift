@@ -17,7 +17,7 @@ struct ScrollCustom<Content: View>: View {
 
     @State private var size = CGSize(width: 0, height: 0)
 
-    private var isLessBoxLimits: Bool {
+    private var isUndersize: Bool {
         self.size.width  <= self.limits.width &&
         self.size.height <= self.limits.height
     }
@@ -37,9 +37,8 @@ struct ScrollCustom<Content: View>: View {
     }
 
     public var body: some View {
-        let finalContent = self.FinalContentView()
-        if (self.isLessBoxLimits) { finalContent } else {
-            ScrollView(self.axis) { finalContent }.frame(
+        if (self.isUndersize)     { self.FinalContentView() } else {
+            ScrollView(self.axis) { self.FinalContentView() }.frame(
                 maxWidth : self.limits.width,
                 maxHeight: self.limits.height
             )
@@ -70,25 +69,25 @@ struct ScrollCustom<Content: View>: View {
 
 struct ScrollCustom_Previews: PreviewProvider {
 
-    final class DemoState: ObservableObject {
-        static public private(set) var shared = DemoState()
-        @Published var count: UInt = 0
-    }
+    struct ViewWithState: View {
 
-    struct DemoView: View {
-        @StateObject private var state = DemoState.shared
-        public var body: some View {
-            VStack(spacing: 10) {
-                ForEach(0 ..< Int(self.state.count), id: \.self) { i in
-                    Text("Item \(i)")
+        final class DemoState: ObservableObject {
+            static public private(set) var shared = DemoState()
+            @Published var count: UInt = 0
+        }
+
+        struct DemoView: View {
+            @StateObject private var state = DemoState.shared
+            public var body: some View {
+                VStack(spacing: 10) {
+                    ForEach(0 ..< Int(self.state.count), id: \.self) { i in
+                        Text("Item \(i)")
+                    }
                 }
             }
         }
-    }
 
-    struct ViewWithState: View {
-
-        @ObservedObject static private var mode = ValueState<UInt>(0) { value in
+        @ObservedObject static private var previewMode = ValueState<UInt>(0) { value in
             switch value {
                 case 0: DemoState.shared.count =  0
                 case 1: DemoState.shared.count =  5
@@ -106,7 +105,7 @@ struct ScrollCustom_Previews: PreviewProvider {
                 }.background(Color.gray)
                 PreviewMode(
                     title: "count",
-                    state: Self.mode,
+                    state: Self.previewMode,
                     modes: ["0", "5", "10", "20", "30"]
                 )
             }.frame(
