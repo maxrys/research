@@ -23,15 +23,18 @@ struct ScrollCustom<Content: View>: View {
     }
 
     private let axis: Axis.Set
+    private let aligment: Alignment
     private let limits: CGSize
     private let content: () -> Content
 
     init(
         axis: Axis.Set,
+        aligment: Alignment = .center,
         scrollAfter limits: CGSize,
         @ViewBuilder content: @escaping () -> Content,
     ) {
         self.axis = axis
+        self.aligment = aligment
         self.limits = limits
         self.content = content
     }
@@ -46,7 +49,7 @@ struct ScrollCustom<Content: View>: View {
     }
 
     @ViewBuilder func FinalContentView() -> some View {
-        ZStack {
+        ZStack(alignment: self.aligment) {
             Color.clear.background(
                 GeometryReader { geometry in
                     Color.clear.preference(key: SizeKey.self, value: geometry.size)
@@ -100,7 +103,7 @@ struct ScrollCustom_Previews: PreviewProvider {
 
         var body: some View {
             VStack(spacing: 0) {
-                ScrollCustom(axis: .vertical, scrollAfter: .init(width: 200, height: 200)) {
+                ScrollCustom(axis: .vertical, aligment: .top, scrollAfter: .init(width: 200, height: 200)) {
                     DemoView()
                 }.background(Color.gray)
                 PreviewMode(
