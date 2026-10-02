@@ -6,11 +6,14 @@
 import SwiftUI
 import Combine
 
-private struct SizeKey: PreferenceKey {
-    static var defaultValue = CGSize(width: 0, height: 0)
+private struct GeometrySizePreferenceKey: PreferenceKey {
+
+    static let defaultValue: CGSize = .zero
+
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
         value = nextValue()
     }
+
 }
 
 struct ScrollCustom<Content: View>: View {
@@ -52,10 +55,10 @@ struct ScrollCustom<Content: View>: View {
         ZStack(alignment: self.aligment) {
             Color.clear.background(
                 GeometryReader { geometry in
-                    Color.clear.preference(key: SizeKey.self, value: geometry.size)
+                    Color.clear.preference(key: GeometrySizePreferenceKey.self, value: geometry.size)
                 }
             )
-            .onPreferenceChange(SizeKey.self) { size in
+            .onPreferenceChange(GeometrySizePreferenceKey.self) { size in
                 self.size = size
             }
             self.content()
