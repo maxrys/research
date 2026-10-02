@@ -58,7 +58,7 @@ struct GeometryReaderOutside<Content: View>: View {
 }
 
 
-struct GeometryReaderPolyfill<Content: View>: View {
+struct GeometryReaderInside<Content: View>: View {
 
     @Binding private var size: CGSize
 
@@ -100,7 +100,7 @@ private struct GeometryChangePolyfillModifier: ViewModifier {
     @Binding var size: CGSize
 
     func body(content: Content) -> some View {
-        GeometryReaderPolyfill(size: self.$size) {
+        GeometryReaderInside(size: self.$size) {
             content
         }
     }
@@ -109,7 +109,7 @@ private struct GeometryChangePolyfillModifier: ViewModifier {
 
 extension View {
 
-    func onGeometryChangePolyfill(size: Binding<CGSize>) -> some View {
+    func onGeometryChangeInside(size: Binding<CGSize>) -> some View {
         modifier(
             GeometryChangePolyfillModifier(size: size)
         )
@@ -156,7 +156,7 @@ struct GeometryReaderOutside_Previews: PreviewProvider {
 
 }
 
-struct GeometryReaderPolyfill_Previews: PreviewProvider {
+struct GeometryReaderInside_Previews: PreviewProvider {
 
     struct ViewWithState: View {
 
@@ -164,7 +164,7 @@ struct GeometryReaderPolyfill_Previews: PreviewProvider {
         @State private var isBig: Bool = false
 
         var body: some View {
-            GeometryReaderPolyfill(size: self.$currentSize) {
+            GeometryReaderInside(size: self.$currentSize) {
                 Button { self.isBig.toggle() } label: {
                     self.MarkerView()
                         .frame(width: 100, height: self.isBig ? 200 : 100)
@@ -190,7 +190,7 @@ struct GeometryReaderPolyfill_Previews: PreviewProvider {
 
 }
 
-struct onGeometryChangePolyfill_Previews: PreviewProvider {
+struct onGeometryChangeInside_Previews: PreviewProvider {
 
     struct ViewWithState: View {
 
@@ -207,7 +207,7 @@ struct onGeometryChangePolyfill_Previews: PreviewProvider {
                     )
             }
             .buttonStyle(.plain)
-            .onGeometryChangePolyfill(size: self.$currentSize)
+            .onGeometryChangeInside(size: self.$currentSize)
         }
 
         @ViewBuilder private func MarkerView() -> some View {
