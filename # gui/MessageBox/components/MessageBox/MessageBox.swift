@@ -236,7 +236,7 @@ fileprivate struct Message: View {
     }
 
     @ViewBuilder private func ProgressView() -> some View {
-        GeometryReaderCustom(isIgnoreHeight: true, alignment: .leading) { size in
+        GeometryReaderOutside(axes: .horizontal, alignment: .bottomLeading) { size in
             Rectangle()
                 .fill(self.colorProgressBackground)
                 .frame(maxWidth: size.width * self.progress)

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5036C3A23070479F00E2ED54 /* GeometryPolyfill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5036C3A13070479F00E2ED54 /* GeometryPolyfill.swift */; };
 		5040E1D3305AA9390004A290 /* MessageBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5040E1D2305AA82C0004A290 /* MessageBox.swift */; };
 		5040E1D4305AA93E0004A290 /* MessageColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5040E1D1305AA8160004A290 /* MessageColors.swift */; };
 		5040E1D8305AAE5A0004A290 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5040E1D7305AAE5A0004A290 /* Assets.xcassets */; };
@@ -21,11 +22,11 @@
 		50EF0348306135D400557AF2 /* Checksums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5040E1DE305AB29F0004A290 /* Checksums.swift */; };
 		50EF034A3061378E00557AF2 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EF03493061378E00557AF2 /* Timer.swift */; };
 		50EF034C3061453900557AF2 /* Numeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EF034B3061453900557AF2 /* Numeric.swift */; };
-		50EF0352306155DD00557AF2 /* GeometryReaderCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EF0351306155DD00557AF2 /* GeometryReaderCustom.swift */; };
 		50EF03543063D41A00557AF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50EF03533063D41A00557AF2 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5036C3A13070479F00E2ED54 /* GeometryPolyfill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryPolyfill.swift; sourceTree = "<group>"; };
 		5040E1D1305AA8160004A290 /* MessageColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageColors.swift; sourceTree = "<group>"; };
 		5040E1D2305AA82C0004A290 /* MessageBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBox.swift; sourceTree = "<group>"; };
 		5040E1D6305AAE380004A290 /* ValueState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueState.swift; sourceTree = "<group>"; };
@@ -42,7 +43,6 @@
 		50EF03423061355800557AF2 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		50EF03493061378E00557AF2 /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		50EF034B3061453900557AF2 /* Numeric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numeric.swift; sourceTree = "<group>"; };
-		50EF0351306155DD00557AF2 /* GeometryReaderCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryReaderCustom.swift; sourceTree = "<group>"; };
 		50EF03533063D41A00557AF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -119,7 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				50EF033830612C2300557AF2 /* Date.swift */,
-				50EF0351306155DD00557AF2 /* GeometryReaderCustom.swift */,
+				5036C3A13070479F00E2ED54 /* GeometryPolyfill.swift */,
 				5040E1E9305ABF850004A290 /* NotificationCenter.swift */,
 				50EF034B3061453900557AF2 /* Numeric.swift */,
 				50EF03493061378E00557AF2 /* Timer.swift */,
@@ -245,6 +245,7 @@
 				5040E1DF305AB29F0004A290 /* Checksums.swift in Sources */,
 				5040E1F0305B233C0004A290 /* View.swift in Sources */,
 				50EF034C3061453900557AF2 /* Numeric.swift in Sources */,
+				5036C3A23070479F00E2ED54 /* GeometryPolyfill.swift in Sources */,
 				5040E1D9305AAF170004A290 /* ValueState.swift in Sources */,
 				5040E1EA305AC0D00004A290 /* NotificationCenter.swift in Sources */,
 				5040E1E6305ABA420004A290 /* _const.swift in Sources */,
@@ -252,7 +253,6 @@
 				50EF033930612C2300557AF2 /* Date.swift in Sources */,
 				50EF034A3061378E00557AF2 /* Timer.swift in Sources */,
 				5040E1D4305AA93E0004A290 /* MessageColors.swift in Sources */,
-				50EF0352306155DD00557AF2 /* GeometryReaderCustom.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
