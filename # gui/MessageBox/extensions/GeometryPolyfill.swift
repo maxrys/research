@@ -49,10 +49,10 @@ struct GeometryReaderOutside<Content: View>: View {
                 }
             )
             .onPreferenceChange(GeometrySizePreferenceKey.self) { newSize in
-                guard newSize != size else {
+                guard newSize != self.size else {
                     return
                 }
-                size = newSize
+                self.size = newSize
             }
             self.content(self.size)
         }
@@ -63,15 +63,16 @@ struct GeometryReaderOutside<Content: View>: View {
 
 struct GeometryReaderInside<Content: View>: View {
 
-    @Binding private var size: CGSize
+    @Binding private var sizeBinding: CGSize
+    @State private var size: CGSize = .zero
 
     private let content: (CGSize) -> Content
 
     init(
-        size: Binding<CGSize>,
+        size binding: Binding<CGSize> = .constant(.zero),
         @ViewBuilder content: @escaping (CGSize) -> Content
     ) {
-        self._size = size
+        self._sizeBinding = binding
         self.content = content
     }
 
@@ -87,10 +88,9 @@ struct GeometryReaderInside<Content: View>: View {
                 }
             )
             .onPreferenceChange(GeometrySizePreferenceKey.self) { newSize in
-                guard newSize != size else {
-                    return
-                }
-                size = newSize
+                guard newSize != self.size else { return }
+                self.size        = newSize
+                self.sizeBinding = newSize
             }
     }
 
@@ -152,7 +152,7 @@ struct GeometryReaderOutside_Previews: PreviewProvider {
 
     static var previews: some View {
         ViewWithState()
-            .frame(width: 100, height: 300)
+            .frame(height: 300)
     }
 
 }
@@ -161,19 +161,42 @@ struct GeometryReaderInside_Previews: PreviewProvider {
 
     struct ViewWithState: View {
 
-        @State private var currentSize: CGSize = .zero
+        @State private var size1: CGSize = .zero
+        @State private var size2: CGSize = .zero
         @State private var isBig: Bool = false
 
         var body: some View {
-            GeometryReaderInside(size: self.$currentSize) { _ in
+            HStack {
+                GeometryReaderInside { size in
+                    Button { self.isBig.toggle() } label: {
+                        self.MarkerView()
+                            .frame(width: 100, height: self.isBig ? 200 : 100)
+                            .overlay (
+                                Text("\(size.height)")
+                                    .foregroundColor(.white)
+                            )
+                    }.buttonStyle(.plain)
+                }
+                GeometryReaderInside(size: self.$size1) { _ in
+                    Button { self.isBig.toggle() } label: {
+                        self.MarkerView()
+                            .frame(width: 100, height: self.isBig ? 200 : 100)
+                            .overlay (
+                                Text("\(self.size1.height)")
+                                    .foregroundColor(.white)
+                            )
+                    }.buttonStyle(.plain)
+                }
                 Button { self.isBig.toggle() } label: {
                     self.MarkerView()
                         .frame(width: 100, height: self.isBig ? 200 : 100)
                         .overlay (
-                            Text("\(self.currentSize.height)")
+                            Text("\(self.size2.height)")
                                 .foregroundColor(.white)
                         )
-                }.buttonStyle(.plain)
+                }
+                .buttonStyle(.plain)
+                .onGeometryChangeInside(size: self.$size2)
             }
         }
 
@@ -186,41 +209,7 @@ struct GeometryReaderInside_Previews: PreviewProvider {
 
     static var previews: some View {
         ViewWithState()
-            .frame(width: 100, height: 300)
-    }
-
-}
-
-struct onGeometryChangeInside_Previews: PreviewProvider {
-
-    struct ViewWithState: View {
-
-        @State private var currentSize: CGSize = .zero
-        @State private var isBig: Bool = false
-
-        var body: some View {
-            Button { self.isBig.toggle() } label: {
-                self.MarkerView()
-                    .frame(width: 100, height: self.isBig ? 200 : 100)
-                    .overlay (
-                        Text("\(self.currentSize.height)")
-                            .foregroundColor(.white)
-                    )
-            }
-            .buttonStyle(.plain)
-            .onGeometryChangeInside(size: self.$currentSize)
-        }
-
-        @ViewBuilder private func MarkerView() -> some View {
-            Rectangle()
-                .fill(.blue)
-        }
-
-    }
-
-    static var previews: some View {
-        ViewWithState()
-            .frame(width: 100, height: 300)
+            .frame(height: 300)
     }
 
 }
