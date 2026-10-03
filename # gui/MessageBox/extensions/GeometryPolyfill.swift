@@ -15,108 +15,88 @@ private struct GeometrySizePreferenceKey: PreferenceKey {
 
 }
 
-struct GeometryReaderOutside<Content: View>: View {
+enum GeometryReaderType {
+
+    case inside
+
+    case outside(
+        axes: Axis.Set,
+        alignment: Alignment
+    )
+
+}
+
+struct GeometryReaderPolyfill<Content: View>: View {
 
     @Binding private var sizeBinding: CGSize
     @State private var size: CGSize = .zero
 
-    private let axes: Axis.Set
-    private let alignment: Alignment
+    private let type: GeometryReaderType
     private let content: (CGSize) -> Content
 
     init(
+        type: GeometryReaderType,
         size binding: Binding<CGSize> = .constant(.zero),
-        axes: Axis.Set,
-        alignment: Alignment = .center,
         @ViewBuilder content: @escaping (CGSize) -> Content,
     ) {
-        self._sizeBinding = binding
-        self.axes = axes
-        self.alignment = alignment
-        self.content = content
-    }
-
-    public var body: some View {
-        ZStack(alignment: self.alignment) {
-            Group {
-                if      (axes.contains([.horizontal, .vertical])) { Color.clear }
-                else if (axes.contains([.horizontal           ])) { Color.clear.frame(height: 0) }
-                else if (axes.contains([             .vertical])) { Color.clear.frame(width: 0) }
-            }.overlay (
-                GeometryReader { geometry in
-                    Color.clear
-                        .preference(
-                            key: GeometrySizePreferenceKey.self,
-                            value: geometry.size
-                        )
-                }
-            )
-            .onPreferenceChange(GeometrySizePreferenceKey.self) { newSize in
-                guard newSize != self.size else { return }
-                self.size        = newSize
-                self.sizeBinding = newSize
-            }
-            self.content(self.size)
-        }
-    }
-
-}
-
-
-struct GeometryReaderInside<Content: View>: View {
-
-    @Binding private var sizeBinding: CGSize
-    @State private var size: CGSize = .zero
-
-    private let content: (CGSize) -> Content
-
-    init(
-        size binding: Binding<CGSize> = .constant(.zero),
-        @ViewBuilder content: @escaping (CGSize) -> Content
-    ) {
+        self.type = type
         self._sizeBinding = binding
         self.content = content
     }
 
     public var body: some View {
-        self.content(self.size)
-            .overlay (
-                GeometryReader { geometry in
-                    Color.clear
-                        .preference(
-                            key: GeometrySizePreferenceKey.self,
-                            value: geometry.size
-                        )
+        switch (self.type) {
+            case .inside:
+                self.content(self.size)
+                    .overlay (
+                        GeometryReader { geometry in
+                            Color.clear
+                                .preference(
+                                    key: GeometrySizePreferenceKey.self,
+                                    value: geometry.size
+                                )
+                        }
+                    )
+                    .onPreferenceChange(GeometrySizePreferenceKey.self) { newSize in
+                        guard newSize != self.size else { return }
+                        self.size        = newSize
+                        self.sizeBinding = newSize
+                    }
+            case .outside(let axes, let alignment):
+                ZStack(alignment: alignment) {
+                    Group {
+                        if      (axes.contains([.horizontal, .vertical])) { Color.clear }
+                        else if (axes.contains([.horizontal           ])) { Color.clear.frame(height: 0) }
+                        else if (axes.contains([             .vertical])) { Color.clear.frame(width : 0) }
+                    }.overlay (
+                        GeometryReader { geometry in
+                            Color.clear
+                                .preference(
+                                    key: GeometrySizePreferenceKey.self,
+                                    value: geometry.size
+                                )
+                        }
+                    )
+                    .onPreferenceChange(GeometrySizePreferenceKey.self) { newSize in
+                        guard newSize != self.size else { return }
+                        self.size        = newSize
+                        self.sizeBinding = newSize
+                    }
+                    self.content(self.size)
                 }
-            )
-            .onPreferenceChange(GeometrySizePreferenceKey.self) { newSize in
-                guard newSize != self.size else { return }
-                self.size        = newSize
-                self.sizeBinding = newSize
-            }
-    }
-
-}
-
-private struct GeometryChangeOutsideModifier: ViewModifier {
-
-    @Binding var size: CGSize
-    let axes: Axis.Set
-
-    func body(content: Content) -> some View {
-        GeometryReaderOutside(size: self.$size, axes: self.axes) { _ in
-            content
         }
     }
 
 }
 
-private struct GeometryChangeInsideModifier: ViewModifier {
+private struct GeometryChangeModifier: ViewModifier {
+
+    let type: GeometryReaderType
 
     @Binding var size: CGSize
 
     func body(content: Content) -> some View {
-        GeometryReaderInside(size: self.$size) { _ in
+        GeometryReaderPolyfill(type: self.type, size: self.$size) { _ in
             content
         }
     }
@@ -125,15 +105,12 @@ private struct GeometryChangeInsideModifier: ViewModifier {
 
 extension View {
 
-    func onGeometryChangeOutside(size: Binding<CGSize>, axes: Axis.Set) -> some View {
+    func onGeometryChangePolyfill(type: GeometryReaderType, size: Binding<CGSize>) -> some View {
         modifier(
-            GeometryChangeOutsideModifier(size: size, axes: axes)
-        )
-    }
-
-    func onGeometryChangeInside(size: Binding<CGSize>) -> some View {
-        modifier(
-            GeometryChangeInsideModifier(size: size)
+            GeometryChangeModifier(
+                type: type,
+                size: size
+            )
         )
     }
 
@@ -155,7 +132,7 @@ struct GeometryReaderOutside_Previews: PreviewProvider {
 
         var body: some View {
             HStack {
-                GeometryReaderOutside(axes: .vertical) { size in
+                GeometryReaderPolyfill(type: .outside(axes: .vertical, alignment: .center)) { size in
                     Button { self.isBig.toggle() } label: {
                         self.MarkerView()
                             .frame(width: 100, height: self.isBig ? 200 : 100)
@@ -165,7 +142,7 @@ struct GeometryReaderOutside_Previews: PreviewProvider {
                             )
                     }.buttonStyle(.plain)
                 }
-                GeometryReaderOutside(size: self.$size1, axes: .vertical) { _ in
+                GeometryReaderPolyfill(type: .outside(axes: .vertical, alignment: .center), size: self.$size1) { _ in
                     Button { self.isBig.toggle() } label: {
                         self.MarkerView()
                             .frame(width: 100, height: self.isBig ? 200 : 100)
@@ -184,7 +161,7 @@ struct GeometryReaderOutside_Previews: PreviewProvider {
                         )
                 }
                 .buttonStyle(.plain)
-                .onGeometryChangeOutside(size: self.$size2, axes: .vertical)
+                .onGeometryChangePolyfill(type: .outside(axes: .vertical, alignment: .center), size: self.$size2)
             }
 
         }
@@ -213,7 +190,7 @@ struct GeometryReaderInside_Previews: PreviewProvider {
 
         var body: some View {
             HStack {
-                GeometryReaderInside { size in
+                GeometryReaderPolyfill(type: .inside) { size in
                     Button { self.isBig.toggle() } label: {
                         self.MarkerView()
                             .frame(width: 100, height: self.isBig ? 200 : 100)
@@ -223,7 +200,7 @@ struct GeometryReaderInside_Previews: PreviewProvider {
                             )
                     }.buttonStyle(.plain)
                 }
-                GeometryReaderInside(size: self.$size1) { _ in
+                GeometryReaderPolyfill(type: .inside, size: self.$size1) { _ in
                     Button { self.isBig.toggle() } label: {
                         self.MarkerView()
                             .frame(width: 100, height: self.isBig ? 200 : 100)
@@ -242,7 +219,7 @@ struct GeometryReaderInside_Previews: PreviewProvider {
                         )
                 }
                 .buttonStyle(.plain)
-                .onGeometryChangeInside(size: self.$size2)
+                .onGeometryChangePolyfill(type: .inside, size: self.$size2)
             }
         }
 
