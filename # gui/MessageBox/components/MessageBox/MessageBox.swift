@@ -172,7 +172,7 @@ fileprivate struct Message: View {
         VStack(spacing: 0) {
             self.TitleView()
             self.DescriptionView()
-        }.overlayPolyfill(alignment: .bottom) {
+        }.overlayPolyfill(alignment: .bottomLeading) {
             if !self.info.isPersistent {
                 self.ProgressView()
             }
