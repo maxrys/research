@@ -17,6 +17,7 @@ private struct GeometrySizePreferenceKey: PreferenceKey {
 
 struct GeometryReaderOutside<Content: View>: View {
 
+    @Binding private var sizeBinding: CGSize
     @State private var size: CGSize = .zero
 
     private let axes: Axis.Set
@@ -24,10 +25,12 @@ struct GeometryReaderOutside<Content: View>: View {
     private let content: (CGSize) -> Content
 
     init(
+        size binding: Binding<CGSize> = .constant(.zero),
         axes: Axis.Set,
         alignment: Alignment = .center,
         @ViewBuilder content: @escaping (CGSize) -> Content,
     ) {
+        self._sizeBinding = binding
         self.axes = axes
         self.alignment = alignment
         self.content = content
@@ -49,10 +52,9 @@ struct GeometryReaderOutside<Content: View>: View {
                 }
             )
             .onPreferenceChange(GeometrySizePreferenceKey.self) { newSize in
-                guard newSize != self.size else {
-                    return
-                }
-                self.size = newSize
+                guard newSize != self.size else { return }
+                self.size        = newSize
+                self.sizeBinding = newSize
             }
             self.content(self.size)
         }
@@ -96,6 +98,19 @@ struct GeometryReaderInside<Content: View>: View {
 
 }
 
+private struct GeometryChangeOutsideModifier: ViewModifier {
+
+    @Binding var size: CGSize
+    let axes: Axis.Set
+
+    func body(content: Content) -> some View {
+        GeometryReaderOutside(size: self.$size, axes: self.axes) { _ in
+            content
+        }
+    }
+
+}
+
 private struct GeometryChangeInsideModifier: ViewModifier {
 
     @Binding var size: CGSize
@@ -109,6 +124,12 @@ private struct GeometryChangeInsideModifier: ViewModifier {
 }
 
 extension View {
+
+    func onGeometryChangeOutside(size: Binding<CGSize>, axes: Axis.Set) -> some View {
+        modifier(
+            GeometryChangeOutsideModifier(size: size, axes: axes)
+        )
+    }
 
     func onGeometryChangeInside(size: Binding<CGSize>) -> some View {
         modifier(
@@ -128,19 +149,44 @@ struct GeometryReaderOutside_Previews: PreviewProvider {
 
     struct ViewWithState: View {
 
+        @State private var size1: CGSize = .zero
+        @State private var size2: CGSize = .zero
         @State private var isBig: Bool = false
 
         var body: some View {
-            GeometryReaderOutside(axes: .vertical) { size in
+            HStack {
+                GeometryReaderOutside(axes: .vertical) { size in
+                    Button { self.isBig.toggle() } label: {
+                        self.MarkerView()
+                            .frame(width: 100, height: self.isBig ? 200 : 100)
+                            .overlay (
+                                Text("\(size.height)")
+                                    .foregroundColor(.white)
+                            )
+                    }.buttonStyle(.plain)
+                }
+                GeometryReaderOutside(size: self.$size1, axes: .vertical) { _ in
+                    Button { self.isBig.toggle() } label: {
+                        self.MarkerView()
+                            .frame(width: 100, height: self.isBig ? 200 : 100)
+                            .overlay (
+                                Text("\(self.size1.height)")
+                                    .foregroundColor(.white)
+                            )
+                    }.buttonStyle(.plain)
+                }
                 Button { self.isBig.toggle() } label: {
                     self.MarkerView()
                         .frame(width: 100, height: self.isBig ? 200 : 100)
                         .overlay (
-                            Text("\(size.height)")
+                            Text("\(self.size2.height)")
                                 .foregroundColor(.white)
                         )
-                }.buttonStyle(.plain)
+                }
+                .buttonStyle(.plain)
+                .onGeometryChangeOutside(size: self.$size2, axes: .vertical)
             }
+
         }
 
         @ViewBuilder private func MarkerView() -> some View {
