@@ -93,7 +93,7 @@ struct ScrollCustom_Previews: PreviewProvider {
             }
         }
 
-        @ObservedObject static private var previewMode = ValueState<UInt>(0) { value in
+        @ObservedObject static private var previewMode = ValueState<UInt>(0, onChangeBefore: { value in
             switch value {
                 case 0: DemoState.shared.count =  0
                 case 1: DemoState.shared.count =  5
@@ -102,7 +102,7 @@ struct ScrollCustom_Previews: PreviewProvider {
                 case 4: DemoState.shared.count = 30
                 default: break
             }
-        }
+        })
 
         var body: some View {
             VStack(spacing: 0) {

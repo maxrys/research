@@ -35,7 +35,7 @@ struct MainScene: View {
 
     @ObservedObject static private var count = ValueState<UInt>(0)
 
-    @ObservedObject static private var previewMode = ValueState<UInt>(0) { value in
+    @ObservedObject static private var previewMode = ValueState<UInt>(0, onChangeBefore: { value in
         switch value {
             case 0: DemoState.shared.count =  0
             case 1: DemoState.shared.count =  5
@@ -44,7 +44,7 @@ struct MainScene: View {
             case 4: DemoState.shared.count = 30
             default: break
         }
-    }
+    })
 
     public var body: some View {
         VStack(spacing: 0) {
