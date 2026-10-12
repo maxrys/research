@@ -53,7 +53,7 @@ struct MessageInfo: Equatable, Codable {
     }
 
     public var isPersistent: Bool {
-        if case .infinity = self.lifetime { true } else { false }
+        if case .infinity = self.lifetime { return true } else { return false }
     }
 
     public var isExpired: Bool? {
@@ -134,34 +134,24 @@ struct MessageInfo: Equatable, Codable {
 
 fileprivate struct Message: View {
 
-    @State private var progress: Double = 0.0
     @State private var isHoverOnTitle = false
     @State private var timer: Timer.Custom?
 
     private var colorTitleBackground: Color {
         switch self.info.type {
-            case .info   : Color.messageBox.infoTitleBackground
-            case .ok     : Color.messageBox.okTitleBackground
-            case .warning: Color.messageBox.warningTitleBackground
-            case .error  : Color.messageBox.errorTitleBackground
+            case .info   : return Color.messageBox.infoTitleBackground
+            case .ok     : return Color.messageBox.okTitleBackground
+            case .warning: return Color.messageBox.warningTitleBackground
+            case .error  : return Color.messageBox.errorTitleBackground
         }
     }
 
     private var colorDescriptionBackground: Color {
         switch self.info.type {
-            case .info   : Color.messageBox.infoDescriptionBackground
-            case .ok     : Color.messageBox.okDescriptionBackground
-            case .warning: Color.messageBox.warningDescriptionBackground
-            case .error  : Color.messageBox.errorDescriptionBackground
-        }
-    }
-
-    private var colorProgressBackground: Color {
-        switch self.info.type {
-            case .info   : Color.messageBox.infoProgressBackground
-            case .ok     : Color.messageBox.okProgressBackground
-            case .warning: Color.messageBox.warningProgressBackground
-            case .error  : Color.messageBox.errorProgressBackground
+            case .info   : return Color.messageBox.infoDescriptionBackground
+            case .ok     : return Color.messageBox.okDescriptionBackground
+            case .warning: return Color.messageBox.warningDescriptionBackground
+            case .error  : return Color.messageBox.errorDescriptionBackground
         }
     }
 
@@ -173,17 +163,16 @@ fileprivate struct Message: View {
             self.TitleView()
             self.DescriptionView()
         }.overlayPolyfill(alignment: .bottomLeading) {
-            if !self.info.isPersistent {
-                self.ProgressView()
+            if case .time(let duration) = self.info.lifetime {
+                MessageProgress(
+                    type: self.info.type,
+                    duration: duration
+                )
             }
         }
         .onAppear {
             if case .time(let duration) = self.info.lifetime {
-                self.progress = 0.0
                 self.timer = Timer.Custom(repeats: .count(1), delay: duration, onExpire: self.onTimerExpire)
-                withAnimation(.linear(duration: duration)) {
-                    self.progress = 1.0
-                }
             }
         }
         .onDisappear {
@@ -193,7 +182,6 @@ fileprivate struct Message: View {
     }
 
     private func onTimerExpire(timer: Timer.Custom) {
-        self.progress = 1.0
         self.timer?.stopAndReset()
         self.timer = nil
         MessageBox.delete(
@@ -235,15 +223,6 @@ fileprivate struct Message: View {
         }
     }
 
-    @ViewBuilder private func ProgressView() -> some View {
-        GeometryReaderPolyfill(type: .outside(axes: .horizontal, alignment: .bottomLeading)) { size in
-            Rectangle()
-                .fill(self.colorProgressBackground)
-                .frame(maxWidth: size.width * self.progress)
-                .frame(height: 3)
-        }
-    }
-
     @ViewBuilder private func ButtonCloseView() -> some View {
         Button {
             MessageBox.delete(
@@ -276,6 +255,41 @@ fileprivate struct Message: View {
 
 }
 
+fileprivate struct MessageProgress: View {
+
+    @State private var progress: Double = 0.0
+    @State private var didStart = false
+
+    public let type: MessageType
+    public let duration: Double
+
+    private var colorProgressBackground: Color {
+        switch self.type {
+            case .info   : return Color.messageBox.infoProgressBackground
+            case .ok     : return Color.messageBox.okProgressBackground
+            case .warning: return Color.messageBox.warningProgressBackground
+            case .error  : return Color.messageBox.errorProgressBackground
+        }
+    }
+
+    public var body: some View {
+        GeometryReaderPolyfill(type: .outside(axes: .horizontal, alignment: .bottomLeading)) { size in
+            Rectangle()
+                .fill(self.colorProgressBackground)
+                .frame(maxWidth: size.width * self.progress)
+                .frame(height: 3)
+                .onChange(of: size.width) { width in
+                    guard width > 0, !self.didStart else { return }
+                    self.didStart = true
+                    withAnimation(.linear(duration: duration)) {
+                        self.progress = 1
+                    }
+                }
+        }
+    }
+
+}
+
 struct MessageBox: View {
 
     static let MESSAGE_NAME_FOR_INSERT_DISTRIBUTED = "messageInsertDistributed"
@@ -285,8 +299,8 @@ struct MessageBox: View {
 
     static private func notificationNameForInsertDistributed(_ messageBoxID: MessageBoxID, _ appName: String) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_INSERT_DISTRIBUTED)-\(appName)-\(messageBoxID)") }
     static private func notificationNameForDeleteDistributed(_ messageBoxID: MessageBoxID, _ appName: String) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_DELETE_DISTRIBUTED)-\(appName)-\(messageBoxID)") }
-    static private func notificationNameForInsertLocal      (_ messageBoxID: MessageBoxID,                  ) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_INSERT_LOCAL)-\(messageBoxID)") }
-    static private func notificationNameForDeleteLocal      (_ messageBoxID: MessageBoxID,                  ) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_DELETE_LOCAL)-\(messageBoxID)") }
+    static private func notificationNameForInsertLocal      (_ messageBoxID: MessageBoxID                   ) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_INSERT_LOCAL)-\(messageBoxID)") }
+    static private func notificationNameForDeleteLocal      (_ messageBoxID: MessageBoxID                   ) -> NSNotification.Name { NSNotification.Name("\(Self.MESSAGE_NAME_FOR_DELETE_LOCAL)-\(messageBoxID)") }
 
     static public func insert(address: MessageBoxAddress, _ message: MessageInfo) {
         switch address {
@@ -304,15 +318,15 @@ struct MessageBox: View {
 
     private var publisherForInsert: NotificationCenter.Publisher {
         switch self.address {
-            case .distributed(let boxID, let appName): DistributedNotificationCenter.default.publisher(for: Self.notificationNameForInsertDistributed(boxID, appName))
-            case .local      (let boxID)             :            NotificationCenter.default.publisher(for: Self.notificationNameForInsertLocal      (boxID         ))
+            case .distributed(let boxID, let appName): return DistributedNotificationCenter.default.publisher(for: Self.notificationNameForInsertDistributed(boxID, appName))
+            case .local      (let boxID)             : return            NotificationCenter.default.publisher(for: Self.notificationNameForInsertLocal      (boxID         ))
         }
     }
 
     private var publisherForDelete: NotificationCenter.Publisher {
         switch self.address {
-            case .distributed(let boxID, let appName): DistributedNotificationCenter.default.publisher(for: Self.notificationNameForDeleteDistributed(boxID, appName))
-            case .local      (let boxID)             :            NotificationCenter.default.publisher(for: Self.notificationNameForDeleteLocal      (boxID         ))
+            case .distributed(let boxID, let appName): return DistributedNotificationCenter.default.publisher(for: Self.notificationNameForDeleteDistributed(boxID, appName))
+            case .local      (let boxID)             : return            NotificationCenter.default.publisher(for: Self.notificationNameForDeleteLocal      (boxID         ))
         }
     }
 

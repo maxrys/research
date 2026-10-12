@@ -19,19 +19,19 @@ import SwiftUI
 
         var title: String {
             switch self {
-                case .replaceOrInsertAtTop   : "Replace Or Insert At Top"
-                case .replaceOrInsertAtBottom: "Replace Or Insert At Bottom"
-                case .deleteAndInsertAtTop   : "Delete And Insert At Top"
-                case .deleteAndInsertAtBottom: "Delete And Insert At Bottom"
+                case .replaceOrInsertAtTop   : return "Replace Or Insert At Top"
+                case .replaceOrInsertAtBottom: return "Replace Or Insert At Bottom"
+                case .deleteAndInsertAtTop   : return "Delete And Insert At Top"
+                case .deleteAndInsertAtBottom: return "Delete And Insert At Bottom"
             }
         }
 
         var messageMergePolicy: MessageMergePolicy {
             switch self {
-                case .replaceOrInsertAtTop   : .replaceOrInsertAtTop
-                case .replaceOrInsertAtBottom: .replaceOrInsertAtBottom
-                case .deleteAndInsertAtTop   : .deleteAndInsertAtTop
-                case .deleteAndInsertAtBottom: .deleteAndInsertAtBottom
+                case .replaceOrInsertAtTop   : return MessageMergePolicy.replaceOrInsertAtTop
+                case .replaceOrInsertAtBottom: return MessageMergePolicy.replaceOrInsertAtBottom
+                case .deleteAndInsertAtTop   : return MessageMergePolicy.deleteAndInsertAtTop
+                case .deleteAndInsertAtBottom: return MessageMergePolicy.deleteAndInsertAtBottom
             }
         }
 
@@ -50,12 +50,10 @@ import SwiftUI
     ]
 
     var body: some Scene {
-        let window = WindowGroup {
+        WindowGroup {
             self.mainSceneView()
                 .environment(\.layoutDirection, .leftToRight)
         }
-        if #available(macOS 13.0, *) { return window.windowResizability(.contentSize) }
-        else                         { return window }
     }
 
     @ViewBuilder fileprivate func mainSceneView() -> some View {
@@ -129,7 +127,7 @@ import SwiftUI
             ))
         } label: {
             Text(text)
-                .frame(maxWidth: .infinity)
+                .frame(width: 180)
         }
     }
 
@@ -141,6 +139,10 @@ import SwiftUI
 /* ########################## PREVIEW ########################## */
 /* ############################################################# */
 
-#Preview {
-    ThisApp().mainSceneView()
+struct App_Previews: PreviewProvider {
+
+    static public var previews: some View {
+        ThisApp().mainSceneView()
+    }
+
 }
