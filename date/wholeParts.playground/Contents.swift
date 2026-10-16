@@ -48,7 +48,7 @@ extension TimeInterval {
             days   : wholeDays,
             hours  : wholeHours,
             minutes: wholeMinutes,
-            seconds: wholeSeconds,
+            seconds: wholeSeconds
         )
     }
 
