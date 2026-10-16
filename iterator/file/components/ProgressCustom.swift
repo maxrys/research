@@ -16,7 +16,7 @@ struct ProgressCustom: View {
 
     var body: some View {
         GeometryReaderCustom(isIgnoreHeight: true) { size in
-            Color.NS[\.lightGray]
+            Color.NS[.lightGray]
                 .frame(maxWidth: .infinity)
                 .frame(height: 10)
                 .overlayPolyfill(alignment: .leading) {
