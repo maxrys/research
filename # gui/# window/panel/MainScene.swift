@@ -18,7 +18,7 @@ struct MainScene: View {
 
     var body: some View {
         Button("show panel") {
-            if NSPanel.makeNewOrShowExistingPanel(ID: Self.PANEL_ID, content: { self.PanelContent() }) {
+            if NSPanel.makeNewOrShowExistingPanel(ID: Self.PANEL_ID, content: self.PanelContent()) {
                 self.updatePanelPosition()
             }
         }

@@ -14,7 +14,7 @@ extension NSPanel {
         isVisible: Bool = true,
         level: NSPanel.Level = .floating,
         size: CGSize = CGSize(width: 1000, height: 1000),
-        @ViewBuilder content: () -> Content
+        content: Content
     ) -> Bool {
 
         if let panel = Self.customWindows[ID] {
@@ -39,7 +39,7 @@ extension NSPanel {
         panel.hasShadow = hasShadow
         panel.level = level
         panel.contentView = NSHostingView(
-            rootView: content()
+            rootView: content
         )
 
         if (isVisible)
