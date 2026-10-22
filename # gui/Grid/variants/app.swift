@@ -7,58 +7,59 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
-    static let GRID_COLS = 10
-    static let GRID_ROWS = 10
-
-    let cellSize: CGFloat = 30
-    let cellSpacing: CGFloat = 10
+    static let GRID_COLS: UInt8 = 30
+    static let GRID_ROWS: UInt8 = 30
+    static let GRID_CELL_SIZE: CGFloat = 100.0
+    static let GRID_CELL_SPACING: CGFloat = 10.0
 
     var body: some Scene {
         Window("Main", id: "main") { ScrollView { VStack(spacing: 0) {
 
             /* MARK: HStack + VStack */
 
-            VStack(spacing: self.cellSpacing) {
-                ForEach(0 ..< ThisApp.GRID_ROWS, id: \.self) { rowNum in HStack(spacing: self.cellSpacing) {
-                ForEach(0 ..< ThisApp.GRID_COLS, id: \.self) { colNum in
-                    self.cell(id: rowNum * ThisApp.GRID_COLS + colNum)
+            VStack(spacing: Self.GRID_CELL_SPACING) {
+                ForEach(0 ..< Self.GRID_ROWS, id: \.self) { rowNum in HStack(spacing: Self.GRID_CELL_SPACING) {
+                ForEach(0 ..< Self.GRID_COLS, id: \.self) { colNum in
+                    let ID = UInt16(rowNum) * UInt16(Self.GRID_COLS) + UInt16(colNum)
+                    self.cell(ID: ID)
                 }}}
             }
-            .padding(self.cellSpacing)
+            .padding(Self.GRID_CELL_SPACING)
             .background(.red)
 
             /* MARK: Grid */
 
-            Grid(alignment: .center, horizontalSpacing: self.cellSpacing, verticalSpacing: self.cellSpacing) {
-                ForEach(0 ..< ThisApp.GRID_ROWS, id: \.self) { rowNum in GridRow {
-                ForEach(0 ..< ThisApp.GRID_COLS, id: \.self) { colNum in
-                    self.cell(id: rowNum * ThisApp.GRID_COLS + colNum)
+            Grid(alignment: .center, horizontalSpacing: Self.GRID_CELL_SPACING, verticalSpacing: Self.GRID_CELL_SPACING) {
+                ForEach(0 ..< Self.GRID_ROWS, id: \.self) { rowNum in GridRow {
+                ForEach(0 ..< Self.GRID_COLS, id: \.self) { colNum in
+                    let ID = UInt16(rowNum) * UInt16(Self.GRID_COLS) + UInt16(colNum)
+                    self.cell(ID: ID)
                 }}}
             }
-            .padding(self.cellSpacing)
+            .padding(Self.GRID_CELL_SPACING)
             .background(.green)
 
             /* MARK: LazyVGrid */
 
-            let columns: [GridItem] = (0 ..< ThisApp.GRID_COLS).map { _ in
-                GridItem(.fixed(self.cellSize), spacing: self.cellSpacing)
+            let columns: [GridItem] = (0 ..< Self.GRID_COLS).map { _ in
+                GridItem(.fixed(Self.GRID_CELL_SIZE), spacing: Self.GRID_CELL_SPACING)
             }
-            LazyVGrid(columns: columns, spacing: self.cellSpacing) {
-                ForEach(0 ..< ThisApp.GRID_ROWS, id: \.self) { rowNum in
-                ForEach(0 ..< ThisApp.GRID_COLS, id: \.self) { colNum in
-                    let id = rowNum * ThisApp.GRID_COLS + colNum
-                    self.cell(id: id).id(id)
+            LazyVGrid(columns: columns, spacing: Self.GRID_CELL_SPACING) {
+                ForEach(0 ..< Self.GRID_ROWS, id: \.self) { rowNum in
+                ForEach(0 ..< Self.GRID_COLS, id: \.self) { colNum in
+                    let ID = UInt16(rowNum) * UInt16(Self.GRID_COLS) + UInt16(colNum)
+                    self.cell(ID: ID).id(ID)
                 }}
             }
-            .padding(self.cellSpacing)
+            .padding(Self.GRID_CELL_SPACING)
             .background(.blue)
 
         }}}
     }
 
-    @ViewBuilder func cell(id: Int) -> some View {
-        Text("\(id)")
-            .frame(width: self.cellSize, height: self.cellSize)
+    @ViewBuilder func cell(ID: UInt16) -> some View {
+        Text("\(ID)")
+            .frame(width: Self.GRID_CELL_SIZE, height: Self.GRID_CELL_SIZE)
             .foregroundStyle(.white)
             .background(.black)
     }
