@@ -7,9 +7,9 @@ import SwiftUI
 
 @main struct ThisApp: App {
 
-    static let GRID_COLS: UInt8 = 30
-    static let GRID_ROWS: UInt8 = 30
-    static let GRID_CELL_SIZE: CGFloat = 100.0
+    static let GRID_COLS: UInt8 = 10
+    static let GRID_ROWS: UInt8 = 10
+    static let GRID_CELL_SIZE: CGFloat = 30.0
     static let GRID_CELL_SPACING: CGFloat = 10.0
 
     var body: some Scene {
