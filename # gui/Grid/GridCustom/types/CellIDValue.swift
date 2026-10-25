@@ -3,10 +3,10 @@
 /* ### Copyright © 2026 Maxim Rysevets. All rights reserved. ### */
 /* ############################################################# */
 
-struct CellID: Equatable {
+struct CellIDValue: Equatable {
 
     typealias Index = UInt8
-    typealias Value = UInt16
+    typealias Raw = UInt16
 
     var rowNum: Index
     var colNum: Index
@@ -16,13 +16,13 @@ struct CellID: Equatable {
         self.colNum = colNum
     }
 
-    init(decodeFrom value: Value) {
-        self.rowNum = Index(value >> Index.bitWidth & Value(Index.max))
-        self.colNum = Index(value                   & Value(Index.max))
+    init(decodeFrom value: Raw) {
+        self.rowNum = Index(value >> Index.bitWidth & Raw(Index.max))
+        self.colNum = Index(value                   & Raw(Index.max))
     }
 
-    var value: Value {
-        (Value(self.rowNum) << Index.bitWidth) | Value(self.colNum)
+    var raw: Raw {
+        (Raw(self.rowNum) << Index.bitWidth) | Raw(self.colNum)
     }
 
 }

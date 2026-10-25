@@ -6,19 +6,19 @@
 import SwiftUI
 
 protocol CellProtocol: View {
-    var ID       : CellID.Value { get }
-    var size     : CGFloat      { get }
-    var isVisible: Bool         { get set }
+    var ID       : CellIDValue.Raw { get }
+    var size     : CGFloat         { get }
+    var isVisible: Bool            { get set }
 }
 
 struct Cell_viewMode: View, CellProtocol {
 
-    var ID: CellID.Value
+    var ID: CellIDValue.Raw
     var size: CGFloat
     var isVisible: Bool = true
 
     var body: some View {
-        let cellID = CellID(decodeFrom: self.ID)
+        let cellID = CellIDValue(decodeFrom: self.ID)
         RoundedRectangle(cornerRadius: 10)
             .fill(self.isVisible ? .blue : .red)
             .frame(width: self.size, height: self.size)
