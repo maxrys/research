@@ -195,9 +195,9 @@ struct GridCustom: View {
             delay: 0.1,
             onExpire: { _ in
                 self.cellsVisibility.removeAll()
-                for (cellIDValue, cellFrame) in self.cellsFrame {
+                for (cellID, cellFrame) in self.cellsFrame {
                     if (cellFrame.intersects(self.visibleFrame)) {
-                        self.cellsVisibility.insert(cellIDValue)
+                        self.cellsVisibility.insert(cellID)
                     }
                 }
             }
