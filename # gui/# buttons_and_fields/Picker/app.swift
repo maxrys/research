@@ -120,7 +120,7 @@ import SwiftUI
                     Text("Picker").font(.headline)
                     Picker("", selection: self.$selectedKeyInt) {
                         ForEach(self.generatePreviewItems_intKey(count: 30).sorted(order: .valueAscending), id: \.key) { key, value in
-                            Text(value)
+                            Text(value).tag(key)
                         }
                     }
                 }
